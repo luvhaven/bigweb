@@ -42,14 +42,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' }
-    ],
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+  // icons: {
+  //   icon: [
+  //     { url: '/favicon.svg', type: 'image/svg+xml' },
+  //     { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' }
+  //   ],
+  //   shortcut: '/favicon.ico',
+  //   apple: '/apple-touch-icon.png',
+  // },
   manifest: '/manifest.json',
   openGraph: {
     type: 'website',

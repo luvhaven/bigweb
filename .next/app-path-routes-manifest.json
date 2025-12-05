@@ -60,6 +60,7 @@
   "/contact/page": "/contact",
   "/cookies/page": "/cookies",
   "/estimator/page": "/estimator",
+  "/icon.svg/route": "/icon.svg",
   "/manifest.webmanifest/route": "/manifest.webmanifest",
   "/page": "/",
   "/portfolio/[id]/page": "/portfolio/[id]",

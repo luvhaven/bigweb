@@ -5487,13 +5487,13 @@ function PremiumTestimonials() {
                     },
                     {
                         id: '2',
-                        client_name: "David Chen",
-                        client_role: "Founder",
-                        client_company: "Apex Systems",
-                        content: "The team's understanding of technical SEO is unmatched. We went from page 5 to #1 for our core keywords in under 3 months.",
+                        client_name: "Kwame Osei",
+                        client_role: "Tech Founder",
+                        client_company: "Innovate Africa",
+                        content: "The scalability of the architecture they built allowed us to expand to three new countries in under six months. World-class engineering.",
                         rating: 5,
-                        client_image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
-                        result_metric: "#1 Rankings",
+                        client_image: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=150&q=80",
+                        result_metric: "3 New Markets",
                         is_featured: true,
                         status: 'active',
                         order_index: 2,
@@ -5502,16 +5502,46 @@ function PremiumTestimonials() {
                     },
                     {
                         id: '3',
-                        client_name: "Elena Rodriguez",
-                        client_role: "VP of Product",
-                        client_company: "Verde Finance",
-                        content: "Exceptional quality and speed. The new platform handles millions of transactions flawlessly. Truly a partner in our success.",
+                        client_name: "Lars Nielsen",
+                        client_role: "Product Lead",
+                        client_company: "Nordic Design Co.",
+                        content: "Minimalist, efficient, and incredibly powerful. They understood our Scandinavian design ethos perfectly while delivering robust functionality.",
                         rating: 5,
-                        client_image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&q=80",
-                        result_metric: "99.99% Uptime",
+                        client_image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80",
+                        result_metric: "200% Efficiency",
                         is_featured: true,
                         status: 'active',
                         order_index: 3,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    },
+                    {
+                        id: '4',
+                        client_name: "Isabella Rossi",
+                        client_role: "Creative Director",
+                        client_company: "Milano Fashion",
+                        content: "A digital masterpiece. The animations and interactions feel so organic. Our luxury clientele finally has an online experience that matches our brand.",
+                        rating: 5,
+                        client_image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
+                        result_metric: "Award Winning",
+                        is_featured: true,
+                        status: 'active',
+                        order_index: 4,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    },
+                    {
+                        id: '5',
+                        client_name: "Amir Al-Fayed",
+                        client_role: "CEO",
+                        client_company: "Future Vision Holdings",
+                        content: "We needed a partner who could execute at the speed of Dubai. BIGWEB delivered a complex enterprise solution weeks ahead of schedule.",
+                        rating: 5,
+                        client_image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
+                        result_metric: "2x Revenue",
+                        is_featured: true,
+                        status: 'active',
+                        order_index: 5,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
                     }
@@ -5575,12 +5605,12 @@ function PremiumTestimonials() {
                         className: "absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background"
                     }, void 0, false, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 130,
+                        lineNumber: 160,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                    lineNumber: 129,
+                    lineNumber: 159,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5592,7 +5622,7 @@ function PremiumTestimonials() {
                                 className: "animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 134,
+                                lineNumber: 164,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5600,24 +5630,24 @@ function PremiumTestimonials() {
                                 children: "Loading testimonials..."
                             }, void 0, false, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 135,
+                                lineNumber: 165,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 133,
+                        lineNumber: 163,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                    lineNumber: 132,
+                    lineNumber: 162,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-            lineNumber: 128,
+            lineNumber: 158,
             columnNumber: 7
         }, this);
     }
@@ -5631,27 +5661,27 @@ function PremiumTestimonials() {
                         className: "absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background"
                     }, void 0, false, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 146,
+                        lineNumber: 176,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute top-1/3 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]"
                     }, void 0, false, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 147,
+                        lineNumber: 177,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]"
                     }, void 0, false, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 148,
+                        lineNumber: 178,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                lineNumber: 145,
+                lineNumber: 175,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5681,7 +5711,7 @@ function PremiumTestimonials() {
                                         className: "w-5 h-5 text-accent fill-accent"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 161,
+                                        lineNumber: 191,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5689,13 +5719,13 @@ function PremiumTestimonials() {
                                         children: "Real Results, Real Revenue"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 162,
+                                        lineNumber: 192,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 160,
+                                lineNumber: 190,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -5707,13 +5737,13 @@ function PremiumTestimonials() {
                                         children: "Industry Leaders"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 197,
                                         columnNumber: 24
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 166,
+                                lineNumber: 196,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5721,13 +5751,13 @@ function PremiumTestimonials() {
                                 children: "From 4x conversion increases to multi-million dollar revenue growth—see what happens when you choose the right partner"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 169,
+                                lineNumber: 199,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 153,
+                        lineNumber: 183,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5795,12 +5825,12 @@ function PremiumTestimonials() {
                                                         className: "w-32 h-32 text-accent"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                        lineNumber: 217,
+                                                        lineNumber: 247,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                    lineNumber: 206,
+                                                    lineNumber: 236,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5814,12 +5844,12 @@ function PremiumTestimonials() {
                                                                     className: "w-5 h-5 fill-accent text-accent"
                                                                 }, i, false, {
                                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                    lineNumber: 224,
+                                                                    lineNumber: 254,
                                                                     columnNumber: 25
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                            lineNumber: 222,
+                                                            lineNumber: 252,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("blockquote", {
@@ -5831,7 +5861,7 @@ function PremiumTestimonials() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                            lineNumber: 229,
+                                                            lineNumber: 259,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5850,7 +5880,7 @@ function PremiumTestimonials() {
                                                                             }
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                            lineNumber: 236,
+                                                                            lineNumber: 266,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5860,7 +5890,7 @@ function PremiumTestimonials() {
                                                                                     children: testimonials[currentIndex]?.client_name
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                                    lineNumber: 243,
+                                                                                    lineNumber: 273,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5872,19 +5902,19 @@ function PremiumTestimonials() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                                    lineNumber: 244,
+                                                                                    lineNumber: 274,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                            lineNumber: 242,
+                                                                            lineNumber: 272,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                    lineNumber: 235,
+                                                                    lineNumber: 265,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 testimonials[currentIndex]?.result_metric && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5894,45 +5924,45 @@ function PremiumTestimonials() {
                                                                         children: testimonials[currentIndex]?.result_metric
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                        lineNumber: 253,
+                                                                        lineNumber: 283,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                                    lineNumber: 252,
+                                                                    lineNumber: 282,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                            lineNumber: 234,
+                                                            lineNumber: 264,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 250,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                            lineNumber: 204,
+                                            lineNumber: 234,
                                             columnNumber: 17
                                         }, this)
                                     }, currentIndex, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 178,
+                                        lineNumber: 208,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                    lineNumber: 177,
+                                    lineNumber: 207,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 176,
+                                lineNumber: 206,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5947,12 +5977,12 @@ function PremiumTestimonials() {
                                             className: "w-6 h-6"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                            lineNumber: 273,
+                                            lineNumber: 303,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 267,
+                                        lineNumber: 297,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5965,12 +5995,12 @@ function PremiumTestimonials() {
                                                 className: `transition-all duration-300 rounded-full ${index === currentIndex ? 'w-8 h-2 bg-accent' : 'w-2 h-2 bg-accent/30 hover:bg-accent/50'}`
                                             }, index, false, {
                                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                                lineNumber: 279,
+                                                lineNumber: 309,
                                                 columnNumber: 17
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 277,
+                                        lineNumber: 307,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -5982,36 +6012,36 @@ function PremiumTestimonials() {
                                             className: "w-6 h-6"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                            lineNumber: 299,
+                                            lineNumber: 329,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                        lineNumber: 293,
+                                        lineNumber: 323,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                                lineNumber: 266,
+                                lineNumber: 296,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                        lineNumber: 175,
+                        lineNumber: 205,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/PremiumTestimonials.tsx",
-                lineNumber: 151,
+                lineNumber: 181,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/PremiumTestimonials.tsx",
-        lineNumber: 143,
+        lineNumber: 173,
         columnNumber: 5
     }, this);
 }
