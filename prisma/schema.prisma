@@ -1,0 +1,429 @@
+// Prisma Schema for BIGWEB - Complete Database Structure
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTH MODELS
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(EDITOR)
+  avatar        String?
+  bio           String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  blogPosts     BlogPost[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// ============================================
+// BLOG MODELS
+// ============================================
+
+model BlogPost {
+  id            String      @id @default(cuid())
+  title         String
+  slug          String      @unique
+  excerpt       String
+  content       String
+  category      String
+  image         String
+  featured      Boolean     @default(false)
+  published     Boolean     @default(false)
+  publishedAt   DateTime?
+  views         Int         @default(0)
+  readTime      String
+  
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id])
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relations
+  tags          BlogPostTag[]
+  
+  @@index([slug])
+  @@index([category])
+  @@index([featured])
+  @@index([published])
+  @@index([authorId])
+  @@map("blog_posts")
+}
+
+model BlogTag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  slug      String        @unique
+  
+  posts     BlogPostTag[]
+  
+  @@map("blog_tags")
+}
+
+model BlogPostTag {
+  postId    String
+  tagId     String
+  
+  post      BlogPost  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag       BlogTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([postId, tagId])
+  @@map("blog_post_tags")
+}
+
+// ============================================
+// CAREER MODELS
+// ============================================
+
+model CareerOpening {
+  id              String      @id @default(cuid())
+  title           String
+  location        String
+  type            JobType
+  department      String
+  description     String
+  requirements    String
+  responsibilities String
+  salaryRange     String?
+  isActive        Boolean     @default(true)
+  postedDate      DateTime    @default(now())
+  closingDate     DateTime?
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  applications    JobApplication[]
+  
+  @@index([isActive])
+  @@index([department])
+  @@map("career_openings")
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+model JobApplication {
+  id            String      @id @default(cuid())
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  resumeUrl     String
+  coverLetter   String?
+  linkedin      String?
+  portfolio     String?
+  status        ApplicationStatus @default(PENDING)
+  appliedAt     DateTime    @default(now())
+  
+  jobId         String
+  job           CareerOpening @relation(fields: [jobId], references: [id])
+  
+  @@index([status])
+  @@index([jobId])
+  @@index([email])
+  @@map("job_applications")
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  INTERVIEW
+  REJECTED
+  ACCEPTED
+}
+
+// ============================================
+// PORTFOLIO MODELS
+// ============================================
+
+model PortfolioProject {
+  id                String    @id @default(cuid())
+  title             String
+  slug              String    @unique
+  description       String
+  fullDescription   String
+  category          String
+  client            String
+  completionDate    DateTime
+  duration          String?
+  url               String?
+  featured          Boolean   @default(false)
+  challenge         String?
+  solution          String?
+  technologies      String
+  teamSize          Int?
+  
+  images            String
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  results           ProjectResult[]
+  testimonial       ProjectTestimonial?
+  
+  @@index([slug])
+  @@index([category])
+  @@index([featured])
+  @@map("portfolio_projects")
+}
+
+model ProjectResult {
+  id          String            @id @default(cuid())
+  metric      String
+  value       String
+  description String?
+  
+  projectId   String
+  project     PortfolioProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  @@map("project_results")
+}
+
+model ProjectTestimonial {
+  id          String            @id @default(cuid())
+  quote       String
+  author      String
+  role        String
+  avatar      String?
+  
+  projectId   String            @unique
+  project     PortfolioProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  @@map("project_testimonials")
+}
+
+// ============================================
+// CONTACT & FORMS
+// ============================================
+
+model ContactSubmission {
+  id          String            @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  message     String
+  subject     String?
+  source      String?
+  status      ContactStatus     @default(NEW)
+  submittedAt DateTime          @default(now())
+  
+  @@index([status])
+  @@index([email])
+  @@map("contact_submissions")
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  CLOSED
+}
+
+model EstimateRequest {
+  id              String          @id @default(cuid())
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  services        String
+  budget          String
+  timeline        String
+  description     String
+  features        String
+  additionalInfo  String?
+  status          ContactStatus   @default(NEW)
+  estimatedCost   Json?
+  submittedAt     DateTime        @default(now())
+  
+  @@index([status])
+  @@index([email])
+  @@map("estimate_requests")
+}
+
+// ============================================
+// TESTIMONIALS
+// ============================================
+
+model Testimonial {
+  id              String    @id @default(cuid())
+  name            String
+  role            String
+  company         String
+  content         String
+  rating          Int       @default(5)
+  image           String
+  featured        Boolean   @default(false)
+  result          String?
+  isActive        Boolean   @default(true)
+  publishedDate   DateTime  @default(now())
+  
+  createdAt       DateTime  @default(now())
+  
+  @@index([featured])
+  @@index([isActive])
+  @@map("testimonials")
+}
+
+// ============================================
+// NEWSLETTER
+// ============================================
+
+model NewsletterSubscriber {
+  id              String              @id @default(cuid())
+  email           String              @unique
+  name            String?
+  status          SubscriberStatus    @default(ACTIVE)
+  subscribedAt    DateTime            @default(now())
+  unsubscribedAt  DateTime?
+  
+  @@index([email])
+  @@index([status])
+  @@map("newsletter_subscribers")
+}
+
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+}
+
+// ============================================
+// SERVICES
+// ============================================
+
+model Service {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  description     String
+  fullDescription String
+  icon            String
+  features        Json
+  pricing         Json
+  popular         Boolean   @default(false)
+  isActive        Boolean   @default(true)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([slug])
+  @@index([popular])
+  @@map("services")
+}
+
+// ============================================
+// ANALYTICS
+// ============================================
+
+model PageView {
+  id          String    @id @default(cuid())
+  page        String
+  referrer    String?
+  userAgent   String?
+  sessionId   String?
+  
+  // Detailed Analytics
+  country     String?
+  city        String?
+  device      String?   // mobile, tablet, desktop
+  browser     String?
+  os          String?
+  
+  viewedAt    DateTime  @default(now())
+  
+  @@index([page])
+  @@index([viewedAt])
+  @@index([sessionId])
+  @@map("page_views")
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  event       String
+  category    String
+  label       String?
+  value       Int?
+  metadata    Json?
+  occurredAt  DateTime  @default(now())
+  
+  @@index([event])
+  @@index([category])
+  @@index([occurredAt])
+  @@map("events")
+}
+
+// ============================================
+// LIVE CHAT
+// ============================================
+
+model ChatSession {
+  id          String        @id @default(cuid())
+  visitorId   String        // Fingerprint or Cookie ID
+  name        String?
+  email       String?
+  status      ChatStatus    @default(OPEN)
+  unreadCount Int           @default(0)
+  lastMessageAt DateTime    @default(now())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  messages    ChatMessage[]
+  
+  @@index([status])
+  @@index([visitorId])
+  @@index([lastMessageAt])
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id          String      @id @default(cuid())
+  content     String
+  senderType  SenderType
+  senderId    String?     // Null for visitor, User ID for agent
+  read        Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  
+  sessionId   String
+  session     ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  @@index([sessionId])
+  @@map("chat_messages")
+}
+
+enum ChatStatus {
+  OPEN
+  CLOSED
+  ARCHIVED
+}
+
+enum SenderType {
+  VISITOR
+  AGENT
+  SYSTEM
+}

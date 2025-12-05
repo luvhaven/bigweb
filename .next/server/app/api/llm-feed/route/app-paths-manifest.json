@@ -1,0 +1,3 @@
+{
+  "/api/llm-feed/route": "app/api/llm-feed/route.js"
+}

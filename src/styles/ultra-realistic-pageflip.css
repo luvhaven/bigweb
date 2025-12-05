@@ -1,0 +1,364 @@
+/* Ultra-Realistic Page Flip Styles */
+
+.book-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* StPageFlip container */
+.stf__parent {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Canvas element - the magic happens here */
+.stf__parent canvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto !important;
+  height: auto !important;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5));
+}
+
+/* Page wrapper */
+.stf__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Individual page styling */
+.book-page {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 0 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Page content container */
+.page-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hard cover pages for realism */
+.stf__item[data-density="hard"] {
+  background-color: #0a0a0a;
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 255, 0.03),
+    0 5px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Page block during flip */
+.stf__block {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Page item */
+.stf__item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Enhanced fold effect with realistic 3D */
+.stf__fold {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Ultra-realistic shadow on pages */
+.stf__shadow {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.4) 20%,
+    rgba(0, 0, 0, 0.2) 40%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Shadow appears during flip */
+.stf__fold.--flipping .stf__shadow {
+  opacity: 1;
+}
+
+/* Shadow on the back of flipping page */
+.stf__outerShadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 20%,
+    rgba(0, 0, 0, 0.5) 50%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+/* Inner shadow for depth */
+.stf__innerShadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.stf__fold.--flipping .stf__innerShadow {
+  opacity: 1;
+}
+
+/* Page corner fold indicator - ultra-subtle */
+.stf__corner {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 48%,
+    rgba(255, 255, 255, 0.02) 48%,
+    rgba(255, 255, 255, 0.05) 52%,
+    rgba(255, 255, 255, 0.02) 52%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  pointer-events: none;
+  border-bottom-right-radius: 4px;
+}
+
+.stf__parent:hover .stf__corner {
+  opacity: 1;
+}
+
+/* Enhanced corner on active hover */
+.stf__item:hover .stf__corner {
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 48%,
+    rgba(255, 255, 255, 0.05) 48%,
+    rgba(255, 255, 255, 0.1) 52%,
+    rgba(255, 255, 255, 0.05) 52%
+  );
+}
+
+/* Spine shadow - creates depth between pages */
+.stf__spine {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.5) 20%,
+    rgba(0, 0, 0, 0.8) 50%,
+    rgba(0, 0, 0, 0.5) 80%,
+    transparent 100%
+  );
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Page highlight on edge for realism */
+.stf__highlight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Smooth page turning animation */
+.stf__parent.--animating canvas {
+  cursor: grabbing !important;
+  transition: filter 0.2s;
+}
+
+.stf__parent canvas {
+  cursor: grab;
+  transition: filter 0.3s ease-out;
+}
+
+.stf__parent canvas:hover {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
+}
+
+/* Loading state with shimmer */
+.stf__parent.--loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: hsl(24.6 95% 53.1%);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Page curl effect on drag */
+.stf__item.--dragging {
+  cursor: grabbing;
+  transition: transform 0.1s ease-out;
+}
+
+/* Enhanced 3D perspective for pages */
+.stf__parent.--perspective-enhanced {
+  perspective: 3000px;
+  perspective-origin: 50% 50%;
+}
+
+/* Ambient light effect on pages */
+.stf__ambient-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Page texture overlay for realism */
+.stf__texture {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.01) 2px,
+      rgba(255, 255, 255, 0.01) 4px
+    );
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .book-page {
+    font-size: 14px;
+  }
+  
+  .stf__corner {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stf__parent canvas {
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+  }
+}
+
+@media (max-width: 480px) {
+  .book-page {
+    font-size: 12px;
+  }
+  
+  .stf__corner {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .stf__shadow {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.6) 20%,
+      transparent 40%
+    );
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .stf__fold {
+    transition: none;
+  }
+  
+  .stf__shadow {
+    transition: none;
+  }
+  
+  .stf__parent canvas {
+    transition: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .stf__parent {
+    display: none;
+  }
+}

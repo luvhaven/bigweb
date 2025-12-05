@@ -1,0 +1,59 @@
+{
+  "[project]/src/components/demos/LuxuryFashionDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/LuxuryFashionDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_a76f8cbd._.js",
+      "static/chunks/src_components_demos_LuxuryFashionDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/FinPayDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/FinPayDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_demos_FinPayDemo_tsx_185436e7._.js",
+      "static/chunks/node_modules_lucide-react_dist_esm_icons_d2b06c06._.js",
+      "static/chunks/src_components_demos_FinPayDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/AIContentStudioDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/AIContentStudioDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_3c8c9a27._.js",
+      "static/chunks/src_components_demos_AIContentStudioDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/HealthTrackDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/HealthTrackDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_046f827c._.js",
+      "static/chunks/src_components_demos_HealthTrackDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/NeonRealtyDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/NeonRealtyDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_c22bd8d0._.js",
+      "static/chunks/src_components_demos_NeonRealtyDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/EcoSmartHomeDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/EcoSmartHomeDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_80889455._.js",
+      "static/chunks/src_components_demos_EcoSmartHomeDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/UrbanEatsDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/UrbanEatsDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_3cc0a5ea._.js",
+      "static/chunks/src_components_demos_UrbanEatsDemo_tsx_45dac9d3._.js"
+    ]
+  },
+  "[project]/src/components/demos/CryptoVaultDemo.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/demos/CryptoVaultDemo.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_fc530179._.js",
+      "static/chunks/src_components_demos_CryptoVaultDemo_tsx_45dac9d3._.js"
+    ]
+  }
+}
