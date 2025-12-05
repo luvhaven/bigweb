@@ -1,34 +1,33 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
     LayoutDashboard,
     FileText,
-    Users,
     FolderKanban,
     MessageSquare,
-    MessageCircle,
-    Image as ImageIcon,
-    Newspaper,
-    Sparkles,
-    Settings,
+    Users,
     BarChart3,
-    Globe,
-    Layers,
-    Menu as MenuIcon,
-    Search,
-    Bell,
-    User,
+    Settings,
     LogOut,
     ChevronDown,
+    Menu,
+    X,
+    Bell,
+    Search,
+    Sparkles,
+    Image as ImageIcon,
     Star,
-    Package,
+    Mail,
+    Newspaper,
+    Briefcase
 } from 'lucide-react'
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import {
     DropdownMenu,
@@ -38,168 +37,165 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { supabase } from '@/utils/supabase'
+import { QueryProvider } from '@/providers/QueryProvider'
+import { cn } from '@/lib/utils'
 
+// Navigation structure
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     {
         name: 'Content',
         icon: FileText,
         children: [
-            { name: 'Pages', href: '/admin/pages', icon: FileText },
-            { name: 'Blog', href: '/admin/blog', icon: Newspaper },
-            { name: 'Media Library', href: '/admin/media', icon: ImageIcon },
-        ]
-    },
-    {
-        name: 'Site',
-        icon: Globe,
-        children: [
-            { name: 'Components', href: '/admin/components', icon: Layers },
-            { name: 'Navigation', href: '/admin/navigation', icon: MenuIcon },
-            { name: 'Forms', href: '/admin/forms', icon: FileText },
-        ]
-    },
-    {
-        name: 'Business',
-        icon: Users,
-        children: [
-            { name: 'Services', href: '/admin/services', icon: Package },
-            { name: 'Clients', href: '/admin/clients', icon: Users },
+            { name: 'Services', href: '/admin/services', icon: Briefcase },
             { name: 'Portfolio', href: '/admin/portfolio', icon: FolderKanban },
             { name: 'Testimonials', href: '/admin/testimonials', icon: Star },
-            { name: 'Messages', href: '/admin/messages', icon: MessageSquare },
-            { name: 'Live Chat', href: '/admin/chat', icon: MessageCircle },
+            { name: 'Blog', href: '/admin/blog', icon: Newspaper },
+            { name: 'Media', href: '/admin/media', icon: ImageIcon },
+        ]
+    },
+    {
+        name: 'Communication',
+        icon: MessageSquare,
+        children: [
+            { name: 'Live Chat', href: '/admin/chat', icon: MessageSquare },
+            { name: 'Contacts', href: '/admin/contacts', icon: Mail },
+            { name: 'Clients', href: '/admin/clients', icon: Users },
         ]
     },
     { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     { name: 'SEO Tools', href: '/admin/seo', icon: Sparkles },
-    { name: 'Settings', href: '/admin/settings/site', icon: Settings },
+    { name: 'Settings', href: '/admin/settings', icon: Settings },
 ]
 
-export default function AdminLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
-    const pathname = usePathname()
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [expandedGroups, setExpandedGroups] = useState<string[]>(['Content', 'Business', 'Site'])
+    const [expandedGroups, setExpandedGroups] = useState<string[]>(['Content', 'Communication'])
+    const [user, setUser] = useState<any>(null)
+    const [loading, setLoading] = useState(true)
+    const pathname = usePathname()
+    const router = useRouter()
+
+    // Skip auth check for login page
+    const isLoginPage = pathname === '/admin/login'
+
+    useEffect(() => {
+        if (isLoginPage) {
+            setLoading(false)
+            return
+        }
+
+        const checkAuth = async () => {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (!session) {
+                router.push('/admin/login')
+                return
+            }
+            setUser(session.user)
+            setLoading(false)
+        }
+
+        checkAuth()
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT') {
+                router.push('/admin/login')
+            } else if (session) {
+                setUser(session.user)
+            }
+        })
+
+        return () => subscription.unsubscribe()
+    }, [router, isLoginPage])
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut()
+        router.push('/admin/login')
+    }
 
     const toggleGroup = (groupName: string) => {
         setExpandedGroups(prev =>
             prev.includes(groupName)
-                ? prev.filter(name => name !== groupName)
+                ? prev.filter(g => g !== groupName)
                 : [...prev, groupName]
         )
     }
 
     const isActive = (href: string) => {
         if (href === '/admin') return pathname === '/admin'
-        return pathname?.startsWith(href)
+        return pathname.startsWith(href)
+    }
+
+    // Render login page without layout
+    if (isLoginPage) {
+        return <QueryProvider>{children}</QueryProvider>
+    }
+
+    // Loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+        )
     }
 
     return (
-        <div className="min-h-screen bg-background">
-            {/* Top Navigation Bar */}
-            <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-                <div className="flex h-16 items-center gap-4 px-6">
-                    {/* Mobile Menu Toggle */}
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="lg:hidden"
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                    >
-                        <MenuIcon className="h-5 w-5" />
-                    </Button>
+        <QueryProvider>
+            <div className="min-h-screen bg-zinc-950">
+                {/* Mobile sidebar overlay */}
+                <AnimatePresence>
+                    {sidebarOpen && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSidebarOpen(false)}
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                        />
+                    )}
+                </AnimatePresence>
 
-                    {/* Logo */}
-                    <Link href="/admin" className="flex items-center gap-2 font-bold text-xl">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white">
-                            <LayoutDashboard className="w-5 h-5" />
-                        </div>
-                        <span className="hidden sm:inline">BigWeb Admin</span>
-                    </Link>
-
-                    {/* Search */}
-                    <div className="flex-1 max-w-md">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                            <Input
-                                placeholder="Search..."
-                                className="pl-9 bg-secondary/50"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Right Actions */}
-                    <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon" className="relative">
-                            <Bell className="w-5 h-5" />
-                            <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500">
-                                3
-                            </Badge>
-                        </Button>
-
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
-                                        A
-                                    </div>
-                                    <span className="hidden sm:inline">Admin</span>
-                                    <ChevronDown className="w-4 h-4" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>
-                                    <User className="w-4 h-4 mr-2" />
-                                    Profile
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Settings className="w-4 h-4 mr-2" />
-                                    Settings
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-red-500">
-                                    <LogOut className="w-4 h-4 mr-2" />
-                                    Logout
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                </div>
-            </header>
-
-            <div className="flex">
                 {/* Sidebar */}
-                <aside
-                    className={`
-            fixed lg:sticky top-16 left-0 z-30 h-[calc(100vh-4rem)]
-            w-64 border-r border-border bg-card
-            transition-transform duration-300 ease-in-out
-            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          `}
-                >
-                    <div className="h-full overflow-y-auto p-4 space-y-2">
+                <aside className={cn(
+                    'fixed top-0 left-0 z-50 h-full w-64 bg-zinc-900/95 backdrop-blur-xl border-r border-zinc-800 transition-transform duration-300 lg:translate-x-0',
+                    sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                )}>
+                    {/* Logo */}
+                    <div className="h-16 flex items-center justify-between px-4 border-b border-zinc-800">
+                        <Link href="/admin" className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+                                <Sparkles className="w-4 h-4 text-white" />
+                            </div>
+                            <span className="font-bold text-white">BIGWEB</span>
+                        </Link>
+                        <button
+                            onClick={() => setSidebarOpen(false)}
+                            className="lg:hidden p-2 text-zinc-400 hover:text-white"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)]">
                         {navigation.map((item) => (
                             <div key={item.name}>
                                 {item.children ? (
-                                    <div>
+                                    <>
                                         <button
                                             onClick={() => toggleGroup(item.name)}
-                                            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary transition-colors text-sm font-medium"
+                                            className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <item.icon className="w-5 h-5" />
-                                                <span>{item.name}</span>
+                                                {item.name}
                                             </div>
-                                            <ChevronDown
-                                                className={`w-4 h-4 transition-transform ${expandedGroups.includes(item.name) ? 'transform rotate-180' : ''
-                                                    }`}
-                                            />
+                                            <ChevronDown className={cn(
+                                                'w-4 h-4 transition-transform',
+                                                expandedGroups.includes(item.name) && 'rotate-180'
+                                            )} />
                                         </button>
                                         <AnimatePresence>
                                             {expandedGroups.includes(item.name) && (
@@ -208,65 +204,120 @@ export default function AdminLayout({
                                                     animate={{ height: 'auto', opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.2 }}
-                                                    className="overflow-hidden"
+                                                    className="overflow-hidden ml-4 mt-1 space-y-1"
                                                 >
-                                                    <div className="ml-4 mt-1 space-y-1 border-l-2 border-border pl-3">
-                                                        {item.children.map((child) => (
-                                                            <Link
-                                                                key={child.href}
-                                                                href={child.href}
-                                                                className={`
-                                  flex items-center gap-3 p-2 rounded-lg transition-colors text-sm
-                                  ${isActive(child.href)
-                                                                        ? 'bg-accent text-accent-foreground font-medium'
-                                                                        : 'hover:bg-secondary text-muted-foreground'
-                                                                    }
-                                `}
-                                                            >
-                                                                <child.icon className="w-4 h-4" />
-                                                                <span>{child.name}</span>
-                                                            </Link>
-                                                        ))}
-                                                    </div>
+                                                    {item.children.map((child) => (
+                                                        <Link
+                                                            key={child.href}
+                                                            href={child.href}
+                                                            className={cn(
+                                                                'flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors',
+                                                                isActive(child.href)
+                                                                    ? 'bg-emerald-500/10 text-emerald-500 font-medium'
+                                                                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                                                            )}
+                                                        >
+                                                            <child.icon className="w-4 h-4" />
+                                                            {child.name}
+                                                        </Link>
+                                                    ))}
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
-                                    </div>
+                                    </>
                                 ) : (
                                     <Link
                                         href={item.href}
-                                        className={`
-                      flex items-center gap-3 p-3 rounded-lg transition-colors text-sm font-medium
-                      ${isActive(item.href)
-                                                ? 'bg-accent text-accent-foreground'
-                                                : 'hover:bg-secondary'
-                                            }
-                    `}
+                                        className={cn(
+                                            'flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors',
+                                            isActive(item.href)
+                                                ? 'bg-emerald-500/10 text-emerald-500'
+                                                : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                                        )}
                                     >
                                         <item.icon className="w-5 h-5" />
-                                        <span>{item.name}</span>
+                                        {item.name}
                                     </Link>
                                 )}
                             </div>
                         ))}
-                    </div>
+                    </nav>
                 </aside>
 
-                {/* Mobile Overlay */}
-                {sidebarOpen && (
-                    <div
-                        className="fixed inset-0 z-20 bg-black/50 lg:hidden"
-                        onClick={() => setSidebarOpen(false)}
-                    />
-                )}
+                {/* Main content */}
+                <div className="lg:pl-64">
+                    {/* Header */}
+                    <header className="sticky top-0 z-30 h-16 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800">
+                        <div className="flex items-center justify-between h-full px-4">
+                            <div className="flex items-center gap-4">
+                                <button
+                                    onClick={() => setSidebarOpen(true)}
+                                    className="lg:hidden p-2 text-zinc-400 hover:text-white"
+                                >
+                                    <Menu className="w-5 h-5" />
+                                </button>
 
-                {/* Main Content */}
-                <main className="flex-1 overflow-x-hidden">
-                    <div className="container mx-auto p-6 lg:p-8 max-w-[1600px]">
+                                <div className="hidden md:flex items-center gap-2 bg-zinc-800/50 rounded-lg px-3 py-2 w-64">
+                                    <Search className="w-4 h-4 text-zinc-500" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="bg-transparent text-sm text-white placeholder:text-zinc-500 focus:outline-none flex-1"
+                                    />
+                                    <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-zinc-700 bg-zinc-800 px-1.5 font-mono text-[10px] font-medium text-zinc-400">
+                                        ⌘K
+                                    </kbd>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                                {/* Notifications */}
+                                <Button variant="ghost" size="icon" className="relative text-zinc-400 hover:text-white">
+                                    <Bell className="w-5 h-5" />
+                                    <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full" />
+                                </Button>
+
+                                {/* User menu */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" className="flex items-center gap-2 px-2">
+                                            <Avatar className="h-8 w-8">
+                                                <AvatarImage src={user?.user_metadata?.avatar_url} />
+                                                <AvatarFallback className="bg-emerald-500/20 text-emerald-500">
+                                                    {user?.email?.charAt(0).toUpperCase() || 'A'}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <span className="hidden md:block text-sm text-zinc-300">
+                                                {user?.email?.split('@')[0] || 'Admin'}
+                                            </span>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-zinc-800">
+                                        <DropdownMenuLabel className="text-zinc-400">My Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator className="bg-zinc-800" />
+                                        <DropdownMenuItem className="text-zinc-300 focus:bg-zinc-800 focus:text-white cursor-pointer">
+                                            <Settings className="w-4 h-4 mr-2" />
+                                            Settings
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            onClick={handleSignOut}
+                                            className="text-red-400 focus:bg-red-500/10 focus:text-red-400 cursor-pointer"
+                                        >
+                                            <LogOut className="w-4 h-4 mr-2" />
+                                            Sign out
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Page content */}
+                    <main className="p-6">
                         {children}
-                    </div>
-                </main>
+                    </main>
+                </div>
             </div>
-        </div>
+        </QueryProvider>
     )
 }

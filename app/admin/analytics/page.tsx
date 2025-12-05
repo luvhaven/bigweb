@@ -1,195 +1,312 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Globe, TrendingUp, Users, MousePointerClick, Clock, MapPin } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import AdminHeader from '@/components/admin/AdminHeader'
-import { LineChart, Line, BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import { motion } from 'framer-motion'
+import {
+    TrendingUp,
+    TrendingDown,
+    Users,
+    Eye,
+    Clock,
+    Globe,
+    Monitor,
+    Smartphone,
+    Tablet,
+    ArrowUpRight,
+    Calendar,
+    Download
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { GlassCard, StatWidget, SectionHeader } from '@/components/admin/ui/GlassCard'
+import {
+    LineChart,
+    Line,
+    AreaChart,
+    Area,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend
+} from 'recharts'
 
-const trafficData = Array.from({ length: 30 }, (_, i) => ({
-    date: `Day ${i + 1}`,
-    visitors: Math.floor(Math.random() * 500) + 300,
-    pageViews: Math.floor(Math.random() * 1000) + 600,
-}))
-
-const sourceData = [
-    { name: 'Organic Search', value: 45, color: '#3B82F6' },
-    { name: 'Direct', value: 25, color: '#10B981' },
-    { name: 'Social Media', value: 15, color: '#F59E0B' },
-    { name: 'Referral', value: 10, color: '#8B5CF6' },
-    { name: 'Email', value: 5, color: '#EF4444' },
+// Mock data - replace with real API calls
+const visitorsData = [
+    { date: 'Jan 1', visitors: 1200, pageViews: 3400 },
+    { date: 'Jan 2', visitors: 1400, pageViews: 4100 },
+    { date: 'Jan 3', visitors: 980, pageViews: 2800 },
+    { date: 'Jan 4', visitors: 1600, pageViews: 4600 },
+    { date: 'Jan 5', visitors: 1800, pageViews: 5200 },
+    { date: 'Jan 6', visitors: 2100, pageViews: 5900 },
+    { date: 'Jan 7', visitors: 1900, pageViews: 5400 },
 ]
 
 const topPages = [
-    { page: '/', views: 12540, avgTime: '2:34', bounceRate: 45 },
-    { page: '/services/web-development', views: 8920, avgTime: '3:12', bounceRate: 38 },
-    { page: '/portfolio', views: 7650, avgTime: '4:05', bounceRate: 32 },
-    { page: '/about', views: 5430, avgTime: '1:58', bounceRate: 52 },
-    { page: '/contact', views: 4210, avgTime: '1:25', bounceRate: 28 },
+    { page: '/', views: 12450, change: 12 },
+    { page: '/services', views: 8320, change: 8 },
+    { page: '/portfolio', views: 6780, change: -3 },
+    { page: '/contact', views: 4520, change: 15 },
+    { page: '/about', views: 3210, change: 5 },
+]
+
+const trafficSources = [
+    { name: 'Organic Search', value: 45, color: '#10b981' },
+    { name: 'Direct', value: 25, color: '#8b5cf6' },
+    { name: 'Social Media', value: 18, color: '#f59e0b' },
+    { name: 'Referral', value: 12, color: '#3b82f6' },
+]
+
+const deviceData = [
+    { name: 'Desktop', value: 58, icon: Monitor },
+    { name: 'Mobile', value: 35, icon: Smartphone },
+    { name: 'Tablet', value: 7, icon: Tablet },
+]
+
+const countryData = [
+    { country: 'United States', visitors: 4520, flag: '🇺🇸' },
+    { country: 'United Kingdom', visitors: 2340, flag: '🇬🇧' },
+    { country: 'Germany', visitors: 1890, flag: '🇩🇪' },
+    { country: 'Canada', visitors: 1230, flag: '🇨🇦' },
+    { country: 'Nigeria', visitors: 980, flag: '🇳🇬' },
 ]
 
 export default function AnalyticsPage() {
-    const [timeRange, setTimeRange] = useState('30d')
+    const [dateRange, setDateRange] = useState('7d')
 
     return (
-        <div className="space-y-8">
-            <AdminHeader
-                title="Analytics Dashboard"
-                description="Comprehensive insights into your website's performance and visitor behavior"
-            >
-                <Tabs value={timeRange} onValueChange={setTimeRange}>
-                    <TabsList>
-                        <TabsTrigger value="7d">7 Days</TabsTrigger>
-                        <TabsTrigger value="30d">30 Days</TabsTrigger>
-                        <TabsTrigger value="90d">90 Days</TabsTrigger>
-                    </TabsList>
-                </Tabs>
-            </AdminHeader>
-
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                    { label: 'Total Visitors', value: '24,583', change: '+12.5%', icon: Users, color: 'from-blue-500 to-cyan-500' },
-                    { label: 'Page Views', value: '52,147', change: '+8.2%', icon: Globe, color: 'from-green-500 to-emerald-500' },
-                    { label: 'Avg. Session', value: '3:42', change: '+5.1%', icon: Clock, color: 'from-purple-500 to-pink-500' },
-                    { label: 'Conversion Rate', value: '3.8%', change: '+0.4%', icon: TrendingUp, color: 'from-orange-500 to-red-500' },
-                ].map((metric, index) => {
-                    const Icon = metric.icon
-                    return (
-                        <Card key={index}>
-                            <CardContent className="p-6">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${metric.color} flex items-center justify-center text-white`}>
-                                        <Icon className="w-6 h-6" />
-                                    </div>
-                                    <Badge variant="secondary" className="text-green-600">
-                                        {metric.change}
-                                    </Badge>
-                                </div>
-                                <div>
-                                    <p className="text-3xl font-bold mb-1">{metric.value}</p>
-                                    <p className="text-sm text-muted-foreground">{metric.label}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )
-                })}
+        <div className="space-y-6">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white">Analytics</h1>
+                    <p className="text-zinc-400 mt-1">
+                        Track your website performance and visitor insights
+                    </p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <select
+                        value={dateRange}
+                        onChange={(e) => setDateRange(e.target.value)}
+                        className="bg-zinc-800 border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-300"
+                    >
+                        <option value="24h">Last 24 hours</option>
+                        <option value="7d">Last 7 days</option>
+                        <option value="30d">Last 30 days</option>
+                        <option value="90d">Last 90 days</option>
+                    </select>
+                    <Button variant="outline" className="border-zinc-700 text-zinc-300">
+                        <Download className="w-4 h-4 mr-2" />
+                        Export
+                    </Button>
+                </div>
             </div>
 
-            {/* Charts */}
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatWidget
+                    title="Total Visitors"
+                    value="24,521"
+                    change={12}
+                    trend="up"
+                    icon={<Users className="w-5 h-5" />}
+                />
+                <StatWidget
+                    title="Page Views"
+                    value="89,432"
+                    change={8}
+                    trend="up"
+                    icon={<Eye className="w-5 h-5" />}
+                />
+                <StatWidget
+                    title="Avg. Session"
+                    value="3m 45s"
+                    change={-5}
+                    trend="down"
+                    icon={<Clock className="w-5 h-5" />}
+                />
+                <StatWidget
+                    title="Bounce Rate"
+                    value="42.3%"
+                    change={-3}
+                    trend="up"
+                    icon={<TrendingDown className="w-5 h-5" />}
+                />
+            </div>
+
+            {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="lg:col-span-2">
-                    <CardHeader>
-                        <CardTitle>Traffic Overview</CardTitle>
-                        <CardDescription>Daily visitors and page views</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ResponsiveContainer width="100%" height={350}>
-                            <AreaChart data={trafficData}>
+                {/* Visitors Chart */}
+                <GlassCard className="lg:col-span-2 p-6">
+                    <SectionHeader
+                        title="Visitors & Page Views"
+                        description="Daily traffic over the selected period"
+                    />
+                    <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={visitorsData}>
                                 <defs>
                                     <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                                     </linearGradient>
                                     <linearGradient id="colorPageViews" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                                <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
-                                <YAxis stroke="hsl(var(--muted-foreground))" />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+                                <XAxis dataKey="date" stroke="#71717a" fontSize={12} />
+                                <YAxis stroke="#71717a" fontSize={12} />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--card))',
-                                        border: '1px solid hsl(var(--border))',
+                                        backgroundColor: '#18181b',
+                                        border: '1px solid #27272a',
                                         borderRadius: '8px',
+                                        color: '#fff'
                                     }}
                                 />
-                                <Legend />
-                                <Area type="monotone" dataKey="visitors" stroke="#3B82F6" fillOpacity={1} fill="url(#colorVisitors)" />
-                                <Area type="monotone" dataKey="pageViews" stroke="#10B981" fillOpacity={1} fill="url(#colorPageViews)" />
+                                <Area
+                                    type="monotone"
+                                    dataKey="visitors"
+                                    stroke="#10b981"
+                                    strokeWidth={2}
+                                    fillOpacity={1}
+                                    fill="url(#colorVisitors)"
+                                    name="Visitors"
+                                />
+                                <Area
+                                    type="monotone"
+                                    dataKey="pageViews"
+                                    stroke="#8b5cf6"
+                                    strokeWidth={2}
+                                    fillOpacity={1}
+                                    fill="url(#colorPageViews)"
+                                    name="Page Views"
+                                />
                             </AreaChart>
                         </ResponsiveContainer>
-                    </CardContent>
-                </Card>
+                    </div>
+                </GlassCard>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Traffic Sources</CardTitle>
-                        <CardDescription>Where your visitors come from</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
+                {/* Traffic Sources */}
+                <GlassCard className="p-6">
+                    <SectionHeader title="Traffic Sources" />
+                    <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={sourceData}
+                                    data={trafficSources}
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={90}
+                                    innerRadius={50}
+                                    outerRadius={70}
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {sourceData.map((entry, index) => (
+                                    {trafficSources.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
-                                <Tooltip />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: '#18181b',
+                                        border: '1px solid #27272a',
+                                        borderRadius: '8px',
+                                        color: '#fff'
+                                    }}
+                                />
                             </PieChart>
                         </ResponsiveContainer>
-                        <div className="space-y-2 mt-4">
-                            {sourceData.map((source) => (
-                                <div key={source.name} className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: source.color }} />
-                                        <span className="text-sm text-muted-foreground">{source.name}</span>
-                                    </div>
-                                    <span className="text-sm font-semibold">{source.value}%</span>
+                    </div>
+                    <div className="space-y-2 mt-4">
+                        {trafficSources.map((source) => (
+                            <div key={source.name} className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: source.color }} />
+                                    <span className="text-sm text-zinc-300">{source.name}</span>
                                 </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                                <span className="text-sm font-medium text-white">{source.value}%</span>
+                            </div>
+                        ))}
+                    </div>
+                </GlassCard>
             </div>
 
-            {/* Top Pages */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Top Performing Pages</CardTitle>
-                    <CardDescription>Most visited pages and their metrics</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-border">
-                                    <th className="text-left p-4 font-medium text-sm text-muted-foreground">Page</th>
-                                    <th className="text-right p-4 font-medium text-sm text-muted-foreground">Views</th>
-                                    <th className="text-right p-4 font-medium text-sm text-muted-foreground">Avg. Time</th>
-                                    <th className="text-right p-4 font-medium text-sm text-muted-foreground">Bounce Rate</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {topPages.map((page, index) => (
-                                    <tr key={index} className="border-b border-border last:border-0 hover:bg-secondary/20">
-                                        <td className="p-4 font-medium">{page.page}</td>
-                                        <td className="p-4 text-right">{page.views.toLocaleString()}</td>
-                                        <td className="p-4 text-right">{page.avgTime}</td>
-                                        <td className="p-4 text-right">
-                                            <Badge variant={page.bounceRate > 50 ? 'destructive' : 'secondary'}>
-                                                {page.bounceRate}%
-                                            </Badge>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+            {/* Bottom Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Top Pages */}
+                <GlassCard className="lg:col-span-2 p-6">
+                    <SectionHeader title="Top Pages" description="Most visited pages" />
+                    <div className="space-y-3">
+                        {topPages.map((page, index) => (
+                            <div key={page.page} className="flex items-center gap-4">
+                                <span className="text-sm font-medium text-zinc-500 w-6">{index + 1}</span>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-white truncate">{page.page}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm font-medium text-white">{page.views.toLocaleString()}</p>
+                                    <p className={`text-xs ${page.change >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                        {page.change >= 0 ? '+' : ''}{page.change}%
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </CardContent>
-            </Card>
+                </GlassCard>
+
+                {/* Devices */}
+                <GlassCard className="p-6">
+                    <SectionHeader title="Devices" />
+                    <div className="space-y-4">
+                        {deviceData.map((device) => (
+                            <div key={device.name}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <device.icon className="w-4 h-4 text-zinc-400" />
+                                        <span className="text-sm text-zinc-300">{device.name}</span>
+                                    </div>
+                                    <span className="text-sm font-medium text-white">{device.value}%</span>
+                                </div>
+                                <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${device.value}%` }}
+                                        transition={{ duration: 0.5, delay: 0.2 }}
+                                        className="h-full bg-emerald-500 rounded-full"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </GlassCard>
+            </div>
+
+            {/* Countries */}
+            <GlassCard className="p-6">
+                <SectionHeader title="Top Countries" description="Visitors by location" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {countryData.map((country, index) => (
+                        <motion.div
+                            key={country.country}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="p-4 rounded-lg bg-zinc-800/50 text-center"
+                        >
+                            <span className="text-3xl mb-2 block">{country.flag}</span>
+                            <p className="text-sm font-medium text-white">{country.country}</p>
+                            <p className="text-lg font-bold text-emerald-500">{country.visitors.toLocaleString()}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </GlassCard>
         </div>
     )
 }
