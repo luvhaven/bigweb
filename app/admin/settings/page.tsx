@@ -1,253 +1,260 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
+import {
+  Save,
+  Globe,
+  Mail,
+  Phone,
+  Twitter,
+  Linkedin,
+  Settings as SettingsIcon,
+  Loader2,
+  AlertCircle
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { getSettings, updateSettings, SiteSettings, initializeDataStore } from '@/lib/dataStore'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { GlassCard, SectionHeader, Skeleton } from '@/components/admin/ui/GlassCard'
+import { Switch } from '@/components/ui/switch'
+import { useSiteSettings, useUpdateSiteSetting } from '@/hooks/useAdminContent'
+import toast from 'react-hot-toast'
 
-export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState<SiteSettings | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
-  const [saveMessage, setSaveMessage] = useState('')
-  const router = useRouter()
+export default function SettingsPage() {
+  const { data: settings, isLoading, error } = useSiteSettings()
+  const updateSetting = useUpdateSiteSetting()
 
+  const [formData, setFormData] = useState<Record<string, any>>({})
+  const [saving, setSaving] = useState(false)
+
+  // Initialize form data when settings load
   useEffect(() => {
-    const token = localStorage.getItem('admin_token')
-    if (!token) {
-      router.push('/admin/login')
-      return
+    if (settings) {
+      const data: Record<string, any> = {}
+      settings.forEach(setting => {
+        data[setting.key] = setting.value
+      })
+      setFormData(data)
     }
+  }, [settings])
 
-    initializeDataStore()
-    setSettings(getSettings())
-  }, [router])
-
-  const handleSave = () => {
-    if (!settings) return
-    
-    setIsSaving(true)
-    updateSettings(settings)
-    
-    setTimeout(() => {
-      setIsSaving(false)
-      setSaveMessage('Settings saved successfully!')
-      setTimeout(() => setSaveMessage(''), 3000)
-      
-      // Trigger a page reload to reflect changes
-      window.dispatchEvent(new Event('settingsUpdated'))
-    }, 500)
+  const handleChange = (key: string, value: any) => {
+    setFormData(prev => ({ ...prev, [key]: value }))
   }
 
-  if (!settings) {
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      // Update all changed settings
+      const promises = Object.entries(formData).map(([key, value]) => {
+        const setting = settings?.find(s => s.key === key)
+        if (setting && JSON.stringify(setting.value) !== JSON.stringify(value)) {
+          return updateSetting.mutateAsync({ key, value })
+        }
+        return Promise.resolve()
+      })
+
+      await Promise.all(promises)
+      toast.success('Settings saved successfully')
+    } catch (error) {
+      toast.error('Failed to save settings')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (error) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-muted-foreground">Loading settings...</p>
-        </div>
+      <div className="flex flex-col items-center justify-center py-12">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <p className="text-zinc-400">Failed to load settings. Please try again.</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="space-y-6 max-w-4xl">
       {/* Header */}
-      <div className="bg-card border-b border-border sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href="/admin/dashboard">
-                <Button variant="outline" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Dashboard
-                </Button>
-              </Link>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-white">Site Settings</h1>
+          <p className="text-zinc-400 mt-1">
+            Configure your website settings and preferences
+          </p>
+        </div>
+        <Button
+          onClick={handleSave}
+          disabled={saving}
+          className="bg-emerald-500 hover:bg-emerald-600"
+        >
+          {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+          <Save className="w-4 h-4 mr-2" />
+          Save Changes
+        </Button>
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-6">
+          {[1, 2, 3].map((i) => (
+            <GlassCard key={i} className="p-6">
+              <Skeleton className="h-6 w-32 mb-4" />
+              <Skeleton className="h-10 w-full" />
+            </GlassCard>
+          ))}
+        </div>
+      ) : (
+        <>
+          {/* General Settings */}
+          <GlassCard className="p-6">
+            <SectionHeader title="General Information" />
+            <div className="space-y-4">
               <div>
-                <h1 className="text-2xl font-bold">Site Settings</h1>
-                <p className="text-sm text-muted-foreground">
-                  Configure your website settings
-                </p>
+                <Label htmlFor="site_name" className="text-zinc-300">
+                  <Globe className="w-4 h-4 inline mr-2" />
+                  Site Name
+                </Label>
+                <Input
+                  id="site_name"
+                  value={formData.site_name || ''}
+                  onChange={(e) => handleChange('site_name', e.target.value)}
+                  placeholder="Your Company Name"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="site_description" className="text-zinc-300">
+                  Site Description
+                </Label>
+                <Input
+                  id="site_description"
+                  value={formData.site_description || ''}
+                  onChange={(e) => handleChange('site_description', e.target.value)}
+                  placeholder="A brief description of your website"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
               </div>
             </div>
+          </GlassCard>
+
+          {/* Contact Information */}
+          <GlassCard className="p-6">
+            <SectionHeader title="Contact Information" />
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="contact_email" className="text-zinc-300">
+                  <Mail className="w-4 h-4 inline mr-2" />
+                  Contact Email
+                </Label>
+                <Input
+                  id="contact_email"
+                  type="email"
+                  value={formData.contact_email || ''}
+                  onChange={(e) => handleChange('contact_email', e.target.value)}
+                  placeholder="hello@example.com"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="contact_phone" className="text-zinc-300">
+                  <Phone className="w-4 h-4 inline mr-2" />
+                  Contact Phone
+                </Label>
+                <Input
+                  id="contact_phone"
+                  type="tel"
+                  value={formData.contact_phone || ''}
+                  onChange={(e) => handleChange('contact_phone', e.target.value)}
+                  placeholder="+1 (555) 123-4567"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* Social Media */}
+          <GlassCard className="p-6">
+            <SectionHeader title="Social Media" />
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="social_twitter" className="text-zinc-300">
+                  <Twitter className="w-4 h-4 inline mr-2" />
+                  Twitter Handle
+                </Label>
+                <Input
+                  id="social_twitter"
+                  value={formData.social_twitter || ''}
+                  onChange={(e) => handleChange('social_twitter', e.target.value)}
+                  placeholder="@yourcompany"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="social_linkedin" className="text-zinc-300">
+                  <Linkedin className="w-4 h-4 inline mr-2" />
+                  LinkedIn Profile
+                </Label>
+                <Input
+                  id="social_linkedin"
+                  value={formData.social_linkedin || ''}
+                  onChange={(e) => handleChange('social_linkedin', e.target.value)}
+                  placeholder="company-name"
+                  className="bg-zinc-800/50 border-zinc-700 text-white mt-2"
+                />
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* Advanced Settings */}
+          <GlassCard className="p-6">
+            <SectionHeader title="Advanced Settings" />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-zinc-300">Analytics Tracking</Label>
+                  <p className="text-sm text-zinc-500 mt-1">
+                    Enable page view tracking and analytics
+                  </p>
+                </div>
+                <Switch
+                  checked={formData.analytics_enabled === true}
+                  onCheckedChange={(checked) => handleChange('analytics_enabled', checked)}
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
+                <div>
+                  <Label className="text-zinc-300">Maintenance Mode</Label>
+                  <p className="text-sm text-zinc-500 mt-1">
+                    Put the website in maintenance mode
+                  </p>
+                </div>
+                <Switch
+                  checked={formData.maintenance_mode === true}
+                  onCheckedChange={(checked) => handleChange('maintenance_mode', checked)}
+                />
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* Save Button (Bottom) */}
+          <div className="flex justify-end">
             <Button
               onClick={handleSave}
-              disabled={isSaving}
-              className="bg-accent hover:bg-accent/90"
+              disabled={saving}
+              size="lg"
+              className="bg-emerald-500 hover:bg-emerald-600"
             >
-              {isSaving ? (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Changes
-                </>
-              )}
+              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              <Save className="w-4 h-4 mr-2" />
+              Save All Changes
             </Button>
           </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-6 py-8 max-w-4xl">
-        {/* Save Message */}
-        {saveMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500"
-          >
-            {saveMessage}
-          </motion.div>
-        )}
-
-        <div className="space-y-8">
-          {/* General Settings */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-card border border-border rounded-xl p-6"
-          >
-            <h2 className="text-xl font-bold mb-6">General Information</h2>
-            <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Site Name</label>
-                  <input
-                    type="text"
-                    value={settings.siteName}
-                    onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Site Tagline</label>
-                  <input
-                    type="text"
-                    value={settings.siteTagline}
-                    onChange={(e) => setSettings({ ...settings, siteTagline: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Contact Email</label>
-                  <input
-                    type="email"
-                    value={settings.contactEmail}
-                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Contact Phone</label>
-                  <input
-                    type="tel"
-                    value={settings.contactPhone}
-                    onChange={(e) => setSettings({ ...settings, contactPhone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                  />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-card border border-border rounded-xl p-6"
-          >
-            <h2 className="text-xl font-bold mb-6">Homepage Hero</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Hero Title</label>
-                <input
-                  type="text"
-                  value={settings.heroTitle}
-                  onChange={(e) => setSettings({ ...settings, heroTitle: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Hero Subtitle</label>
-                <input
-                  type="text"
-                  value={settings.heroSubtitle}
-                  onChange={(e) => setSettings({ ...settings, heroSubtitle: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">About Text</label>
-                <textarea
-                  value={settings.aboutText}
-                  onChange={(e) => setSettings({ ...settings, aboutText: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none h-32 resize-none"
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Feature Toggles */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-card border border-border rounded-xl p-6"
-          >
-            <h2 className="text-xl font-bold mb-6">Feature Toggles</h2>
-            <div className="space-y-4">
-              <label className="flex items-center gap-3 p-4 bg-secondary/20 rounded-lg cursor-pointer hover:bg-secondary/30 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={settings.servicesEnabled}
-                  onChange={(e) => setSettings({ ...settings, servicesEnabled: e.target.checked })}
-                  className="w-5 h-5"
-                />
-                <div>
-                  <p className="font-medium">Enable Services Section</p>
-                  <p className="text-sm text-muted-foreground">Show/hide services page and navigation</p>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-3 p-4 bg-secondary/20 rounded-lg cursor-pointer hover:bg-secondary/30 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={settings.portfolioEnabled}
-                  onChange={(e) => setSettings({ ...settings, portfolioEnabled: e.target.checked })}
-                  className="w-5 h-5"
-                />
-                <div>
-                  <p className="font-medium">Enable Portfolio Section</p>
-                  <p className="text-sm text-muted-foreground">Show/hide portfolio gallery and projects</p>
-                </div>
-              </label>
-            </div>
-          </motion.div>
-
-          {/* Last Updated */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-center text-sm text-muted-foreground"
-          >
-            Last updated: {new Date(settings.updatedAt).toLocaleString()}
-          </motion.div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   )
 }

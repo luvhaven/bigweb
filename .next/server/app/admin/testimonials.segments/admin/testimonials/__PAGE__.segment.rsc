@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
 2:I[47257,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d96c5f22ebeabfd5.js"],"ClientPageRoot"]
-3:I[87866,["/_next/static/chunks/a726e24ceaa701a2.js","/_next/static/chunks/a7b8f8c356e12255.js","/_next/static/chunks/bb231f06f4bc8420.js","/_next/static/chunks/6af72917997cee7f.js","/_next/static/chunks/dfd9f6b5a269c503.js","/_next/static/chunks/6914bffa14582be7.js","/_next/static/chunks/ce54fde7f6e125b9.js","/_next/static/chunks/7932c931112ffd59.js","/_next/static/chunks/73fce943a2e96913.js","/_next/static/chunks/9f3a7c9e4127d4ce.js"],"default"]
+3:I[87866,["/_next/static/chunks/a726e24ceaa701a2.js","/_next/static/chunks/a7b8f8c356e12255.js","/_next/static/chunks/bb231f06f4bc8420.js","/_next/static/chunks/2dd1321fa1278660.js","/_next/static/chunks/dfd9f6b5a269c503.js","/_next/static/chunks/6914bffa14582be7.js","/_next/static/chunks/ce54fde7f6e125b9.js","/_next/static/chunks/6205beb0d40e886d.js","/_next/static/chunks/85b8d4e52a3696c8.js","/_next/static/chunks/9c5e51e6a2f79b99.js"],"default"]
 6:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d96c5f22ebeabfd5.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"buildId":"IsSo8VoeWb85sZUomosqO","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/73fce943a2e96913.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/9f3a7c9e4127d4ce.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"s9nBEbOORv23AsPpVDUrh","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/85b8d4e52a3696c8.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/9c5e51e6a2f79b99.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
 4:{}
 5:{}
 8:null
