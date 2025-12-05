@@ -261,20 +261,15 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/@supabase/supabase-js/dist/module/index.js [app-ssr] (ecmascript) <locals>");
 ;
-const supabaseUrl = ("TURBOPACK compile-time value", "https://krstrtqdnvxzvmiphhwm.supabase.co");
-const supabaseAnonKey = ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtyc3RydHFkbnZ4enZtaXBoaHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwODA3MzIsImV4cCI6MjA3OTY1NjczMn0.0pE8vhH867zDOnTbX0RVx8XI9l8CT9D1uPLOMOQgTdE");
-if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-;
-if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-;
-console.log('✅ Supabase client initialized with URL:', supabaseUrl?.substring(0, 20) + '...');
-const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(supabaseUrl, supabaseAnonKey, {
+const supabaseUrl = ("TURBOPACK compile-time value", "https://krstrtqdnvxzvmiphhwm.supabase.co") || '';
+const supabaseAnonKey = ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtyc3RydHFkbnZ4enZtaXBoaHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwODA3MzIsImV4cCI6MjA3OTY1NjczMn0.0pE8vhH867zDOnTbX0RVx8XI9l8CT9D1uPLOMOQgTdE") || '';
+const supabase = ("TURBOPACK compile-time truthy", 1) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(supabaseUrl, supabaseAnonKey, {
     auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true
     }
-});
+}) : "TURBOPACK unreachable";
 }),
 "[project]/src/hooks/useAuth.tsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
 "use strict";

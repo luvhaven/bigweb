@@ -66,6 +66,17 @@ CREATE TRIGGER update_services_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
+-- Ensure is_active column exists (for existing tables)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'services' AND column_name = 'is_active'
+  ) THEN
+    ALTER TABLE services ADD COLUMN is_active BOOLEAN DEFAULT true;
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_services_slug ON services(slug);
 CREATE INDEX IF NOT EXISTS idx_services_active ON services(is_active);
 
@@ -318,6 +329,7 @@ ALTER TABLE media_library ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 
 -- Admin users can do everything
+DROP POLICY IF EXISTS "Admin full access" ON admin_users;
 CREATE POLICY "Admin full access" ON admin_users
   FOR ALL USING (
     EXISTS (
@@ -327,64 +339,97 @@ CREATE POLICY "Admin full access" ON admin_users
   );
 
 -- Public read access for services, portfolio, testimonials
-CREATE POLICY "Public read services" ON services FOR SELECT USING (is_active = true);
+DROP POLICY IF EXISTS "Public read services" ON services;
+CREATE POLICY "Public read services" ON services FOR SELECT USING (services.is_active = true);
+
+DROP POLICY IF EXISTS "Admin manage services" ON services;
 CREATE POLICY "Admin manage services" ON services FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
+DROP POLICY IF EXISTS "Public read portfolio" ON portfolio_projects;
 CREATE POLICY "Public read portfolio" ON portfolio_projects FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin manage portfolio" ON portfolio_projects;
 CREATE POLICY "Admin manage portfolio" ON portfolio_projects FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
-CREATE POLICY "Public read testimonials" ON testimonials FOR SELECT USING (status = 'active');
+DROP POLICY IF EXISTS "Public read testimonials" ON testimonials;
+CREATE POLICY "Public read testimonials" ON testimonials FOR SELECT USING (testimonials.status = 'active');
+
+DROP POLICY IF EXISTS "Admin manage testimonials" ON testimonials;
 CREATE POLICY "Admin manage testimonials" ON testimonials FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
 -- Contact submissions - insert for public, full access for admin
+DROP POLICY IF EXISTS "Public insert contacts" ON contact_submissions;
 CREATE POLICY "Public insert contacts" ON contact_submissions FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin read contacts" ON contact_submissions;
 CREATE POLICY "Admin read contacts" ON contact_submissions FOR SELECT USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid())
 );
+
+DROP POLICY IF EXISTS "Admin update contacts" ON contact_submissions;
 CREATE POLICY "Admin update contacts" ON contact_submissions FOR UPDATE USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
 -- Chat - public can insert sessions/messages, admin can read/manage
+DROP POLICY IF EXISTS "Public chat sessions" ON chat_sessions;
 CREATE POLICY "Public chat sessions" ON chat_sessions FOR ALL USING (true);
+
+DROP POLICY IF EXISTS "Public chat messages" ON chat_messages;
 CREATE POLICY "Public chat messages" ON chat_messages FOR ALL USING (true);
 
 -- Page views - public can insert, admin can read
+DROP POLICY IF EXISTS "Public insert page views" ON page_views;
 CREATE POLICY "Public insert page views" ON page_views FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin read page views" ON page_views;
 CREATE POLICY "Admin read page views" ON page_views FOR SELECT USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid())
 );
 
 -- Blog posts - public read published, admin manage all
-CREATE POLICY "Public read blog" ON blog_posts FOR SELECT USING (published = true);
+DROP POLICY IF EXISTS "Public read blog" ON blog_posts;
+CREATE POLICY "Public read blog" ON blog_posts FOR SELECT USING (blog_posts.published = true);
+
+DROP POLICY IF EXISTS "Admin manage blog" ON blog_posts;
 CREATE POLICY "Admin manage blog" ON blog_posts FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
 -- Blog tags - public read, admin manage
+DROP POLICY IF EXISTS "Public read tags" ON blog_tags;
 CREATE POLICY "Public read tags" ON blog_tags FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin manage tags" ON blog_tags;
 CREATE POLICY "Admin manage tags" ON blog_tags FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
+DROP POLICY IF EXISTS "Public read post tags" ON blog_post_tags;
 CREATE POLICY "Public read post tags" ON blog_post_tags FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin manage post tags" ON blog_post_tags;
 CREATE POLICY "Admin manage post tags" ON blog_post_tags FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
 -- Media library - admin only
+DROP POLICY IF EXISTS "Admin manage media" ON media_library;
 CREATE POLICY "Admin manage media" ON media_library FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role IN ('admin', 'editor'))
 );
 
 -- Site settings - public read, admin manage
+DROP POLICY IF EXISTS "Public read settings" ON site_settings;
 CREATE POLICY "Public read settings" ON site_settings FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin manage settings" ON site_settings;
 CREATE POLICY "Admin manage settings" ON site_settings FOR ALL USING (
   EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND role = 'admin')
 );
