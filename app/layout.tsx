@@ -95,6 +95,7 @@ export const metadata: Metadata = {
 
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import AmbientMusicPlayer from '@/components/ui/AmbientMusicPlayer'
+import LiveChatWidget from '@/components/LiveChatWidget'
 
 export default function RootLayout({
   children,
@@ -135,6 +136,7 @@ export default function RootLayout({
             {/* <AmbientMusicPlayer /> */}
           </ErrorBoundary>
         </Providers>
+        <LiveChatWidget />
         <Toaster position="bottom-right" />
       </body>
     </html>

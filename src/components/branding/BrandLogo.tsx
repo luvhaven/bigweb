@@ -8,7 +8,7 @@ interface BrandLogoProps {
     color?: string
 }
 
-export default function BrandLogo({ className = "", variant = 'full', color = "currentColor" }: BrandLogoProps) {
+export default function BrandLogo({ className = "", variant = 'full', color = "#FF6B35" }: BrandLogoProps) {
     // Using the user-provided SVG logo
 
     if (variant === 'symbol') {
@@ -20,8 +20,11 @@ export default function BrandLogo({ className = "", variant = 'full', color = "c
                     d="M 10 30 L 20 30 L 30 55 L 40 5 L 50 55 L 60 5 L 70 30 L 80 30"
                     stroke={color}
                     strokeWidth="6"
-                    strokeLinecap="square"
-                    strokeLinejoin="miter"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                        filter: 'drop-shadow(0 0 8px rgba(255, 107, 53, 0.5))'
+                    }}
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{ duration: 1.5, ease: "easeInOut" }}
