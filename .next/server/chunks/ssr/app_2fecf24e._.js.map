@@ -1,1 +1,0 @@
-{"version":3,"sources":["turbopack:///[project]/app/icon.svg.mjs (structured image object)"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 80, height: 60 }\n"],"names":[],"mappings":"qGACe,CAAE,IADjB,AACiB,EADjB,CAAA,CAAA,OACiB,OAAG,CAAE,MAAO,GAAI,OAAQ,EAAG"}

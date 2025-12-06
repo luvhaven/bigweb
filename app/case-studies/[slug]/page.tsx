@@ -8,13 +8,14 @@ import Link from 'next/link'
 import { ArrowLeft, CheckCircle, TrendingUp, Code, User } from 'lucide-react'
 
 interface CaseStudyPageProps {
-    params: {
+    params: Promise<{
         slug: string
-    }
+    }>
 }
 
 export async function generateMetadata({ params }: CaseStudyPageProps) {
-    const study = caseStudies.find((s) => s.slug === params.slug)
+    const { slug } = await params
+    const study = caseStudies.find((s) => s.slug === slug)
     if (!study) return {}
 
     return {
@@ -30,8 +31,9 @@ export async function generateMetadata({ params }: CaseStudyPageProps) {
     }
 }
 
-export default function CaseStudyPage({ params }: CaseStudyPageProps) {
-    const study = caseStudies.find((s) => s.slug === params.slug)
+export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+    const { slug } = await params
+    const study = caseStudies.find((s) => s.slug === slug)
 
     if (!study) {
         notFound()
