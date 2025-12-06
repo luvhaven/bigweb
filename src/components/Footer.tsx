@@ -17,6 +17,7 @@ const footerLinks = {
     { name: 'E-Commerce', href: '/services/ecommerce' },
     { name: 'AI Solutions', href: '/services/ai-solutions' },
     { name: 'GAIO (AI Optimization)', href: '/services/gaio' },
+    { name: 'Website Maintenance', href: '/services/maintenance' },
   ],
   company: [
     { name: 'About Us', href: '/about' },

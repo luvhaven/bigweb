@@ -23,6 +23,7 @@ const searchData: SearchResult[] = [
     { title: 'UI/UX Design', description: 'Beautiful user experiences', href: '/services/ui-ux-design', category: 'service' },
     { title: 'SEO & Marketing', description: 'Grow your online presence', href: '/services/seo-growth', category: 'service' },
     { title: 'Get Quote', description: 'Request a project estimate', href: '/estimator', category: 'action' },
+    { title: 'Website Maintenance', description: '24/7 security, speed & uptime', href: '/services/maintenance', category: 'service' },
 ]
 
 export default function GlobalSearch() {

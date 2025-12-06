@@ -78,6 +78,15 @@ const services = [
     results: "Average 387% revenue increase",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=90",
   },
+  {
+    title: "Websites That Never Break, Always Perform",
+    slug: "maintenance",
+    tagline: "Sleep easy while we keep your site secure, fast, and growing",
+    description: "Protect your revenue with 24/7 monitoring and proactive maintenance. While you focus on your business, we ensure your website stays secure, lightning-fast, and optimized for both search engines and AI. Zero downtime, maximum performance, guaranteed.",
+    features: ["24/7 Security Monitoring", "Performance Optimization", "AI Search Optimization (GAOI)", "Priority Support"],
+    results: "99.9% uptime, zero security breaches, 40% faster sites",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=90",
+  },
 ];
 
 const ExpandingServices = () => {

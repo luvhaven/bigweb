@@ -82,6 +82,14 @@ const services = [
     color: "from-purple-600 to-indigo-600",
     thumbnail: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80"
   },
+  {
+    name: "Website Maintenance",
+    path: "/services/maintenance",
+    icon: Bot,
+    description: "24/7 security, speed & uptime",
+    color: "from-green-600 to-emerald-600",
+    thumbnail: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80"
+  },
 ];
 
 const AdvancedNavigation = () => {
