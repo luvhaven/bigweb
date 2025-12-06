@@ -1,36 +1,35 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, MouseEvent } from 'react'
 import { motion } from 'framer-motion'
-import { useTouchDevice } from '@/hooks/useTouchDevice'
 
 interface MagneticButtonProps {
     children: React.ReactNode
     className?: string
-    onClick?: () => void
     strength?: number
+    onClick?: () => void
 }
 
 export default function MagneticButton({
     children,
     className = '',
-    onClick,
-    strength = 30
+    strength = 0.3,
+    onClick
 }: MagneticButtonProps) {
-    const ref = useRef<HTMLDivElement>(null)
+    const ref = useRef<HTMLButtonElement>(null)
     const [position, setPosition] = useState({ x: 0, y: 0 })
-    const isTouch = useTouchDevice()
 
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (isTouch) return
+    const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+        if (!ref.current) return
 
-        const { clientX, clientY } = e
-        const { left, top, width, height } = ref.current!.getBoundingClientRect()
+        const rect = ref.current.getBoundingClientRect()
+        const centerX = rect.left + rect.width / 2
+        const centerY = rect.top + rect.height / 2
 
-        const x = clientX - (left + width / 2)
-        const y = clientY - (top + height / 2)
+        const deltaX = (e.clientX - centerX) * strength
+        const deltaY = (e.clientY - centerY) * strength
 
-        setPosition({ x: x * 0.5, y: y * 0.5 })
+        setPosition({ x: deltaX, y: deltaY })
     }
 
     const handleMouseLeave = () => {
@@ -38,16 +37,24 @@ export default function MagneticButton({
     }
 
     return (
-        <motion.div
+        <motion.button
             ref={ref}
+            className={className}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            animate={{ x: position.x, y: position.y }}
-            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-            className={`relative cursor-pointer ${className}`}
             onClick={onClick}
+            animate={{
+                x: position.x,
+                y: position.y
+            }}
+            transition={{
+                type: 'spring',
+                stiffness: 150,
+                damping: 15,
+                mass: 0.1
+            }}
         >
             {children}
-        </motion.div>
+        </motion.button>
     )
 }

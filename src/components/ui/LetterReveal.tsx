@@ -29,19 +29,21 @@ export default function LetterReveal({
         visible: {
             opacity: 1,
             y: 0,
+            filter: 'blur(0px)',
             transition: {
-                type: "spring",
-                damping: 12,
-                stiffness: 200,
+                type: "tween",
+                ease: [0.25, 0.1, 0.25, 1.0], // cubic-bezier for smooth reveal
+                duration: 0.8
             },
         },
         hidden: {
             opacity: 0,
             y: 20,
+            filter: 'blur(10px)',
             transition: {
-                type: "spring",
-                damping: 12,
-                stiffness: 200,
+                type: "tween",
+                ease: [0.25, 0.1, 0.25, 1.0],
+                duration: 0.8
             },
         },
     }

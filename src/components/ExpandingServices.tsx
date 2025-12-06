@@ -1,9 +1,7 @@
 'use client'
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import ServiceCard3D from "@/components/ui/ServiceCard3D";
 
 const services = [
   {
@@ -90,8 +88,6 @@ const services = [
 ];
 
 const ExpandingServices = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   return (
     <section className="py-32 bg-background">
       <div className="container mx-auto px-6">
@@ -114,126 +110,9 @@ const ExpandingServices = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto perspective-2000">
           {services.map((service, index) => (
-            <Link
-              key={index}
-              href={`/services/${service.slug}`}
-              className="block"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                onHoverStart={() => setHoveredIndex(index)}
-                onHoverEnd={() => setHoveredIndex(null)}
-                className="group relative overflow-hidden cursor-pointer"
-                whileTap={{ scale: 0.98 }}
-              >
-                <motion.div
-                  className="relative bg-card border border-border hover:border-accent transition-colors duration-300 card-hover-premium texture-noise"
-                  animate={{
-                    height: hoveredIndex === index ? 'auto' : '400px',
-                    y: hoveredIndex === index ? -8 : 0,
-                  }}
-                  transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                >
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <motion.img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover"
-                      animate={{
-                        scale: hoveredIndex === index ? 1.1 : 1,
-                      }}
-                      transition={{ duration: 0.4 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-                    {/* Title overlay on image */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <h3 className="text-2xl font-bold text-white tracking-tight">
-                        {service.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <p className="text-accent text-sm font-semibold mb-3 uppercase tracking-wider">
-                      {service.tagline}
-                    </p>
-
-                    <AnimatePresence>
-                      {hoveredIndex === index && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4 }}
-                        >
-                          <p className="text-muted-foreground leading-relaxed mb-6">
-                            {service.description}
-                          </p>
-
-                          {/* Features */}
-                          <div className="space-y-2 mb-6">
-                            {service.features.map((feature, i) => (
-                              <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="flex items-center gap-2 text-sm"
-                              >
-                                <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                                <span>{feature}</span>
-                              </motion.div>
-                            ))}
-                          </div>
-
-                          {/* Results */}
-                          <div className="pt-4 border-t border-border">
-                            <p className="text-sm font-semibold text-accent">
-                              {service.results}
-                            </p>
-                          </div>
-
-                          {/* CTA */}
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="mt-6 flex items-center gap-2 text-accent text-sm font-medium"
-                          >
-                            <span>Learn More</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </motion.div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Collapsed state hint */}
-                    {hoveredIndex !== index && (
-                      <div className="mt-4 text-sm text-muted-foreground">
-                        Hover to explore →
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Hover glow */}
-                  <motion.div
-                    className="absolute -inset-0.5 bg-accent opacity-0 blur-2xl -z-10"
-                    animate={{
-                      opacity: hoveredIndex === index ? 0.3 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.div>
-              </motion.div>
-            </Link>
+            <ServiceCard3D key={index} service={service} index={index} />
           ))}
         </div>
       </div>

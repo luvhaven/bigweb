@@ -93,6 +93,8 @@ export const metadata: Metadata = {
   },
 }
 
+import CustomCursor from '@/components/ui/CustomCursor'
+import ScrollProgressIndicator from '@/components/ui/ScrollProgressIndicator'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import AmbientMusicPlayer from '@/components/ui/AmbientMusicPlayer'
 import LiveChatWidget from '@/components/LiveChatWidget'
@@ -124,8 +126,8 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* <CursorGlow /> */}
-        {/* <ScrollProgressIndicator /> */}
+        <CustomCursor />
+        <ScrollProgressIndicator />
         <Providers>
           <ErrorBoundary>
             {/* <AnalyticsTracker /> */}
