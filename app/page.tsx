@@ -25,7 +25,7 @@ export default function HomePage() {
     <>
       <SkipToContent />
       <Navigation />
-      <main id="main-content" className="min-h-screen overflow-hidden pt-24" role="main" aria-label="Main content">
+      <main id="main-content" className="min-h-screen overflow-hidden" role="main" aria-label="Main content">
         <VerticalSplitHero />
 
         {/* Trust Indicators */}
