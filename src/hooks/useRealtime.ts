@@ -76,7 +76,7 @@ export function usePresence(channelName: string) {
     const [channel, setChannel] = useState<RealtimeChannel | null>(null)
 
     useEffect(() => {
-        if (!supabase) return
+        if (typeof window === 'undefined' || !supabase) return
 
         const presenceChannel = supabase.channel(channelName)
 
@@ -122,7 +122,7 @@ export function useBroadcast(channelName: string) {
     const [channel, setChannel] = useState<RealtimeChannel | null>(null)
 
     useEffect(() => {
-        if (!supabase) return
+        if (typeof window === 'undefined' || !supabase) return
 
         const broadcastChannel = supabase.channel(channelName)
 

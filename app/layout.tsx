@@ -2,10 +2,6 @@
 import type { Metadata } from 'next'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Providers from '@/components/Providers'
-
-import ScrollProgressIndicator from '@/components/ScrollProgressIndicator'
-import CursorGlow from '@/components/CursorGlow'
-import MagneticEffect from '@/components/effects/MagneticEffect'
 import { Toaster } from 'react-hot-toast'
 import { OrganizationSchema } from '@/components/seo/JsonLd'
 import '../src/index.css'
