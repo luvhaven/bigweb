@@ -3,12 +3,12 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge/chunks/_1503ee7e._.js",
+        "server/edge/chunks/_e36d360d._.js",
         "server/edge/chunks/node_modules_@supabase_storage-js_dist_module_4ce21c5e._.js",
         "server/edge/chunks/node_modules_@supabase_auth-js_dist_module_33c852e9._.js",
         "server/edge/chunks/node_modules_2dd91681._.js",
-        "server/edge/chunks/[root-of-the-server]__8978dbac._.js",
-        "server/edge/chunks/turbopack-edge-wrapper_73eda158.js"
+        "server/edge/chunks/[root-of-the-server]__f2b15f93._.js",
+        "server/edge/chunks/turbopack-edge-wrapper_84847820.js"
       ],
       "name": "middleware",
       "page": "/",
