@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 export default function CustomCursor() {
     const [isVisible, setIsVisible] = useState(false)
     const [isHovering, setIsHovering] = useState(false)
+    const [isMounted, setIsMounted] = useState(false)
     const cursorX = useMotionValue(-100)
     const cursorY = useMotionValue(-100)
 
@@ -15,6 +16,12 @@ export default function CustomCursor() {
     const cursorYSpring = useSpring(cursorY, springConfig)
 
     useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    useEffect(() => {
+        if (!isMounted) return
+
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX)
             cursorY.set(e.clientY)
@@ -40,9 +47,9 @@ export default function CustomCursor() {
                 el.removeEventListener('mouseleave', handleHoverEnd)
             })
         }
-    }, [cursorX, cursorY, isVisible])
+    }, [cursorX, cursorY, isVisible, isMounted])
 
-    if (typeof window === 'undefined') return null
+    if (!isMounted) return null
 
     return (
         <motion.div

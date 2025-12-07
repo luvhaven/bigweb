@@ -16,10 +16,10 @@ export default function MagneticButton({
     strength = 0.3,
     onClick
 }: MagneticButtonProps) {
-    const ref = useRef<HTMLButtonElement>(null)
+    const ref = useRef<HTMLDivElement>(null)
     const [position, setPosition] = useState({ x: 0, y: 0 })
 
-    const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return
 
         const rect = ref.current.getBoundingClientRect()
@@ -37,7 +37,7 @@ export default function MagneticButton({
     }
 
     return (
-        <motion.button
+        <motion.div
             ref={ref}
             className={className}
             onMouseMove={handleMouseMove}
@@ -55,6 +55,6 @@ export default function MagneticButton({
             }}
         >
             {children}
-        </motion.button>
+        </motion.div>
     )
 }
