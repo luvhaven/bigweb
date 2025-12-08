@@ -87,6 +87,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
 
         const checkAuth = async () => {
+            // Small delay to ensure session is restored from storage
+            await new Promise(resolve => setTimeout(resolve, 500))
             const { data: { session } } = await supabase.auth.getSession()
             if (!session) {
                 router.push('/admin/login')

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Mail, Phone, MapPin, Send, Clock, Users2, TrendingUp, CheckCircle } from 'lucide-react'
 import { createMessage, initializeDataStore } from '@/lib/dataStore'
 import { toast } from 'sonner'
+import { sendContactEmail } from '@/actions/send-email'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -74,8 +75,25 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Save message to data store
     try {
+      // Create FormData from state
+      const formDataObj = new FormData()
+      formDataObj.append('firstName', formData.firstName)
+      formDataObj.append('lastName', formData.lastName)
+      formDataObj.append('email', formData.email)
+      formDataObj.append('company', formData.company)
+      formDataObj.append('inspiration', formData.inspiration)
+      formDataObj.append('budget', formData.budget)
+      formDataObj.append('message', formData.message)
+
+      // Call server action
+      const result = await sendContactEmail({}, formDataObj)
+
+      if (result.error) {
+        throw new Error(result.error)
+      }
+
+      // Also save to data store as backup/local record
       createMessage({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -86,30 +104,29 @@ export default function ContactPage() {
         message: formData.message
       });
 
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        toast.success('Message sent successfully!', {
-          description: 'We\'ll get back to you within 24 hours.'
-        });
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          company: '',
-          inspiration: '',
-          budget: '$5,000 - $10,000',
-          message: '',
-        });
+      setIsSuccess(true);
+      toast.success('Message sent successfully!', {
+        description: 'We\'ll get back to you within 24 hours.'
+      });
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        company: '',
+        inspiration: '',
+        budget: '$5,000 - $10,000',
+        message: '',
+      });
 
-        // Reset success message after 5 seconds
-        setTimeout(() => setIsSuccess(false), 5000);
-      }, 1500);
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000);
+
     } catch (error) {
-      console.error('Error saving message:', error);
+      console.error('Error sending message:', error);
       toast.error('Failed to send message', {
         description: 'Please try again or contact us directly.'
       });
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -255,6 +272,7 @@ export default function ContactPage() {
                         onChange={(e) => handleChange('budget', e.target.value)}
                         className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-accent focus:outline-none transition-colors duration-300"
                       >
+                        <option>Under $5,000</option>
                         <option>$5,000 - $10,000</option>
                         <option>$10,000 - $25,000</option>
                         <option>$25,000 - $50,000</option>

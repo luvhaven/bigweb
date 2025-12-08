@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, Accessibility, ArrowUp, X, Plus } from 'lucide-react'
 import ChatWidget from '@/components/ui/ChatWidget'
 import AccessibilityPanel from '@/components/ui/AccessibilityPanel'
-import BackToTop from '@/components/ui/BackToTop'
 
 export default function FloatingActionMenu() {
     const [isOpen, setIsOpen] = useState(false)
@@ -40,8 +39,8 @@ export default function FloatingActionMenu() {
 
     return (
         <>
-            {/* Main FAB */}
-            <div className="fixed bottom-6 right-6 z-50">
+            {/* Main FAB - Mobile Optimization: Larger touch targets */}
+            <div className="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8">
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
@@ -88,6 +87,7 @@ export default function FloatingActionMenu() {
                     whileTap={{ scale: 0.9 }}
                     onClick={() => {
                         setIsOpen(!isOpen)
+                        if (navigator.vibrate) navigator.vibrate(5);
                         if (isOpen) setActivePanel(null)
                     }}
                     className={`w-14 h-14 rounded-full shadow-glow flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-accent hover:bg-accent-dark'

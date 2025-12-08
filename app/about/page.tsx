@@ -107,10 +107,10 @@ export default function AboutPage() {
                   Built by obsession, driven by results
                 </h3>
                 <p className="text-muted-foreground leading-relaxed text-lg mb-6">
-                  BIGWEB was founded in 2010 by a team of visionary technologists and designers who refused to accept the status quo. We recognized that in the AI era, your digital presence isn't just a brochure—it's your primary engine for growth.
+                  BIGWEB was founded in 2010 by a team of visionary technologists and designers who refused to accept the status quo. We recognized that in the AI era, your digital presence isn&apos;t just a brochure—it&apos;s your primary engine for growth.
                 </p>
                 <p className="text-muted-foreground leading-relaxed text-lg mb-8">
-                  Over the last decade, we've evolved into a global digital powerhouse. We don't just build websites; we engineer digital ecosystems that dominate markets.
+                  Over the last decade, we&apos;ve evolved into a global digital powerhouse. We don&apos;t just build websites; we engineer digital ecosystems that dominate markets.
                 </p>
 
                 <div className="grid grid-cols-2 gap-8 py-6 border-t border-white/10">
@@ -140,7 +140,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="aspect-square rounded-2xl overflow-hidden">
+                <div className="aspect-square rounded-2xl overflow-hidden relative">
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=800&fit=crop"
                     alt="Team collaboration"

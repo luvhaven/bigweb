@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, Variants } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 interface LetterRevealProps {
     text: string
@@ -48,12 +49,18 @@ export default function LetterReveal({
         },
     }
 
+    // Force animation trigger if parent doesn't propagate
+    const [shouldAnimate, setShouldAnimate] = useState(false)
+    useEffect(() => {
+        setShouldAnimate(true)
+    }, [])
+
     return (
         <motion.span
             className={`inline-block ${className}`}
             variants={container}
             initial="hidden"
-            animate="visible"
+            animate={shouldAnimate ? "visible" : "hidden"}
         >
             {words.map((word, index) => (
                 <span key={index} className="inline-block whitespace-nowrap mr-[0.3em] last:mr-0">

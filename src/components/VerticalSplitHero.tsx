@@ -130,7 +130,7 @@ export default function VerticalSplitHero() {
       <div className="relative z-10 h-full grid grid-cols-1 lg:grid-cols-12">
 
         {/* Left Content Panel */}
-        <div className="lg:col-span-5 h-full flex flex-col justify-center px-6 lg:px-12 relative">
+        <div className="lg:col-span-5 h-full flex flex-col justify-center px-6 lg:px-12 relative pt-40 lg:pt-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide}

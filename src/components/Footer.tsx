@@ -152,38 +152,37 @@ export default function Footer() {
                 Contact
                 <span className="h-px flex-1 bg-border ml-4" />
               </h3>
-              <ul className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <MapPin className="w-5 h-5 text-accent" />
+              <ul className="flex flex-col gap-6">
+                <li className="flex gap-3 items-center">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-accent" />
                   </div>
                   <div>
-                    <h4 className="font-medium mb-1">Visit Us</h4>
-                    <p className="text-sm text-muted-foreground">
-                      123 Innovation Dr,<br />
-                      Tech City, TC 90210
+                    <h4 className="font-medium text-sm mb-0.5">Global Presence</h4>
+                    <p className="text-xs text-muted-foreground whitespace-nowrap">
+                      North America, Europe, Asia & Africa
                     </p>
                   </div>
                 </li>
-                <li className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <Mail className="w-5 h-5 text-accent" />
+                <li className="flex gap-3 items-center">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-accent" />
                   </div>
                   <div>
-                    <h4 className="font-medium mb-1">Email Us</h4>
-                    <a href="mailto:hello@bigwebdigital.com" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                    <h4 className="font-medium text-sm mb-0.5">Email Us</h4>
+                    <a href="mailto:hello@bigwebdigital.com" className="text-xs text-muted-foreground hover:text-accent transition-colors">
                       hello@bigwebdigital.com
                     </a>
                   </div>
                 </li>
-                <li className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <Phone className="w-5 h-5 text-accent" />
+                <li className="flex gap-3 items-center">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-accent" />
                   </div>
                   <div>
-                    <h4 className="font-medium mb-1">Call Us</h4>
-                    <a href="tel:+15551234567" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                      +1 (555) 123-4567
+                    <h4 className="font-medium text-sm mb-0.5">Call Us</h4>
+                    <a href="tel:+2347030576537" className="text-xs text-muted-foreground hover:text-accent transition-colors">
+                      +234 (703) 057-6537
                     </a>
                   </div>
                 </li>
@@ -197,6 +196,21 @@ export default function Footer() {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} BigWeb Digital. All rights reserved.
           </p>
+
+          {/* Text-based Social Links */}
+          <div className="flex gap-6 items-center">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors uppercase tracking-wider"
+                aria-label={social.label}
+              >
+                {social.label}
+              </a>
+            ))}
+          </div>
+
           <div className="flex gap-6">
             {footerLinks.legal.map((link) => (
               <Link

@@ -338,16 +338,17 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
           </motion.div>
         </div>
 
-        {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
+        {/* Masonry Layout */}
+        <div className="columns-1 md:columns-2 lg:columns-2 gap-8 space-y-8">
           <AnimatePresence mode="popLayout">
             {visibleProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                isTouch={isTouch}
-              />
+              <div key={project.id} className="break-inside-avoid mb-8">
+                <ProjectCard
+                  project={project}
+                  index={index}
+                  isTouch={isTouch}
+                />
+              </div>
             ))}
           </AnimatePresence>
         </div>

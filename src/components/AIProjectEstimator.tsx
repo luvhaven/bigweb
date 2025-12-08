@@ -76,6 +76,7 @@ const services = [
 ]
 
 const scopes = [
+    { id: 'micro', label: 'Micro / Starter', multiplier: 0.5, duration: '2-4 weeks', description: 'Core essentials for budget-conscious launches.' },
     { id: 'market-entry', label: 'MVP / Market Entry', multiplier: 1.0, duration: '8-12 weeks', description: 'Essential features to validate product-market fit.' },
     { id: 'scale-growth', label: 'Growth & Scale', multiplier: 1.5, duration: '3-5 months', description: 'Robust feature set for scaling user base and revenue.' },
     { id: 'enterprise', label: 'Enterprise / Global', multiplier: 2.5, duration: '6-9 months', description: 'Full-scale ecosystem with maximum security and compliance.' }

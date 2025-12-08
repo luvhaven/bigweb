@@ -170,7 +170,7 @@ const AdvancedNavigation = () => {
             </Link>
             <div className="hidden md:flex items-center gap-8">
               {menuItems.map((item) => (
-                <Link key={item.path} href={item.path} className="text-sm hover:text-accent transition-colors">
+                <Link key={item.path} href={item.path} className="text-sm hover:text-accent transition-colors font-medium">
                   {item.name}
                 </Link>
               ))}
@@ -383,7 +383,7 @@ const AdvancedNavigation = () => {
                     whileHover={{ scale: 1.5 }}
                   />
                   <motion.div
-                    className={`text-sm uppercase letter-spacing-wide transition-smooth relative group cursor-pointer px-2 py-2 rounded-sm focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${isActive ? 'text-accent' : 'text-muted-foreground hover:text-foreground'
+                    className={`text-sm uppercase letter-spacing-wide transition-smooth relative group cursor-pointer px-2 py-2 rounded-sm focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 font-bold ${isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent'
                       }`}
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -422,7 +422,7 @@ const AdvancedNavigation = () => {
                     className="relative z-10 flex items-center gap-2"
                     whileHover={{ scale: 1.05 }}
                   >
-                    LET'S TALK
+                    LET&apos;S TALK
                     <motion.span
                       animate={{ x: [0, 3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -489,6 +489,14 @@ const AdvancedNavigation = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               className="fixed inset-0 bg-background z-40 md:hidden overflow-y-auto"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 100) {
+                  setIsMenuOpen(false);
+                }
+              }}
             >
               {/* Navbar Header (fixed) */}
               <div className="sticky top-0 z-50 bg-background border-b border-border px-6 py-4">
@@ -503,10 +511,15 @@ const AdvancedNavigation = () => {
                     </motion.div>
                   </Link>
 
+                  {/* Swipe hint */}
+                  <div className="text-xs text-muted-foreground/50 animate-pulse">
+                    Swipe right to close →
+                  </div>
+
                   {/* Close Button */}
                   <button
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-foreground"
+                    className="text-foreground p-2 -mr-2 active:bg-accent/10 rounded-full transition-colors"
                     aria-label="Close menu"
                   >
                     <X className="w-6 h-6" />
@@ -629,7 +642,7 @@ const AdvancedNavigation = () => {
                           size="lg"
                           className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
                         >
-                          LET'S TALK
+                          LET&apos;S TALK
                         </Button>
                       </motion.div>
                     </Link>

@@ -1,5 +1,6 @@
 
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import { Suspense } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Providers from '@/components/Providers'
 import { Toaster } from 'react-hot-toast'
@@ -9,6 +10,24 @@ import '../src/styles/luxury-polish.css'
 import '../src/styles/elite-design-system.css'
 import '../src/styles/animations.css'
 import '../src/styles/accessibility.css'
+
+import CustomCursor from '@/components/ui/CustomCursor'
+import ScrollProgressIndicator from '@/components/ui/ScrollProgressIndicator'
+import RippleEffect from '@/components/effects/RippleEffect'
+import ToastContainer from '@/components/ui/elite-toast'
+import ExitIntentModal from '@/components/conversion/ExitIntentModal'
+import StickyCTA from '@/components/conversion/StickyCTA'
+import LiveVisitorCounter from '@/components/trust/LiveVisitorCounter'
+import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
+import LiveChatWidget from '@/components/LiveChatWidget'
+
+export const viewport: Viewport = {
+  themeColor: '#121212',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bigwebdigital.com'),
@@ -38,15 +57,19 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  // icons: {
-  //   icon: [
-  //     { url: '/favicon.svg', type: 'image/svg+xml' },
-  //     { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' }
-  //   ],
-  //   shortcut: '/favicon.ico',
-  //   apple: '/apple-touch-icon.png',
-  // },
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' }
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'BIGWEB Digital',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -84,16 +107,8 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'your-google-site-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // bing: 'your-bing-verification-code',
   },
 }
-
-import CustomCursor from '@/components/ui/CustomCursor'
-import ScrollProgressIndicator from '@/components/ui/ScrollProgressIndicator'
-import AnalyticsTracker from '@/components/AnalyticsTracker'
-import AmbientMusicPlayer from '@/components/ui/AmbientMusicPlayer'
-import LiveChatWidget from '@/components/LiveChatWidget'
 
 export default function RootLayout({
   children,
@@ -103,8 +118,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        <meta name="theme-color" content="#121212" />
+        {/* Viewport and theme-color are handled by export const viewport */}
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <OrganizationSchema />
@@ -124,18 +138,23 @@ export default function RootLayout({
         />
         <CustomCursor />
         <ScrollProgressIndicator />
+        <RippleEffect />
         <Providers>
           <ErrorBoundary>
-            {/* <AnalyticsTracker /> */}
+            <Suspense fallback={null}>
+              <AnalyticsAdvanced />
+            </Suspense>
             <div id="main-content" className="page-transition">
               {children}
             </div>
-            {/* <MagneticEffect /> */}
-            {/* <AmbientMusicPlayer /> */}
           </ErrorBoundary>
         </Providers>
         <LiveChatWidget />
+        <ExitIntentModal />
+        <ToastContainer />
         <Toaster position="bottom-right" />
+        <StickyCTA />
+        <LiveVisitorCounter />
       </body>
     </html>
   )
