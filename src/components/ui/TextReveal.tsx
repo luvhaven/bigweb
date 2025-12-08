@@ -25,16 +25,24 @@ export default function TextReveal({
     if (type === 'char') {
         return (
             <span ref={ref} className={className}>
-                {chars.map((char, i) => (
-                    <motion.span
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.5, delay: delay + i * 0.03, ease: [0.2, 0.65, 0.3, 0.9] }}
-                        className="inline-block"
-                    >
-                        {char === " " ? "\u00A0" : char}
-                    </motion.span>
+                {words.map((word, wordIndex) => (
+                    <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
+                        {word.split("").map((char, charIndex) => (
+                            <motion.span
+                                key={`${wordIndex}-${charIndex}`}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{
+                                    duration: 0.5,
+                                    delay: delay + (wordIndex * 5 + charIndex) * 0.03, // Adjusted delay for smoother flow
+                                    ease: [0.2, 0.65, 0.3, 0.9]
+                                }}
+                                className="inline-block"
+                            >
+                                {char}
+                            </motion.span>
+                        ))}
+                    </span>
                 ))}
             </span>
         )

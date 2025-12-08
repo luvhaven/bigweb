@@ -1,9 +1,7 @@
-
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Providers from '@/components/Providers'
-import { Toaster } from 'react-hot-toast'
 import { OrganizationSchema } from '@/components/seo/JsonLd'
 import '../src/index.css'
 import '../src/styles/luxury-polish.css'
@@ -14,7 +12,6 @@ import '../src/styles/accessibility.css'
 import CustomCursor from '@/components/ui/CustomCursor'
 import ScrollProgressIndicator from '@/components/ui/ScrollProgressIndicator'
 import RippleEffect from '@/components/effects/RippleEffect'
-import ToastContainer from '@/components/ui/elite-toast'
 import ExitIntentModal from '@/components/conversion/ExitIntentModal'
 import StickyCTA from '@/components/conversion/StickyCTA'
 import LiveVisitorCounter from '@/components/trust/LiveVisitorCounter'
@@ -43,6 +40,8 @@ export const metadata: Metadata = {
     'mobile app development',
     'AI automation',
     'SEO services',
+    'GAIO (Generative AI Optimization)',
+    'AI Search Ranking',
     'digital transformation',
     'enterprise software',
     'Next.js development',
@@ -105,9 +104,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-site-verification-code',
-  },
 }
 
 export default function RootLayout({
@@ -151,8 +147,7 @@ export default function RootLayout({
         </Providers>
         <LiveChatWidget />
         <ExitIntentModal />
-        <ToastContainer />
-        <Toaster position="bottom-right" />
+
         <StickyCTA />
         <LiveVisitorCounter />
       </body>

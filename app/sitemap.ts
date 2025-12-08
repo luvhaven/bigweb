@@ -32,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'seo-marketing',
         'analytics',
         'conversion-optimization',
+        'gaio',
+        'maintenance',
     ].map((service) => ({
         url: `${baseUrl}/services/${service}`,
         lastModified: currentDate,

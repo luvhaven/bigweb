@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone, ArrowRight, Sparkles, Send } from 'lucide-react'
+import { Mail, MapPin, Phone, ArrowRight, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
@@ -34,10 +34,10 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { href: '#', label: 'Facebook' },
+  { href: '#', label: 'Twitter' },
+  { href: '#', label: 'Instagram' },
+  { href: '#', label: 'LinkedIn' },
 ]
 
 export default function Footer() {
@@ -88,18 +88,7 @@ export default function Footer() {
               </form>
             </div>
 
-            <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-white transition-all duration-300 hover:scale-110"
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
+
           </div>
 
           {/* Links Columns */}

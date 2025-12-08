@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ParticleBackground from '@/components/effects/ParticleBackground'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import { useTouchDevice } from '@/hooks/useTouchDevice'
-import LetterReveal from '@/components/ui/LetterReveal'
+import TextReveal from '@/components/ui/TextReveal'
 import MagneticButton from '@/components/ui/MagneticButton'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -154,15 +154,17 @@ export default function VerticalSplitHero() {
               </motion.div>
 
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-                <LetterReveal
+                <TextReveal
                   text={slides[activeSlide].title.split(' ')[0]}
                   className="block text-foreground"
                   delay={0.2}
+                  type="char"
                 />
                 <span className="block gradient-text-luxury">
-                  <LetterReveal
+                  <TextReveal
                     text={slides[activeSlide].title.split(' ').slice(1).join(' ')}
                     delay={0.5}
+                    type="char"
                   />
                 </span>
               </h1>
