@@ -173,7 +173,7 @@ export default function VerticalSplitHero() {
                 {slides[activeSlide].description}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up animation-stagger-5">
+              <div className="flex flex-col sm:flex-row gap-6 pt-4 animate-fade-up animation-stagger-5">
                 <Link href={slides[activeSlide].ctaLink}>
                   <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent-dark text-white rounded-full px-8 py-6 text-lg shadow-glow transition-all hover:scale-105 relative overflow-hidden group">
                     <span className="relative z-10 flex items-center">

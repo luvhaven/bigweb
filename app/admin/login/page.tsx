@@ -49,20 +49,38 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      // Verify Supabase connection
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+        toast.error('Configuration Error: Supabase URL not found. Please contact administrator.')
+        console.error('NEXT_PUBLIC_SUPABASE_URL is not defined')
+        return
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
       if (error) {
-        toast.error(error.message)
+        // Provide specific error messages
+        if (error.message.includes('Invalid login credentials')) {
+          toast.error('Invalid email or password. Please try again.')
+        } else if (error.message.includes('Email not confirmed')) {
+          toast.error('Please verify your email address before logging in.')
+        } else {
+          toast.error(error.message)
+        }
+        console.error('Login error:', error)
         return
       }
 
-      toast.success('Welcome back!')
-      router.push('/admin')
+      if (data.session) {
+        toast.success('Welcome back!')
+        router.replace('/admin')
+      }
     } catch (error) {
-      toast.error('An unexpected error occurred')
+      console.error('Unexpected error:', error)
+      toast.error('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
