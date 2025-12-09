@@ -36,7 +36,7 @@ import {
 } from '@/components/ui/dialog'
 import { useTestimonials, useDeleteTestimonial, useUpdateTestimonial } from '@/hooks/useAdminData'
 import { cn } from '@/lib/utils'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 export default function TestimonialsPage() {
     const { data: testimonials, isLoading, error } = useTestimonials()

@@ -36,7 +36,7 @@ import {
 import { useContacts, useUpdateContactStatus } from '@/hooks/useAdminData'
 import { cn } from '@/lib/utils'
 import { formatDistanceToNow } from 'date-fns'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 const statusConfig = {
     new: { label: 'New', color: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },

@@ -7,7 +7,7 @@ import { Eye, EyeOff, Lock, Mail, Loader2, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { supabase } from '@/utils/supabase'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')

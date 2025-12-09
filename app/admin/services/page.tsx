@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/dialog'
 import { useServices, useDeleteService, useUpdateService } from '@/hooks/useAdminData'
 import { cn } from '@/lib/utils'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 // Icon mapping for services
 const serviceIcons: Record<string, string> = {

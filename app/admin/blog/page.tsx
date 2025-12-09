@@ -40,7 +40,7 @@ import {
 import { useBlogPosts, useDeleteBlogPost, useUpdateBlogPost } from '@/hooks/useAdminContent'
 import { cn } from '@/lib/utils'
 import { formatDistanceToNow, format } from 'date-fns'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 const categoryColors: Record<string, string> = {
     'Web Development': 'bg-blue-500/10 text-blue-500 border-blue-500/20',

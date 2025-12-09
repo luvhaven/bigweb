@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/select'
 import { useCreateBlogPost } from '@/hooks/useAdminContent'
 import Link from 'next/link'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 const categories = [
     'Web Development',

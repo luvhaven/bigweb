@@ -38,7 +38,7 @@ import {
 import { useMediaFiles, useUploadMedia, useDeleteMedia } from '@/hooks/useAdminContent'
 import { cn } from '@/lib/utils'
 import { formatDistanceToNow } from 'date-fns'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 const folders = [
     { name: 'All Files', value: null },

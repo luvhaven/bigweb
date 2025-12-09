@@ -39,7 +39,7 @@ import {
 } from '@/components/ui/dialog'
 import { useProjects, useDeleteProject, useUpdateProject } from '@/hooks/useAdminData'
 import { cn } from '@/lib/utils'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 export default function PortfolioPage() {
     const { data: projects, isLoading, error } = useProjects()

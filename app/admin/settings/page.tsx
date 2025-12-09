@@ -19,7 +19,7 @@ import { Label } from '@/components/ui/label'
 import { GlassCard, SectionHeader, Skeleton } from '@/components/admin/ui/GlassCard'
 import { Switch } from '@/components/ui/switch'
 import { useSiteSettings, useUpdateSiteSetting } from '@/hooks/useAdminContent'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 export default function SettingsPage() {
   const { data: settings, isLoading, error } = useSiteSettings()

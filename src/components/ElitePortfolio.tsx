@@ -75,7 +75,7 @@ const MOCK_PROJECTS = [
     title: 'EcoSmart Home',
     category: 'IoT',
     description: 'Smart home automation app for energy efficiency',
-    image_url: 'https://images.unsplash.com/photo-1585503416928-3268c01275e6?w=800&q=80',
+    image_url: 'https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=1200',
     created_at: new Date().toISOString()
   },
   {
