@@ -24,7 +24,7 @@ const services = [
         title: 'Brand Metamorphosis',
         icon: Palette,
         description: 'Redefine your market presence with a world-class identity system.',
-        basePrice: 6000,
+        basePrice: 3000,
         multiplier: 1.2,
         features: ['Strategic Brand Positioning', 'Visual Identity System', 'Motion Design Guidelines', 'Brand Voice & Tone']
     },
@@ -33,7 +33,7 @@ const services = [
         title: 'Bespoke Digital Platform',
         icon: Code,
         description: 'Engineered for scalability, security, and high-performance.',
-        basePrice: 10000,
+        basePrice: 5000,
         multiplier: 1.5,
         features: ['Microservices Architecture', 'Headless CMS Integration', 'Advanced API Development', 'Bank-Grade Security']
     },
@@ -42,7 +42,7 @@ const services = [
         title: 'Mobile Experience Ecosystem',
         icon: Smartphone,
         description: 'Native-quality experiences across all devices and touchpoints.',
-        basePrice: 14000,
+        basePrice: 7000,
         multiplier: 1.8,
         features: ['iOS & Android Native/React Native', 'Offline-First Architecture', 'Biometric Authentication', 'Real-time Sync']
     },
@@ -51,7 +51,7 @@ const services = [
         title: 'Enterprise Commerce Core',
         icon: Globe,
         description: 'Global-ready e-commerce infrastructure for high-volume sales.',
-        basePrice: 16000,
+        basePrice: 8000,
         multiplier: 2.0,
         features: ['Multi-Currency/Language', 'AI Product Recommendations', 'Automated Inventory Sync', 'Conversion Rate Optimization']
     },
@@ -60,7 +60,7 @@ const services = [
         title: 'Growth & Dominance Engine',
         icon: TrendingUp,
         description: 'Data-driven marketing infrastructure to capture market share.',
-        basePrice: 3200,
+        basePrice: 1600,
         multiplier: 1.1,
         features: ['Technical SEO Audit', 'Content Strategy Engine', 'Conversion Funnel Optimization', 'Competitor Analysis']
     },
@@ -69,7 +69,7 @@ const services = [
         title: 'AI & Business Intelligence',
         icon: Brain,
         description: 'Unlock actionable insights with custom AI and data dashboards.',
-        basePrice: 4800,
+        basePrice: 2400,
         multiplier: 1.3,
         features: ['Predictive Analytics', 'Custom LLM Integration', 'Real-time KPI Dashboards', 'Automated Reporting']
     }
@@ -89,12 +89,12 @@ const timelines = [
 ]
 
 const additionalFeatures = [
-    { id: 'ai-integration', label: 'Generative AI Integration', price: 4800, icon: Sparkles, desc: 'Chatbots, content gen, etc.' },
-    { id: 'custom-animations', label: 'Cinematic Motion UI', price: 2000, icon: Zap, desc: 'Award-winning interactions' },
-    { id: 'multi-language', label: 'Global Localization', price: 3200, icon: Globe, desc: 'i18n architecture' },
-    { id: '24-7-support', label: 'White-Glove SLA Support', price: 6000, icon: Shield, desc: '24/7 priority access' },
-    { id: 'seo-optimization', label: 'Technical SEO Suite', price: 2400, icon: TrendingUp, desc: 'Core Web Vitals max' },
-    { id: 'analytics-dashboard', label: 'Executive Data Suite', price: 2800, icon: LineChart, desc: 'Real-time insights' }
+    { id: 'ai-integration', label: 'Generative AI Integration', price: 2400, icon: Sparkles, desc: 'Chatbots, content gen, etc.' },
+    { id: 'custom-animations', label: 'Cinematic Motion UI', price: 1000, icon: Zap, desc: 'Award-winning interactions' },
+    { id: 'multi-language', label: 'Global Localization', price: 1600, icon: Globe, desc: 'i18n architecture' },
+    { id: '24-7-support', label: 'White-Glove SLA Support', price: 3000, icon: Shield, desc: '24/7 priority access' },
+    { id: 'seo-optimization', label: 'Technical SEO Suite', price: 1200, icon: TrendingUp, desc: 'Core Web Vitals max' },
+    { id: 'analytics-dashboard', label: 'Executive Data Suite', price: 1400, icon: LineChart, desc: 'Real-time insights' }
 ]
 
 export default function AIProjectEstimator({ mode = 'section' }: AIProjectEstimatorProps) {
@@ -630,25 +630,6 @@ export default function AIProjectEstimator({ mode = 'section' }: AIProjectEstima
                                                 <p className="text-xs text-muted-foreground mt-2">
                                                     *Based on industry averages for similar digital transformations.
                                                 </p>
-                                            </div>
-
-                                            <div className="grid grid-cols-2 gap-3 pt-4">
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-full gap-2 border-white/10 hover:bg-white/5"
-                                                    onClick={() => toast.success('Downloading Estimate PDF...')}
-                                                >
-                                                    <Download className="w-4 h-4" />
-                                                    PDF
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-full gap-2 border-white/10 hover:bg-white/5"
-                                                    onClick={() => toast.success('Share link copied to clipboard')}
-                                                >
-                                                    <Share2 className="w-4 h-4" />
-                                                    Share
-                                                </Button>
                                             </div>
                                         </div>
                                     ) : (

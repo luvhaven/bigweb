@@ -22,6 +22,16 @@ const projects = [
     results: "+300% Revenue Growth",
   },
   {
+    id: "ecosmart",
+    title: "EcoSmart Home",
+    category: "IoT Dashboard",
+    image: "https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=1200",
+    description: "Smart home energy monitoring dashboard",
+    // Note: The original project objects do not have 'tags', 'link', 'colSpan', 'rowSpan'.
+    // Adding 'results' to match existing project structure.
+    results: "Enhanced Efficiency",
+  },
+  {
     id: "stellar",
     title: "Stellar",
     category: "Blockchain Network",

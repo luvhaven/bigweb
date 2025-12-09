@@ -10,7 +10,7 @@ import Link from "next/link";
 const pricingPlans = [
   {
     name: "Starter",
-    price: "$5,000",
+    price: "$2,500",
     duration: "per project",
     description: "Perfect for small businesses and startups",
     features: [
@@ -26,7 +26,7 @@ const pricingPlans = [
   },
   {
     name: "Professional",
-    price: "$12,000",
+    price: "$6,000",
     duration: "per project",
     description: "Ideal for growing businesses",
     features: [
@@ -44,7 +44,7 @@ const pricingPlans = [
   },
   {
     name: "Enterprise",
-    price: "$25,000+",
+    price: "$12,500+",
     duration: "per project",
     description: "For large-scale projects",
     features: [
@@ -92,9 +92,8 @@ const PricingCard = ({ plan, index }: { plan: typeof pricingPlans[0]; index: num
       )}
 
       <Card
-        className={`group relative overflow-hidden bg-card border-2 transition-all duration-500 h-full ${
-          plan.popular ? "border-accent shadow-2xl shadow-accent/20" : "border-border hover:border-accent"
-        }`}
+        className={`group relative overflow-hidden bg-card border-2 transition-all duration-500 h-full ${plan.popular ? "border-accent shadow-2xl shadow-accent/20" : "border-border hover:border-accent"
+          }`}
       >
         {/* Gradient overlay on hover */}
         <motion.div
@@ -143,11 +142,10 @@ const PricingCard = ({ plan, index }: { plan: typeof pricingPlans[0]; index: num
           {/* CTA Button */}
           <Link href="/contact">
             <Button
-              className={`w-full ${
-                plan.popular
-                  ? "bg-accent hover:bg-accent/90"
-                  : "bg-secondary hover:bg-secondary/80 border border-border hover:border-accent"
-              } text-foreground letter-spacing-wide group/btn relative overflow-hidden transition-all duration-300`}
+              className={`w-full ${plan.popular
+                ? "bg-accent hover:bg-accent/90"
+                : "bg-secondary hover:bg-secondary/80 border border-border hover:border-accent"
+                } text-foreground letter-spacing-wide group/btn relative overflow-hidden transition-all duration-300`}
               size="lg"
             >
               <span className="relative z-10">Get Started</span>

@@ -45,11 +45,11 @@ export default function HeroPremium({
                         src={backgroundImage}
                         alt="Hero Background"
                         fill
-                        className="object-cover opacity-30"
+                        className="object-cover opacity-20"
                         priority
                         quality={90}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
                     <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
                 </div>
             )}
@@ -64,7 +64,7 @@ export default function HeroPremium({
                     style={{ y: y2, opacity }}
                     className={`absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-${themeColor}-500/10 blur-[100px]`}
                 />
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-50" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10 pt-20">
@@ -79,19 +79,22 @@ export default function HeroPremium({
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2, duration: 0.5 }}
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${themeColor}-500/5 border border-${themeColor}-500/10 mb-8 backdrop-blur-sm`}
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${themeColor}-500/10 border border-${themeColor}-500/20 mb-8 backdrop-blur-md`}
                         >
-                            <span className={`w-2 h-2 rounded-full bg-${themeColor}-500 animate-pulse`} />
-                            <span className={`text-sm font-medium text-${themeColor}-500 tracking-wide uppercase`}>
+                            <span className="relative flex h-2 w-2">
+                                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${themeColor}-500 opacity-75`}></span>
+                                <span className={`relative inline-flex rounded-full h-2 w-2 bg-${themeColor}-500`}></span>
+                            </span>
+                            <span className={`text-sm font-medium text-${themeColor}-400 tracking-wide uppercase`}>
                                 {badgeText}
                             </span>
                         </motion.div>
 
                         {/* Main Title */}
-                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[0.9]">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-tight">
                             {title}
                             <br />
-                            <span className={`text-transparent bg-clip-text bg-gradient-to-r from-${themeColor}-500 to-${themeColor}-400`}>
+                            <span className={`text-transparent bg-clip-text bg-gradient-to-r from-${themeColor}-400 via-${themeColor}-500 to-${themeColor}-400`}>
                                 {highlight}
                             </span>
                         </h1>

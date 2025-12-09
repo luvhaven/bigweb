@@ -1,9 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
+import Navigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
 import HeroPremium from '@/components/services/HeroPremium'
 import BentoGrid from '@/components/services/BentoGrid'
 import ProcessTimeline from '@/components/services/ProcessTimeline'
+import RelatedServices from '@/components/services/RelatedServices'
 import { Shield, Zap, Search, Bot, RefreshCw, BarChart, Lock, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -89,6 +92,8 @@ export default function MaintenancePage() {
 
     return (
         <main className="min-h-screen bg-background">
+            <Navigation />
+
             <HeroPremium
                 title="Website Maintenance &"
                 highlight="AI Optimization"
@@ -130,6 +135,9 @@ export default function MaintenancePage() {
                     </Link>
                 </div>
             </section>
+
+            <RelatedServices currentPath="/services/maintenance" />
+            <Footer />
         </main>
     )
 }

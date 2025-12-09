@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ArrowRight, Gift } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function ExitIntentModal() {
     const [isVisible, setIsVisible] = useState(false)
@@ -44,7 +45,7 @@ export default function ExitIntentModal() {
 
                         <button
                             onClick={() => setIsVisible(false)}
-                            className="absolute top-4 right-4 p-2 text-white/40 hover:text-white transition-colors"
+                            className="absolute top-4 right-4 z-50 p-2 text-white/40 hover:text-white transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>
@@ -63,13 +64,16 @@ export default function ExitIntentModal() {
                             </p>
 
                             <div className="flex flex-col gap-3">
-                                <Button
-                                    size="lg"
-                                    className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold h-12 text-lg group"
-                                >
-                                    Claim My Free Audit
-                                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                                </Button>
+                                <Link href="/contact">
+                                    <Button
+                                        size="lg"
+                                        onClick={() => setIsVisible(false)}
+                                        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold h-12 text-lg group"
+                                    >
+                                        Claim My Free Audit
+                                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </Button>
+                                </Link>
                                 <button
                                     onClick={() => setIsVisible(false)}
                                     className="text-white/40 hover:text-white text-sm mt-2 transition-colors"

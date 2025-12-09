@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import RelatedServices from '@/components/services/RelatedServices'
 
 const features = [
   {
@@ -178,6 +179,7 @@ export default function EcommercePage() {
         title="E-Commerce That"
         highlight="Drives Sales"
         description="Build online stores that convert browsers into buyers. Secure, scalable, and optimized for revenue growth."
+        badgeText="E-Commerce Solutions"
         themeColor="orange"
       />
 
@@ -378,6 +380,8 @@ export default function EcommercePage() {
           </motion.div>
         </div>
       </section>
+
+      <RelatedServices currentPath="/services/ecommerce" />
 
       <Footer />
     </main>

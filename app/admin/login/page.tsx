@@ -18,15 +18,30 @@ export default function AdminLoginPage() {
   const router = useRouter()
 
   useEffect(() => {
+    let isMounted = true
+
     // Check if already logged in
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        router.push('/admin')
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session && isMounted) {
+          router.push('/admin')
+        } else if (isMounted) {
+          setCheckingSession(false)
+        }
+      } catch (error) {
+        console.error('Session check error:', error)
+        if (isMounted) {
+          setCheckingSession(false)
+        }
       }
-      setCheckingSession(false)
     }
+
     checkSession()
+
+    return () => {
+      isMounted = false
+    }
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {

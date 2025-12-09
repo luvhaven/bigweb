@@ -17,6 +17,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import serviceImage from '@/assets/service-web-dev.png'
+import RelatedServices from '@/components/services/RelatedServices'
 
 const features = [
   {
@@ -183,6 +184,7 @@ export default function WebDevelopmentPage() {
         title="Websites That Drive"
         highlight="Real Results"
         description="Custom web development that converts visitors into customers. Fast, secure, and built to scale with your business."
+        badgeText="Web Development"
         themeColor="blue"
         backgroundImage={serviceImage}
       />
@@ -382,6 +384,8 @@ export default function WebDevelopmentPage() {
           </motion.div>
         </div>
       </section>
+
+      <RelatedServices currentPath="/services/web-development" />
 
       <Footer />
       <StickyCTABar />

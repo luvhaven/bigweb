@@ -12,7 +12,8 @@ import { Bot, BrainCircuit, Sparkles, Search, MessageSquare, Database, Cpu, Netw
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, LineChart } from 'lucide-react'
+import RelatedServices from "@/components/services/RelatedServices"
 
 const features = [
     {
@@ -55,7 +56,7 @@ const features = [
     }
 ]
 
-import { LineChart } from 'lucide-react'
+
 
 const processSteps = [
     {
@@ -263,6 +264,8 @@ export default function GAIOPage() {
                     </motion.div>
                 </div>
             </section>
+
+            <RelatedServices currentPath="/services/gaio" />
 
             <Footer />
         </main>

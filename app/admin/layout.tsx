@@ -86,30 +86,60 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             return
         }
 
+        let isMounted = true
+
         const checkAuth = async () => {
-            // Small delay to ensure session is restored from storage
-            await new Promise(resolve => setTimeout(resolve, 500))
-            const { data: { session } } = await supabase.auth.getSession()
-            if (!session) {
-                router.push('/admin/login')
-                return
+            try {
+                // Debug log to verify env vars
+                console.log('Checking Admin Auth...')
+                console.log('Supabase URL defined:', !!process.env.NEXT_PUBLIC_SUPABASE_URL)
+
+                // Small delay to ensure session is restored from storage
+                await new Promise(resolve => setTimeout(resolve, 300))
+
+                if (!isMounted) return
+
+                const { data: { session }, error } = await supabase.auth.getSession()
+
+                if (!isMounted) return
+
+                if (!session && !error) {
+                    // Use replace to avoid adding to history and causing loops
+                    router.replace('/admin/login')
+                    return
+                }
+
+                if (session) {
+                    setUser(session.user)
+                }
+                setLoading(false)
+            } catch (error) {
+                console.error('Auth check error:', error)
+                if (isMounted) {
+                    setLoading(false)
+                    router.replace('/admin/login')
+                }
             }
-            setUser(session.user)
-            setLoading(false)
         }
 
         checkAuth()
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            if (!isMounted) return
+
             if (event === 'SIGNED_OUT') {
-                router.push('/admin/login')
-            } else if (session) {
+                router.replace('/admin/login')
+            } else if (event === 'SIGNED_IN' && session) {
                 setUser(session.user)
+                setLoading(false)
             }
         })
 
-        return () => subscription.unsubscribe()
-    }, [router, isLoginPage])
+        return () => {
+            isMounted = false
+            subscription.unsubscribe()
+        }
+    }, [router, pathname])
 
     const handleSignOut = async () => {
         await supabase.auth.signOut()

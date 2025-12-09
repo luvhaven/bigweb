@@ -25,8 +25,8 @@ export default function BeforeAfterSlider({
 }: Partial<BeforeAfterSliderProps>) {
 
     // Overriding check for demo purposes if no props provided
-    const img1 = "/assets/website-before.png"
-    const img2 = "/assets/website-after.png"
+    const img1 = "/assets/website-before.png?v=2"
+    const img2 = "/assets/website-after.png?v=2"
 
     const [sliderPosition, setSliderPosition] = useState(50)
     const [isDragging, setIsDragging] = useState(false)

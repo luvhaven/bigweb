@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowRight, Code, Smartphone, ShoppingCart, Search, BarChart, Palette, Brain, TrendingUp, Bot } from "lucide-react";
+import { Menu, X, ArrowRight, Code, Smartphone, ShoppingCart, Search, BarChart, Palette, Brain, TrendingUp, Bot, Shield, Users } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import Link from "next/link";
@@ -83,9 +83,17 @@ const services = [
     thumbnail: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80"
   },
   {
+    name: "Staff Augmentation",
+    path: "/services/staff-augmentation",
+    icon: Users,
+    description: "Scale your team instantly",
+    color: "from-blue-600 to-indigo-600",
+    thumbnail: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80"
+  },
+  {
     name: "Website Maintenance",
     path: "/services/maintenance",
-    icon: Bot,
+    icon: Shield,
     description: "24/7 security, speed & uptime",
     color: "from-green-600 to-emerald-600",
     thumbnail: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80"
@@ -159,30 +167,9 @@ const AdvancedNavigation = () => {
     { name: "Estimator", path: "/estimator" },
   ];
 
-  // Show simple nav during SSR/hydration to prevent scroll errors
+  // Handle hydration to prevent mismatches
   if (!isMounted) {
-    return (
-      <nav className="fixed top-0 left-0 right-0 z-[100] bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <Link href="/" className="text-2xl font-bold gradient-text-luxury">
-              <BrandLogo className="h-8 w-auto text-foreground" />
-            </Link>
-            <div className="hidden md:flex items-center gap-8">
-              {menuItems.map((item) => (
-                <Link key={item.path} href={item.path} className="text-sm hover:text-accent transition-colors font-medium">
-                  {item.name}
-                </Link>
-              ))}
-              <GlobalSearch />
-              <Link href="/contact">
-                <Button variant="luxury" size="sm">Get Started</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-    )
+    return null; // Don't render anything until client-side hydration is complete to prevent FOUC
   }
 
   return (
@@ -383,7 +370,7 @@ const AdvancedNavigation = () => {
                     whileHover={{ scale: 1.5 }}
                   />
                   <motion.div
-                    className={`text-sm uppercase letter-spacing-wide transition-smooth relative group cursor-pointer px-2 py-2 rounded-sm focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 font-bold ${isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent'
+                    className={`relative z-10 text-sm uppercase letter-spacing-wide transition-smooth group cursor-pointer px-2 py-2 rounded-sm focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 font-bold ${isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent'
                       }`}
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}

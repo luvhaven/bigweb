@@ -11,7 +11,7 @@ import ParticleBackground from '@/components/effects/ParticleBackground'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import { useTouchDevice } from '@/hooks/useTouchDevice'
 import TextReveal from '@/components/ui/TextReveal'
-import MagneticButton from '@/components/ui/MagneticButton'
+
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -175,23 +175,19 @@ export default function VerticalSplitHero() {
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up animation-stagger-5">
                 <Link href={slides[activeSlide].ctaLink}>
-                  <MagneticButton>
-                    <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent-dark text-white rounded-full px-8 py-6 text-lg shadow-glow transition-all hover:scale-105 relative overflow-hidden group">
-                      <span className="relative z-10 flex items-center">
-                        {slides[activeSlide].cta}
-                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                    </Button>
-                  </MagneticButton>
+                  <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent-dark text-white rounded-full px-8 py-6 text-lg shadow-glow transition-all hover:scale-105 relative overflow-hidden group">
+                    <span className="relative z-10 flex items-center">
+                      {slides[activeSlide].cta}
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  </Button>
                 </Link>
                 <Link href="/portfolio">
-                  <MagneticButton>
-                    <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full px-8 py-6 text-lg border-white/10 hover:bg-white/5 backdrop-blur-sm relative overflow-hidden group">
-                      <span className="relative z-10">View Our Work</span>
-                      <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                    </Button>
-                  </MagneticButton>
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full px-8 py-6 text-lg border-white/10 hover:bg-white/5 backdrop-blur-sm relative overflow-hidden group">
+                    <span className="relative z-10">View Our Work</span>
+                    <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  </Button>
                 </Link>
               </div>
 

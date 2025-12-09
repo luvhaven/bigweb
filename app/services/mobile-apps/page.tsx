@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import RelatedServices from '@/components/services/RelatedServices'
 
 const features = [
   {
@@ -178,6 +179,7 @@ export default function MobileAppsPage() {
         title="Mobile Apps Users"
         highlight="Love to Use"
         description="Build iOS and Android apps that delight users and drive engagement. Fast, beautiful, and built for growth."
+        badgeText="Mobile App Development"
         themeColor="purple"
       />
 
@@ -376,6 +378,8 @@ export default function MobileAppsPage() {
           </motion.div>
         </div>
       </section>
+
+      <RelatedServices currentPath="/services/mobile-apps" />
 
       <Footer />
     </main>
