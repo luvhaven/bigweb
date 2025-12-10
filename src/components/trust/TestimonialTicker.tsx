@@ -46,14 +46,15 @@ export default function TestimonialTicker() {
             <div className="flex">
                 <motion.div
                     className="flex gap-12 whitespace-nowrap pl-4"
-                    animate={{ x: [0, -1000] }}
+                    animate={{ x: ["-50%", "0%"] }}
                     transition={{
                         repeat: Infinity,
                         duration: 40,
-                        ease: "linear"
+                        ease: "linear",
+                        repeatType: "loop"
                     }}
                 >
-                    {[...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+                    {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                         <div key={i} className="flex items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex text-orange-500">
                                 {[...Array(t.rating)].map((_, starsIndex) => (

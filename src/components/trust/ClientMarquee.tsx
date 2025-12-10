@@ -24,14 +24,15 @@ export default function ClientMarquee() {
 
                 <motion.div
                     className="flex gap-16 items-center whitespace-nowrap"
-                    animate={{ x: [0, -1000] }}
+                    animate={{ x: ["-50%", "0%"] }}
                     transition={{
                         repeat: Infinity,
                         duration: 30,
-                        ease: "linear"
+                        ease: "linear",
+                        repeatType: "loop"
                     }}
                 >
-                    {[...clients, ...clients, ...clients].map((client, i) => (
+                    {[...clients, ...clients].map((client, i) => (
                         <div key={i} className="relative w-32 h-12 grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100 cursor-pointer">
                             {/* Using placeholder images for demo - replace with real logos */}
                             <div className="w-full h-full flex items-center justify-center font-bold text-xl text-white/20 hover:text-orange-500/80 transition-colors">
