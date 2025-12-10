@@ -537,121 +537,115 @@ const AdvancedNavigation = () => {
               </div>
 
               {/* Menu Content */}
-              <div className="relative flex flex-col items-center justify-center px-6 py-12 min-h-[calc(100vh-80px)]">
-                <nav className="space-y-2 w-full max-w-sm">
-                  {/* Services Link */}
-                  <Link href="/services" onClick={() => setIsMenuOpen(false)}>
-                    <motion.div
-                      initial={{ opacity: 0, x: -100, rotate: -10 }}
-                      animate={{ opacity: 1, x: 0, rotate: 0 }}
-                      exit={{ opacity: 0, x: 100, rotate: 10 }}
-                      transition={{
-                        duration: 0.6,
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 15
-                      }}
-                      whileHover={{
-                        scale: 1.1,
-                        x: 20,
-                        color: "hsl(var(--accent))",
-                        textShadow: "0 0 20px rgba(249, 115, 22, 0.5)"
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      className="block text-4xl font-bold text-center py-4 cursor-pointer relative overflow-hidden group"
-                    >
-                      <span className="relative z-10">SERVICES</span>
+              <div className="relative flex flex-col items-center justify-start px-4 py-8 min-h-[calc(100vh-80px)] overflow-y-auto">
+                <nav className="space-y-3 w-full max-w-sm">
+                  {/* Services Section with List */}
+                  <div className="space-y-2">
+                    <Link href="/services" onClick={() => setIsMenuOpen(false)}>
                       <motion.div
-                        className="absolute inset-0 bg-accent/10 rounded-lg"
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="block text-3xl font-bold text-center py-3 cursor-pointer bg-accent/10 rounded-lg"
+                      >
+                        <span className="relative z-10">SERVICES</span>
+                      </motion.div>
+                    </Link>
+
+                    {/* Individual Services - Grid Layout */}
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ delay: 0.2, duration: 0.3 }}
+                      className="grid grid-cols-2 gap-2 px-2"
+                    >
+                      {services.map((service, index) => (
+                        <Link key={service.path} href={service.path} onClick={() => setIsMenuOpen(false)}>
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 * index, duration: 0.3 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex flex-col items-center gap-1 p-3 bg-white/5 hover:bg-accent/20 rounded-lg transition-colors min-h-[80px] justify-center"
+                          >
+                            <service.icon className="w-5 h-5 text-accent" />
+                            <span className="text-xs font-medium text-center leading-tight">{service.name}</span>
+                          </motion.div>
+                        </Link>
+                      ))}
                     </motion.div>
-                  </Link>
+                  </div>
 
                   {/* Other Menu Items */}
                   {menuItems.map((item, index) => (
                     <Link key={item.name} href={item.path} onClick={() => setIsMenuOpen(false)}>
                       <motion.div
-                        initial={{ opacity: 0, x: -100, rotate: -10 }}
-                        animate={{ opacity: 1, x: 0, rotate: 0 }}
-                        exit={{ opacity: 0, x: 100, rotate: 10 }}
-                        transition={{
-                          duration: 0.6,
-                          delay: (index + 1) * 0.1,
-                          type: "spring",
-                          stiffness: 100,
-                          damping: 15
-                        }}
-                        whileHover={{
-                          scale: 1.1,
-                          x: 20,
-                          color: "hsl(var(--accent))",
-                          textShadow: "0 0 20px rgba(249, 115, 22, 0.5)"
-                        }}
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (index + 1) * 0.1, duration: 0.4 }}
                         whileTap={{ scale: 0.95 }}
-                        className="block text-4xl font-bold text-center py-4 cursor-pointer relative overflow-hidden group"
+                        className="block text-3xl font-bold text-center py-3 cursor-pointer hover:bg-accent/10 rounded-lg transition-colors"
                       >
                         <span className="relative z-10">{item.name.toUpperCase()}</span>
-                        <motion.div
-                          className="absolute inset-0 bg-accent/10 rounded-lg"
-                          initial={{ scaleX: 0 }}
-                          whileHover={{ scaleX: 1 }}
-                          transition={{ duration: 0.3 }}
-                        />
                       </motion.div>
                     </Link>
                   ))}
+                  transition={{ duration: 0.3 }}
+                        />
+                </motion.div>
+              </Link>
+                  ))}
 
-                  {/* CTA Button */}
+              {/* CTA Button */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: 20 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.4,
+                  type: "spring",
+                  stiffness: 200
+                }}
+                className="pt-8"
+              >
+                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.5, rotate: 20 }}
-                    transition={{
-                      duration: 0.6,
-                      delay: 0.4,
-                      type: "spring",
-                      stiffness: 200
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)"
                     }}
-                    className="pt-8"
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-                      <motion.div
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)"
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button
-                          size="lg"
-                          className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
-                        >
-                          LET&apos;S TALK
-                        </Button>
-                      </motion.div>
-                    </Link>
+                    <Button
+                      size="lg"
+                      className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
+                    >
+                      LET&apos;S TALK
+                    </Button>
                   </motion.div>
-                </nav>
+                </Link>
+              </motion.div>
+            </nav>
 
                 {/* Decorative Elements */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute bottom-8 text-center w-full"
-                >
-                  <p className="text-sm text-muted-foreground">Tap any link to explore</p>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.5 }}
+            className="absolute bottom-8 text-center w-full"
+          >
+            <p className="text-sm text-muted-foreground">Tap any link to explore</p>
+          </motion.div>
       </div>
-    </motion.nav>
+    </motion.div>
+  )
+}
+        </AnimatePresence >
+      </div >
+    </motion.nav >
   );
 };
 
