@@ -591,58 +591,53 @@ const AdvancedNavigation = () => {
                       </motion.div>
                     </Link>
                   ))}
-                  transition={{ duration: 0.3 }}
-                        />
-                </motion.div>
-              </Link>
-                  ))}
 
-              {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.5, rotate: 20 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 0.4,
-                  type: "spring",
-                  stiffness: 200
-                }}
-                className="pt-8"
-              >
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                  {/* CTA Button */}
                   <motion.div
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)"
+                    initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.5, rotate: 20 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
                     }}
-                    whileTap={{ scale: 0.95 }}
+                    className="pt-8"
                   >
-                    <Button
-                      size="lg"
-                      className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
-                    >
-                      LET&apos;S TALK
-                    </Button>
+                    <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                          boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)"
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          size="lg"
+                          className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
+                        >
+                          LET&apos;S TALK
+                        </Button>
+                      </motion.div>
+                    </Link>
                   </motion.div>
-                </Link>
-              </motion.div>
-            </nav>
+                </nav>
 
                 {/* Decorative Elements */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 0.5 }}
-            className="absolute bottom-8 text-center w-full"
-          >
-            <p className="text-sm text-muted-foreground">Tap any link to explore</p>
-          </motion.div>
-      </div>
-    </motion.div>
-  )
-}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="absolute bottom-8 text-center w-full"
+                >
+                  <p className="text-sm text-muted-foreground">Tap any link to explore</p>
+                </motion.div>
+              </div>
+            </motion.div>
+          )
+          }
         </AnimatePresence >
       </div >
     </motion.nav >
