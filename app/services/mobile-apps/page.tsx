@@ -176,9 +176,9 @@ export default function MobileAppsPage() {
       </section>
 
       <HeroPremium
-        title="Mobile Apps Users"
-        highlight="Love to Use"
-        description="Build iOS and Android apps that delight users and drive engagement. Fast, beautiful, and built for growth."
+        title="Apps Your Users"
+        highlight="Open Daily"
+        description="Native iOS & Android experiences that users can't stop engaging with. Build habit-forming mobile experiences with stunning design, addictive UX, and smooth performance. Results: 4.8+ app store ratings."
         badgeText="Mobile App Development"
         themeColor="purple"
       />

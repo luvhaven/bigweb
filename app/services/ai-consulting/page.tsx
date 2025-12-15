@@ -146,6 +146,13 @@ export default function AIConsultingPage() {
 
       <Navigation />
 
+      <HeroPremium
+        title="AI Automation That"
+        highlight="Saves 20+ Hours Weekly"
+        description="Let AI handle the repetitive work. Free your team from manual tasks with intelligent automation. Results: 10x efficiency gains, $50K+ annual savings."
+        themeColor="cyan"
+      />
+
       <div className="container mx-auto px-6">
         <Breadcrumbs items={breadcrumbItems} />
       </div>
@@ -174,12 +181,7 @@ export default function AIConsultingPage() {
         </details>
       </section>
 
-      <HeroPremium
-        title="AI That Transforms"
-        highlight="Your Business"
-        description="Harness the power of AI to automate processes, predict outcomes, and unlock new growth opportunities."
-        themeColor="cyan"
-      />
+
 
       {/* Extended Content Section for SEO */}
       <section className="py-24 px-6">

@@ -178,7 +178,7 @@ export default function UIUXDesignPage() {
       <HeroPremium
         title="Designs That Users"
         highlight="Fall in Love With"
-        description="We create beautiful, intuitive experiences that delight users and drive business results. Backed by behavioral psychology and data-driven insights."
+        description="Pixel-perfect interfaces that convert visitors into loyal customers through data-driven design psychology. We create beautiful, intuitive experiences that delight users and drive business results."
         themeColor="green"
         backgroundImage={serviceImage}
       />

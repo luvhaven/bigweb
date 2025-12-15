@@ -1,15 +1,11 @@
-import { supabase } from '../supabase/client'
-import type { Database } from '../supabase/client'
-
-type Media = Database['public']['Tables']['media']['Row']
-type MediaInsert = Database['public']['Tables']['media']['Insert']
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const mediaAPI = {
     // Get all media
     async getAll(filters?: { folder?: string; mime_type?: string }) {
         let query = supabase
             .from('media')
-            .select('*, uploaded_by:profiles(full_name)')
+            .select('*, uploaded_by:admin_users(full_name:name)')
             .order('created_at', { ascending: false })
 
         if (filters?.folder) {
@@ -67,7 +63,7 @@ export const mediaAPI = {
         }
 
         // Create media record
-        const mediaData: MediaInsert = {
+        const mediaData: any = {
             filename: fileName,
             original_filename: file.name,
             file_path: publicUrl,
@@ -84,7 +80,7 @@ export const mediaAPI = {
 
         const { data, error } = await supabase
             .from('media')
-            .insert(mediaData)
+            .insert(mediaData as any)
             .select()
             .single()
 
@@ -93,10 +89,10 @@ export const mediaAPI = {
     },
 
     // Update media metadata
-    async update(id: string, updates: Partial<MediaInsert>) {
+    async update(id: string, updates: any) {
         const { data, error } = await supabase
             .from('media')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()

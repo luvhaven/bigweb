@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface Component {
     id: string
@@ -63,7 +63,7 @@ export const componentsAPI = {
     async create(component: Omit<Component, 'id' | 'created_at' | 'updated_at'>) {
         const { data, error } = await supabase
             .from('components')
-            .insert(component)
+            .insert(component as any)
             .select()
             .single()
 
@@ -75,7 +75,7 @@ export const componentsAPI = {
     async update(id: string, updates: Partial<Component>) {
         const { data, error } = await supabase
             .from('components')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -93,7 +93,7 @@ export const componentsAPI = {
 
         const { data, error } = await supabase
             .from('components')
-            .upsert(updates)
+            .upsert(updates as any)
             .select()
 
         if (error) throw error

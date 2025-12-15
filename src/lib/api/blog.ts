@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const blogAPI = {
     // Categories
@@ -14,7 +14,7 @@ export const blogAPI = {
     async createCategory(category: { name: string; slug: string; description?: string; color?: string }) {
         const { data, error } = await supabase
             .from('blog_categories')
-            .insert(category)
+            .insert(category as any)
             .select()
             .single()
         if (error) throw error
@@ -25,7 +25,7 @@ export const blogAPI = {
     async getAllPosts(filters?: { status?: string; category_id?: string }) {
         let query = supabase
             .from('blog_posts')
-            .select('*, author:profiles(full_name, avatar_url), category:blog_categories(name, slug)')
+            .select('*, author:admin_users(full_name:name, avatar_url), category:blog_categories(name, slug)')
             .order('created_at', { ascending: false })
 
         if (filters?.status) query = query.eq('status', filters.status)
@@ -39,7 +39,7 @@ export const blogAPI = {
     async getPostById(id: string) {
         const { data, error } = await supabase
             .from('blog_posts')
-            .select('*, author:profiles(full_name, avatar_url), category:blog_categories(*)')
+            .select('*, author:admin_users(full_name:name, avatar_url), category:blog_categories(*)')
             .eq('id', id)
             .single()
         if (error) throw error
@@ -49,7 +49,7 @@ export const blogAPI = {
     async getPostBySlug(slug: string) {
         const { data, error } = await supabase
             .from('blog_posts')
-            .select('*, author:profiles(full_name, avatar_url), category:blog_categories(*)')
+            .select('*, author:admin_users(full_name:name, avatar_url), category:blog_categories(*)')
             .eq('slug', slug)
             .single()
         if (error) throw error
@@ -59,7 +59,7 @@ export const blogAPI = {
     async createPost(post: any) {
         const { data, error } = await supabase
             .from('blog_posts')
-            .insert(post)
+            .insert(post as any)
             .select()
             .single()
         if (error) throw error
@@ -69,7 +69,7 @@ export const blogAPI = {
     async updatePost(id: string, updates: any) {
         const { data, error } = await supabase
             .from('blog_posts')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -88,7 +88,7 @@ export const blogAPI = {
     async publishPost(id: string) {
         const { data, error } = await supabase
             .from('blog_posts')
-            .update({ status: 'published', published_at: new Date().toISOString() })
+            .update({ status: 'published', published_at: new Date().toISOString() } as any)
             .eq('id', id)
             .select()
             .single()

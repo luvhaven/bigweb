@@ -131,6 +131,16 @@ const breadcrumbItems = [
 export default function EcommercePage() {
   return (
     <main className="min-h-screen bg-background selection:bg-orange-500/30">
+      <Navigation />
+
+      <HeroPremium
+        title="Online Stores That"
+        highlight="Maximize Every Sale"
+        description="Conversion-optimized shopping experiences with advanced payment integrations. Turn browsers into buyers and buyers into repeat customers. Results: 180% average revenue increase."
+        badgeText="E-Commerce Solutions"
+        themeColor="orange"
+      />
+
       {/* Structured Data */}
       <ServiceSchema
         name="E-Commerce Development Services"
@@ -145,9 +155,7 @@ export default function EcommercePage() {
         ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
       ]} />
 
-      <Navigation />
-
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 py-4">
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
@@ -174,14 +182,6 @@ export default function EcommercePage() {
           </div>
         </details>
       </section>
-
-      <HeroPremium
-        title="E-Commerce That"
-        highlight="Drives Sales"
-        description="Build online stores that convert browsers into buyers. Secure, scalable, and optimized for revenue growth."
-        badgeText="E-Commerce Solutions"
-        themeColor="orange"
-      />
 
       {/* Extended Content Section for SEO */}
       <section className="py-24 px-6">

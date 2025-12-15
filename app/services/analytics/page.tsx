@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, BarChart, PieChart, Activity, Database, Brain, Gauge } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumbs from '@/components/seo/Breadcrumbs'
+import HeroPremium from '@/components/services/HeroPremium'
 import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
 const breadcrumbItems = [
@@ -110,6 +111,14 @@ export default function AnalyticsPage() {
     <main className="min-h-screen bg-background">
       <Navigation />
 
+      <HeroPremium
+        title="Turn Data Into"
+        highlight="Actionable Insights"
+        description="Data-driven optimization that continuously improves conversion rates. Make smarter decisions with powerful analytics that reveal what's working and what's not."
+        badgeText="Analytics & CRO"
+        themeColor="indigo"
+      />
+
       {/* Structured Data */}
       <ServiceSchema
         name="Data Analytics & Insights"
@@ -152,93 +161,7 @@ export default function AnalyticsPage() {
         </details>
       </section>
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <motion.div className="absolute inset-0 z-0" style={{ y }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-background to-background" />
-          <motion.div
-            className="absolute top-1/4 left-1/2 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px]"
-            animate={{ scale: [1, 1.2, 1], x: [0, -30, 0] }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-        </motion.div>
 
-        <div className="container mx-auto px-6 relative z-10 text-center pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-6"
-            >
-              <BarChart className="w-4 h-4 text-indigo-500" />
-              <span className="text-sm font-semibold text-indigo-500">Analytics & Insights</span>
-            </motion.div>
-
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Turn Data Into<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
-                Actionable Insights
-              </span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Make smarter decisions with powerful analytics that reveal what's working and what's not.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white">
-                  Get Instant Estimate
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button size="lg" variant="outline">
-                  Schedule Consultation
-                </Button>
-              </Link>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16"
-            >
-              <div>
-                <div className="text-4xl font-bold text-indigo-500 mb-2">500+</div>
-                <div className="text-sm text-muted-foreground">Dashboards Built</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-indigo-500 mb-2">10B+</div>
-                <div className="text-sm text-muted-foreground">Data Points</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-indigo-500 mb-2">98%</div>
-                <div className="text-sm text-muted-foreground">Accuracy Rate</div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <div className="w-6 h-10 border-2 border-indigo-500/30 rounded-full flex items-start justify-center p-2">
-            <motion.div
-              className="w-1 h-2 bg-indigo-500 rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            />
-          </div>
-        </motion.div>
-      </section>
 
       <section className="py-32">
         <div className="container mx-auto px-6">

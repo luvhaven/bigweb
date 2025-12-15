@@ -109,6 +109,7 @@ const AdvancedNavigation = () => {
   const servicesRef = useRef<HTMLDivElement>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isHidden, setIsHidden] = useState(false); // New state for hiding nav
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -128,11 +129,25 @@ const AdvancedNavigation = () => {
       mouseY.set(e.clientY);
     };
 
+    // New: Observer for estimator section
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHidden(entry.isIntersecting && entry.intersectionRatio > 0.1);
+      },
+      { threshold: 0.1 }
+    );
+
+    const estimatorSection = document.getElementById('ai-estimator-section');
+    if (estimatorSection) {
+      observer.observe(estimatorSection);
+    }
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
+      observer.disconnect();
     };
   }, [mouseX, mouseY]);
 
@@ -175,7 +190,7 @@ const AdvancedNavigation = () => {
   return (
     <motion.nav
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      animate={{ y: isHidden ? -100 : 0 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-background/80 backdrop-blur-md"
         } border-b border-border`}
@@ -186,7 +201,6 @@ const AdvancedNavigation = () => {
           {/* Animated Logo */}
           <Link href="/">
             <div className="relative h-10 w-48" data-easter-egg="logo">
-              {/* Full Logo with Enhanced Animation */}
               <AnimatePresence>
                 {!scrolled && (
                   <motion.div
@@ -201,7 +215,6 @@ const AdvancedNavigation = () => {
                 )}
               </AnimatePresence>
 
-              {/* Compact Logo with Magnetic Effect */}
               <AnimatePresence>
                 {scrolled && (
                   <motion.div

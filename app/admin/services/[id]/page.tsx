@@ -1,58 +1,44 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { toast } from 'sonner'
-import AdminHeader from '@/components/admin/AdminHeader'
-import ServiceForm from '../_components/ServiceForm'
-import { servicesAPI, type Service } from '@/lib/api/services'
+import { useEffect, useState } from 'react'
+import ServiceForm from '../components/ServiceForm'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { useParams, useRouter } from 'next/navigation'
 
 export default function EditServicePage() {
-    const router = useRouter()
     const params = useParams()
-    const [service, setService] = useState<Service | null>(null)
+    const router = useRouter()
+    const [service, setService] = useState<any>(null)
     const [loading, setLoading] = useState(true)
-    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
+        const loadService = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('services')
+                    .select('*')
+                    .eq('id', params.id)
+                    .single()
+
+                if (error) throw error
+                setService(data)
+            } catch (error) {
+                console.error('Error loading service:', error)
+                router.push('/admin/services')
+            } finally {
+                setLoading(false)
+            }
+        }
+
         if (params.id) {
-            loadService(params.id as string)
+            loadService()
         }
-    }, [params.id])
-
-    const loadService = async (id: string) => {
-        try {
-            const data = await servicesAPI.getById(id)
-            setService(data)
-        } catch (error) {
-            console.error('Error loading service:', error)
-            toast.error('Failed to load service')
-            router.push('/admin/services')
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const handleSubmit = async (data: any) => {
-        if (!service) return
-
-        setIsSubmitting(true)
-        try {
-            await servicesAPI.update(service.id, data)
-            toast.success('Service updated successfully')
-            router.push('/admin/services')
-        } catch (error) {
-            console.error('Error updating service:', error)
-            toast.error('Failed to update service')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
+    }, [params.id, router])
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
             </div>
         )
     }
@@ -60,18 +46,12 @@ export default function EditServicePage() {
     if (!service) return null
 
     return (
-        <div className="space-y-8">
-            <AdminHeader
-                title="Edit Service"
-                description={`Editing service: ${service.title}`}
-                backLink="/admin/services"
-            />
-
-            <ServiceForm
-                initialData={service}
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-            />
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-3xl font-bold text-white">Edit Service</h1>
+                <p className="text-zinc-400 mt-1">Update service details and pricing</p>
+            </div>
+            <ServiceForm initialData={service} isEditing />
         </div>
     )
 }

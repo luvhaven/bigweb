@@ -42,7 +42,7 @@ const services = [
   },
   {
     title: "AI-Powered Automation That Saves 20+ Hours Weekly",
-    slug: "ai-automation",
+    slug: "ai-consulting",
     tagline: "Let AI handle the repetitive work",
     description: "Free your team from manual tasks with intelligent automation. From customer support chatbots to workflow automation, we implement AI that actually works and delivers ROI from day one.",
     features: ["Custom AI Chatbots", "Workflow Automation", "Predictive Analytics", "Smart Document Processing"],
@@ -89,8 +89,9 @@ const services = [
 
 const ExpandingServices = () => {
   return (
-    <section className="py-32 bg-background">
-      <div className="container mx-auto px-6">
+    <section className="py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:40px_40px] pointer-events-none" />
+      <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="mb-20 max-w-4xl mx-auto text-center">
           <motion.div

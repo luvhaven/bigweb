@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
-import { supabase } from '@/utils/supabase'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 import { useRouter } from 'next/navigation'
 
 // Profile type - can come from admin_users table or user metadata

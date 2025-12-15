@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, Search, TrendingUp, Target, Globe, Megaphone, LineChart } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumbs from '@/components/seo/Breadcrumbs'
+import HeroPremium from '@/components/services/HeroPremium'
 import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
 const breadcrumbItems = [
@@ -110,6 +111,14 @@ export default function SEOMarketingPage() {
     <main className="min-h-screen bg-background">
       <Navigation />
 
+      <HeroPremium
+        title="Get Found. Get"
+        highlight="Customers. Grow."
+        description="Dominate search rankings and drive qualified organic traffic at scale. We help businesses dominate search results and scale revenue with data-driven marketing strategies."
+        badgeText="SEO & Growth"
+        themeColor="yellow"
+      />
+
       {/* Structured Data */}
       <ServiceSchema
         name="SEO Growth & Digital Marketing"
@@ -152,80 +161,7 @@ export default function SEOMarketingPage() {
         </details>
       </section>
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <motion.div className="absolute inset-0 z-0" style={{ y }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-background to-background" />
-          <motion.div
-            className="absolute top-1/3 right-1/4 w-96 h-96 bg-yellow-500/20 rounded-full blur-[100px]"
-            animate={{ scale: [1, 1.2, 1], x: [0, 30, 0] }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-        </motion.div>
 
-        <div className="container mx-auto px-6 relative z-10 text-center pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full mb-6"
-            >
-              <Search className="w-4 h-4 text-yellow-500" />
-              <span className="text-sm font-semibold text-yellow-500">SEO & Digital Marketing</span>
-            </motion.div>
-
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Get Found. Get<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500">
-                Customers. Grow.
-              </span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              We help businesses dominate search results and scale revenue with data-driven marketing strategies.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white">
-                  Get Instant Estimate
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button size="lg" variant="outline">
-                  Schedule Consultation
-                </Button>
-              </Link>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16"
-            >
-              <div>
-                <div className="text-4xl font-bold text-yellow-500 mb-2">$100M+</div>
-                <div className="text-sm text-muted-foreground">Client Revenue</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-yellow-500 mb-2">500%</div>
-                <div className="text-sm text-muted-foreground">Avg. Traffic Growth</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-yellow-500 mb-2">4.2x</div>
-                <div className="text-sm text-muted-foreground">Avg. ROI</div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-      </section>
 
       <section className="py-32">
         <div className="container mx-auto px-6">

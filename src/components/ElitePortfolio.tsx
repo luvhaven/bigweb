@@ -228,13 +228,8 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
   }, [])
 
   const loadProjects = async () => {
-    // Temporarily force use of mock data to ensure images show
-    setAllProjects(MOCK_PROJECTS)
-    setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
-    setCategories(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
-
-    /* Database loading commented out for debugging
     try {
+      setIsLoading(true)
       const data = await projectsAPI.getAll()
       // Use mock data if database is empty or unavailable
       if (!data || data.length === 0) {
@@ -244,11 +239,19 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
       } else {
         setAllProjects(data)
         setVisibleProjects(data.slice(0, PROJECTS_PER_PAGE))
-        
+
         // Extract unique categories from projects
         const uniqueCategories = ['All', ...new Set(data
-          .map((p: any) => p.category)
-          .filter(Boolean))]
+          .map((p: any) => {
+            // Handle tags array if it exists
+            if (p.tags && Array.isArray(p.tags) && p.tags.length > 0) {
+              return p.tags
+            }
+            return p.category
+          })
+          .flat()
+          .filter(Boolean))] as string[]
+
         setCategories(uniqueCategories)
       }
     } catch (error) {
@@ -257,10 +260,10 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
       setAllProjects(MOCK_PROJECTS)
       setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
       setCategories(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
+    } finally {
+      setIsLoading(false)
     }
-    */
   }
-
   // Filter logic based on category
   const filteredProjects = activeCategory === 'All'
     ? allProjects

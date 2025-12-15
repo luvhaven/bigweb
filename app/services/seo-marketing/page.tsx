@@ -146,6 +146,13 @@ export default function SEOMarketingPage() {
 
             <Navigation />
 
+            <HeroPremium
+                title="SEO That Gets You"
+                highlight="Found on Google"
+                description="Rank #1 for keywords that matter. Drive organic traffic, leads, and revenue with data-driven SEO."
+                themeColor="emerald"
+            />
+
             <div className="container mx-auto px-6">
                 <Breadcrumbs items={breadcrumbItems} />
             </div>
@@ -194,12 +201,7 @@ export default function SEOMarketingPage() {
                 </div>
             </section>
 
-            <HeroPremium
-                title="SEO That Gets You"
-                highlight="Found on Google"
-                description="Rank #1 for keywords that matter. Drive organic traffic, leads, and revenue with data-driven SEO."
-                themeColor="emerald"
-            />
+
 
             {/* Extended Content Section for SEO */}
             <section className="py-24 px-6">

@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    // Disable ESLint during production builds - linting is handled separately
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {

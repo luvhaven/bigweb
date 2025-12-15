@@ -46,10 +46,10 @@ export default function TestimonialTicker() {
             <div className="flex">
                 <motion.div
                     className="flex gap-12 whitespace-nowrap pl-4"
-                    animate={{ x: ["-50%", "0%"] }}
+                    animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: 40,
+                        duration: 35,
                         ease: "linear",
                         repeatType: "loop"
                     }}

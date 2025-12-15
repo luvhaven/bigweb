@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const contactsAPI = {
     async getAll(filters?: { status?: string }) {
@@ -17,7 +17,7 @@ export const contactsAPI = {
     async getById(id: string) {
         const { data, error } = await supabase
             .from('contact_submissions')
-            .select('*, replied_by:profiles(full_name)')
+            .select('*, replied_by:admin_users(full_name:name)')
             .eq('id', id)
             .single()
         if (error) throw error
@@ -27,7 +27,7 @@ export const contactsAPI = {
     async create(submission: any) {
         const { data, error } = await supabase
             .from('contact_submissions')
-            .insert(submission)
+            .insert(submission as any)
             .select()
             .single()
         if (error) throw error
@@ -37,7 +37,7 @@ export const contactsAPI = {
     async updateStatus(id: string, status: string) {
         const { data, error } = await supabase
             .from('contact_submissions')
-            .update({ status })
+            .update({ status } as any)
             .eq('id', id)
             .select()
             .single()
@@ -53,7 +53,7 @@ export const contactsAPI = {
                 replied_at: new Date().toISOString(),
                 replied_by: userId,
                 notes
-            })
+            } as any)
             .eq('id', id)
             .select()
             .single()

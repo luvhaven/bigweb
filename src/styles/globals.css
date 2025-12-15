@@ -16,32 +16,56 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 24.6 95% 53.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 14.9%;
-    --ring: 24.6 95% 53.1%;
-    --radius: 0.5rem;
+    /* 
+       60-30-10 RULE - PREMIUM DARK THEME
+       60% Dominant: Deep Obsidian (Background)
+       30% Secondary: Rich Gunmetal (Cards/Secondary)
+       10% Accent: Electric Orange (Primary/Highlights)
+    */
 
-    /* Enhanced Color Palette - 2025 Premium */
-    --accent-light: 24.6 100% 60%;
-    --accent-dark: 24.6 90% 45%;
-    --accent-rgb: 249, 115, 22;
-    --gradient-start: 20 100% 55%;
+    /* 60% - Dominant Background */
+    --background: 240 10% 3.5%;
+    /* Deep Obsidian */
+    --foreground: 0 0% 100%;
+    /* Pure White Text */
+
+    /* 30% - Secondary Surfaces (Cards, Sidebar, Muted) */
+    --card: 240 6% 10%;
+    /* Gunmetal */
+    --card-foreground: 0 0% 98%;
+    --popover: 240 6% 10%;
+    --popover-foreground: 0 0% 98%;
+    --secondary: 240 6% 12%;
+    /* Slightly lighter than card for interactivity */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 12%;
+    --muted-foreground: 240 5% 65%;
+    /* Crisp Cool Gray */
+    --border: 240 6% 16%;
+    /* Subtle divider */
+    --input: 240 6% 16%;
+
+    /* 10% - Accent (Action, Highlights) */
+    --primary: 0 0% 98%;
+    /* Keep white for primary text/buttons on dark */
+    --primary-foreground: 240 10% 3.5%;
+    --accent: 25 100% 50%;
+    /* Electric International Orange */
+    --accent-foreground: 0 0% 100%;
+    --ring: 25 100% 50%;
+
+    --radius: 0.75rem;
+    /* Slightly more rounded for modern feel */
+
+    /* Enhanced Color Palette */
+    --accent-light: 25 100% 60%;
+    --accent-dark: 25 100% 45%;
+    --accent-rgb: 255, 69, 0;
+    /* Updated for new orange */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --gradient-start: 25 100% 50%;
     --gradient-end: 340 100% 60%;
 
     /* Premium Shadows */

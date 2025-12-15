@@ -7,62 +7,20 @@ import Link from "next/link"
 import ParticleBackground from "@/components/effects/ParticleBackground"
 import RelatedServices from "@/components/services/RelatedServices"
 import Navigation from "@/components/AdvancedNavigation"
+import HeroPremium from "@/components/services/HeroPremium"
 
 export default function StaffAugmentation() {
     return (
         <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
             <Navigation />
 
-            {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background z-10" />
-                    <ParticleBackground />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-background to-background" />
-                </div>
-
-                <div className="container relative z-20 px-6 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-4xl mx-auto"
-                    >
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-8 backdrop-blur-md">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                            </span>
-                            Squad Extraction Protocol
-                        </div>
-
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight">
-                            Scale Your Team <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-accent">
-                                Without The Friction
-                            </span>
-                        </h1>
-
-                        <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-                            Deploy pre-vetted, elite engineering squads into your workflow in 48 hours. Zero recruitment fees. Zero HR headaches. 100% Code Velocity.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link href="/contact">
-                                <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-white text-black hover:bg-gray-200 transition-all font-bold">
-                                    Deploy A Squad
-                                    <ArrowRight className="ml-2 w-5 h-5" />
-                                </Button>
-                            </Link>
-                            <Link href="/estimator">
-                                <Button variant="outline" size="lg" className="h-14 px-8 text-lg rounded-full border-white/10 hover:bg-white/5 font-medium">
-                                    Calculate Cost Savings
-                                </Button>
-                            </Link>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
+            <HeroPremium
+                title="Scale Your Team"
+                highlight="Without The Friction"
+                description="Deploy pre-vetted, elite engineering squads into your workflow in 48 hours. Zero recruitment fees. Zero HR headaches. 100% Code Velocity."
+                badgeText="Squad Extraction Protocol"
+                themeColor="indigo"
+            />
 
             {/* The Problem / Solution Grid */}
             <section className="py-24 relative">

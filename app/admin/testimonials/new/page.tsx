@@ -1,39 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
-import AdminHeader from '@/components/admin/AdminHeader'
-import TestimonialForm from '../_components/TestimonialForm'
-import { testimonialsAPI } from '@/lib/api/testimonials'
+import TestimonialForm from '../components/TestimonialForm'
 
 export default function NewTestimonialPage() {
-    const router = useRouter()
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    const handleSubmit = async (data: any) => {
-        setIsSubmitting(true)
-        try {
-            await testimonialsAPI.create(data)
-            toast.success('Testimonial created successfully')
-            router.push('/admin/testimonials')
-        } catch (error) {
-            console.error('Error creating testimonial:', error)
-            toast.error('Failed to create testimonial')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
-
     return (
-        <div className="space-y-8">
-            <AdminHeader
-                title="Add Testimonial"
-                description="Create a new client testimonial"
-                backLink="/admin/testimonials"
-            />
-
-            <TestimonialForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-3xl font-bold text-white">Add Review</h1>
+                <p className="text-zinc-400 mt-1">Add a new client testimonial</p>
+            </div>
+            <TestimonialForm />
         </div>
     )
 }

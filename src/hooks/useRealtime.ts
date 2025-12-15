@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 import { RealtimeChannel } from '@supabase/supabase-js'
 
 interface UseRealtimeOptions {

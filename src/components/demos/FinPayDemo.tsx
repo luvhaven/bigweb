@@ -82,8 +82,8 @@ export default function FinPayDemo() {
     return (
         <div ref={containerRef} className="flex items-center justify-center h-full bg-[#000000] overflow-hidden relative font-sans selection:bg-emerald-500/30">
             {/* Background glow effects */}
-            <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-900/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[10s]" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-yellow-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[8s]" />
+            <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-900/20 rounded-full blur-[120px] pointer-events-none animate-pulse [animation-duration:10s]" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-yellow-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse [animation-duration:8s]" />
 
             {/* Mobile Phone Frame - Scaled to fit */}
             <div

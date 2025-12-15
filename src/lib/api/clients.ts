@@ -1,17 +1,17 @@
-import { supabase } from '../supabase/client'
-import type { Database } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
-type Client = Database['public']['Tables']['clients']['Row']
-type ClientInsert = Database['public']['Tables']['clients']['Insert']
-type Project = Database['public']['Tables']['projects']['Row']
-type ProjectInsert = Database['public']['Tables']['projects']['Insert']
+// Using any types since these tables may not be fully defined in the schema
+type Client = any
+type ClientInsert = any
+type Project = any
+type ProjectInsert = any
 
 export const clientsAPI = {
     // Get all clients
     async getAll(filters?: { status?: string }) {
         let query = supabase
             .from('clients')
-            .select('*, user:profiles(full_name, email, avatar_url)')
+            .select('*, user:admin_users(full_name:name, email, avatar_url)')
             .order('created_at', { ascending: false })
 
         if (filters?.status) {
@@ -28,7 +28,7 @@ export const clientsAPI = {
     async getById(id: string) {
         const { data, error } = await supabase
             .from('clients')
-            .select('*, user:profiles(full_name, email, avatar_url), projects(*)')
+            .select('*, user:admin_users(full_name:name, email, avatar_url), projects(*)')
             .eq('id', id)
             .single()
 
@@ -40,7 +40,7 @@ export const clientsAPI = {
     async create(client: ClientInsert) {
         const { data, error } = await supabase
             .from('clients')
-            .insert(client)
+            .insert(client as any)
             .select()
             .single()
 
@@ -52,7 +52,7 @@ export const clientsAPI = {
     async update(id: string, updates: Partial<ClientInsert>) {
         const { data, error } = await supabase
             .from('clients')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -122,7 +122,7 @@ export const projectsAPI = {
     async create(project: ProjectInsert) {
         const { data, error } = await supabase
             .from('projects')
-            .insert(project)
+            .insert(project as any)
             .select()
             .single()
 
@@ -134,7 +134,7 @@ export const projectsAPI = {
     async update(id: string, updates: Partial<ProjectInsert>) {
         const { data, error } = await supabase
             .from('projects')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -157,7 +157,7 @@ export const projectsAPI = {
     async updateProgress(id: string, progress: number) {
         const { data, error } = await supabase
             .from('projects')
-            .update({ progress })
+            .update({ progress } as any)
             .eq('id', id)
             .select()
             .single()

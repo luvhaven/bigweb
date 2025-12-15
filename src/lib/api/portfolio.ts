@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface PortfolioItem {
     id: string
@@ -137,7 +137,7 @@ export const portfolioAPI = {
     async create(item: Omit<PortfolioItem, 'id' | 'created_at' | 'updated_at'>) {
         const { data, error } = await supabase
             .from('portfolio_items')
-            .insert(item)
+            .insert(item as any)
             .select()
             .single()
 
@@ -149,7 +149,7 @@ export const portfolioAPI = {
     async update(id: string, updates: Partial<PortfolioItem>) {
         const { data, error } = await supabase
             .from('portfolio_items')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()

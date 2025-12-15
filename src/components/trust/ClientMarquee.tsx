@@ -24,10 +24,10 @@ export default function ClientMarquee() {
 
                 <motion.div
                     className="flex gap-16 items-center whitespace-nowrap"
-                    animate={{ x: ["-50%", "0%"] }}
+                    animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: 30,
+                        duration: 25,
                         ease: "linear",
                         repeatType: "loop"
                     }}

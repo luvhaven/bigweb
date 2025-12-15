@@ -1,58 +1,47 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { toast } from 'sonner'
-import AdminHeader from '@/components/admin/AdminHeader'
-import TestimonialForm from '../_components/TestimonialForm'
-import { testimonialsAPI, type Testimonial } from '@/lib/api/testimonials'
+import { useEffect, useState } from 'react'
+import TestimonialForm from '../components/TestimonialForm'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { useParams, useRouter } from 'next/navigation'
 
 export default function EditTestimonialPage() {
-    const router = useRouter()
     const params = useParams()
-    const [testimonial, setTestimonial] = useState<Testimonial | null>(null)
+    const router = useRouter()
+    const [testimonial, setTestimonial] = useState<any>(null)
     const [loading, setLoading] = useState(true)
-    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
+        const loadTestimonial = async () => {
+            try {
+                const id = Array.isArray(params.id) ? params.id[0] : params.id
+                if (!id) return;
+
+                const { data, error } = await supabase
+                    .from('testimonials')
+                    .select('*')
+                    .eq('id', id)
+                    .single()
+
+                if (error) throw error
+                setTestimonial(data)
+            } catch (error) {
+                console.error('Error loading testimonial:', error)
+                router.push('/admin/testimonials')
+            } finally {
+                setLoading(false)
+            }
+        }
+
         if (params.id) {
-            loadTestimonial(params.id as string)
+            loadTestimonial()
         }
-    }, [params.id])
-
-    const loadTestimonial = async (id: string) => {
-        try {
-            const data = await testimonialsAPI.getById(id)
-            setTestimonial(data)
-        } catch (error) {
-            console.error('Error loading testimonial:', error)
-            toast.error('Failed to load testimonial')
-            router.push('/admin/testimonials')
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const handleSubmit = async (data: any) => {
-        if (!testimonial) return
-
-        setIsSubmitting(true)
-        try {
-            await testimonialsAPI.update(testimonial.id, data)
-            toast.success('Testimonial updated successfully')
-            router.push('/admin/testimonials')
-        } catch (error) {
-            console.error('Error updating testimonial:', error)
-            toast.error('Failed to update testimonial')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
+    }, [params.id, router])
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
             </div>
         )
     }
@@ -60,18 +49,12 @@ export default function EditTestimonialPage() {
     if (!testimonial) return null
 
     return (
-        <div className="space-y-8">
-            <AdminHeader
-                title="Edit Testimonial"
-                description={`Editing testimonial from ${testimonial.client_name}`}
-                backLink="/admin/testimonials"
-            />
-
-            <TestimonialForm
-                initialData={testimonial}
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-            />
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-3xl font-bold text-white">Edit Review</h1>
+                <p className="text-zinc-400 mt-1">Update testimonial details</p>
+            </div>
+            <TestimonialForm initialData={testimonial} isEditing />
         </div>
     )
 }

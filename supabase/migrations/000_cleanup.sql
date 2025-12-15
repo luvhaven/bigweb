@@ -1,30 +1,93 @@
--- ============================================
--- CLEANUP SCRIPT - Run this FIRST before 001_complete_schema.sql
--- ============================================
--- This will drop all existing tables and start fresh
--- WARNING: This will delete all data!
--- ============================================
+-- ================================================================
+-- SUPABASE DATABASE CLEANUP SCRIPT
+-- ================================================================
+-- WARNING: This will delete ALL data in ALL tables!
+-- Run this ONLY if you want to completely reset your database
+-- ================================================================
 
--- Drop all tables (CASCADE removes dependencies and policies automatically)
+-- Disable RLS temporarily
+ALTER TABLE IF EXISTS admin_users DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS analytics_events DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS blog_posts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS blog_post_tags DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS blog_tags DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS chat_messages DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS chat_sessions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS clients DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS components DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS contact_submissions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS conversations DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS conversions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS events DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS form_submissions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS forms DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS invoices DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS media DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS media_library DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS messages DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS navigation DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS navigation_items DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS notifications DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS page_versions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS page_views DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS pages DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS permissions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS portfolio_items DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS portfolio_projects DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS profiles DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS projects DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS role_permissions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS sections DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS seo_audits DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS services DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS site_settings DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS team_members DISABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS testimonials DISABLE ROW LEVEL SECURITY;
+
+-- Drop all tables in reverse dependency order
 DROP TABLE IF EXISTS blog_post_tags CASCADE;
 DROP TABLE IF EXISTS blog_tags CASCADE;
 DROP TABLE IF EXISTS blog_posts CASCADE;
-DROP TABLE IF EXISTS media_library CASCADE;
-DROP TABLE IF EXISTS site_settings CASCADE;
-DROP TABLE IF EXISTS page_views CASCADE;
 DROP TABLE IF EXISTS chat_messages CASCADE;
 DROP TABLE IF EXISTS chat_sessions CASCADE;
 DROP TABLE IF EXISTS contact_submissions CASCADE;
+DROP TABLE IF EXISTS form_submissions CASCADE;
+DROP TABLE IF EXISTS forms CASCADE;
+DROP TABLE IF EXISTS analytics_events CASCADE;
+DROP TABLE IF EXISTS page_views CASCADE;
+DROP TABLE IF EXISTS conversions CASCADE;
+DROP TABLE IF EXISTS seo_audits CASCADE;
+DROP TABLE IF EXISTS page_versions CASCADE;
+DROP TABLE IF EXISTS pages CASCADE;
+DROP TABLE IF EXISTS sections CASCADE;
+DROP TABLE IF EXISTS components CASCADE;
+DROP TABLE IF EXISTS navigation_items CASCADE;
+DROP TABLE IF EXISTS navigation CASCADE;
+DROP TABLE IF EXISTS media_library CASCADE;
+DROP TABLE IF EXISTS media CASCADE;
 DROP TABLE IF EXISTS testimonials CASCADE;
 DROP TABLE IF EXISTS portfolio_projects CASCADE;
+DROP TABLE IF EXISTS portfolio_items CASCADE;
+DROP TABLE IF EXISTS projects CASCADE;
 DROP TABLE IF EXISTS services CASCADE;
+DROP TABLE IF EXISTS invoices CASCADE;
+DROP TABLE IF EXISTS clients CASCADE;
+DROP TABLE IF EXISTS team_members CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS conversations CASCADE;
+DROP TABLE IF EXISTS notifications CASCADE;
+DROP TABLE IF EXISTS events CASCADE;
+DROP TABLE IF EXISTS role_permissions CASCADE;
+DROP TABLE IF EXISTS permissions CASCADE;
+DROP TABLE IF EXISTS profiles CASCADE;
+DROP TABLE IF EXISTS site_settings CASCADE;
 DROP TABLE IF EXISTS admin_users CASCADE;
 
--- Drop the trigger function
-DROP FUNCTION IF EXISTS update_updated_at_column() CASCADE;
+-- Drop storage buckets
+DELETE FROM storage.buckets WHERE id = 'media';
+DELETE FROM storage.buckets WHERE id = 'portfolios';
+DELETE FROM storage.buckets WHERE id = 'blog-images';
+DELETE FROM storage.buckets WHERE id = 'avatars';
 
--- Success message
-DO $$
-BEGIN
-  RAISE NOTICE '✅ Cleanup complete! Now run 001_complete_schema.sql';
-END $$;
+-- This script has completed. Database is now clean.
+-- Run the migration script next to create the new schema.

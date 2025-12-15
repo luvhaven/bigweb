@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface SiteSetting {
     id: string
@@ -64,7 +64,7 @@ export const settingsAPI = {
                 value,
                 category,
                 description
-            }, {
+            } as any, {
                 onConflict: 'key'
             })
             .select()
@@ -84,7 +84,7 @@ export const settingsAPI = {
 
         const { data, error } = await supabase
             .from('site_settings')
-            .upsert(updates, { onConflict: 'key' })
+            .upsert(updates as any, { onConflict: 'key' })
             .select()
 
         if (error) throw error

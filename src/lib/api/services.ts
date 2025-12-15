@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface Service {
     id: string
@@ -98,7 +98,7 @@ export const servicesAPI = {
     async create(service: Omit<Service, 'id' | 'created_at' | 'updated_at'>) {
         const { data, error } = await supabase
             .from('services')
-            .insert(service)
+            .insert(service as any)
             .select()
             .single()
 
@@ -110,7 +110,7 @@ export const servicesAPI = {
     async update(id: string, updates: Partial<Service>) {
         const { data, error } = await supabase
             .from('services')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()

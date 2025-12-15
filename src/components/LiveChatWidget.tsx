@@ -6,7 +6,7 @@ import { MessageCircle, X, Send, Minimize2, Maximize2, MoreHorizontal } from 'lu
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useBroadcast, usePresence } from '@/hooks/useRealtime'
-import { supabase } from '@/lib/supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 import { cn } from '@/lib/utils'
 
 interface Message {

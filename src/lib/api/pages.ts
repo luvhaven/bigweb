@@ -1,16 +1,11 @@
-import { supabase } from '../supabase/client'
-import type { Database } from '../supabase/client'
-
-type Page = Database['public']['Tables']['pages']['Row']
-type PageInsert = Database['public']['Tables']['pages']['Insert']
-type PageUpdate = Database['public']['Tables']['pages']['Update']
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const pagesAPI = {
     // Get all pages
     async getAll(filters?: { status?: string; author_id?: string }) {
         let query = supabase
             .from('pages')
-            .select('*, author:profiles(full_name, avatar_url)')
+            .select('*, author:admin_users(full_name:name, avatar_url)')
             .order('created_at', { ascending: false })
 
         if (filters?.status) {
@@ -31,7 +26,7 @@ export const pagesAPI = {
     async getById(id: string) {
         const { data, error } = await supabase
             .from('pages')
-            .select('*, author:profiles(full_name, avatar_url)')
+            .select('*, author:admin_users(full_name:name, avatar_url)')
             .eq('id', id)
             .single()
 
@@ -52,10 +47,10 @@ export const pagesAPI = {
     },
 
     // Create new page
-    async create(page: PageInsert) {
+    async create(page: any) {
         const { data, error } = await supabase
             .from('pages')
-            .insert(page)
+            .insert(page as any)
             .select()
             .single()
 
@@ -64,10 +59,10 @@ export const pagesAPI = {
     },
 
     // Update page
-    async update(id: string, updates: PageUpdate) {
+    async update(id: string, updates: any) {
         const { data, error } = await supabase
             .from('pages')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -93,7 +88,7 @@ export const pagesAPI = {
             .update({
                 status: 'published',
                 published_at: new Date().toISOString()
-            })
+            } as any)
             .eq('id', id)
             .select()
             .single()
@@ -127,7 +122,7 @@ export const pagesAPI = {
                 content,
                 version_number: nextVersion,
                 created_by: userId
-            })
+            } as any)
             .select()
             .single()
 
@@ -139,7 +134,7 @@ export const pagesAPI = {
     async getVersions(pageId: string) {
         const { data, error } = await supabase
             .from('page_versions')
-            .select('*, created_by:profiles(full_name)')
+            .select('*, created_by:admin_users(full_name:name)')
             .eq('page_id', pageId)
             .order('version_number', { ascending: false })
 

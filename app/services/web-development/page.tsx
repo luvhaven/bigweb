@@ -183,7 +183,7 @@ export default function WebDevelopmentPage() {
       <HeroPremium
         title="Websites That Drive"
         highlight="Real Results"
-        description="Custom web development that converts visitors into customers. Fast, secure, and built to scale with your business."
+        description="Lightning-fast, scalable applications built with cutting-edge technology stacks like Next.js and React. Custom web development that converts visitors into customers—fast, secure, and built to scale with your business."
         badgeText="Web Development"
         themeColor="blue"
         backgroundImage={serviceImage}

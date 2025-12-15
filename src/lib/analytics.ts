@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface AnalyticsEvent {
     event_name: string

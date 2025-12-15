@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface AnalyticsEvent {
     id: string
@@ -23,7 +23,7 @@ export const analyticsAPI = {
     async trackEvent(event: Omit<AnalyticsEvent, 'id' | 'created_at'>) {
         const { data, error } = await supabase
             .from('analytics_events')
-            .insert(event)
+            .insert(event as any)
             .select()
             .single()
 

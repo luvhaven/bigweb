@@ -1,11 +1,10 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase/client'
-import type { User } from '@supabase/supabase-js'
-import type { Database } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
+import type { User, SupabaseClient } from '@supabase/supabase-js'
 
-type Profile = Database['public']['Tables']['profiles']['Row']
+type Profile = any
 
 interface AuthContextType {
     user: User | null
@@ -15,30 +14,42 @@ interface AuthContextType {
     signUp: (email: string, password: string, fullName: string) => Promise<void>
     signOut: () => Promise<void>
     updateProfile: (updates: Partial<Profile>) => Promise<void>
+    supabase: SupabaseClient
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+    const [supabase] = useState(() => createClient())
     const [user, setUser] = useState<User | null>(null)
     const [profile, setProfile] = useState<Profile | null>(null)
     const [loading, setLoading] = useState(true)
 
     // Initialise session and listen for auth changes
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null)
-            if (session?.user) {
-                loadProfile(session.user.id)
-            } else {
+        const initializeAuth = async () => {
+            try {
+                const { data: { session } } = await supabase.auth.getSession()
+                setUser(session?.user ?? null)
+                if (session?.user) {
+                    await loadProfile(session.user.id)
+                }
+            } catch (error) {
+                console.error('Error checking session:', error)
+            } finally {
                 setLoading(false)
             }
-        })
+        }
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        initializeAuth()
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setUser(session?.user ?? null)
             if (session?.user) {
-                loadProfile(session.user.id)
+                // If we just logged in and don't have profile yet
+                if (!profile || profile.id !== session.user.id) {
+                    await loadProfile(session.user.id)
+                }
             } else {
                 setProfile(null)
                 setLoading(false)
@@ -46,32 +57,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         })
 
         return () => subscription.unsubscribe()
-    }, [])
+    }, [supabase]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const loadProfile = async (userId: string) => {
         try {
-            const { data, error } = await supabase
-                .from('profiles')
+            // First try fetching by ID
+            let { data, error } = await supabase
+                .from('admin_users')
                 .select('*')
                 .eq('id', userId)
                 .single()
 
-            if (error) {
-                if (error.code === 'PGRST116') {
-                    // No profile found, which is expected for new users before trigger runs
-                    console.log('No profile found for user:', userId)
-                } else {
-                    console.error('Error loading profile:', JSON.stringify(error, null, 2))
+            // If not found by ID, try fetching by email
+            if (!data && user?.email) {
+                const { data: emailData } = await supabase
+                    .from('admin_users')
+                    .select('*')
+                    .eq('email', user.email)
+                    .single()
+
+                if (emailData) {
+                    data = emailData
+                    error = null
                 }
+            }
+
+            if (error) {
+                console.log('No admin profile found or error:', error.message)
                 setProfile(null)
             } else {
-                setProfile(data)
+                setProfile(data as Profile)
             }
         } catch (e) {
             console.error('Unexpected error loading profile:', e)
             setProfile(null)
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -92,18 +111,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const signOut = async () => {
         const { error } = await supabase.auth.signOut()
         if (error) throw error
+        setUser(null)
+        setProfile(null)
     }
 
     const updateProfile = async (updates: Partial<Profile>) => {
         if (!user) throw new Error('No user logged in')
         const { data, error } = await supabase
-            .from('profiles')
-            .update(updates)
+            .from('admin_users')
+            .update(updates as any)
             .eq('id', user.id)
             .select()
             .single()
         if (error) throw error
-        setProfile(data)
+        setProfile(data as Profile)
     }
 
     const value: AuthContextType = {
@@ -114,6 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUp,
         signOut,
         updateProfile,
+        supabase
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

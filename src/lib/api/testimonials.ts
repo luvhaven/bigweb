@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export interface Testimonial {
     id: string
@@ -69,7 +69,7 @@ export const testimonialsAPI = {
     async create(testimonial: Omit<Testimonial, 'id' | 'created_at' | 'updated_at'>) {
         const { data, error } = await supabase
             .from('testimonials')
-            .insert(testimonial)
+            .insert(testimonial as any)
             .select()
             .single()
 
@@ -81,7 +81,7 @@ export const testimonialsAPI = {
     async update(id: string, updates: Partial<Testimonial>) {
         const { data, error } = await supabase
             .from('testimonials')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -99,7 +99,7 @@ export const testimonialsAPI = {
 
         const { data, error } = await supabase
             .from('testimonials')
-            .upsert(updates)
+            .upsert(updates as any)
             .select()
 
         if (error) throw error

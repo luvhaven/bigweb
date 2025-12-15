@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const heroAPI = {
     async getAllSlides() {
@@ -33,7 +33,7 @@ export const heroAPI = {
     async createSlide(slide: any) {
         const { data, error } = await supabase
             .from('hero_slides')
-            .insert(slide)
+            .insert(slide as any)
             .select()
             .single()
         if (error) throw error
@@ -43,7 +43,7 @@ export const heroAPI = {
     async updateSlide(id: string, updates: any) {
         const { data, error } = await supabase
             .from('hero_slides')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -63,7 +63,7 @@ export const heroAPI = {
         const promises = slides.map(slide =>
             supabase
                 .from('hero_slides')
-                .update({ order_index: slide.order_index })
+                .update({ order_index: slide.order_index } as any)
                 .eq('id', slide.id)
         )
         await Promise.all(promises)

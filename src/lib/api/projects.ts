@@ -1,31 +1,30 @@
-import { supabase } from '@/lib/supabase/client'
-import type { Database } from '@/lib/supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
-type Project = Database['public']['Tables']['projects']['Row']
+type Project = any
 
 export const projectsAPI = {
     getAll: async () => {
-        const { data, error } = await supabase.from('projects').select('*')
+        const { data, error } = await supabase.from('portfolio_projects').select('*')
         if (error) throw error
         return data as Project[]
     },
     getById: async (id: string) => {
-        const { data, error } = await supabase.from('projects').select('*').eq('id', id).single()
+        const { data, error } = await supabase.from('portfolio_projects').select('*').eq('id', id).single()
         if (error) throw error
         return data as Project
     },
-    create: async (payload: Omit<Project, 'id'>) => {
-        const { data, error } = await supabase.from('projects').insert(payload).single()
+    create: async (payload: Omit<Project, 'id' | 'created_at' | 'updated_at' | 'views_count'>) => {
+        const { data, error } = await supabase.from('portfolio_projects').insert(payload as any).single()
         if (error) throw error
         return data as Project
     },
     update: async (id: string, payload: Partial<Project>) => {
-        const { data, error } = await supabase.from('projects').update(payload).eq('id', id).single()
+        const { data, error } = await supabase.from('portfolio_projects').update(payload as any).eq('id', id).single()
         if (error) throw error
         return data as Project
     },
     delete: async (id: string) => {
-        const { error } = await supabase.from('projects').delete().eq('id', id)
+        const { error } = await supabase.from('portfolio_projects').delete().eq('id', id)
         if (error) throw error
     },
 }

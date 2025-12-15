@@ -1,11 +1,11 @@
-import { supabase } from '../supabase/client'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
 
 export const chatAPI = {
     // Sessions
     async getAllSessions(filters?: { status?: string; assigned_to?: string }) {
         let query = supabase
             .from('chat_sessions')
-            .select('*, assigned:profiles(full_name, avatar_url)')
+            .select('*, assigned:admin_users(full_name:name, avatar_url)')
             .order('created_at', { ascending: false })
 
         if (filters?.status) query = query.eq('status', filters.status)
@@ -19,7 +19,7 @@ export const chatAPI = {
     async getSessionById(id: string) {
         const { data, error } = await supabase
             .from('chat_sessions')
-            .select('*, assigned:profiles(full_name, avatar_url)')
+            .select('*, assigned:admin_users(full_name:name, avatar_url)')
             .eq('id', id)
             .single()
         if (error) throw error
@@ -29,7 +29,7 @@ export const chatAPI = {
     async createSession(session: any) {
         const { data, error } = await supabase
             .from('chat_sessions')
-            .insert(session)
+            .insert(session as any)
             .select()
             .single()
         if (error) throw error
@@ -39,7 +39,7 @@ export const chatAPI = {
     async updateSession(id: string, updates: any) {
         const { data, error } = await supabase
             .from('chat_sessions')
-            .update(updates)
+            .update(updates as any)
             .eq('id', id)
             .select()
             .single()
@@ -50,7 +50,7 @@ export const chatAPI = {
     async assignSession(id: string, agentId: string) {
         const { data, error } = await supabase
             .from('chat_sessions')
-            .update({ assigned_to: agentId, status: 'active' })
+            .update({ assigned_to: agentId, status: 'active' } as any)
             .eq('id', id)
             .select()
             .single()
@@ -65,7 +65,7 @@ export const chatAPI = {
                 status: 'closed',
                 ended_at: new Date().toISOString(),
                 ...(rating && { rating })
-            })
+            } as any)
             .eq('id', id)
             .select()
             .single()
@@ -87,7 +87,7 @@ export const chatAPI = {
     async sendMessage(message: any) {
         const { data, error } = await supabase
             .from('chat_messages')
-            .insert(message)
+            .insert(message as any)
             .select()
             .single()
         if (error) throw error
@@ -97,7 +97,7 @@ export const chatAPI = {
     async markAsRead(messageId: string) {
         const { data, error } = await supabase
             .from('chat_messages')
-            .update({ is_read: true })
+            .update({ is_read: true } as any)
             .eq('id', messageId)
             .select()
             .single()

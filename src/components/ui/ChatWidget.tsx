@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, User, Sparkles, Mail, ArrowRight, Loader2, Minimize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { messagesAPI } from '@/lib/api/messages'
 import { toast } from 'sonner'
 
 interface ChatWidgetProps {

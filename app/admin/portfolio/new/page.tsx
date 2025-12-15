@@ -1,39 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
-import AdminHeader from '@/components/admin/AdminHeader'
-import PortfolioForm from '../_components/PortfolioForm'
-import { portfolioAPI } from '@/lib/api/portfolio'
+import PortfolioForm from '../components/PortfolioForm'
 
-export default function NewPortfolioPage() {
-    const router = useRouter()
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    const handleSubmit = async (data: any) => {
-        setIsSubmitting(true)
-        try {
-            await portfolioAPI.create(data)
-            toast.success('Project created successfully')
-            router.push('/admin/portfolio')
-        } catch (error) {
-            console.error('Error creating project:', error)
-            toast.error('Failed to create project')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
-
+export default function NewProjectPage() {
     return (
-        <div className="space-y-8">
-            <AdminHeader
-                title="Add Project"
-                description="Create a new portfolio case study"
-                backLink="/admin/portfolio"
-            />
-
-            <PortfolioForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-3xl font-bold text-white">Add Project</h1>
+                <p className="text-zinc-400 mt-1">Create a new case study for your portfolio</p>
+            </div>
+            <PortfolioForm />
         </div>
     )
 }

@@ -15,7 +15,7 @@ const footerLinks = {
     { name: 'UI/UX Design', href: '/services/ui-ux-design' },
     { name: 'SEO & Growth', href: '/services/seo-growth' },
     { name: 'E-Commerce', href: '/services/ecommerce' },
-    { name: 'AI Solutions', href: '/services/ai-solutions' },
+    { name: 'AI Consulting', href: '/services/ai-consulting' },
     { name: 'GAIO (AI Optimization)', href: '/services/gaio' },
     { name: 'Staff Augmentation', href: '/services/staff-augmentation' },
     { name: 'Website Maintenance', href: '/services/maintenance' },

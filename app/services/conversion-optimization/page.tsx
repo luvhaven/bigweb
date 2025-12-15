@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionV
 import { useRef, useState, useEffect } from 'react'
 import Navigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
+import HeroPremium from '@/components/services/HeroPremium'
 import { Button } from '@/components/ui/button'
 import {
   TrendingUp, Target, Zap, DollarSign, BarChart3, Users,
@@ -155,16 +156,8 @@ const methodology = [
 
 export default function ConversionOptimizationPage() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLDivElement>(null)
   const [activeCase, setActiveCase] = useState(0)
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  })
-
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
 
   // Auto-cycle case studies
   useEffect(() => {
@@ -175,7 +168,7 @@ export default function ConversionOptimizationPage() {
   }, [])
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-background">
+    <div ref={containerRef} className="min-h-screen bg-background text-foreground">
       <Navigation />
 
       {/* Structured Data */}
@@ -192,7 +185,32 @@ export default function ConversionOptimizationPage() {
         ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
       ]} />
 
-      <div className="container mx-auto px-6 pt-24 pb-4 relative z-20">
+      <HeroPremium
+        title="Turn More Visitors Into"
+        highlight="Paying Customers"
+        description="Data-driven conversion rate optimization that multiplies your revenue without spending more on ads. Average clients see 2.8x conversion increase in under 30 days."
+        badgeText="Revenue Acceleration Engine"
+        themeColor="orange"
+        ctaText="Get Free CRO Audit"
+        ctaLink="/contact"
+        secondaryCtaText="Calculate Your Potential"
+        secondaryCtaLink="/estimator"
+      >
+        {/* Hero Stats */}
+        <div className="grid grid-cols-3 gap-8 max-w-4xl mx-auto">
+          {heroStats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/10 mb-3">
+                <stat.icon className="w-6 h-6 text-orange-500" />
+              </div>
+              <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </HeroPremium>
+
+      <div className="container mx-auto px-6 pt-4 pb-4 relative z-20">
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
@@ -218,153 +236,6 @@ export default function ConversionOptimizationPage() {
             </div>
           </div>
         </details>
-      </section>
-
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-accent/5 to-background" />
-
-          {/* Animated Grid */}
-          <motion.div
-            className="absolute inset-0 opacity-20"
-            animate={{
-              backgroundPosition: ['0% 0%', '100% 100%'],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: 'reverse'
-            }}
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(245, 85, 39, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(245, 85, 39, 0.1) 1px, transparent 1px)
-              `,
-              backgroundSize: '50px 50px',
-            }}
-          />
-
-          {/* Floating Elements */}
-          <motion.div
-            className="absolute top-20 left-20 w-64 h-64 rounded-full bg-accent/10 blur-[100px]"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-20 w-64 h-64 rounded-full bg-purple-500/10 blur-[100px]"
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.5, 0.3, 0.5],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-            }}
-          />
-        </div>
-
-        <motion.div
-          className="relative z-10 container mx-auto px-6 text-center"
-          style={{ opacity: heroOpacity, scale: heroScale }}
-        >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 mb-8"
-          >
-            <DollarSign className="w-5 h-5 text-accent" />
-            <span className="text-accent text-sm font-medium uppercase tracking-wider">
-              Revenue Acceleration Engine
-            </span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-          >
-            Turn More Visitors Into
-            <br />
-            <span className="bg-gradient-to-r from-accent via-orange-500 to-accent bg-clip-text text-transparent">
-              Paying Customers
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
-          >
-            Data-driven conversion rate optimization that multiplies your revenue without spending
-            more on ads. Average clients see 2.8x conversion increase in under 30 days.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-          >
-            <Link href="/contact">
-              <Button size="lg" className="text-lg px-8 py-6 group">
-                Get Free CRO Audit
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </Button>
-            </Link>
-            <Link href="/estimator">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                Calculate Your Potential
-              </Button>
-            </Link>
-          </motion.div>
-
-          {/* Hero Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="grid grid-cols-3 gap-8 max-w-4xl mx-auto"
-          >
-            {heroStats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-3">
-                  <stat.icon className="w-6 h-6 text-accent" />
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <div className="w-6 h-10 border-2 border-accent/50 rounded-full flex justify-center p-2">
-            <motion.div
-              className="w-1 h-2 bg-accent rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
       </section>
 
       {/* CRO Services Section */}
@@ -450,8 +321,8 @@ export default function ConversionOptimizationPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -10 }}
                 className={`p-6 rounded-xl border transition-all ${index === activeCase
-                    ? 'bg-accent/10 border-accent/50 shadow-2xl shadow-accent/20'
-                    : 'bg-card/80 border-border hover:border-accent/30'
+                  ? 'bg-accent/10 border-accent/50 shadow-2xl shadow-accent/20'
+                  : 'bg-card/80 border-border hover:border-accent/30'
                   }`}
               >
                 <div className="text-xs text-accent font-medium mb-2 uppercase">{study.industry}</div>
