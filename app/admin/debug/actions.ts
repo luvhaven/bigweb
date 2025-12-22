@@ -20,7 +20,7 @@ export async function checkUserStatus(email: string) {
 
         if (authError) throw authError
 
-        const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase())
+        const user = users?.find((u: any) => u.email?.toLowerCase() === email.toLowerCase())
 
         if (!user) {
             return { error: 'User not found in Supabase Auth' }

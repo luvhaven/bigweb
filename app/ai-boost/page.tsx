@@ -1,0 +1,380 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+    Check, Star, Clock, Zap, Shield, ArrowRight,
+    MessageSquare, Bot, BarChart, Users, Lock, ChevronDown
+} from 'lucide-react'
+import Link from 'next/link'
+
+// Countdown Timer Component
+const CountdownTimer = () => {
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+    useEffect(() => {
+        // Set deadline to Dec 30, 2025
+        const deadline = new Date('2025-12-30T23:59:59').getTime()
+
+        const timer = setInterval(() => {
+            const now = new Date().getTime()
+            const distance = deadline - now
+
+            if (distance < 0) {
+                clearInterval(timer)
+                return
+            }
+
+            setTimeLeft({
+                days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((distance % (1000 * 60)) / 1000),
+            })
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [])
+
+    return (
+        <div className="flex gap-4 justify-center py-6">
+            {[
+                { label: 'Days', value: timeLeft.days },
+                { label: 'Hours', value: timeLeft.hours },
+                { label: 'Minutes', value: timeLeft.minutes },
+                { label: 'Seconds', value: timeLeft.seconds },
+            ].map((item, i) => (
+                <div key={i} className="text-center">
+                    <div className="bg-zinc-900 border border-white/10 rounded-lg w-16 h-16 flex items-center justify-center text-2xl font-bold text-emerald-400 mb-1 shadow-lg shadow-emerald-900/10">
+                        {item.value.toString().padStart(2, '0')}
+                    </div>
+                    <div className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{item.label}</div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+// Testimonials Data
+const testimonials = [
+    {
+        name: "Sarah Jenkins",
+        role: "CEO, TechFlow Solutions",
+        image: "https://randomuser.me/api/portraits/women/44.jpg",
+        content: "We were drowning in support tickets. The AI chatbot cut our response time by 98% and actually closed 3 deals while I was sleeping. Best investment of 2024.",
+        stats: "Saved 25hrs/week"
+    },
+    {
+        name: "Michael Chen",
+        role: "Founder, Zenith E-com",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        content: "I was skeptical, but the ROI was instant. It captured 40% more leads in the first week. The setup was flawless and FAST.",
+        stats: "+40% Lead Capture"
+    },
+    {
+        name: "Elena Rodriguez",
+        role: "Director, Urban Realty",
+        image: "https://randomuser.me/api/portraits/women/68.jpg",
+        content: "Professional, intelligent, and on-brand. It handles our complex booking queries perfectly. BigWeb delivered exactly as promised.",
+        stats: "10x Efficiency"
+    }
+]
+
+// FAQ Data
+const faqs = [
+    {
+        q: "Will this work on my specific website platform?",
+        a: "Yes! Our solution is platform-agnostic. Whether you use WordPress, Shopify, Webflow, Wix, or a custom Next.js/React site, we can embed the chatbot seamlessly properly."
+    },
+    {
+        q: "Do I need to know how to code?",
+        a: "Not at all. We handle 100% of the technical setup, training, and deployment. You just provide us with your business details, and we do the rest."
+    },
+    {
+        q: "What happens after the 30 days of support?",
+        a: "You'll have full ownership of the system. We provide a training session and guide so you can make validation tweaks yourself. We also offer affordable monthly maintenance plans if you prefer hands-off management."
+    },
+    {
+        q: "Can it really replace a human support agent?",
+        a: "It handles 80-90% of routine queries instantly. For complex issues, it intelligently escalates to your human team, ensuring you only spend time on high-value interactions."
+    }
+]
+
+export default function AIBoostLandingPage() {
+    const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
+
+    return (
+        <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30">
+            {/* Sticky Top Bar - Scarcity */}
+            <div className="fixed top-0 inset-x-0 z-50 bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium shadow-lg shadow-emerald-900/20">
+                <span className="hidden md:inline">🔥 FLASH SALE ENDING SOON: </span>
+                Waitlist closing for 2025 Fast-Track Delivery.
+                <span className="font-bold ml-1">Only 4 spots left at this price.</span>
+            </div>
+
+            {/* Hero Section */}
+            <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-[#050505] to-[#050505]" />
+
+                <div className="container mx-auto px-4 relative z-10 max-w-6xl">
+                    <div className="text-center max-w-4xl mx-auto mb-12">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 text-emerald-400 text-sm font-semibold mb-6"
+                        >
+                            <Zap className="w-4 h-4 fill-current" />
+                            <span>Limited-Time Offer: Save $1,003 Instantly</span>
+                        </motion.div>
+
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-4xl md:text-6xl/tight font-extrabold tracking-tight mb-6 bg-gradient-to-br from-white via-white to-zinc-500 bg-clip-text text-transparent"
+                        >
+                            Struggling with Missed Leads & Overwhelmed Support?
+                        </motion.h1>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-xl md:text-2xl text-zinc-400 mb-8 max-w-2xl mx-auto leading-relaxed"
+                        >
+                            Get a <span className="text-white font-semibold">Custom AI Chatbot</span> that works 24/7 to boost conversions and save you 20+ hours every single week.
+                        </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                        >
+                            <Link
+                                href="https://raenest.com/pay" // Placeholder
+                                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-xl shadow-emerald-500/20 transition-all hover:scale-105 flex items-center justify-center gap-2 group"
+                            >
+                                <span>Secure My Spot & Pay Deposit</span>
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                            <div className="text-sm text-zinc-500 mt-2 sm:mt-0">
+                                <span className="block text-zinc-400 font-medium">Deposit: $1,248.50</span>
+                                <span className="line-through opacity-70">Normally $1,750</span>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <div className="bg-[#111] border border-white/5 rounded-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h3 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                                    <Bot className="w-6 h-6 text-emerald-400" />
+                                    What You Get:
+                                </h3>
+                                <ul className="space-y-4">
+                                    {[
+                                        "Fully custom AI chatbot deployed on your site",
+                                        "Works 24/7: Qualifies leads & books appointments",
+                                        "Up to 3 integrations (Zapier, CRM, Calendar)",
+                                        "Full testing & conversion optimization",
+                                        "30 Days detailed support & fine-tuning",
+                                        "Fast-Track Delivery (7-14 Days)"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-zinc-300">
+                                            <div className="mt-1 bg-emerald-500/20 rounded-full p-1">
+                                                <Check className="w-3 h-3 text-emerald-400" />
+                                            </div>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="relative">
+                                {/* Visual Representation of Chatbot Interface */}
+                                <div className="bg-zinc-900 rounded-xl border border-white/10 shadow-2xl p-4 transform md:rotate-2 hover:rotate-0 transition-transform duration-500">
+                                    <div className="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
+                                            <Bot className="w-6 h-6 text-white" />
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-sm">AI Assistant</div>
+                                            <div className="text-xs text-emerald-400 flex items-center gap-1">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                                Online Now
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4 text-sm">
+                                        <div className="bg-zinc-800 p-3 rounded-lg rounded-tl-none text-zinc-300 max-w-[90%]">
+                                            Hi there! I noticed you re looking to scale your business. Would you like to see how we can help you double your leads?
+                                        </div>
+                                        <div className="bg-emerald-600/10 border border-emerald-500/20 text-emerald-100 p-3 rounded-lg rounded-tr-none ml-auto max-w-[90%]">
+                                            Yes, I'd love to save time on support!
+                                        </div>
+                                        <div className="bg-zinc-800 p-3 rounded-lg rounded-tl-none text-zinc-300 max-w-[90%]">
+                                            Perfect. I can set that up for you instantly. Let's get started!
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Floating Stats Badge */}
+                                <div className="absolute -bottom-6 -left-6 bg-white text-black p-4 rounded-xl shadow-xl flex items-center gap-3 animate-bounce-slow">
+                                    <div className="bg-emerald-100 p-2 rounded-full">
+                                        <BarChart className="w-6 h-6 text-emerald-600" />
+                                    </div>
+                                    <div>
+                                        <div className="text-xs font-bold text-zinc-500 uppercase">Conversion Lift</div>
+                                        <div className="text-xl font-extrabold">+200%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Agitation / Logic Section */}
+            <section className="py-20 bg-[#0a0a0a] border-y border-white/5">
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <div className="grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-zinc-800">
+                        <div className="p-4">
+                            <Clock className="w-10 h-10 text-red-500 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold mb-2">Losing Time?</h3>
+                            <p className="text-zinc-400 text-sm">You spend hours replying to the same questions instead of growing your business.</p>
+                        </div>
+                        <div className="p-4">
+                            <Users className="w-10 h-10 text-orange-500 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold mb-2">Missed Leads?</h3>
+                            <p className="text-zinc-400 text-sm">Clients visit when you're asleep. Without a 24/7 agent, they go to your competitors.</p>
+                        </div>
+                        <div className="p-4">
+                            <Lock className="w-10 h-10 text-purple-500 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold mb-2">Inconsistent Sales?</h3>
+                            <p className="text-zinc-400 text-sm">Manual follow-ups invoke human error. Automation ensures 100% reliability.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Social Proof Section */}
+            <section className="py-24 relative">
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <h2 className="text-3xl font-bold text-center mb-16">Trusted by High-Growth Founders</h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {testimonials.map((t, i) => (
+                            <div key={i} className="bg-zinc-900/50 border border-white/5 p-8 rounded-2xl hover:border-emerald-500/30 transition-colors">
+                                <div className="flex gap-1 mb-4">
+                                    {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
+                                </div>
+                                <p className="text-zinc-300 mb-6 leading-relaxed">"{t.content}"</p>
+                                <div className="flex items-center gap-4">
+                                    <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full grayscale hover:grayscale-0 transition-all" />
+                                    <div>
+                                        <div className="font-bold text-sm">{t.name}</div>
+                                        <div className="text-xs text-zinc-500">{t.role}</div>
+                                    </div>
+                                </div>
+                                <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-emerald-400 text-sm font-bold">
+                                    <BarChart className="w-4 h-4" />
+                                    {t.stats}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing / Offer Section */}
+            <section className="py-24 bg-gradient-to-b from-[#0a0a0a] to-black">
+                <div className="container mx-auto px-4 max-w-3xl text-center">
+                    <h2 className="text-4xl font-bold mb-6">Secure Your 2025 Competitive Edge</h2>
+                    <p className="text-zinc-400 mb-10">Don't let another lead slip through the cracks. The price increases permanently in 2026.</p>
+
+                    <div className="bg-zinc-900 border border-emerald-500/30 rounded-3xl p-8 md:p-12 relative shadow-2xl overflow-hidden">
+                        <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-bl-xl uppercase tracking-wider">
+                            Save $1,003 Ends Dec 30
+                        </div>
+
+                        <div className="flex items-center justify-center gap-4 mb-8">
+                            <span className="text-2xl text-zinc-500 line-through decoration-red-500/50">$3,500</span>
+                            <span className="text-5xl md:text-6xl font-extrabold text-emerald-400">$2,497</span>
+                        </div>
+
+                        <div className="text-sm font-medium text-zinc-400 mb-8">
+                            Deposit Today: <span className="text-white">$1,248.50</span> • Remaining due at launch
+                        </div>
+
+                        <CountdownTimer />
+
+                        <Link
+                            href="https://raenest.com/pay" // Placeholder
+                            className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xl px-8 py-5 rounded-xl shadow-xl shadow-emerald-500/20 active:scale-[0.98] transition-all mb-6 relative overflow-hidden group"
+                        >
+                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                            Secure My Spot Now
+                        </Link>
+
+                        <div className="flex items-center justify-center gap-6 text-xs text-zinc-500">
+                            <div className="flex items-center gap-1">
+                                <Shield className="w-3 h-3" /> Secure Payment
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" /> 14-Day Delivery
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Users className="w-3 h-3" /> Limited Spots
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="py-20 border-t border-white/5">
+                <div className="container mx-auto px-4 max-w-2xl">
+                    <h2 className="text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+                    <div className="space-y-4">
+                        {faqs.map((faq, i) => (
+                            <div key={i} className="border border-white/5 rounded-xl bg-zinc-900/30 overflow-hidden">
+                                <button
+                                    onClick={() => setActiveAccordion(activeAccordion === i ? null : i)}
+                                    className="w-full flex items-center justify-between p-4 text-left font-medium hover:bg-white/5 transition-colors"
+                                >
+                                    {faq.q}
+                                    <ChevronDown className={`w-5 h-5 text-zinc-500 transition-transform ${activeAccordion === i ? 'rotate-180' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {activeAccordion === i && (
+                                        <motion.div
+                                            initial={{ height: 0 }}
+                                            animate={{ height: 'auto' }}
+                                            exit={{ height: 0 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="p-4 pt-0 text-zinc-400 text-sm leading-relaxed border-t border-white/5 bg-black/20">
+                                                {faq.a}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Final CTA */}
+            <section className="py-12 bg-zinc-900 text-center">
+                <div className="container mx-auto px-4">
+                    <p className="text-zinc-500 mb-4 text-sm">Still have questions?</p>
+                    <Link href="/contact" className="text-white border-b border-white/20 hover:border-emerald-500 pb-0.5 transition-colors">
+                        Book a free 15-min discovery call
+                    </Link>
+                </div>
+            </section>
+        </div>
+    )
+}

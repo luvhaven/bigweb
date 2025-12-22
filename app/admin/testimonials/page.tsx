@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { Plus, Search, Pencil, Trash2, Eye, Star, CheckCircle } from 'lucide-react'
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { Plus, Search, Pencil, Trash2, Star, AlertCircle } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 interface Testimonial {
     id: string
@@ -15,46 +17,48 @@ interface Testimonial {
 }
 
 export default function TestimonialsPage() {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([])
-    const [loading, setLoading] = useState(true)
+    const supabase = createClient()
+    const queryClient = useQueryClient()
     const [searchTerm, setSearchTerm] = useState('')
+    const [deleteId, setDeleteId] = useState<string | null>(null)
 
-    useEffect(() => {
-        loadTestimonials()
-    }, [])
-
-    const loadTestimonials = async () => {
-        try {
-            setLoading(true)
+    // React Query for testimonials
+    const { data: testimonials = [], isLoading } = useQuery({
+        queryKey: ['admin', 'testimonials'],
+        queryFn: async () => {
             const { data, error } = await supabase
                 .from('testimonials')
                 .select('id, client_name, client_company, rating, status, is_featured')
                 .order('order_index', { ascending: true })
 
             if (error) throw error
-            setTestimonials(data || [])
-        } catch (error) {
-            console.error('Error loading testimonials:', error)
-        } finally {
-            setLoading(false)
+            return data as Testimonial[]
         }
-    }
+    })
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this review?')) return
-
-        try {
+    // Delete Mutation
+    const deleteMutation = useMutation({
+        mutationFn: async (id: string) => {
             const { error } = await supabase
                 .from('testimonials')
                 .delete()
                 .eq('id', id)
-
             if (error) throw error
-            setTestimonials(testimonials.filter(t => t.id !== id))
-        } catch (error) {
+        },
+        onSuccess: () => {
+            toast.success('Testimonial deleted successfully')
+            queryClient.invalidateQueries({ queryKey: ['admin', 'testimonials'] })
+            setDeleteId(null)
+        },
+        onError: (error: any) => {
             console.error('Error deleting testimonial:', error)
-            alert('Failed to delete testimonial')
+            toast.error('Failed to delete testimonial: ' + error.message)
         }
+    })
+
+    const handleDelete = () => {
+        if (!deleteId) return
+        deleteMutation.mutate(deleteId)
     }
 
     const filteredTestimonials = testimonials.filter(t =>
@@ -106,7 +110,7 @@ export default function TestimonialsPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-zinc-800">
-                            {loading ? (
+                            {isLoading ? (
                                 <tr>
                                     <td colSpan={5} className="px-6 py-8 text-center text-zinc-500">
                                         Loading reviews...
@@ -154,7 +158,7 @@ export default function TestimonialsPage() {
                                                     <Pencil className="w-4 h-4" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(t.id)}
+                                                    onClick={() => setDeleteId(t.id)}
                                                     className="p-2 text-zinc-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
                                                     title="Delete"
                                                 >
@@ -169,6 +173,36 @@ export default function TestimonialsPage() {
                     </table>
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal - Reusing style from services */}
+            {deleteId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div className="bg-card border border-border rounded-xl max-w-sm w-full p-6 shadow-xl">
+                        <div className="flex items-center gap-3 text-red-500 mb-4">
+                            <AlertCircle className="w-6 h-6" />
+                            <h3 className="text-lg font-bold">Delete Testimonial?</h3>
+                        </div>
+                        <p className="text-muted-foreground mb-6">
+                            Are you sure you want to delete this testimonial?
+                        </p>
+                        <div className="flex items-center justify-end gap-3">
+                            <button
+                                onClick={() => setDeleteId(null)}
+                                className="px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                disabled={deleteMutation.isPending}
+                                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                            >
+                                {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

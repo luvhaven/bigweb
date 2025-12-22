@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Plus, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
 import { format } from 'date-fns'
 import AdminHeader from '@/components/admin/AdminHeader'
 import DataTable, { Column } from '@/components/admin/DataTable'
@@ -22,6 +22,7 @@ interface Service {
 }
 
 export default function ServicesPage() {
+    const supabase = createClient()
     const queryClient = useQueryClient()
     const [deleteId, setDeleteId] = useState<string | null>(null)
 

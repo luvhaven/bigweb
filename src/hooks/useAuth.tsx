@@ -31,8 +31,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             try {
                 const { data: { session } } = await supabase.auth.getSession()
                 setUser(session?.user ?? null)
+
                 if (session?.user) {
-                    await loadProfile(session.user.id)
+                    await loadProfile(session.user)
                 }
             } catch (error) {
                 console.error('Error checking session:', error)
@@ -45,35 +46,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setUser(session?.user ?? null)
+
             if (session?.user) {
-                // If we just logged in and don't have profile yet
-                if (!profile || profile.id !== session.user.id) {
-                    await loadProfile(session.user.id)
-                }
+                // Should reload profile if user changes or we don't have it
+                // We pass the new session.user to avoid stale state
+                await loadProfile(session.user)
             } else {
                 setProfile(null)
-                setLoading(false)
             }
+            setLoading(false)
         })
 
         return () => subscription.unsubscribe()
     }, [supabase]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    const loadProfile = async (userId: string) => {
+    const loadProfile = async (currentUser: User) => {
         try {
             // First try fetching by ID
             let { data, error } = await supabase
                 .from('admin_users')
                 .select('*')
-                .eq('id', userId)
+                .eq('id', currentUser.id)
                 .single()
 
             // If not found by ID, try fetching by email
-            if (!data && user?.email) {
+            // We use the passed currentUser object because React state 'user' might be stale
+            if (!data && currentUser.email) {
                 const { data: emailData } = await supabase
                     .from('admin_users')
                     .select('*')
-                    .eq('email', user.email)
+                    .eq('email', currentUser.email)
                     .single()
 
                 if (emailData) {

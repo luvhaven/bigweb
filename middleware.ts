@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/admin/debug', request.url))
         }
 
-        if (!['admin', 'editor'].includes(profile.role)) {
+        if (!['super_admin', 'admin', 'editor'].includes(profile.role)) {
             console.log('[Middleware] User unauthorized role')
             return NextResponse.redirect(new URL('/unauthorized', request.url))
         }

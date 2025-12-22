@@ -1,13 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { Plus, Eye, Calendar, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { Plus, Eye, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 import { format } from 'date-fns'
 import AdminHeader from '@/components/admin/AdminHeader'
 import DataTable, { Column } from '@/components/admin/DataTable'
 import { Button } from '@/components/ui/button'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 interface Project {
     id: string
@@ -21,47 +23,47 @@ interface Project {
 }
 
 export default function PortfolioPage() {
-    const [projects, setProjects] = useState<Project[]>([])
-    const [loading, setLoading] = useState(true)
+    const supabase = createClient()
+    const queryClient = useQueryClient()
     const [deleteId, setDeleteId] = useState<string | null>(null)
 
-    useEffect(() => {
-        loadProjects()
-    }, [])
-
-    const loadProjects = async () => {
-        try {
-            setLoading(true)
+    // React Query for projects
+    const { data: projects = [], isLoading } = useQuery({
+        queryKey: ['admin', 'portfolio'],
+        queryFn: async () => {
             const { data, error } = await supabase
                 .from('portfolio_projects')
                 .select('id, title, client_name, category, is_published, is_featured, completion_date, views_count')
                 .order('created_at', { ascending: false })
 
             if (error) throw error
-            setProjects(data || [])
-        } catch (error) {
-            console.error('Error loading projects:', error)
-        } finally {
-            setLoading(false)
+            return data as Project[]
         }
-    }
+    })
 
-    const handleDelete = async () => {
-        if (!deleteId) return
-
-        try {
+    // Delete Mutation
+    const deleteMutation = useMutation({
+        mutationFn: async (id: string) => {
             const { error } = await supabase
                 .from('portfolio_projects')
                 .delete()
-                .eq('id', deleteId)
-
+                .eq('id', id)
             if (error) throw error
-            setProjects(projects.filter(p => p.id !== deleteId))
+        },
+        onSuccess: () => {
+            toast.success('Project deleted successfully')
+            queryClient.invalidateQueries({ queryKey: ['admin', 'portfolio'] })
             setDeleteId(null)
-        } catch (error) {
+        },
+        onError: (error: any) => {
             console.error('Error deleting project:', error)
-            alert('Failed to delete project')
+            toast.error('Failed to delete project: ' + error.message)
         }
+    })
+
+    const handleDelete = () => {
+        if (!deleteId) return
+        deleteMutation.mutate(deleteId)
     }
 
     const columns: Column<Project>[] = [
@@ -136,7 +138,7 @@ export default function PortfolioPage() {
             <DataTable
                 columns={columns}
                 data={projects}
-                loading={loading}
+                loading={isLoading}
                 editLink={(project) => `/admin/portfolio/${project.id}`}
                 onDelete={(id) => setDeleteId(id)}
                 emptyMessage="No projects found. Create your first case study to showcase your work."
@@ -162,9 +164,10 @@ export default function PortfolioPage() {
                             </button>
                             <button
                                 onClick={handleDelete}
-                                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                                disabled={deleteMutation.isPending}
+                                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
                             >
-                                Delete
+                                {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
                             </button>
                         </div>
                     </div>
