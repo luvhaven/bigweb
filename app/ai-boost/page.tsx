@@ -236,6 +236,111 @@ export default function AIBoostLandingPage() {
                 </div>
             </section>
 
+            {/* NEW: How It Works Section */}
+            <section className="py-24 bg-black relative">
+                <div className="absolute inset-0 bg-emerald-900/10 opacity-20 pointer-events-none" />
+                <div className="container mx-auto px-4 max-w-6xl relative z-10">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">Setup in 3 Simple Steps.</h2>
+                        <p className="text-zinc-400 max-w-2xl mx-auto">No coding required. We handle the technical heavy lifting.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-12">
+                        {[
+                            {
+                                step: "01",
+                                title: "We Train Your AI",
+                                desc: "We feed the AI your website data, PDF prices sheets, and past emails so it knows your business perfectly.",
+                                icon: <Bot className="w-8 h-8 text-emerald-400" />
+                            },
+                            {
+                                step: "02",
+                                title: "We Install the Code",
+                                desc: "Our team adds a single line of code to your existing site. It works on WordPress, Shopify, Next.js, and more.",
+                                icon: <Zap className="w-8 h-8 text-emerald-400" />
+                            },
+                            {
+                                step: "03",
+                                title: "You Watch Leads Pour In",
+                                desc: "The bot engages visitors 24/7, answers questions, and books appointments directly into your calendar.",
+                                icon: <BarChart className="w-8 h-8 text-emerald-400" />
+                            }
+                        ].map((s, i) => (
+                            <div key={i} className="relative bg-zinc-900/50 border border-white/5 p-8 rounded-2xl group hover:bg-zinc-900 transition-all">
+                                <div className="absolute -top-6 left-8 text-6xl font-black text-white/5 select-none">{s.step}</div>
+                                <div className="mb-6 bg-emerald-500/10 w-16 h-16 rounded-xl flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                                    {s.icon}
+                                </div>
+                                <h3 className="text-xl font-bold mb-4">{s.title}</h3>
+                                <p className="text-zinc-400 leading-relaxed">{s.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* NEW: Comparison Section */}
+            <section className="py-24 bg-[#080808] border-y border-white/5">
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <h2 className="text-3xl font-bold text-center mb-12">Why the Old Way is Costing You Money</h2>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Old Way */}
+                        <div className="p-8 rounded-3xl bg-red-950/10 border border-red-500/20 opacity-80">
+                            <h3 className="text-red-400 font-bold mb-6 flex items-center gap-2">
+                                <span className="p-2 bg-red-500/10 rounded-lg"><Clock className="w-5 h-5" /></span>
+                                Traditional Website
+                            </h3>
+                            <ul className="space-y-4">
+                                <li className="flex gap-3 text-zinc-400 text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">✕</div>
+                                    Visitor fills form → Waits 24h for reply
+                                </li>
+                                <li className="flex gap-3 text-zinc-400 text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">✕</div>
+                                    "Contact Us" page is boring & static
+                                </li>
+                                <li className="flex gap-3 text-zinc-400 text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">✕</div>
+                                    Generic replies to specific questions
+                                </li>
+                                <li className="flex gap-3 text-zinc-400 text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">✕</div>
+                                    Zero engagement on weekends/nights
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* New Way */}
+                        <div className="p-8 rounded-3xl bg-emerald-950/10 border border-emerald-500/50 shadow-2xl shadow-emerald-900/20 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 bg-emerald-600/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-bl-lg">WINNER</div>
+                            <h3 className="text-emerald-400 font-bold mb-6 flex items-center gap-2">
+                                <span className="p-2 bg-emerald-500/10 rounded-lg"><Zap className="w-5 h-5" /></span>
+                                AI-Boosted Website
+                            </h3>
+                            <ul className="space-y-4">
+                                <li className="flex gap-3 text-white font-medium text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-emerald-400" /></div>
+                                    Instant Reply (0.2s response time)
+                                </li>
+                                <li className="flex gap-3 text-white font-medium text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-emerald-400" /></div>
+                                    Active conversation engages user nicely
+                                </li>
+                                <li className="flex gap-3 text-white font-medium text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-emerald-400" /></div>
+                                    Hyper-specific answers from YOUR data
+                                </li>
+                                <li className="flex gap-3 text-white font-medium text-sm">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-emerald-400" /></div>
+                                    Qualifies leads & books calls 24/7
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Agitation / Logic Section */}
             <section className="py-20 bg-[#0a0a0a] border-y border-white/5">
                 <div className="container mx-auto px-4 max-w-4xl">
@@ -255,6 +360,31 @@ export default function AIBoostLandingPage() {
                             <h3 className="text-xl font-bold mb-2">Inconsistent Sales?</h3>
                             <p className="text-zinc-400 text-sm">Manual follow-ups invoke human error. Automation ensures 100% reliability.</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* NEW: Integrations Section */}
+            <section className="py-20 border-b border-white/5 bg-zinc-900/20 overflow-hidden">
+                <div className="container mx-auto px-4 text-center mb-10">
+                    <p className="text-zinc-500 font-medium text-sm uppercase tracking-widest">Works Seamlessly With Your Current Stack</p>
+                </div>
+
+                <div className="relative flex overflow-x-hidden group">
+                    <div className="animate-marquee whitespace-nowrap flex gap-16 items-center opacity-50 hover:opacity-100 transition-opacity duration-500">
+                        {/* Repeat twice for seamless loop */}
+                        {[1, 2].map((iter) => (
+                            <div key={iter} className="flex gap-16 items-center text-2xl font-bold text-zinc-400">
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#FF5C35] rounded-md"></div>HubSpot</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#00796B] rounded-md"></div>Shopify</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#2196F3] rounded-md"></div>WordPress</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#EF5B25] rounded-md"></div>Zapier</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#4285F4] rounded-md"></div>Google Calendar</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#E1306C] rounded-md"></div>Instagram DM</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#61DAFB] rounded-md"></div>React</span>
+                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#000000] border border-white/20 rounded-md"></div>Notion</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -375,6 +505,16 @@ export default function AIBoostLandingPage() {
                     </Link>
                 </div>
             </section>
+
+            {/* Sticky Mobile CTA */}
+            <div className="md:hidden fixed bottom-6 left-4 right-4 z-[9999]">
+                <Link
+                    href="#pricing"
+                    className="block w-full bg-emerald-600 text-white font-bold text-center py-4 rounded-full shadow-2xl shadow-emerald-500/40 border border-emerald-400/50 backdrop-blur-xl animate-pulse-slow"
+                >
+                    Add AI Agent ($1,497)
+                </Link>
+            </div>
         </div>
     )
 }

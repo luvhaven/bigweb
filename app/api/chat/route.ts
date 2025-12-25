@@ -1,16 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { generateSystemPrompt, analyzeIntent } from '@/lib/ai-service'
-import { adminSupabase } from '@/utils/adminSupabase'
+import { createClient } from '@supabase/supabase-js'
+
+// Use Node.js runtime for stability with database and AI SDKs
+export const runtime = 'nodejs'
+
+// Initialize Service Role Client (Bypasses RLS)
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false
+        }
+    }
+)
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || '')
 
-// Use edge runtime for better streaming performance
-export const runtime = 'edge'
-
-/**
- * POST /api/chat - AI Chat with Gemini Streaming Support
- */
 export async function POST(req: NextRequest) {
     try {
         const { messages, visitorId, sessionId } = await req.json()
@@ -19,60 +28,77 @@ export async function POST(req: NextRequest) {
             return new NextResponse('Messages required', { status: 400 })
         }
 
-        // Get or create session
+        // 1. Session Management
         let currentSessionId = sessionId
         if (!currentSessionId && visitorId) {
-            const { data: session, error } = await adminSupabase
+            // Try to find existing open session for this visitor
+            const { data: existingSession } = await supabaseAdmin
                 .from('chat_sessions')
-                .insert({
-                    visitor_id: visitorId,
-                    status: 'open',
-                    last_message_at: new Date().toISOString(),
-                })
-                .select()
+                .select('id')
+                .eq('visitor_id', visitorId)
+                .eq('status', 'open')
                 .single()
 
-            if (!error && session) {
-                currentSessionId = session.id
+            if (existingSession) {
+                currentSessionId = existingSession.id
+            } else {
+                // Create new session
+                const { data: newSession, error: sessionError } = await supabaseAdmin
+                    .from('chat_sessions')
+                    .insert({
+                        visitor_id: visitorId,
+                        status: 'open',
+                        last_message_at: new Date().toISOString(),
+                    })
+                    .select()
+                    .single()
+
+                if (sessionError) {
+                    console.error('Session creation error:', sessionError)
+                    // Continue without session if DB fails (fallback to stateless chat)
+                } else {
+                    currentSessionId = newSession.id
+                }
             }
         }
 
-        // Store user message
+        // 2. Store User Message
         const userMessage = messages[messages.length - 1]
         if (currentSessionId && userMessage.role === 'user') {
-            await adminSupabase.from('chat_messages').insert({
+            await supabaseAdmin.from('chat_messages').insert({
                 session_id: currentSessionId,
                 content: userMessage.content,
                 sender_type: 'visitor',
-                read: false,
+                is_read: false,
             })
-
-            // Update session
-            await adminSupabase
-                .from('chat_sessions')
-                .update({
-                    last_message_at: new Date().toISOString(),
-                })
-                .eq('id', currentSessionId)
         }
 
-        // Analyze intent for better responses
+        // 3. AI Logic
         const intent = analyzeIntent(userMessage.content)
-
-        // Generate system prompt with service knowledge
-        const systemPrompt = await generateSystemPrompt()
-
-        // Initialize Gemini model
+        const systemPrompt = await generateSystemPrompt() // This might fail if DB is locked, but we'll try
         const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
-        // Prepare chat history (excluding system prompt, Gemini handles system prompt differently or via context in first message)
-        // Map roles: 'user' -> 'user', 'assistant' -> 'model'
+        // --- DETERMINISTIC SYSTEM STEERING ---
+        // Force the model to comply by injecting instructions into the immediate context
+        let contentToSend = userMessage.content
+        const lowerMsg = contentToSend.toLowerCase()
+
+        if (lowerMsg.includes('quote') || lowerMsg.includes('price') || lowerMsg.includes('cost') || lowerMsg.includes('estimate')) {
+            contentToSend += `\n\n[SYSTEM_INSTRUCTION: automatic_override]
+The user is asking for pricing/quote. You MUST end your response with: {{LEAD_FORM}}
+Do NOT ask for name/email. Just introduce the form.`
+        } else if (lowerMsg.includes('book') || lowerMsg.includes('schedule') || lowerMsg.includes('call') || lowerMsg.includes('meet')) {
+            contentToSend += `\n\n[SYSTEM_INSTRUCTION: automatic_override]
+The user wants to book/schedule. You MUST end your response with: {{BOOKING_CALENDAR}}
+Do NOT ask for times. Just introduce the calendar.`
+        }
+        // -------------------------------------
+
         const history = messages.slice(0, -1).map((m: any) => ({
             role: m.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: m.content }],
         }))
 
-        // Start chat with history
         const chat = model.startChat({
             history: [
                 {
@@ -81,21 +107,18 @@ export async function POST(req: NextRequest) {
                 },
                 {
                     role: 'model',
-                    parts: [{ text: 'Understood. I am ready to assist as the BigWeb Digital Agency AI assistant.' }]
+                    parts: [{ text: 'Understood. I will strictly follow the tool usage rules.' }]
                 },
                 ...history
             ],
             generationConfig: {
-                maxOutputTokens: 600,
+                maxOutputTokens: 800, // Increased for tools
                 temperature: 0.7,
             },
-            safetySettings: [], // Add safety settings if needed
         })
 
-        // Generate streaming response
-        const result = await chat.sendMessageStream(userMessage.content)
-
-        // Create a readable stream for the response
+        // 4. Streaming Response
+        const result = await chat.sendMessageStream(contentToSend)
         const encoder = new TextEncoder()
         let fullResponse = ''
 
@@ -106,8 +129,7 @@ export async function POST(req: NextRequest) {
                         const content = chunk.text()
                         if (content) {
                             fullResponse += content
-
-                            // Send as SSE format compatible with our custom useChat hook
+                            // SSE Format
                             const data = JSON.stringify({
                                 content,
                                 choices: [{ delta: { content } }]
@@ -116,17 +138,16 @@ export async function POST(req: NextRequest) {
                         }
                     }
 
-                    // Store AI response after streaming completes
+                    // Store AI Response asynchronously
                     if (currentSessionId && fullResponse) {
-                        await adminSupabase.from('chat_messages').insert({
+                        await supabaseAdmin.from('chat_messages').insert({
                             session_id: currentSessionId,
                             content: fullResponse,
-                            sender_type: 'agent',
-                            read: true,
+                            sender_type: 'agent', // 'agent' or 'system' usually, 'agent' for AI
+                            is_read: true,
                         })
                     }
 
-                    // Send done signal
                     controller.enqueue(encoder.encode('data: [DONE]\n\n'))
                     controller.close()
                 } catch (error) {
@@ -136,7 +157,6 @@ export async function POST(req: NextRequest) {
             },
         })
 
-        // Return streaming response with session metadata
         return new NextResponse(stream, {
             headers: {
                 'Content-Type': 'text/event-stream',
@@ -144,12 +164,12 @@ export async function POST(req: NextRequest) {
                 'Connection': 'keep-alive',
                 'X-Session-Id': currentSessionId || '',
                 'X-Intent': intent.intent,
-                'X-Suggested-Actions': JSON.stringify(intent.suggestedActions),
             },
         })
+
     } catch (error) {
-        console.error('Chat API Error:', error)
-        return new NextResponse('Internal Server Error', { status: 500 })
+        console.error('Chat API Fatal Error:', error)
+        return new NextResponse(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 })
     }
 }
 

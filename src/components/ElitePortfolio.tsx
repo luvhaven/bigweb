@@ -136,8 +136,7 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -214,29 +213,26 @@ interface ElitePortfolioProps {
 }
 
 const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
+  // Initialize with MOCK_DATA to prevent "Empty" flash or failure
   const [activeCategory, setActiveCategory] = useState('All')
-  const [visibleProjects, setVisibleProjects] = useState<any[]>([])
-  const [allProjects, setAllProjects] = useState<any[]>([])
-  const [categories, setCategories] = useState<string[]>(['All'])
+  const [visibleProjects, setVisibleProjects] = useState<any[]>(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
+  const [allProjects, setAllProjects] = useState<any[]>(MOCK_PROJECTS)
+  const [categories, setCategories] = useState<string[]>(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const isTouch = useTouchDevice()
 
-  // Load projects from database
+  // Load projects from database (Enhancement, not dependency)
   useEffect(() => {
     loadProjects()
   }, [])
 
   const loadProjects = async () => {
     try {
-      setIsLoading(true)
+      // setIsLoading(true) - Don't show loader, just silently update if DB works
       const data = await projectsAPI.getAll()
-      // Use mock data if database is empty or unavailable
-      if (!data || data.length === 0) {
-        setAllProjects(MOCK_PROJECTS)
-        setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
-        setCategories(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
-      } else {
+
+      if (data && data.length > 0) {
         setAllProjects(data)
         setVisibleProjects(data.slice(0, PROJECTS_PER_PAGE))
 
@@ -255,11 +251,8 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
         setCategories(uniqueCategories)
       }
     } catch (error) {
-      console.warn('Database not available, using mock data:', error)
-      // Use mock data as fallback
-      setAllProjects(MOCK_PROJECTS)
-      setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
-      setCategories(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
+      console.warn('Database fetch failed, keeping mock data:', error)
+      // No action needed, fallback is already loaded
     } finally {
       setIsLoading(false)
     }

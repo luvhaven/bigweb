@@ -271,101 +271,122 @@ const AdvancedNavigation = () => {
 
               </motion.button>
 
-              {/* Enhanced Dropdown Menu - TWO COLUMN LAYOUT */}
+              {/* Enhanced Dropdown Menu - MEGA MENU LAYOUT */}
               <AnimatePresence>
                 {servicesOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                    exit={{ opacity: 0, y: 20, scale: 0.98 }}
                     transition={{
-                      duration: 0.3,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30
+                      duration: 0.2,
+                      ease: "easeOut"
                     }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px]"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[900px] z-50"
                     role="menu"
-                    aria-label="Services menu"
                   >
+                    {/* Triangle pointer */}
+                    <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-zinc-800" />
+
                     <motion.div
-                      className="bg-card backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden"
+                      className="bg-[#0A0A0A] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-12"
                       style={{
-                        boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px hsl(var(--accent) / 0.2)',
-                        backgroundColor: 'hsl(var(--card))'
+                        boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)'
                       }}
                     >
-                      {/* TWO COLUMN GRID */}
-                      <div className="p-2 grid grid-cols-2 gap-2">
-                        {services.map((service, index) => {
-                          return (
-                            <Link
-                              key={service.path}
-                              href={service.path}
-                              onMouseEnter={() => setActiveServiceIndex(index)}
-                            >
-                              <motion.div
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{
-                                  delay: index * 0.05,
-                                  type: "spring",
-                                  stiffness: 200
-                                }}
-                                whileHover={{
-                                  x: 6,
-                                  scale: 1.02,
-                                  backgroundColor: 'hsl(var(--accent) / 0.05)'
-                                }}
-                                className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer group ${activeServiceIndex === index
-                                  ? 'bg-accent/10 border border-accent/30 shadow-md'
-                                  : 'hover:bg-muted/50 border border-transparent'
-                                  }`}
-                                role="menuitem"
-                              >
-                                {/* Small Thumbnail */}
-                                <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
-                                  <img
-                                    src={service.thumbnail}
-                                    alt={service.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-br from-background/40 to-background/20" />
-                                </div>
+                      {/* Column 1: Core Services */}
+                      <div className="col-span-4 p-6 border-r border-white/5 bg-zinc-900/50">
+                        <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                          <Code className="w-3 h-3" /> Core Engineering
+                        </div>
+                        <div className="space-y-1">
+                          <Link href="/revenue-website" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500 text-emerald-500 group-hover:text-white transition-colors mt-0.5">
+                              <Smartphone className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-emerald-400 transition-colors">Revenue Websites</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">High-performance Next.js sites built for conversion.</div>
+                            </div>
+                          </Link>
 
-                                {/* Content */}
-                                <div className="flex-1 min-w-0">
-                                  <h4 className="font-semibold text-sm mb-0.5 group-hover:text-accent transition-colors">
-                                    {service.name}
-                                  </h4>
-                                  <p className="text-xs text-muted-foreground line-clamp-1">
-                                    {service.description}
-                                  </p>
-                                </div>
+                          <Link href="/services/web-development" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500 text-blue-500 group-hover:text-white transition-colors mt-0.5">
+                              <Code className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-blue-400 transition-colors">Custom Software</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Enterprise-grade web applications & SaaS.</div>
+                            </div>
+                          </Link>
 
-                                {/* Arrow */}
-                                <ArrowRight className={`w-4 h-4 flex-shrink-0 transition-all duration-200 ${activeServiceIndex === index
-                                  ? 'opacity-100 text-accent'
-                                  : 'opacity-0 text-muted-foreground'
-                                  }`} />
-                              </motion.div>
-                            </Link>
-                          );
-                        })}
+                          <Link href="/services/mobile-apps" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 text-indigo-500 group-hover:text-white transition-colors mt-0.5">
+                              <Smartphone className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-indigo-400 transition-colors">Mobile Apps</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Native iOS & Android development.</div>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
 
-                      {/* View All Services */}
-                      <Link href="/services">
-                        <motion.div
-                          whileHover={{ backgroundColor: 'hsl(var(--muted))' }}
-                          className="p-3 border-t border-border/50 text-center group cursor-pointer transition-colors"
-                        >
-                          <span className="text-sm font-semibold text-accent flex items-center justify-center gap-2">
-                            View All Services
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </span>
-                        </motion.div>
-                      </Link>
+                      {/* Column 2: Growth & AI */}
+                      <div className="col-span-4 p-6 border-r border-white/5 relative">
+                        <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                          <Brain className="w-3 h-3" /> AI & Growth
+                        </div>
+                        <div className="space-y-1">
+                          <Link href="/ai-boost" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500 text-purple-500 group-hover:text-white transition-colors mt-0.5">
+                              <Bot className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-purple-400 transition-colors">AI Sales Agents</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">24/7 automated support & sales bots.</div>
+                            </div>
+                          </Link>
+
+                          <Link href="/services/gaio" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 text-orange-500 group-hover:text-white transition-colors mt-0.5">
+                              <Search className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-orange-400 transition-colors">GAIO Optimization</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Rank #1 on ChatGPT & Perplexity.</div>
+                            </div>
+                          </Link>
+
+                          <Link href="/services/seo-growth" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                            <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500 text-yellow-500 group-hover:text-white transition-colors mt-0.5">
+                              <TrendingUp className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="text-white font-semibold text-sm group-hover:text-yellow-400 transition-colors">Growth Marketing</div>
+                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Data-driven SEO & conversion campaigns.</div>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Column 3: Featured / Visual */}
+                      <div className="col-span-4 bg-zinc-900/80 p-6 flex flex-col justify-between relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                        <div>
+                          <div className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-4">Featured Product</div>
+                          <h4 className="text-xl font-bold text-white mb-2">Revenue Website™</h4>
+                          <p className="text-zinc-400 text-sm leading-relaxed mb-6">
+                            The ultimate high-converting website package. Includes AI integration, premium analytics, and 100 speed score guarantee.
+                          </p>
+                        </div>
+
+                        <Link href="/revenue-website" className="inline-flex items-center justify-between w-full bg-emerald-600/10 hover:bg-emerald-600 text-emerald-500 hover:text-white border border-emerald-500/20 px-4 py-3 rounded-lg transition-all group/btn">
+                          <span className="font-bold text-sm">View Package</span>
+                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </Link>
+                      </div>
                     </motion.div>
                   </motion.div>
                 )}
@@ -480,178 +501,92 @@ const AdvancedNavigation = () => {
           </button>
         </div>
 
-        {/* Full-Screen Mobile Menu */}
+        {/* Mobile Slide-Over Sidebar */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-background z-40 md:hidden overflow-y-auto"
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.offset.x > 100) {
-                  setIsMenuOpen(false);
-                }
-              }}
-            >
-              {/* Navbar Header (fixed) */}
-              <div className="sticky top-0 z-50 bg-background border-b border-border px-6 py-4">
-                <div className="flex items-center justify-between">
-                  {/* Logo */}
-                  <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                    <motion.div
-                      className="text-2xl font-bold text-foreground"
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <BrandLogo className="h-8 w-auto text-foreground" />
-                    </motion.div>
-                  </Link>
+            <>
+              {/* Checkbox Overlay (Backdrop) */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMenuOpen(false)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+              />
 
-                  {/* Swipe hint */}
-                  <div className="text-xs text-muted-foreground/50 animate-pulse">
-                    Swipe right to close →
-                  </div>
-
-                  {/* Close Button */}
+              {/* Sidebar Drawer */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0A0A0A] border-l border-white/10 z-50 md:hidden flex flex-col shadow-2xl"
+              >
+                {/* Header */}
+                <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                  <span className="text-sm font-bold text-zinc-500 uppercase tracking-widest">Menu</span>
                   <button
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-foreground p-2 -mr-2 active:bg-accent/10 rounded-full transition-colors"
-                    aria-label="Close menu"
+                    className="p-2 hover:bg-white/5 rounded-full transition-colors text-white"
                   >
-                    <X className="w-6 h-6" />
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
-              </div>
 
-              {/* Animated Background */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                  className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px]"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    x: [0, 100, 0],
-                    y: [0, -50, 0]
-                  }}
-                  transition={{ duration: 10, repeat: Infinity }}
-                />
-                <motion.div
-                  className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px]"
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    x: [0, -80, 0],
-                    y: [0, 50, 0]
-                  }}
-                  transition={{ duration: 8, repeat: Infinity }}
-                />
-              </div>
-
-              {/* Menu Content */}
-              <div className="relative flex flex-col items-center justify-start px-4 py-8 min-h-[calc(100vh-80px)] overflow-y-auto">
-                <nav className="space-y-3 w-full max-w-sm">
-                  {/* Services Section with List */}
-                  <div className="space-y-2">
-                    <Link href="/services" onClick={() => setIsMenuOpen(false)}>
-                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="block text-3xl font-bold text-center py-3 cursor-pointer bg-accent/10 rounded-lg"
-                      >
-                        <span className="relative z-10">SERVICES</span>
-                      </motion.div>
-                    </Link>
-
-                    {/* Individual Services - Grid Layout */}
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      transition={{ delay: 0.2, duration: 0.3 }}
-                      className="grid grid-cols-2 gap-2 px-2"
-                    >
-                      {services.map((service, index) => (
-                        <Link key={service.path} href={service.path} onClick={() => setIsMenuOpen(false)}>
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 * index, duration: 0.3 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex flex-col items-center gap-1 p-3 bg-white/5 hover:bg-accent/20 rounded-lg transition-colors min-h-[80px] justify-center"
-                          >
-                            <service.icon className="w-5 h-5 text-accent" />
-                            <span className="text-xs font-medium text-center leading-tight">{service.name}</span>
-                          </motion.div>
-                        </Link>
-                      ))}
-                    </motion.div>
+                {/* Menu Items Content */}
+                <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                  {/* Section 1: Services */}
+                  <div>
+                    <h4 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-4">Services</h4>
+                    <div className="space-y-4">
+                      <Link href="/revenue-website" onClick={() => setIsMenuOpen(false)} className="block">
+                        <div className="font-bold text-white text-lg">Revenue Websites</div>
+                        <div className="text-zinc-500 text-xs mt-1">High-converting pages</div>
+                      </Link>
+                      <Link href="/ai-boost" onClick={() => setIsMenuOpen(false)} className="block">
+                        <div className="font-bold text-white text-lg">AI Integration</div>
+                        <div className="text-zinc-500 text-xs mt-1">Chatbots & Automation</div>
+                      </Link>
+                      <Link href="/services/gaio" onClick={() => setIsMenuOpen(false)} className="block">
+                        <div className="font-bold text-white text-lg">GAIO Optimization</div>
+                        <div className="text-zinc-500 text-xs mt-1">AI Search Ranking</div>
+                      </Link>
+                    </div>
                   </div>
 
-                  {/* Other Menu Items */}
-                  {menuItems.map((item, index) => (
-                    <Link key={item.name} href={item.path} onClick={() => setIsMenuOpen(false)}>
-                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (index + 1) * 0.1, duration: 0.4 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="block text-3xl font-bold text-center py-3 cursor-pointer hover:bg-accent/10 rounded-lg transition-colors"
-                      >
-                        <span className="relative z-10">{item.name.toUpperCase()}</span>
-                      </motion.div>
-                    </Link>
-                  ))}
-
-                  {/* CTA Button */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.5, rotate: 20 }}
-                    transition={{
-                      duration: 0.6,
-                      delay: 0.4,
-                      type: "spring",
-                      stiffness: 200
-                    }}
-                    className="pt-8"
-                  >
-                    <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-                      <motion.div
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)"
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button
-                          size="lg"
-                          className="w-full bg-accent hover:bg-accent/90 text-white text-xl py-8 letter-spacing-wide font-bold"
+                  {/* Section 2: Company */}
+                  <div>
+                    <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Company</h4>
+                    <div className="space-y-4">
+                      {menuItems.map((item, i) => (
+                        <Link
+                          key={item.name}
+                          href={item.path}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="block text-zinc-300 hover:text-white transition-colors text-lg font-medium"
                         >
-                          LET&apos;S TALK
-                        </Button>
-                      </motion.div>
-                    </Link>
-                  </motion.div>
-                </nav>
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
 
-                {/* Decorative Elements */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute bottom-8 text-center w-full"
-                >
-                  <p className="text-sm text-muted-foreground">Tap any link to explore</p>
-                </motion.div>
-              </div>
-            </motion.div>
-          )
-          }
-        </AnimatePresence >
+                {/* Footer / CTA */}
+                <div className="p-6 border-t border-white/5 bg-zinc-900/50">
+                  <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-6 rounded-xl">
+                      Start Project
+                    </Button>
+                  </Link>
+                  <div className="mt-4 text-center text-xs text-zinc-600">
+                    © 2025 BigWeb Digital
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div >
     </motion.nav >
   );
