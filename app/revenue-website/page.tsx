@@ -301,13 +301,6 @@ export default function RevenueWebsitePage() {
                                 </div>
                             </TiltCard>
                         </div>
-                        src="/images/heatmap-ui.png"
-                        alt="Conversion Heatmap"
-                        width={600}
-                        height={400}
-                        className="rounded-2xl border border-white/10 shadow-2xl"
-                        unoptimized
-                                />
                     </TiltCard>
                 </div>
                 <div className="order-1 md:order-2">
