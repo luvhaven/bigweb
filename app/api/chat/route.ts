@@ -28,103 +28,70 @@ export async function POST(req: NextRequest) {
             return new NextResponse('Messages required', { status: 400 })
         }
 
-        // 1. Session Management
+        // 1. Session Management (Simplified for Reliability)
+        // If we have a sessionId, use it. If not, just proceed (stateless fallback if DB fails).
         let currentSessionId = sessionId
-        if (!currentSessionId && visitorId) {
-            // Try to find existing open session for this visitor
-            const { data: existingSession } = await supabaseAdmin
-                .from('chat_sessions')
-                .select('id')
-                .eq('visitor_id', visitorId)
-                .eq('status', 'open')
-                .single()
 
-            if (existingSession) {
-                currentSessionId = existingSession.id
-            } else {
-                // Create new session
-                const { data: newSession, error: sessionError } = await supabaseAdmin
-                    .from('chat_sessions')
-                    .insert({
-                        visitor_id: visitorId,
-                        status: 'open',
-                        last_message_at: new Date().toISOString(),
-                    })
-                    .select()
-                    .single()
+        // 2. Powerful Sales System Prompt
+        const SYSTEM_PROMPT = `
+You are the Elite Sales Agent for BigWeb (${new Date().getFullYear()}).
+Your Goal: Convert visitors into booking a consultation or filling out the lead form.
+Your Style: Professional, concise, confident, and slightly "exclusive".
 
-                if (sessionError) {
-                    console.error('Session creation error:', sessionError)
-                    // Continue without session if DB fails (fallback to stateless chat)
-                } else {
-                    currentSessionId = newSession.id
-                }
-            }
-        }
+Key Information:
+- Product: "Revenue Website" (High-performance Next.js site + AI integration).
+- Price: Starts at $1,997 (50% deposit).
+- Speed: 10-day turnaround.
+- Guarantee: "Love it or we redesign it for free".
 
-        // 2. Store User Message
-        const userMessage = messages[messages.length - 1]
-        if (currentSessionId && userMessage.role === 'user') {
-            await supabaseAdmin.from('chat_messages').insert({
-                session_id: currentSessionId,
-                content: userMessage.content,
-                sender_type: 'visitor',
-                is_read: false,
-            })
-        }
+Rules:
+1. NEVER write long paragraphs. Keep responses under 50 words unless explaining a technical detail.
+2. ALWAYS end with a question or a call to action.
+3. If they ask about price/cost, say: "Our packages start at $1,997 for the complete Revenue System. Would you like to see the full breakdown?" and if they say yes, output {{LEAD_FORM}}.
+4. If they seem interested in starting, say: "I can open a slot for you this week. Want to lock it in?" and if yes, output {{BOOKING_CALENDAR}}.
+5. Be helpful but fierce about closing. Don't be a passive assistant. Drive the chat.
+`;
 
-        // 3. AI Logic
-        const intent = analyzeIntent(userMessage.content)
-        const systemPrompt = await generateSystemPrompt() // This might fail if DB is locked, but we'll try
+        // 3. AI Logic with Gemini
+        // We use the 'gemini-pro' model (mapped to latest stable 1.0 or 1.5 depending on API key tier)
         const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
-        // --- DETERMINISTIC SYSTEM STEERING ---
-        // Force the model to comply by injecting instructions into the immediate context
-        let contentToSend = userMessage.content
-        const lowerMsg = contentToSend.toLowerCase()
-
-        if (lowerMsg.includes('quote') || lowerMsg.includes('price') || lowerMsg.includes('cost') || lowerMsg.includes('estimate')) {
-            contentToSend += `\n\n[SYSTEM_INSTRUCTION: automatic_override]
-The user is asking for pricing/quote. You MUST end your response with: {{LEAD_FORM}}
-Do NOT ask for name/email. Just introduce the form.`
-        } else if (lowerMsg.includes('book') || lowerMsg.includes('schedule') || lowerMsg.includes('call') || lowerMsg.includes('meet')) {
-            contentToSend += `\n\n[SYSTEM_INSTRUCTION: automatic_override]
-The user wants to book/schedule. You MUST end your response with: {{BOOKING_CALENDAR}}
-Do NOT ask for times. Just introduce the calendar.`
-        }
-        // -------------------------------------
-
+        // Construct Chat History for Gemini
+        // Map 'user'/'assistant' roles to 'user'/'model'
         const history = messages.slice(0, -1).map((m: any) => ({
             role: m.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: m.content }],
         }))
 
+        // Start Chat with System Instruction inserted as the first "User" message (common pattern for API)
         const chat = model.startChat({
             history: [
                 {
                     role: 'user',
-                    parts: [{ text: `System Instructions:\n${systemPrompt}` }]
+                    parts: [{ text: `SYSTEM_INSTRUCTION:\n${SYSTEM_PROMPT}` }]
                 },
                 {
                     role: 'model',
-                    parts: [{ text: 'Understood. I will strictly follow the tool usage rules.' }]
+                    parts: [{ text: 'Understood. I am the Elite Sales Agent. I will keep responses short and drive conversions.' }]
                 },
                 ...history
             ],
             generationConfig: {
-                maxOutputTokens: 800, // Increased for tools
+                maxOutputTokens: 500,
                 temperature: 0.7,
             },
         })
 
-        // 4. Streaming Response
-        const result = await chat.sendMessageStream(contentToSend)
+        // 4. Send Message & Stream
+        const lastUserMsg = messages[messages.length - 1].content
+        const result = await chat.sendMessageStream(lastUserMsg)
+
         const encoder = new TextEncoder()
-        let fullResponse = ''
 
         const stream = new ReadableStream({
             async start(controller) {
                 try {
+                    let fullResponse = ''
                     for await (const chunk of result.stream) {
                         const content = chunk.text()
                         if (content) {
@@ -132,22 +99,12 @@ Do NOT ask for times. Just introduce the calendar.`
                             // SSE Format
                             const data = JSON.stringify({
                                 content,
-                                choices: [{ delta: { content } }]
+                                choices: [{ delta: { content } }] // Mock OpenAI format for frontend compatibility
                             })
                             controller.enqueue(encoder.encode(`data: ${data}\n\n`))
                         }
                     }
-
-                    // Store AI Response asynchronously
-                    if (currentSessionId && fullResponse) {
-                        await supabaseAdmin.from('chat_messages').insert({
-                            session_id: currentSessionId,
-                            content: fullResponse,
-                            sender_type: 'agent', // 'agent' or 'system' usually, 'agent' for AI
-                            is_read: true,
-                        })
-                    }
-
+                    console.log("AI Response Complete:", fullResponse)
                     controller.enqueue(encoder.encode('data: [DONE]\n\n'))
                     controller.close()
                 } catch (error) {
@@ -162,8 +119,6 @@ Do NOT ask for times. Just introduce the calendar.`
                 'Content-Type': 'text/event-stream',
                 'Cache-Control': 'no-cache',
                 'Connection': 'keep-alive',
-                'X-Session-Id': currentSessionId || '',
-                'X-Intent': intent.intent,
             },
         })
 
@@ -185,7 +140,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Session ID required' }, { status: 400 })
         }
 
-        const { data: messages, error } = await adminSupabase
+        const { data: messages, error } = await supabaseAdmin
             .from('chat_messages')
             .select('*')
             .eq('session_id', sessionId)
