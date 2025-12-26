@@ -50,7 +50,7 @@ const CountdownTimer = () => {
 
     useEffect(() => {
         setMounted(true)
-        const deadline = new Date('2025-12-30T23:59:59').getTime()
+        const deadline = new Date('2026-01-09T23:59:59').getTime()
 
         const timer = setInterval(() => {
             const now = new Date().getTime()
@@ -129,7 +129,7 @@ export default function RevenueWebsitePage() {
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 <span><span className="text-emerald-400 font-bold">UPDATE:</span> Only 2 spots left for December design sprints.</span>
                 <span className="opacity-50 hidden sm:inline">|</span>
-                <span className="font-bold hidden sm:inline">Offer Ends Dec 30</span>
+                <span className="font-bold hidden sm:inline">Offer Ends Jan 9</span>
             </div>
 
             {/* Hero Section - Optimized for Viewport Fit */}
@@ -590,7 +590,7 @@ export default function RevenueWebsitePage() {
                         <div className="text-sm text-zinc-400 mb-6 uppercase tracking-widest font-bold">Offer Expires Soon</div>
                         <CountdownTimer />
                         <div className="mt-6 text-red-500 font-bold text-sm bg-red-500/10 inline-block px-4 py-1 rounded-full border border-red-500/20">
-                            Strict Validation: Offer expires Dec 30 @ Midnight
+                            Strict Validation: Offer expires Jan 9 @ Midnight
                         </div>
                     </div>
                 </div>
@@ -685,7 +685,7 @@ export default function RevenueWebsitePage() {
 
             {/* Footer Simple */}
             < footer className="py-12 text-center text-zinc-600 text-sm border-t border-white/5 bg-black z-10 relative" >
-                <p>&copy; 2025 BigWeb Digital Agency. All rights reserved.</p>
+                <p>&copy; 2025 BigWeb Digital Limited. All rights reserved.</p>
                 <div className="mt-4 flex justify-center gap-6">
                     <Link href="#" className="hover:text-white transition-colors">Terms</Link>
                     <Link href="#" className="hover:text-white transition-colors">Privacy</Link>

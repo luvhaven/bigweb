@@ -14,7 +14,7 @@ const CountdownTimer = () => {
 
     useEffect(() => {
         // Set deadline to Dec 30, 2025
-        const deadline = new Date('2025-12-30T23:59:59').getTime()
+        const deadline = new Date('2026-01-09T23:59:59').getTime()
 
         const timer = setInterval(() => {
             const now = new Date().getTime()
@@ -109,7 +109,7 @@ export default function AIBoostLandingPage() {
             <div className="fixed top-0 inset-x-0 z-50 bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium shadow-lg shadow-emerald-900/20">
                 <span className="hidden md:inline">🔥 FLASH SALE ENDING SOON: </span>
                 Waitlist closing for 2025 Fast-Track Delivery.
-                <span className="font-bold ml-1">Only 4 spots left at this price.</span>
+                <span className="font-bold ml-1">Offer Ends Jan 9.</span>
             </div>
 
             {/* Hero Section */}
@@ -364,25 +364,33 @@ export default function AIBoostLandingPage() {
                 </div>
             </section>
 
-            {/* NEW: Integrations Section */}
-            <section className="py-20 border-b border-white/5 bg-zinc-900/20 overflow-hidden">
-                <div className="container mx-auto px-4 text-center mb-10">
-                    <p className="text-zinc-500 font-medium text-sm uppercase tracking-widest">Works Seamlessly With Your Current Stack</p>
-                </div>
+            {/* NEW: Integrations Section - Glass Cards Grid */}
+            <section className="py-24 border-b border-white/5 bg-zinc-900/20 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent opacity-50" />
+                <div className="container mx-auto px-4 max-w-6xl relative z-10">
+                    <div className="text-center mb-12">
+                        <p className="text-zinc-500 font-medium text-sm uppercase tracking-widest mb-2">Universal Compatibility</p>
+                        <h2 className="text-3xl font-bold">Works Seamlessly With Your Current Stack</h2>
+                    </div>
 
-                <div className="relative flex overflow-x-hidden group">
-                    <div className="animate-marquee whitespace-nowrap flex gap-16 items-center opacity-50 hover:opacity-100 transition-opacity duration-500">
-                        {/* Repeat twice for seamless loop */}
-                        {[1, 2].map((iter) => (
-                            <div key={iter} className="flex gap-16 items-center text-2xl font-bold text-zinc-400">
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#FF5C35] rounded-md"></div>HubSpot</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#00796B] rounded-md"></div>Shopify</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#2196F3] rounded-md"></div>WordPress</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#EF5B25] rounded-md"></div>Zapier</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#4285F4] rounded-md"></div>Google Calendar</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#E1306C] rounded-md"></div>Instagram DM</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#61DAFB] rounded-md"></div>React</span>
-                                <span className="flex items-center gap-2"><div className="w-8 h-8 bg-[#000000] border border-white/20 rounded-md"></div>Notion</span>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {[
+                            { name: "HubSpot", color: "#FF5C35", icon: "HS" },
+                            { name: "Shopify", color: "#95BF47", icon: "S" },
+                            { name: "WordPress", color: "#21759B", icon: "W" },
+                            { name: "Zapier", color: "#FF4A00", icon: "*" },
+                            { name: "Salesforce", color: "#00A1E0", icon: "☁️" },
+                            { name: "Slack", color: "#4A154B", icon: "#" },
+                            { name: "WhatsApp", color: "#25D366", icon: "📞" },
+                            { name: "Custom API", color: "#FFFFFF", icon: "</>" }
+                        ].map((tech, i) => (
+                            <div key={i} className="group bg-zinc-900/60 backdrop-blur-md border border-white/5 hover:border-emerald-500/30 rounded-xl p-4 flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10">
+                                <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white shadow-inner" style={{ backgroundColor: `${tech.color}20`, color: tech.color }}>
+                                    {tech.icon}
+                                </div>
+                                <div className="font-medium text-zinc-300 group-hover:text-white transition-colors">
+                                    {tech.name}
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -434,7 +442,7 @@ export default function AIBoostLandingPage() {
                         </div>
 
                         <div className="text-sm font-medium text-zinc-400 mb-8">
-                            Deposit Today: <span className="text-white">$1,248.50</span> • Remaining due at launch
+                            Deposit Today: <span className="text-white">$1,248.50</span> • Sale Ends Jan 9
                         </div>
 
                         <CountdownTimer />
@@ -505,6 +513,16 @@ export default function AIBoostLandingPage() {
                     </Link>
                 </div>
             </section>
+
+            {/* Footer */}
+            <footer className="py-12 text-center text-zinc-600 text-sm border-t border-white/5 bg-black z-10 relative">
+                <p>&copy; 2025 BigWeb Digital Limited. All rights reserved.</p>
+                <div className="mt-4 flex justify-center gap-6">
+                    <Link href="#" className="hover:text-white transition-colors">Terms</Link>
+                    <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
+                    <Link href="#" className="hover:text-white transition-colors">Contact</Link>
+                </div>
+            </footer>
 
             {/* Sticky Mobile CTA */}
             <div className="md:hidden fixed bottom-6 left-4 right-4 z-[9999]">
