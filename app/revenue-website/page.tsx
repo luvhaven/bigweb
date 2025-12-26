@@ -10,6 +10,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { TiltCard } from '@/components/effects/TiltCard'
+import { MouseReveal, RevealPatterns } from '@/components/ui/MouseReveal'
 
 // Magnetic Button Component
 const MagneticButton = ({ children, className }: { children: React.ReactNode, className?: string }) => {
@@ -133,8 +134,11 @@ export default function RevenueWebsitePage() {
             </div>
 
             {/* Hero Section - Optimized for Viewport Fit */}
-            <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 z-10 min-h-[90vh] flex flex-col justify-center">
-                <div className="container mx-auto px-4 max-w-6xl text-center">
+            <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 z-10 min-h-[90vh] flex flex-col justify-center overflow-hidden">
+                <MouseReveal revealContent={<RevealPatterns.Hexagon />} revealSize={600} className="w-full h-full absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-black/50" />
+                </MouseReveal>
+                <div className="container mx-auto px-4 max-w-6xl text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

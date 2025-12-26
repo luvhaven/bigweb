@@ -146,85 +146,89 @@ export function useChat(options: UseChatOptions): UseChatHelpers {
                                     })
                                 }
                             }
+                        } else {
+                            // Log unhandled lines for debugging
+                            console.log('Stream Line:', line)
                         }
                     }
                 }
             }
+        }
 
             // Call onFinish callback
             if (onFinish) {
-                onFinish(assistantMessage)
-            }
-
-        } catch (error: any) {
-            if (error.name === 'AbortError') {
-                console.log('Request aborted')
-            } else {
-                console.error('Chat error:', error)
-                if (onError) {
-                    onError(error)
-                }
-
-                // Add error message
-                const errorMessage: Message = {
-                    id: (Date.now() + 1).toString(),
-                    role: 'assistant',
-                    content: 'Sorry, I encountered an error. Please try again.',
-                    createdAt: new Date(),
-                }
-                setMessages(prev => [...prev, errorMessage])
-            }
-        } finally {
-            setIsLoading(false)
-            abortControllerRef.current = null
-        }
-    }, [input, messages, isLoading, api, body, onResponse, onFinish, onError])
-
-    const reload = useCallback(() => {
-        if (messages.length === 0) return
-
-        // Remove last assistant message and resend last user message
-        // Find last user message using reverse iteration (ES2015 compatible)
-        let lastUserMessageIndex = -1
-        for (let i = messages.length - 1; i >= 0; i--) {
-            if (messages[i].role === 'user') {
-                lastUserMessageIndex = i
-                break
-            }
+            onFinish(assistantMessage)
         }
 
-        if (lastUserMessageIndex === -1) return
-
-        const messagesToKeep = messages.slice(0, lastUserMessageIndex + 1)
-        setMessages(messagesToKeep)
-
-        // Trigger resubmit
-        const lastUserMessage = messages[lastUserMessageIndex]
-        setInput(lastUserMessage.content)
-        setTimeout(() => {
-            const form = document.querySelector('form')
-            if (form) {
-                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+    } catch (error: any) {
+        if (error.name === 'AbortError') {
+            console.log('Request aborted')
+        } else {
+            console.error('Chat error:', error)
+            if (onError) {
+                onError(error)
             }
-        }, 100)
-    }, [messages])
 
-    const stop = useCallback(() => {
-        if (abortControllerRef.current) {
-            abortControllerRef.current.abort()
-            setIsLoading(false)
+            // Add error message
+            const errorMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                role: 'assistant',
+                content: 'Sorry, I encountered an error. Please try again.',
+                createdAt: new Date(),
+            }
+            setMessages(prev => [...prev, errorMessage])
         }
-    }, [])
-
-    return {
-        messages,
-        input,
-        handleInputChange,
-        handleSubmit,
-        isLoading,
-        setMessages,
-        setInput,
-        reload,
-        stop,
+    } finally {
+        setIsLoading(false)
+        abortControllerRef.current = null
     }
+}, [input, messages, isLoading, api, body, onResponse, onFinish, onError])
+
+const reload = useCallback(() => {
+    if (messages.length === 0) return
+
+    // Remove last assistant message and resend last user message
+    // Find last user message using reverse iteration (ES2015 compatible)
+    let lastUserMessageIndex = -1
+    for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].role === 'user') {
+            lastUserMessageIndex = i
+            break
+        }
+    }
+
+    if (lastUserMessageIndex === -1) return
+
+    const messagesToKeep = messages.slice(0, lastUserMessageIndex + 1)
+    setMessages(messagesToKeep)
+
+    // Trigger resubmit
+    const lastUserMessage = messages[lastUserMessageIndex]
+    setInput(lastUserMessage.content)
+    setTimeout(() => {
+        const form = document.querySelector('form')
+        if (form) {
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+        }
+    }, 100)
+}, [messages])
+
+const stop = useCallback(() => {
+    if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+        setIsLoading(false)
+    }
+}, [])
+
+return {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    setMessages,
+    setInput,
+    reload,
+    stop,
+}
 }

@@ -14,6 +14,10 @@ export default function PremiumTestimonials() {
 
   useEffect(() => {
     loadTestimonials()
+    const safetyTimer = setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+    return () => clearTimeout(safetyTimer)
   }, [])
 
   const loadTestimonials = async () => {
@@ -102,6 +106,7 @@ export default function PremiumTestimonials() {
         ] as Testimonial[])
       }
     } catch (error) {
+      setLoading(false)
       // Fallback to demo data if API fails
       setTestimonials([
         {

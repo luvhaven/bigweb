@@ -187,6 +187,7 @@ export default function WebDevelopmentPage() {
         badgeText="Web Development"
         themeColor="blue"
         backgroundImage={serviceImage}
+        pattern="Circuit"
       />
 
       {/* Extended Content Section for SEO */}

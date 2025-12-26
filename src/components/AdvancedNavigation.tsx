@@ -294,85 +294,162 @@ const AdvancedNavigation = () => {
                         boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)'
                       }}
                     >
-                      {/* Column 1: Core Services */}
-                      <div className="col-span-4 p-6 border-r border-white/5 bg-zinc-900/50">
-                        <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                          <Code className="w-3 h-3" /> Core Engineering
+                      {/* Column 1: Core Engineering & Design */}
+                      <div className="col-span-4 p-6 border-r border-white/5 bg-zinc-900/50 flex flex-col gap-6">
+                        <div>
+                          <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <Code className="w-3 h-3" /> Engineering
+                          </div>
+                          <div className="space-y-1">
+                            <Link href="/services/web-development" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500 text-blue-500 group-hover:text-white transition-colors mt-0.5">
+                                <Code className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-blue-400 transition-colors">Web Development</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Custom apps & SaaS platforms.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/mobile-apps" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 text-indigo-500 group-hover:text-white transition-colors mt-0.5">
+                                <Smartphone className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-indigo-400 transition-colors">Mobile Apps</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">iOS & Android native apps.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/ecommerce" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 text-orange-500 group-hover:text-white transition-colors mt-0.5">
+                                <ShoppingCart className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-orange-400 transition-colors">E-Commerce</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">High-converting online stores.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/staff-augmentation" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500 text-emerald-500 group-hover:text-white transition-colors mt-0.5">
+                                <Users className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-emerald-400 transition-colors">Staff Augmentation</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Scale your dev team instantly.</div>
+                              </div>
+                            </Link>
+                          </div>
                         </div>
-                        <div className="space-y-1">
-                          <Link href="/revenue-website" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500 text-emerald-500 group-hover:text-white transition-colors mt-0.5">
-                              <Smartphone className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-emerald-400 transition-colors">Revenue Websites</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">High-performance Next.js sites built for conversion.</div>
-                            </div>
-                          </Link>
 
-                          <Link href="/services/web-development" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500 text-blue-500 group-hover:text-white transition-colors mt-0.5">
-                              <Code className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-blue-400 transition-colors">Custom Software</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Enterprise-grade web applications & SaaS.</div>
-                            </div>
-                          </Link>
-
-                          <Link href="/services/mobile-apps" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 text-indigo-500 group-hover:text-white transition-colors mt-0.5">
-                              <Smartphone className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-indigo-400 transition-colors">Mobile Apps</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Native iOS & Android development.</div>
-                            </div>
-                          </Link>
+                        <div>
+                          <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <Palette className="w-3 h-3" /> Design & Maintenance
+                          </div>
+                          <div className="space-y-1">
+                            <Link href="/services/ui-ux-design" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500 text-pink-500 group-hover:text-white transition-colors mt-0.5">
+                                <Palette className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-pink-400 transition-colors">UI/UX Design</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">World-class interfaces.</div>
+                              </div>
+                            </Link>
+                            <Link href="/services/maintenance" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-zinc-500/10 flex items-center justify-center group-hover:bg-zinc-500 text-zinc-500 group-hover:text-white transition-colors mt-0.5">
+                                <Shield className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-zinc-400 transition-colors">Maintenance</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">24/7 Security & Uptime.</div>
+                              </div>
+                            </Link>
+                          </div>
                         </div>
                       </div>
 
                       {/* Column 2: Growth & AI */}
-                      <div className="col-span-4 p-6 border-r border-white/5 relative">
-                        <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                          <Brain className="w-3 h-3" /> AI & Growth
+                      <div className="col-span-4 p-6 border-r border-white/5 relative flex flex-col gap-6">
+                        <div>
+                          <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <Brain className="w-3 h-3" /> Artificial Intelligence
+                          </div>
+                          <div className="space-y-1">
+                            <Link href="/ai-boost" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500 text-purple-500 group-hover:text-white transition-colors mt-0.5">
+                                <Bot className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-purple-400 transition-colors">AI Sales Agents</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">24/7 automated sales bots.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/ai-consulting" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500 text-violet-500 group-hover:text-white transition-colors mt-0.5">
+                                <Brain className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-violet-400 transition-colors">AI Consulting</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Strategic AI implementation.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/gaio" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 text-indigo-500 group-hover:text-white transition-colors mt-0.5">
+                                <Search className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-indigo-400 transition-colors">GAIO Optimization</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Rank #1 on ChatGPT search.</div>
+                              </div>
+                            </Link>
+                          </div>
                         </div>
-                        <div className="space-y-1">
-                          <Link href="/ai-boost" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500 text-purple-500 group-hover:text-white transition-colors mt-0.5">
-                              <Bot className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-purple-400 transition-colors">AI Sales Agents</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">24/7 automated support & sales bots.</div>
-                            </div>
-                          </Link>
 
-                          <Link href="/services/gaio" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 text-orange-500 group-hover:text-white transition-colors mt-0.5">
-                              <Search className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-orange-400 transition-colors">GAIO Optimization</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Rank #1 on ChatGPT & Perplexity.</div>
-                            </div>
-                          </Link>
+                        <div>
+                          <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <TrendingUp className="w-3 h-3" /> Growth & Analytics
+                          </div>
+                          <div className="space-y-1">
+                            <Link href="/services/seo-growth" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500 text-yellow-500 group-hover:text-white transition-colors mt-0.5">
+                                <TrendingUp className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-yellow-400 transition-colors">SEO & Growth</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Dominate search rankings.</div>
+                              </div>
+                            </Link>
 
-                          <Link href="/services/seo-growth" className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
-                            <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500 text-yellow-500 group-hover:text-white transition-colors mt-0.5">
-                              <TrendingUp className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <div className="text-white font-semibold text-sm group-hover:text-yellow-400 transition-colors">Growth Marketing</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">Data-driven SEO & conversion campaigns.</div>
-                            </div>
-                          </Link>
+                            <Link href="/services/analytics" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500 text-cyan-500 group-hover:text-white transition-colors mt-0.5">
+                                <BarChart className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-cyan-400 transition-colors">Analytics</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Data-driven insights.</div>
+                              </div>
+                            </Link>
+
+                            <Link href="/services/conversion-optimization" className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all">
+                              <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:bg-red-500 text-red-500 group-hover:text-white transition-colors mt-0.5">
+                                <TrendingUp className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-white font-semibold text-sm group-hover:text-red-400 transition-colors">CRO & Sales</div>
+                                <div className="text-zinc-500 text-[10px] mt-0.5 leading-snug">Turn visitors into buyers.</div>
+                              </div>
+                            </Link>
+                          </div>
                         </div>
                       </div>
 
                       {/* Column 3: Featured / Visual */}
                       <div className="col-span-4 bg-zinc-900/80 p-6 flex flex-col justify-between relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                         <div>
                           <div className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-4">Featured Product</div>
@@ -382,7 +459,7 @@ const AdvancedNavigation = () => {
                           </p>
                         </div>
 
-                        <Link href="/revenue-website" className="inline-flex items-center justify-between w-full bg-emerald-600/10 hover:bg-emerald-600 text-emerald-500 hover:text-white border border-emerald-500/20 px-4 py-3 rounded-lg transition-all group/btn">
+                        <Link href="/revenue-website" className="inline-flex items-center justify-between w-full bg-emerald-600/10 hover:bg-emerald-600 text-emerald-500 hover:text-white border border-emerald-500/20 px-4 py-3 rounded-lg transition-all group/btn relative z-20">
                           <span className="font-bold text-sm">View Package</span>
                           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Link>

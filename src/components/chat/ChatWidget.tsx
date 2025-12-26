@@ -177,30 +177,30 @@ export default function ChatWidget() {
                         className="pointer-events-auto mb-4 w-[360px] md:w-[380px] h-[580px] md:h-[600px] bg-[#09090b] rounded-2xl shadow-2xl border border-white/10 flex flex-col overflow-hidden backdrop-blur-xl ring-1 ring-black/5"
                     >
                         {/* Compact Header */}
-                        <div className="relative px-4 py-3 bg-[#022c22] border-b border-emerald-500/10">
+                        <div className="relative px-4 py-2 bg-[#022c22] border-b border-emerald-500/10">
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent opacity-60" />
                             <div className="relative flex items-center justify-between">
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2">
                                     <div className="relative">
-                                        <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white border border-emerald-400/20 shadow-sm shadow-black/20">
-                                            <Bot className="w-5 h-5" />
+                                        <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white border border-emerald-400/20 shadow-sm shadow-black/20">
+                                            <Bot className="w-4 h-4" />
                                         </div>
-                                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#022c22] rounded-full"></span>
+                                        <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-emerald-400 border-2 border-[#022c22] rounded-full"></span>
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-white text-sm leading-tight tracking-wide">
+                                        <h3 className="font-bold text-white text-xs leading-tight tracking-wide">
                                             AI Assistant
                                         </h3>
-                                        <div className="flex items-center gap-1.5 mt-0.5">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-                                            <span className="text-[10px] text-emerald-100/70 font-medium uppercase tracking-wider">Online Now</span>
+                                        <div className="flex items-center gap-1 mt-0.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                            <span className="text-[9px] text-emerald-100/70 font-medium uppercase tracking-wider">Online Now</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <button
                                         onClick={() => setIsOpen(false)}
-                                        className="text-emerald-100/40 hover:text-white transition-colors p-1.5 hover:bg-white/5 rounded-md"
+                                        className="text-emerald-100/40 hover:text-white transition-colors p-1 hover:bg-white/5 rounded-md"
                                         aria-label="Minimize chat"
                                     >
                                         <ChevronDown className="w-4 h-4" />
