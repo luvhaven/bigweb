@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     Check, Star, Clock, Zap, Shield, ArrowRight,
@@ -10,6 +10,38 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { TiltCard } from '@/components/effects/TiltCard'
+
+// Magnetic Button Component
+const MagneticButton = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+    const ref = useRef<HTMLDivElement>(null)
+    const [position, setPosition] = useState({ x: 0, y: 0 })
+
+    const handleMouse = (e: React.MouseEvent) => {
+        const { clientX, clientY } = e
+        const { height, width, left, top } = ref.current!.getBoundingClientRect()
+        const middleX = clientX - (left + width / 2)
+        const middleY = clientY - (top + height / 2)
+        setPosition({ x: middleX * 0.2, y: middleY * 0.2 })
+    }
+
+    const reset = () => {
+        setPosition({ x: 0, y: 0 })
+    }
+
+    const { x, y } = position
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouse}
+            onMouseLeave={reset}
+            animate={{ x, y }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            className={className}
+        >
+            {children}
+        </motion.div>
+    )
+}
 
 // Countdown Timer with Hydration Fix
 const CountdownTimer = () => {
@@ -93,10 +125,11 @@ export default function RevenueWebsitePage() {
             </div>
 
             {/* Sticky Top Bar */}
-            <div className="fixed top-0 inset-x-0 z-50 bg-emerald-700/80 backdrop-blur-md text-white text-center py-2 px-4 text-xs md:text-sm font-medium shadow-lg shadow-emerald-900/20 border-b border-white/5">
-                <span className="hidden md:inline">🔥 AGENCY OFFER: </span>
-                Opening 2 Spots in December.
-                <span className="font-bold ml-1">Offer Ends Dec 30</span>
+            <div className="fixed top-0 inset-x-0 z-50 bg-emerald-950/90 backdrop-blur-md text-white text-center py-2 px-4 text-xs md:text-sm font-medium shadow-lg shadow-emerald-900/20 border-b border-white/10 flex justify-center items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span><span className="text-emerald-400 font-bold">UPDATE:</span> Only 2 spots left for December design sprints.</span>
+                <span className="opacity-50 hidden sm:inline">|</span>
+                <span className="font-bold hidden sm:inline">Offer Ends Dec 30</span>
             </div>
 
             {/* Hero Section - Optimized for Viewport Fit */}
@@ -136,14 +169,16 @@ export default function RevenueWebsitePage() {
                         transition={{ delay: 0.3 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
-                        <Link
-                            href="#pricing"
-                            className="group relative bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-2xl shadow-emerald-500/30 transition-all hover:scale-105 flex items-center gap-2 overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                            <span className="relative">See Pricing & Packages</span>
-                            <ArrowRight className="w-5 h-5 relative group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                        <MagneticButton>
+                            <Link
+                                href="#pricing"
+                                className="group relative bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-2xl shadow-emerald-500/30 transition-all flex items-center gap-2 overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                                <span className="relative">See Pricing & Packages</span>
+                                <ArrowRight className="w-5 h-5 relative group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </MagneticButton>
                         <div className="text-sm text-zinc-500 flex items-center gap-2">
                             <Shield className="w-4 h-4 text-emerald-500" />
                             <span className="border-b border-zinc-700">Verified Agency Quality</span>
@@ -563,34 +598,87 @@ export default function RevenueWebsitePage() {
 
             {/* Final FAQ */}
             < section className="py-20 bg-black z-10 relative" >
-                <div className="container mx-auto px-4 max-w-2xl">
-                    <h2 className="text-3xl font-bold text-center mb-12">Common Questions</h2>
-                    <div className="space-y-4">
-                        {faqs.map((faq, i) => (
-                            <div key={i} className="border border-white/5 rounded-2xl bg-zinc-900/20 overflow-hidden">
-                                <button
-                                    onClick={() => setActiveAccordion(activeAccordion === i ? null : i)}
-                                    className="w-full flex items-center justify-between p-6 text-left font-medium hover:bg-white/5 transition-colors gap-4"
-                                >
-                                    <span className="text-lg">{faq.q}</span>
-                                    <ChevronDown className={`w-5 h-5 text-emerald-500 transition-transform ${activeAccordion === i ? 'rotate-180' : ''}`} />
-                                </button>
-                                <AnimatePresence>
-                                    {activeAccordion === i && (
-                                        <motion.div
-                                            initial={{ height: 0 }}
-                                            animate={{ height: 'auto' }}
-                                            exit={{ height: 0 }}
-                                            className="overflow-hidden"
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <div className="grid md:grid-cols-2 gap-16">
+                        {/* Left: FAQ */}
+                        <div>
+                            <h2 className="text-3xl font-bold mb-8">Common Questions</h2>
+                            <div className="space-y-4">
+                                {faqs.map((faq, i) => (
+                                    <div key={i} className="border border-white/5 rounded-2xl bg-zinc-900/20 overflow-hidden">
+                                        <button
+                                            onClick={() => setActiveAccordion(activeAccordion === i ? null : i)}
+                                            className="w-full flex items-center justify-between p-6 text-left font-medium hover:bg-white/5 transition-colors gap-4"
                                         >
-                                            <div className="p-6 pt-0 text-zinc-400 text-base leading-relaxed">
-                                                {faq.a}
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
+                                            <span className="text-lg">{faq.q}</span>
+                                            <ChevronDown className={`w-5 h-5 text-emerald-500 transition-transform ${activeAccordion === i ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        <AnimatePresence>
+                                            {activeAccordion === i && (
+                                                <motion.div
+                                                    initial={{ height: 0 }}
+                                                    animate={{ height: 'auto' }}
+                                                    exit={{ height: 0 }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <div className="p-6 pt-0 text-zinc-400 text-base leading-relaxed">
+                                                        {faq.a}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Right: SEO Visual */}
+                        <div className="relative hidden md:block">
+                            <div className="sticky top-32">
+                                <h2 className="text-3xl font-bold mb-8">What You Get</h2>
+                                <TiltCard className="perspective-1000">
+                                    <div className="bg-white rounded-xl p-6 shadow-2xl relative overflow-hidden group">
+                                        {/* Google Search Mock */}
+                                        <div className="text-xs text-gray-500 mb-1">www.yourbrand.com › best-service</div>
+                                        <div className="text-[#1a0dab] text-xl font-medium hover:underline cursor-pointer mb-1 group-hover:text-blue-700 transition-colors">
+                                            Your Brand | #1 Rated Service in Your City
+                                        </div>
+                                        <div className="text-sm text-gray-800 leading-relaxed mb-3">
+                                            Scale your business with the #1 rated agency. We build high-performance websites that convert visitors into paying customers. 100% Satisfaction Guarantee.
+                                        </div>
+                                        {/* Rich Snippet */}
+                                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                                            <div className="flex items-center text-[#e7711b]">
+                                                <Star className="w-3.5 h-3.5 fill-current" />
+                                                <Star className="w-3.5 h-3.5 fill-current" />
+                                                <Star className="w-3.5 h-3.5 fill-current" />
+                                                <Star className="w-3.5 h-3.5 fill-current" />
+                                                <Star className="w-3.5 h-3.5 fill-current" />
+                                            </div>
+                                            <span>Rating: 5.0</span>
+                                            <span>•</span>
+                                            <span>245 reviews</span>
+                                            <span>•</span>
+                                            <span>Price: $$</span>
+                                        </div>
+
+                                        {/* Cursor */}
+                                        <div className="absolute bottom-4 right-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                            <div className="w-8 h-8 bg-black/10 rounded-full animate-ping" />
+                                        </div>
+                                    </div>
+                                </TiltCard>
+                                <div className="mt-8 p-6 bg-zinc-900/50 rounded-2xl border border-dashed border-zinc-700">
+                                    <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                                        <Shield className="w-4 h-4 text-emerald-500" />
+                                        Google "Rich Snippets" Included
+                                    </h4>
+                                    <p className="text-sm text-zinc-400">
+                                        We code your site with "Schema Markup" so Google shows your star rating, pricing, and stock status directly in search results. This doubles your click-through rate.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section >
@@ -611,7 +699,7 @@ export default function RevenueWebsitePage() {
                     href="#pricing"
                     className="block w-full bg-emerald-600 text-white font-bold text-center py-4 rounded-full shadow-2xl shadow-emerald-500/40 border border-emerald-400/50 backdrop-blur-xl animate-pulse-slow"
                 >
-                    Get Revenue Site ($1,997)
+                    Get Revenue Site (Only 2 Left)
                 </Link>
             </div >
         </div >
