@@ -94,7 +94,7 @@ export const RevealPatterns = {
     Circuit: () => {
         const id = useId()
         return (
-            <div className="absolute inset-0 w-full h-full opacity-20">
+            <div className="absolute inset-0 w-full h-full opacity-50">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
                 <div className="absolute inset-0" style={{
                     backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
@@ -152,7 +152,7 @@ export const RevealPatterns = {
     Waves: () => {
         const id = useId()
         return (
-            <div className="absolute inset-0 w-full h-full opacity-20">
+            <div className="absolute inset-0 w-full h-full opacity-40">
                 <svg className="absolute inset-0 w-full h-full" width="100%" height="100%">
                     <pattern id={id} x="0" y="0" width="100" height="20" patternUnits="userSpaceOnUse">
                         <path d="M0 10 Q 25 20 50 10 T 100 10" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
