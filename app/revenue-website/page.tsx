@@ -300,33 +300,32 @@ export default function RevenueWebsitePage() {
                                     </div>
                                 </div>
                             </TiltCard>
-                        </div>
-                    </TiltCard>
-                </div>
-                <div className="order-1 md:order-2">
-                    <div className="flex items-center gap-2 text-purple-500 font-bold mb-4 uppercase tracking-wide text-sm">
-                        <Search className="w-5 h-5" /> Psychology First
+                        </TiltCard>
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">Designed to <br /><span className="text-purple-400">Make Them Buy.</span></h2>
-                    <p className="text-zinc-400 mb-8 text-lg leading-relaxed">
-                        Most designers just make things "look pretty". We use <strong className="text-white">Conversion Heatmaps</strong> and
-                        F-Pattern layouts to direct your visitor's eye straight to the "Buy" button.
-                    </p>
-                    <div className="grid grid-cols-2 gap-6">
-                        <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-orange-500/50 transition-colors">
-                            <Flame className="w-8 h-8 text-orange-500 mb-3" />
-                            <div className="font-bold text-lg mb-1">Scarcity Engine</div>
-                            <div className="text-xs text-zinc-500">Urgency badges that actually convert.</div>
+                    <div className="order-1 md:order-2">
+                        <div className="flex items-center gap-2 text-purple-500 font-bold mb-4 uppercase tracking-wide text-sm">
+                            <Search className="w-5 h-5" /> Psychology First
                         </div>
-                        <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-blue-500/50 transition-colors">
-                            <Globe className="w-8 h-8 text-blue-500 mb-3" />
-                            <div className="font-bold text-lg mb-1">Trust Anchors</div>
-                            <div className="text-xs text-zinc-500">Strategic proof placement.</div>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">Designed to <br /><span className="text-purple-400">Make Them Buy.</span></h2>
+                        <p className="text-zinc-400 mb-8 text-lg leading-relaxed">
+                            Most designers just make things "look pretty". We use <strong className="text-white">Conversion Heatmaps</strong> and
+                            F-Pattern layouts to direct your visitor's eye straight to the "Buy" button.
+                        </p>
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-orange-500/50 transition-colors">
+                                <Flame className="w-8 h-8 text-orange-500 mb-3" />
+                                <div className="font-bold text-lg mb-1">Scarcity Engine</div>
+                                <div className="text-xs text-zinc-500">Urgency badges that actually convert.</div>
+                            </div>
+                            <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-blue-500/50 transition-colors">
+                                <Globe className="w-8 h-8 text-blue-500 mb-3" />
+                                <div className="font-bold text-lg mb-1">Trust Anchors</div>
+                                <div className="text-xs text-zinc-500">Strategic proof placement.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-        </div>
-                </div >
+        </div >
             </section >
 
         {/* NEW: 10-Day Process Section */ }
