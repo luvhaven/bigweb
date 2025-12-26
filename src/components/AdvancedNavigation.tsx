@@ -586,7 +586,7 @@ const AdvancedNavigation = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-              className="fixed inset-0 w-full h-full bg-[#0A0A0A] z-[60] md:hidden flex flex-col overflow-hidden"
+              className="fixed inset-0 w-full h-full bg-[#0A0A0A] z-[9999] md:hidden flex flex-col overflow-hidden"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
 

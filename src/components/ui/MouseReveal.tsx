@@ -24,6 +24,14 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
     const smoothX = useSpring(mouseX, { stiffness: 100, damping: 20, mass: 0.5 })
     const smoothY = useSpring(mouseY, { stiffness: 100, damping: 20, mass: 0.5 })
 
+    // Initialize mouse position to center of container
+    useEffect(() => {
+        if (!ref.current) return
+        const rect = ref.current.getBoundingClientRect()
+        mouseX.set(rect.width / 2)
+        mouseY.set(rect.height / 2)
+    }, [mouseX, mouseY])
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return
         const rect = ref.current.getBoundingClientRect()
@@ -71,7 +79,7 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
 
 export const RevealPatterns = {
     Grid: () => (
-        <div className="absolute inset-0 w-full h-full opacity-30">
+        <div className="absolute inset-0 w-full h-full opacity-60">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808066_1px,transparent_1px),linear-gradient(to_bottom,#80808066_1px,transparent_1px)] bg-[size:24px_24px]" />
         </div>
     ),
@@ -80,7 +88,7 @@ export const RevealPatterns = {
     ),
     Particles: () => {
         return (
-            <div className="absolute inset-0 w-full h-full opacity-30 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] filter contrast-150 brightness-100 mix-blend-overlay" />
+            <div className="absolute inset-0 w-full h-full opacity-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] filter contrast-150 brightness-100 mix-blend-overlay" />
         )
     },
     Circuit: () => {
@@ -105,14 +113,14 @@ export const RevealPatterns = {
         )
     },
     Hexagon: () => (
-        <div className="absolute inset-0 w-full h-full opacity-20">
+        <div className="absolute inset-0 w-full h-full opacity-40">
             <div className="absolute inset-0" style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='40' viewBox='0 0 24 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40c5.523 0 10-4.477 10-10V10C10 4.477 5.523 0 0 0h24c-5.523 0-10 4.477-10 10v20c0 5.523 5.523 10 10 10H0z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E")`,
             }} />
         </div>
     ),
     Plus: () => (
-        <div className="absolute inset-0 w-full h-full opacity-30">
+        <div className="absolute inset-0 w-full h-full opacity-50">
             <div className="absolute inset-0" style={{
                 backgroundImage: `radial-gradient(white 1px, transparent 0)`,
                 backgroundSize: '40px 40px'
@@ -129,13 +137,13 @@ export const RevealPatterns = {
             setBinary(Array(2000).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join(' '))
         }, [])
         return (
-            <div className="absolute inset-0 w-full h-full opacity-25 font-mono text-[10px] leading-3 overflow-hidden break-all text-emerald-500/20 select-none">
+            <div className="absolute inset-0 w-full h-full opacity-40 font-mono text-[10px] leading-3 overflow-hidden break-all text-emerald-500/40 select-none">
                 {binary}
             </div>
         )
     },
     Stripes: () => (
-        <div className="absolute inset-0 w-full h-full opacity-10">
+        <div className="absolute inset-0 w-full h-full opacity-30">
             <div className="absolute inset-0" style={{
                 backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 11px)'
             }} />
