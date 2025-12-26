@@ -75,58 +75,57 @@ ${servicesContext || "No specific service data available. Please ask general que
 
 Remember: ALWAYS include {{LEAD_FORM}} when discussing pricing/quotes, and {{BOOKING_CALENDAR}} when discussing meetings.
 `
+}
 
+/**
+ * Analyze user intent and suggest quick actions
+ */
+export function analyzeIntent(message: string): {
+    intent: 'pricing' | 'services' | 'technical' | 'consultation' | 'general'
+    confidence: number
+    suggestedActions: string[]
+} {
+    const lowerMessage = message.toLowerCase()
 
-
-    /**
-     * Analyze user intent and suggest quick actions
-     */
-    export function analyzeIntent(message: string): {
-        intent: 'pricing' | 'services' | 'technical' | 'consultation' | 'general'
-        confidence: number
-        suggestedActions: string[]
-    } {
-        const lowerMessage = message.toLowerCase()
-
-        // Pricing intent
-        if (lowerMessage.match(/price|cost|budget|how much|pricing|quote/)) {
-            return {
-                intent: 'pricing',
-                confidence: 0.9,
-                suggestedActions: ['Request Custom Quote', 'View Pricing Guide', 'Book Consultation']
-            }
-        }
-
-        // Service inquiry
-        if (lowerMessage.match(/service|offer|do you|can you|help with|need/)) {
-            return {
-                intent: 'services',
-                confidence: 0.85,
-                suggestedActions: ['View All Services', 'See Portfolio', 'Book Free Audit']
-            }
-        }
-
-        // Technical questions
-        if (lowerMessage.match(/how does|technical|technology|stack|framework|build/)) {
-            return {
-                intent: 'technical',
-                confidence: 0.8,
-                suggestedActions: ['View Tech Stack', 'See Case Studies', 'Talk to Developer']
-            }
-        }
-
-        // Consultation request
-        if (lowerMessage.match(/consult|meeting|call|discuss|talk|schedule/)) {
-            return {
-                intent: 'consultation',
-                confidence: 0.95,
-                suggestedActions: ['Book Consultation', 'Schedule Call', 'Contact Sales']
-            }
-        }
-
+    // Pricing intent
+    if (lowerMessage.match(/price|cost|budget|how much|pricing|quote/)) {
         return {
-            intent: 'general',
-            confidence: 0.5,
-            suggestedActions: ['View Services', 'See Portfolio', 'Contact Us']
+            intent: 'pricing',
+            confidence: 0.9,
+            suggestedActions: ['Request Custom Quote', 'View Pricing Guide', 'Book Consultation']
         }
     }
+
+    // Service inquiry
+    if (lowerMessage.match(/service|offer|do you|can you|help with|need/)) {
+        return {
+            intent: 'services',
+            confidence: 0.85,
+            suggestedActions: ['View All Services', 'See Portfolio', 'Book Free Audit']
+        }
+    }
+
+    // Technical questions
+    if (lowerMessage.match(/how does|technical|technology|stack|framework|build/)) {
+        return {
+            intent: 'technical',
+            confidence: 0.8,
+            suggestedActions: ['View Tech Stack', 'See Case Studies', 'Talk to Developer']
+        }
+    }
+
+    // Consultation request
+    if (lowerMessage.match(/consult|meeting|call|discuss|talk|schedule/)) {
+        return {
+            intent: 'consultation',
+            confidence: 0.95,
+            suggestedActions: ['Book Consultation', 'Schedule Call', 'Contact Sales']
+        }
+    }
+
+    return {
+        intent: 'general',
+        confidence: 0.5,
+        suggestedActions: ['View Services', 'See Portfolio', 'Contact Us']
+    }
+}
