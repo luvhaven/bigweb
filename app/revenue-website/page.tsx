@@ -300,64 +300,63 @@ export default function RevenueWebsitePage() {
                                     </div>
                                 </div>
                             </TiltCard>
-                        </TiltCard>
-                    </div>
-                    <div className="order-1 md:order-2">
-                        <div className="flex items-center gap-2 text-purple-500 font-bold mb-4 uppercase tracking-wide text-sm">
-                            <Search className="w-5 h-5" /> Psychology First
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6">Designed to <br /><span className="text-purple-400">Make Them Buy.</span></h2>
-                        <p className="text-zinc-400 mb-8 text-lg leading-relaxed">
-                            Most designers just make things "look pretty". We use <strong className="text-white">Conversion Heatmaps</strong> and
-                            F-Pattern layouts to direct your visitor's eye straight to the "Buy" button.
-                        </p>
-                        <div className="grid grid-cols-2 gap-6">
-                            <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-orange-500/50 transition-colors">
-                                <Flame className="w-8 h-8 text-orange-500 mb-3" />
-                                <div className="font-bold text-lg mb-1">Scarcity Engine</div>
-                                <div className="text-xs text-zinc-500">Urgency badges that actually convert.</div>
+                        <div className="order-1 md:order-2">
+                            <div className="flex items-center gap-2 text-purple-500 font-bold mb-4 uppercase tracking-wide text-sm">
+                                <Search className="w-5 h-5" /> Psychology First
                             </div>
-                            <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-blue-500/50 transition-colors">
-                                <Globe className="w-8 h-8 text-blue-500 mb-3" />
-                                <div className="font-bold text-lg mb-1">Trust Anchors</div>
-                                <div className="text-xs text-zinc-500">Strategic proof placement.</div>
+                            <h2 className="text-3xl md:text-5xl font-bold mb-6">Designed to <br /><span className="text-purple-400">Make Them Buy.</span></h2>
+                            <p className="text-zinc-400 mb-8 text-lg leading-relaxed">
+                                Most designers just make things "look pretty". We use <strong className="text-white">Conversion Heatmaps</strong> and
+                                F-Pattern layouts to direct your visitor's eye straight to the "Buy" button.
+                            </p>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-orange-500/50 transition-colors">
+                                    <Flame className="w-8 h-8 text-orange-500 mb-3" />
+                                    <div className="font-bold text-lg mb-1">Scarcity Engine</div>
+                                    <div className="text-xs text-zinc-500">Urgency badges that actually convert.</div>
+                                </div>
+                                <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-blue-500/50 transition-colors">
+                                    <Globe className="w-8 h-8 text-blue-500 mb-3" />
+                                    <div className="font-bold text-lg mb-1">Trust Anchors</div>
+                                    <div className="text-xs text-zinc-500">Strategic proof placement.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        </div >
+                </div >
             </section >
 
-        {/* NEW: 10-Day Process Section */ }
-        < section className = "py-24 bg-zinc-900/10 border-t border-white/5 relative" >
-            <div className="container mx-auto px-4 max-w-6xl">
-                <div className="text-center mb-16">
-                    <div className="text-emerald-500 font-bold mb-2 uppercase tracking-wide">Transparency</div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">From "Kickoff" to "Cash Flow" in 10 Days.</h2>
-                    <p className="text-zinc-400 max-w-2xl mx-auto">We don't ghost you. You get a dedicated Trello board to track every pixel.</p>
-                </div>
+            {/* NEW: 10-Day Process Section */}
+            < section className="py-24 bg-zinc-900/10 border-t border-white/5 relative" >
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <div className="text-center mb-16">
+                        <div className="text-emerald-500 font-bold mb-2 uppercase tracking-wide">Transparency</div>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">From "Kickoff" to "Cash Flow" in 10 Days.</h2>
+                        <p className="text-zinc-400 max-w-2xl mx-auto">We don't ghost you. You get a dedicated Trello board to track every pixel.</p>
+                    </div>
 
-                <div className="grid md:grid-cols-4 gap-6">
-                    {[
-                        { day: "Day 1-2", title: "Strategy & Wireframes", desc: "We map out your customer journey and approve the layout." },
-                        { day: "Day 3-6", title: "High-Fidelity Build", desc: "We code the site in Next.js. You see the first interactive demo." },
-                        { day: "Day 7-8", title: "Content & AI Setup", desc: "We plug in your text, images, and train the AI Sales Bot." },
-                        { day: "Day 9-10", title: "QA & Launch", desc: "Final speed tests, SEO checks, and live deployment." }
-                    ].map((item, i) => (
-                        <div key={i} className="bg-black/40 border border-white/5 p-6 rounded-2xl relative group hover:border-emerald-500/30 transition-all">
-                            <div className="text-xs font-bold text-emerald-500 mb-2 border border-emerald-500/20 inline-block px-2 py-1 rounded bg-emerald-500/10">{item.day}</div>
-                            <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                            <p className="text-sm text-zinc-400">{item.desc}</p>
-                            {/* Arrow connector for desktop */}
-                            {i < 3 && <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-zinc-700">➜</div>}
-                        </div>
-                    ))}
+                    <div className="grid md:grid-cols-4 gap-6">
+                        {[
+                            { day: "Day 1-2", title: "Strategy & Wireframes", desc: "We map out your customer journey and approve the layout." },
+                            { day: "Day 3-6", title: "High-Fidelity Build", desc: "We code the site in Next.js. You see the first interactive demo." },
+                            { day: "Day 7-8", title: "Content & AI Setup", desc: "We plug in your text, images, and train the AI Sales Bot." },
+                            { day: "Day 9-10", title: "QA & Launch", desc: "Final speed tests, SEO checks, and live deployment." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-black/40 border border-white/5 p-6 rounded-2xl relative group hover:border-emerald-500/30 transition-all">
+                                <div className="text-xs font-bold text-emerald-500 mb-2 border border-emerald-500/20 inline-block px-2 py-1 rounded bg-emerald-500/10">{item.day}</div>
+                                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
+                                <p className="text-sm text-zinc-400">{item.desc}</p>
+                                {/* Arrow connector for desktop */}
+                                {i < 3 && <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-zinc-700">➜</div>}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
             </section >
 
-        {/* NEW: Tech Stack Section */ }
-        < section className = "py-24 bg-black relative overflow-hidden" >
+            {/* NEW: Tech Stack Section */}
+            < section className="py-24 bg-black relative overflow-hidden" >
                 <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
                 <div className="container mx-auto px-4 max-w-6xl relative z-10">
                     <div className="text-center mb-16">
@@ -391,135 +390,135 @@ export default function RevenueWebsitePage() {
                 </div>
             </section >
 
-        {/* Pricing Section (Dual Package) */ }
-        < section id = "pricing" className = "py-24 bg-zinc-900/30 z-10 relative" >
-            <div className="container mx-auto px-4 max-w-6xl">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6">Choose Your Growth Engine</h2>
-                    <p className="text-zinc-400 max-w-2xl mx-auto text-lg">Stop paying monthly fees for Wix/Shopify. Own your high-performance asset.</p>
+            {/* Pricing Section (Dual Package) */}
+            < section id="pricing" className="py-24 bg-zinc-900/30 z-10 relative" >
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-6xl font-bold mb-6">Choose Your Growth Engine</h2>
+                        <p className="text-zinc-400 max-w-2xl mx-auto text-lg">Stop paying monthly fees for Wix/Shopify. Own your high-performance asset.</p>
 
-                    <div className="inline-block mt-8 bg-black/50 border border-red-500/30 text-red-400 px-6 py-2 rounded-full text-sm font-bold animate-pulse backdrop-blur-sm">
-                        ⚠️ Prices Increase January 1st
-                    </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {/* Core Package */}
-                    <div className="bg-zinc-950 border border-white/5 rounded-[2rem] p-10 relative hover:border-zinc-700 transition-all group">
-                        <div className="mb-8">
-                            <h3 className="text-2xl font-bold mb-2 text-zinc-200">Revenue Foundation</h3>
-                            <p className="text-zinc-500 text-sm">Everything you need to look pro and get leads.</p>
+                        <div className="inline-block mt-8 bg-black/50 border border-red-500/30 text-red-400 px-6 py-2 rounded-full text-sm font-bold animate-pulse backdrop-blur-sm">
+                            ⚠️ Prices Increase January 1st
                         </div>
-                        <div className="flex items-baseline gap-2 mb-8">
-                            <span className="text-5xl font-bold text-white">$1,997</span>
-                            <span className="text-zinc-700 line-through text-xl">$3,500</span>
-                        </div>
-                        <ul className="space-y-5 mb-10">
-                            {[
-                                "Custom Next.js Website (5 Pages)",
-                                "AI Lead Capture Bot (Basic)",
-                                "Mobile Responsive Design",
-                                "Basic SEO Setup",
-                                "14-Day Delivery"
-                            ].map((feat, i) => (
-                                <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
-                                    <Check className="w-5 h-5 text-emerald-500" />
-                                    {feat}
-                                </li>
-                            ))}
-                        </ul>
-                        <Link
-                            href="https://raenest.com/pay"
-                            className="block w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-center py-5 rounded-xl transition-all border border-white/5"
-                        >
-                            Choose Foundation ($1k Deposit)
-                        </Link>
                     </div>
 
-                    {/* Visual Highlight for Pro */}
-                    <div className="bg-zinc-900/80 border-2 border-emerald-600 rounded-[2rem] p-10 relative shadow-2xl shadow-emerald-900/40 transform md:scale-105 z-20 backdrop-blur-xl">
-                        <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-bl-2xl rounded-tr-xl uppercase tracking-wider">
-                            Most Popular
-                        </div>
-                        <div className="mb-8">
-                            <h3 className="text-3xl font-bold mb-2 text-white">Market Dominator</h3>
-                            <p className="text-emerald-400 font-medium text-sm">For businesses ready to scale aggressively.</p>
-                        </div>
-                        <div className="flex items-baseline gap-2 mb-8">
-                            <span className="text-5xl font-bold text-white">$3,497</span>
-                            <span className="text-zinc-600 line-through text-xl">$6,000</span>
-                        </div>
-                        <ul className="space-y-5 mb-10">
-                            {[
-                                "Everything in Foundation",
-                                "CRM Integration (HubSpot/Zapier)",
-                                "3-Month Content Strategy",
-                                "Email Automation Setup",
-                                "Priority 7-Day Rush Delivery",
-                                "Advanced Analytics Dashboard"
-                            ].map((feat, i) => (
-                                <li key={i} className="flex items-center gap-3 text-sm font-bold text-white/90">
-                                    <div className="bg-emerald-500/20 p-1 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
-                                    {feat}
-                                </li>
-                            ))}
-                        </ul>
-                        <Link
-                            href="https://raenest.com/pay"
-                            className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-center py-5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 relative overflow-hidden group"
-                        >
-                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                            Start Dominating ($1.5k Deposit)
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="text-center mt-16 mb-12 bg-zinc-900/50 p-8 rounded-3xl border border-white/5 backdrop-blur-sm max-w-2xl mx-auto">
-                    <div className="text-sm text-zinc-400 mb-6 uppercase tracking-widest font-bold">Offer Expires Soon</div>
-                    <CountdownTimer />
-                    <div className="mt-6 text-red-500 font-bold text-sm bg-red-500/10 inline-block px-4 py-1 rounded-full border border-red-500/20">
-                        Strict Validation: Offer expires Dec 30 @ Midnight
-                    </div>
-                </div>
-            </div>
-            </section >
-
-        {/* Final FAQ */ }
-        < section className = "py-20 bg-black z-10 relative" >
-            <div className="container mx-auto px-4 max-w-2xl">
-                <h2 className="text-3xl font-bold text-center mb-12">Common Questions</h2>
-                <div className="space-y-4">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border border-white/5 rounded-2xl bg-zinc-900/20 overflow-hidden">
-                            <button
-                                onClick={() => setActiveAccordion(activeAccordion === i ? null : i)}
-                                className="w-full flex items-center justify-between p-6 text-left font-medium hover:bg-white/5 transition-colors gap-4"
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Core Package */}
+                        <div className="bg-zinc-950 border border-white/5 rounded-[2rem] p-10 relative hover:border-zinc-700 transition-all group">
+                            <div className="mb-8">
+                                <h3 className="text-2xl font-bold mb-2 text-zinc-200">Revenue Foundation</h3>
+                                <p className="text-zinc-500 text-sm">Everything you need to look pro and get leads.</p>
+                            </div>
+                            <div className="flex items-baseline gap-2 mb-8">
+                                <span className="text-5xl font-bold text-white">$1,997</span>
+                                <span className="text-zinc-700 line-through text-xl">$3,500</span>
+                            </div>
+                            <ul className="space-y-5 mb-10">
+                                {[
+                                    "Custom Next.js Website (5 Pages)",
+                                    "AI Lead Capture Bot (Basic)",
+                                    "Mobile Responsive Design",
+                                    "Basic SEO Setup",
+                                    "14-Day Delivery"
+                                ].map((feat, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
+                                        <Check className="w-5 h-5 text-emerald-500" />
+                                        {feat}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link
+                                href="https://raenest.com/pay"
+                                className="block w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-center py-5 rounded-xl transition-all border border-white/5"
                             >
-                                <span className="text-lg">{faq.q}</span>
-                                <ChevronDown className={`w-5 h-5 text-emerald-500 transition-transform ${activeAccordion === i ? 'rotate-180' : ''}`} />
-                            </button>
-                            <AnimatePresence>
-                                {activeAccordion === i && (
-                                    <motion.div
-                                        initial={{ height: 0 }}
-                                        animate={{ height: 'auto' }}
-                                        exit={{ height: 0 }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="p-6 pt-0 text-zinc-400 text-base leading-relaxed">
-                                            {faq.a}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                Choose Foundation ($1k Deposit)
+                            </Link>
                         </div>
-                    ))}
+
+                        {/* Visual Highlight for Pro */}
+                        <div className="bg-zinc-900/80 border-2 border-emerald-600 rounded-[2rem] p-10 relative shadow-2xl shadow-emerald-900/40 transform md:scale-105 z-20 backdrop-blur-xl">
+                            <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-bl-2xl rounded-tr-xl uppercase tracking-wider">
+                                Most Popular
+                            </div>
+                            <div className="mb-8">
+                                <h3 className="text-3xl font-bold mb-2 text-white">Market Dominator</h3>
+                                <p className="text-emerald-400 font-medium text-sm">For businesses ready to scale aggressively.</p>
+                            </div>
+                            <div className="flex items-baseline gap-2 mb-8">
+                                <span className="text-5xl font-bold text-white">$3,497</span>
+                                <span className="text-zinc-600 line-through text-xl">$6,000</span>
+                            </div>
+                            <ul className="space-y-5 mb-10">
+                                {[
+                                    "Everything in Foundation",
+                                    "CRM Integration (HubSpot/Zapier)",
+                                    "3-Month Content Strategy",
+                                    "Email Automation Setup",
+                                    "Priority 7-Day Rush Delivery",
+                                    "Advanced Analytics Dashboard"
+                                ].map((feat, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-sm font-bold text-white/90">
+                                        <div className="bg-emerald-500/20 p-1 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                                        {feat}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link
+                                href="https://raenest.com/pay"
+                                className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-center py-5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 relative overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                                Start Dominating ($1.5k Deposit)
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="text-center mt-16 mb-12 bg-zinc-900/50 p-8 rounded-3xl border border-white/5 backdrop-blur-sm max-w-2xl mx-auto">
+                        <div className="text-sm text-zinc-400 mb-6 uppercase tracking-widest font-bold">Offer Expires Soon</div>
+                        <CountdownTimer />
+                        <div className="mt-6 text-red-500 font-bold text-sm bg-red-500/10 inline-block px-4 py-1 rounded-full border border-red-500/20">
+                            Strict Validation: Offer expires Dec 30 @ Midnight
+                        </div>
+                    </div>
                 </div>
-            </div>
             </section >
 
-        {/* Footer Simple */ }
-        < footer className = "py-12 text-center text-zinc-600 text-sm border-t border-white/5 bg-black z-10 relative" >
+            {/* Final FAQ */}
+            < section className="py-20 bg-black z-10 relative" >
+                <div className="container mx-auto px-4 max-w-2xl">
+                    <h2 className="text-3xl font-bold text-center mb-12">Common Questions</h2>
+                    <div className="space-y-4">
+                        {faqs.map((faq, i) => (
+                            <div key={i} className="border border-white/5 rounded-2xl bg-zinc-900/20 overflow-hidden">
+                                <button
+                                    onClick={() => setActiveAccordion(activeAccordion === i ? null : i)}
+                                    className="w-full flex items-center justify-between p-6 text-left font-medium hover:bg-white/5 transition-colors gap-4"
+                                >
+                                    <span className="text-lg">{faq.q}</span>
+                                    <ChevronDown className={`w-5 h-5 text-emerald-500 transition-transform ${activeAccordion === i ? 'rotate-180' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {activeAccordion === i && (
+                                        <motion.div
+                                            initial={{ height: 0 }}
+                                            animate={{ height: 'auto' }}
+                                            exit={{ height: 0 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="p-6 pt-0 text-zinc-400 text-base leading-relaxed">
+                                                {faq.a}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section >
+
+            {/* Footer Simple */}
+            < footer className="py-12 text-center text-zinc-600 text-sm border-t border-white/5 bg-black z-10 relative" >
                 <p>&copy; 2025 BigWeb Digital Agency. All rights reserved.</p>
                 <div className="mt-4 flex justify-center gap-6">
                     <Link href="#" className="hover:text-white transition-colors">Terms</Link>
@@ -528,14 +527,14 @@ export default function RevenueWebsitePage() {
                 </div>
             </footer >
 
-        {/* Sticky Mobile CTA */ }
-        < div className = "md:hidden fixed bottom-6 left-4 right-4 z-[9999]" >
-            <Link
-                href="#pricing"
-                className="block w-full bg-emerald-600 text-white font-bold text-center py-4 rounded-full shadow-2xl shadow-emerald-500/40 border border-emerald-400/50 backdrop-blur-xl animate-pulse-slow"
-            >
-                Get Revenue Site ($1,997)
-            </Link>
+            {/* Sticky Mobile CTA */}
+            < div className="md:hidden fixed bottom-6 left-4 right-4 z-[9999]" >
+                <Link
+                    href="#pricing"
+                    className="block w-full bg-emerald-600 text-white font-bold text-center py-4 rounded-full shadow-2xl shadow-emerald-500/40 border border-emerald-400/50 backdrop-blur-xl animate-pulse-slow"
+                >
+                    Get Revenue Site ($1,997)
+                </Link>
             </div >
         </div >
     )
