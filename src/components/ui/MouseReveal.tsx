@@ -128,9 +128,32 @@ export const RevealPatterns = {
             }} />
         </div>
     ),
-    Data: () => (
-        <div className="absolute inset-0 w-full h-full opacity-25 font-mono text-[10px] leading-3 overflow-hidden break-all text-emerald-500/20 select-none">
-            {Array(2000).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join(' ')}
+    Data: () => {
+        const [binary, setBinary] = useState('')
+        useEffect(() => {
+            setBinary(Array(2000).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join(' '))
+        }, [])
+        return (
+            <div className="absolute inset-0 w-full h-full opacity-25 font-mono text-[10px] leading-3 overflow-hidden break-all text-emerald-500/20 select-none">
+                {binary}
+            </div>
+        )
+    },
+    Stripes: () => (
+        <div className="absolute inset-0 w-full h-full opacity-10">
+            <div className="absolute inset-0" style={{
+                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 11px)'
+            }} />
+        </div>
+    ),
+    Waves: () => (
+        <div className="absolute inset-0 w-full h-full opacity-20">
+            <svg className="absolute inset-0 w-full h-full" width="100%" height="100%">
+                <pattern id="waves-pattern" x="0" y="0" width="100" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M0 10 Q 25 20 50 10 T 100 10" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
+                </pattern>
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#waves-pattern)" />
+            </svg>
         </div>
     )
 }

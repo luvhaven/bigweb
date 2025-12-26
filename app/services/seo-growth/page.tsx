@@ -117,6 +117,7 @@ export default function SEOMarketingPage() {
         description="Dominate search rankings and drive qualified organic traffic at scale. We help businesses dominate search results and scale revenue with data-driven marketing strategies."
         badgeText="SEO & Growth"
         themeColor="yellow"
+        pattern="Stripes"
       />
 
       {/* Structured Data */}

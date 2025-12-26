@@ -181,6 +181,7 @@ export default function UIUXDesignPage() {
         description="Pixel-perfect interfaces that convert visitors into loyal customers through data-driven design psychology. We create beautiful, intuitive experiences that delight users and drive business results."
         themeColor="green"
         backgroundImage={serviceImage}
+        pattern="Waves"
       />
 
       {/* Extended Content Section for SEO */}

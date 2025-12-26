@@ -193,6 +193,7 @@ export default function ConversionOptimizationPage() {
         themeColor="orange"
         ctaText="Get Free CRO Audit"
         ctaLink="/contact"
+        pattern="Hexagon"
         secondaryCtaText="Calculate Your Potential"
         secondaryCtaLink="/estimator"
       >
