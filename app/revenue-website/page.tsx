@@ -252,50 +252,96 @@ export default function RevenueWebsitePage() {
                                 {/* Heatmap Visual (CSS Replacement) */}
                                 <div className="w-full h-[400px] bg-[#0A0A0A] rounded-2xl border border-white/10 relative overflow-hidden flex flex-col items-center pt-8 shadow-2xl">
                                     {/* Mock Browser UI */}
-                                    <div className="w-[90%] h-full bg-zinc-900 rounded-t-xl border border-white/5 relative overflow-hidden">
+                                    <div className="w-[90%] h-full bg-zinc-900 rounded-t-xl border border-white/5 relative overflow-hidden flex flex-col">
                                         {/* Header */}
-                                        <div className="h-12 border-b border-white/5 flex items-center px-4 gap-2">
-                                            <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                                            <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                                            <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                                            <div className="ml-4 h-6 w-48 bg-white/5 rounded-full" />
+                                        <div className="h-10 border-b border-white/5 flex items-center px-4 gap-2 bg-zinc-900 z-20">
+                                            <div className="flex gap-1.5">
+                                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+                                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
+                                                <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+                                            </div>
+                                            <div className="ml-4 h-5 w-48 bg-white/5 rounded-full flex items-center px-2">
+                                                <div className="w-3 h-3 rounded-full bg-emerald-500/50 mr-2 animate-pulse" />
+                                                <div className="h-1.5 w-20 bg-white/10 rounded-full" />
+                                            </div>
                                         </div>
 
-                                        {/* Body Content */}
-                                        <div className="p-6 space-y-4 relative">
-                                            {/* Hero Mock */}
-                                            <div className="h-32 w-full bg-white/5 rounded-lg mb-4 relative overflow-hidden group">
-                                                {/* Heatmap Hotspot - Main CTA */}
-                                                <div className="absolute bottom-4 left-8 w-32 h-10 bg-emerald-500/20 rounded-md border border-emerald-500/50 z-10 flex items-center justify-center">
-                                                    <div className="w-full h-full absolute bg-emerald-500 blur-xl opacity-60 animate-pulse" />
-                                                </div>
-                                            </div>
+                                        {/* Body Content (Scrollable Simulation) */}
+                                        <div className="p-6 space-y-4 relative flex-1 bg-zinc-950/50">
+                                            {/* Scroll Animation Track */}
+                                            <motion.div
+                                                animate={{ y: [0, -40, 0] }}
+                                                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                                                className="space-y-4"
+                                            >
+                                                {/* Hero Mock */}
+                                                <div className="h-40 w-full bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-xl mb-4 relative overflow-hidden group border border-white/5">
+                                                    <div className="absolute top-4 left-4 h-3 w-1/2 bg-white/10 rounded-full" />
+                                                    <div className="absolute top-9 left-4 h-2 w-1/3 bg-white/5 rounded-full" />
 
-                                            {/* Grid layout */}
-                                            <div className="grid grid-cols-3 gap-4">
-                                                <div className="h-24 bg-white/5 rounded-lg" />
-                                                <div className="h-24 bg-white/5 rounded-lg relative overflow-hidden">
-                                                    {/* Secondary Hotspot */}
-                                                    <div className="absolute inset-0 bg-blue-500/20 blur-xl opacity-40 mix-blend-screen" />
+                                                    {/* Heatmap Hotspot - Main CTA */}
+                                                    <div className="absolute bottom-6 left-4 w-32 h-10 bg-emerald-500 rounded-lg shadow-lg shadow-emerald-500/20 z-10 flex items-center justify-center overflow-hidden">
+                                                        <span className="text-[10px] font-bold text-black uppercase tracking-wide">Get Started</span>
+                                                        <div className="absolute inset-0 bg-white/30 animate-[ping_2s_infinite]" />
+                                                    </div>
+
+                                                    {/* Heatmap Overlay */}
+                                                    <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 via-transparent to-transparent opacity-50" />
                                                 </div>
-                                                <div className="h-24 bg-white/5 rounded-lg" />
-                                            </div>
+
+                                                {/* Grid layout */}
+                                                <div className="grid grid-cols-3 gap-3">
+                                                    {[1, 2, 3].map((i) => (
+                                                        <div key={i} className="h-24 bg-zinc-800/50 rounded-lg border border-white/5 relative overflow-hidden">
+                                                            <div className="absolute top-2 left-2 w-8 h-8 rounded-full bg-white/5" />
+                                                            <div className="absolute bottom-2 left-2 right-2 h-2 bg-white/5 rounded-full" />
+                                                            {i === 2 && (
+                                                                <div className="absolute inset-0 bg-blue-500/10 mix-blend-screen animate-pulse" />
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+
+                                            {/* Floating Stats Badge */}
+                                            <motion.div
+                                                initial={{ scale: 0.8, opacity: 0 }}
+                                                whileInView={{ scale: 1, opacity: 1 }}
+                                                transition={{ delay: 0.5 }}
+                                                className="absolute top-1/2 right-4 bg-white text-black p-3 rounded-lg shadow-2xl z-30 transform -translate-y-1/2 border border-white/20"
+                                            >
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                                    <span className="text-xs font-bold">Conversion</span>
+                                                </div>
+                                                <div className="text-2xl font-black text-emerald-600">+42%</div>
+                                                <div className="h-1 bg-gray-200 rounded-full mt-2 overflow-hidden">
+                                                    <motion.div
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: "100%" }}
+                                                        transition={{ duration: 1 }}
+                                                        className="h-full bg-emerald-500"
+                                                    />
+                                                </div>
+                                            </motion.div>
                                         </div>
 
                                         {/* Overlay Heatmap Gradient */}
-                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent pointer-events-none mix-blend-overlay" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent pointer-events-none z-20" />
 
                                         {/* Cursor Animation */}
                                         <motion.div
                                             animate={{
-                                                x: [100, 50, 200, 100],
-                                                y: [100, 200, 150, 100]
+                                                x: [20, 100, 150, 40, 20],
+                                                y: [100, 150, 80, 200, 100],
+                                                scale: [1, 0.9, 1, 0.9, 1]
                                             }}
-                                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                            className="absolute top-0 left-0 text-white drop-shadow-lg z-20"
+                                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                                            className="absolute top-0 left-0 text-white drop-shadow-xl z-40 pointer-events-none"
                                         >
-                                            <div className="w-4 h-4 bg-white rounded-full opacity-50 absolute -top-1 -left-1 animate-ping" />
-                                            <svg className="w-6 h-6 fill-emerald-500 stroke-black stroke-2" viewBox="0 0 24 24"><path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4V2z" /></svg>
+                                            <svg className="w-8 h-8 fill-emerald-500 stroke-white stroke-[2px] drop-shadow-lg" viewBox="0 0 24 24">
+                                                <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4V2z" />
+                                            </svg>
                                         </motion.div>
                                     </div>
                                 </div>
