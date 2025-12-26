@@ -19,23 +19,16 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
     const ref = useRef<HTMLDivElement>(null)
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
-    const opacity = useMotionValue(0) // Track visibility
 
     // Smooth physics for the mouse movement
     const smoothX = useSpring(mouseX, { stiffness: 100, damping: 20, mass: 0.5 })
     const smoothY = useSpring(mouseY, { stiffness: 100, damping: 20, mass: 0.5 })
-    const smoothOpacity = useSpring(opacity, { stiffness: 50, damping: 20 })
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return
         const rect = ref.current.getBoundingClientRect()
         mouseX.set(e.clientX - rect.left)
         mouseY.set(e.clientY - rect.top)
-        opacity.set(1)
-    }
-
-    const handleMouseLeave = () => {
-        opacity.set(0)
     }
 
     const maskImage = useMotionTemplate`radial-gradient(${revealSize}px at ${smoothX}px ${smoothY}px, black, transparent), radial-gradient(${revealSize * 0.6}px at ${smoothX}px ${smoothY}px, black, transparent)`
@@ -45,7 +38,6 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
             ref={ref}
             className={`relative overflow-hidden ${className}`}
             onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
         >
             {/* Base Layer (Always Visible) */}
             <div className="relative z-10 w-full h-full">
@@ -57,8 +49,7 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
                 className="absolute inset-0 z-20 pointer-events-none"
                 style={{
                     maskImage,
-                    WebkitMaskImage: maskImage,
-                    opacity: smoothOpacity // Fade in/out
+                    WebkitMaskImage: maskImage
                 }}
             >
                 {revealContent}
@@ -71,8 +62,7 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
                     background: useMotionTemplate`
                         radial-gradient(${revealSize * 0.8}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.07), transparent 70%),
                         radial-gradient(${revealSize * 0.4}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.05), transparent 90%)
-                    `,
-                    opacity: smoothOpacity
+                    `
                 }}
             />
         </div>
