@@ -343,12 +343,23 @@ export default function RevenueWebsitePage() {
                             { day: "Day 7-8", title: "Content & AI Setup", desc: "We plug in your text, images, and train the AI Sales Bot." },
                             { day: "Day 9-10", title: "QA & Launch", desc: "Final speed tests, SEO checks, and live deployment." }
                         ].map((item, i) => (
-                            <div key={i} className="bg-black/40 border border-white/5 p-6 rounded-2xl relative group hover:border-emerald-500/30 transition-all">
-                                <div className="text-xs font-bold text-emerald-500 mb-2 border border-emerald-500/20 inline-block px-2 py-1 rounded bg-emerald-500/10">{item.day}</div>
-                                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                                <p className="text-sm text-zinc-400">{item.desc}</p>
+                            <div key={i} className="group bg-zinc-900/40 backdrop-blur-md border border-white/5 p-8 rounded-2xl relative overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-emerald-500/30 hover:shadow-2xl hover:shadow-emerald-900/20">
+                                {/* Watermark Number */}
+                                <div className="absolute -right-4 -bottom-8 text-[120px] font-bold text-white/[0.02] group-hover:text-emerald-500/[0.05] transition-colors select-none pointer-events-none">
+                                    0{i + 1}
+                                </div>
+
+                                {/* Content */}
+                                <div className="relative z-10">
+                                    <div className="text-xs font-bold text-emerald-500 mb-4 border border-emerald-500/20 inline-block px-3 py-1 rounded-full bg-emerald-500/10 group-hover:bg-emerald-500 group-hover:text-black transition-all duration-300">
+                                        {item.day}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">{item.title}</h3>
+                                    <p className="text-sm text-zinc-400 leading-relaxed font-medium group-hover:text-zinc-300 transition-colors">{item.desc}</p>
+                                </div>
+
                                 {/* Arrow connector for desktop */}
-                                {i < 3 && <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-zinc-700">➜</div>}
+                                {i < 3 && <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-20 text-emerald-500/20 text-2xl group-hover:text-emerald-500/50 transition-colors">➜</div>}
                             </div>
                         ))}
                     </div>
@@ -376,15 +387,20 @@ export default function RevenueWebsitePage() {
                             { name: "Resend", desc: "High-Deliverability Email API", icon: "@" },
                             { name: "Stripe", desc: "Secure Global Payments", icon: "$" }
                         ].map((tech, i) => (
-                            <div key={i} className="bg-zinc-900/50 border border-white/5 p-6 rounded-xl flex items-center gap-4 hover:border-zinc-700 transition-colors">
-                                <div className="w-12 h-12 bg-black rounded-lg border border-white/10 flex items-center justify-center font-bold text-lg text-zinc-300">
-                                    {tech.icon}
+                            <TiltCard key={i} className="perspective-1000 h-full">
+                                <div className="h-full bg-zinc-900/40 border border-white/5 p-6 rounded-xl flex items-center gap-4 hover:border-zinc-700 transition-all group relative overflow-hidden">
+                                    {/* Spotlight Gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
+
+                                    <div className="w-12 h-12 bg-black rounded-lg border border-white/10 flex items-center justify-center font-bold text-lg text-zinc-300 relative z-10 group-hover:scale-110 transition-transform duration-300 group-hover:border-emerald-500/30 group-hover:text-white shadow-xl shadow-black/50">
+                                        {tech.icon}
+                                    </div>
+                                    <div className="relative z-10">
+                                        <div className="font-bold text-white text-sm group-hover:text-emerald-400 transition-colors">{tech.name}</div>
+                                        <div className="text-[10px] text-zinc-500 uppercase tracking-wide mt-1 group-hover:text-zinc-400 transition-colors">Enterprise Standard</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div className="font-bold text-white text-sm">{tech.name}</div>
-                                    <div className="text-[10px] text-zinc-500 uppercase tracking-wide mt-1">Enterprise Standard</div>
-                                </div>
-                            </div>
+                            </TiltCard>
                         ))}
                     </div>
                 </div>
@@ -404,16 +420,18 @@ export default function RevenueWebsitePage() {
 
                     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         {/* Core Package */}
-                        <div className="bg-zinc-950 border border-white/5 rounded-[2rem] p-10 relative hover:border-zinc-700 transition-all group">
-                            <div className="mb-8">
-                                <h3 className="text-2xl font-bold mb-2 text-zinc-200">Revenue Foundation</h3>
+                        <div className="bg-zinc-950 border border-white/5 rounded-[2rem] p-10 relative hover:border-zinc-700 transition-all group overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[80px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/10 transition-colors" />
+
+                            <div className="mb-8 relative z-10">
+                                <h3 className="text-2xl font-bold mb-2 text-zinc-200 group-hover:text-white transition-colors">Revenue Foundation</h3>
                                 <p className="text-zinc-500 text-sm">Everything you need to look pro and get leads.</p>
                             </div>
-                            <div className="flex items-baseline gap-2 mb-8">
-                                <span className="text-5xl font-bold text-white">$1,997</span>
+                            <div className="flex items-baseline gap-2 mb-8 relative z-10">
+                                <span className="text-5xl font-bold text-white tracking-tight">$1,997</span>
                                 <span className="text-zinc-700 line-through text-xl">$3,500</span>
                             </div>
-                            <ul className="space-y-5 mb-10">
+                            <ul className="space-y-5 mb-10 relative z-10">
                                 {[
                                     "Custom Next.js Website (5 Pages)",
                                     "AI Lead Capture Bot (Basic)",
@@ -422,54 +440,68 @@ export default function RevenueWebsitePage() {
                                     "14-Day Delivery"
                                 ].map((feat, i) => (
                                     <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
-                                        <Check className="w-5 h-5 text-emerald-500" />
+                                        <div className="min-w-5 min-h-5 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-emerald-500/50 transition-colors">
+                                            <Check className="w-3 h-3 text-emerald-600" />
+                                        </div>
                                         {feat}
                                     </li>
                                 ))}
                             </ul>
                             <Link
                                 href="https://raenest.com/pay"
-                                className="block w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-center py-5 rounded-xl transition-all border border-white/5"
+                                className="block w-full bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-center py-5 rounded-xl transition-all border border-white/5 hover:border-white/10 relative z-10"
                             >
                                 Choose Foundation ($1k Deposit)
                             </Link>
                         </div>
 
                         {/* Visual Highlight for Pro */}
-                        <div className="bg-zinc-900/80 border-2 border-emerald-600 rounded-[2rem] p-10 relative shadow-2xl shadow-emerald-900/40 transform md:scale-105 z-20 backdrop-blur-xl">
-                            <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-bl-2xl rounded-tr-xl uppercase tracking-wider">
-                                Most Popular
+                        <div className="relative rounded-[2rem] p-[1px] transform md:scale-105 z-20 transition-transform overflow-hidden shadow-2xl shadow-emerald-900/20 group">
+                            {/* Metallic Border Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 animate-gradient-xy opacity-100" />
+
+                            <div className="bg-zinc-900 rounded-[2rem] p-10 h-full relative overflow-hidden backdrop-blur-3xl">
+                                {/* Inner texture */}
+                                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none -mr-20 -mt-20" />
+
+                                <div className="absolute top-0 right-0 bg-gradient-to-l from-emerald-500 to-cyan-500 text-black text-xs font-bold px-6 py-2 rounded-bl-2xl uppercase tracking-wider shadow-lg">
+                                    Most Popular
+                                </div>
+
+                                <div className="mb-8 relative z-10">
+                                    <h3 className="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">Market Dominator</h3>
+                                    <p className="text-emerald-400 font-medium text-sm">For businesses ready to scale aggressively.</p>
+                                </div>
+                                <div className="flex items-baseline gap-2 mb-8 relative z-10">
+                                    <span className="text-5xl font-bold text-white tracking-tight drop-shadow-lg">$3,497</span>
+                                    <span className="text-zinc-600 line-through text-xl">$6,000</span>
+                                </div>
+                                <ul className="space-y-5 mb-10 relative z-10">
+                                    {[
+                                        { text: "Everything in Foundation", icon: Check },
+                                        { text: "CRM Integration (HubSpot/Zapier)", icon: Rocket },
+                                        { text: "3-Month Content Strategy", icon: Layout },
+                                        { text: "Email Automation Setup", icon: Zap },
+                                        { text: "Priority 7-Day Rush Delivery", icon: Clock },
+                                        { text: "Advanced Analytics Dashboard", icon: BarChart }
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-sm font-bold text-white/90">
+                                            <div className="min-w-6 min-h-6 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 flex items-center justify-center shadow-inner">
+                                                <item.icon className="w-3.5 h-3.5 text-emerald-400" />
+                                            </div>
+                                            {item.text}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <Link
+                                    href="https://raenest.com/pay"
+                                    className="block w-full bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-center py-5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 relative overflow-hidden group/btn"
+                                >
+                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                                    Start Dominating ($1.5k Deposit)
+                                </Link>
                             </div>
-                            <div className="mb-8">
-                                <h3 className="text-3xl font-bold mb-2 text-white">Market Dominator</h3>
-                                <p className="text-emerald-400 font-medium text-sm">For businesses ready to scale aggressively.</p>
-                            </div>
-                            <div className="flex items-baseline gap-2 mb-8">
-                                <span className="text-5xl font-bold text-white">$3,497</span>
-                                <span className="text-zinc-600 line-through text-xl">$6,000</span>
-                            </div>
-                            <ul className="space-y-5 mb-10">
-                                {[
-                                    "Everything in Foundation",
-                                    "CRM Integration (HubSpot/Zapier)",
-                                    "3-Month Content Strategy",
-                                    "Email Automation Setup",
-                                    "Priority 7-Day Rush Delivery",
-                                    "Advanced Analytics Dashboard"
-                                ].map((feat, i) => (
-                                    <li key={i} className="flex items-center gap-3 text-sm font-bold text-white/90">
-                                        <div className="bg-emerald-500/20 p-1 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
-                                        {feat}
-                                    </li>
-                                ))}
-                            </ul>
-                            <Link
-                                href="https://raenest.com/pay"
-                                className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-center py-5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                                Start Dominating ($1.5k Deposit)
-                            </Link>
                         </div>
                     </div>
 
