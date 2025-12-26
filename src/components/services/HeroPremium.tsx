@@ -49,8 +49,7 @@ export default function HeroPremium({
             <MouseReveal
                 revealContent={<SelectedPattern />}
                 revealSize={600}
-
-                className="relative w-full h-full z-0"
+                className="absolute inset-0 w-full"
             >
                 {/* Background Image - Wrapped in reveal base to be always visible, or put outside? 
                    If we want the FLASHLIGHT to reveal the pattern, the pattern goes in revealContent.
