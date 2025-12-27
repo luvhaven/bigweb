@@ -7,7 +7,9 @@ import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GlobalSearch from "@/components/ui/GlobalSearch";
+import GlobalSearch from "@/components/ui/GlobalSearch";
 import BrandLogo from "@/components/branding/BrandLogo";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 const services = [
   {
@@ -546,135 +548,17 @@ const AdvancedNavigation = () => {
             </motion.div>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-foreground relative z-50"
+            className="md:hidden text-foreground relative z-50 p-2"
             aria-label="Toggle menu"
           >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="w-6 h-6" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className="w-6 h-6" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <Menu className="w-6 h-6" />
           </button>
         </div>
 
         {/* Mobile Full-Screen Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-              className="fixed inset-0 w-full h-full bg-[#0A0A0A] z-[9999] md:hidden flex flex-col overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-
-              {/* Header */}
-              <div className="relative z-10 p-6 flex items-center justify-between border-b border-white/10">
-                <BrandLogo className="h-8 w-auto" />
-                <button
-                  onClick={() => setIsMenuOpen(false)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white"
-                >
-                  <X className="w-8 h-8" />
-                </button>
-              </div>
-
-              {/* Scrollable Content */}
-              <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden">
-                <div className="p-6 pb-32 space-y-12 max-w-lg mx-auto">
-
-                  {/* Primary Navigation */}
-                  <div className="space-y-6">
-                    {menuItems.map((item, i) => (
-                      <motion.div
-                        key={item.name}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 + 0.2 }}
-                      >
-                        <Link
-                          href={item.path}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="block text-4xl font-bold text-white hover:text-accent transition-colors tracking-tight"
-                        >
-                          {item.name}
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <hr className="border-white/10" />
-
-                  {/* Services Grid */}
-                  <div>
-                    <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6 flex items-center gap-2">
-                      <Code className="w-4 h-4" /> Services
-                    </h4>
-                    <div className="grid grid-cols-1 gap-4">
-                      {services.map((service, i) => {
-                        const Icon = service.icon
-                        return (
-                          <motion.div
-                            key={service.name}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.05 + 0.4 }}
-                          >
-                            <Link
-                              href={service.path}
-                              onClick={() => setIsMenuOpen(false)}
-                              className="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/50 transition-all"
-                            >
-                              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} opacity-80 group-hover:opacity-100 flex items-center justify-center text-white shrink-0 shadow-lg`}>
-                                <Icon className="w-5 h-5" />
-                              </div>
-                              <div>
-                                <div className="text-white font-bold text-lg leading-tight group-hover:text-accent transition-colors">{service.name}</div>
-                                <div className="text-zinc-500 text-xs leading-tight mt-1">{service.description}</div>
-                              </div>
-                            </Link>
-                          </motion.div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Fixed Bottom CTA */}
-              <div className="relative z-20 p-6 border-t border-white/10 bg-[#0A0A0A]/80 backdrop-blur-xl">
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full bg-gradient-to-r from-accent to-purple-600 hover:from-accent/90 hover:to-purple-700 text-white font-bold py-8 text-xl rounded-2xl shadow-xl shadow-accent/20">
-                    Start Your Project
-                  </Button>
-                </Link>
-              </div>
-
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       </div >
     </motion.nav >
   );
