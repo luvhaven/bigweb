@@ -27,10 +27,25 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
     // Initialize mouse position to center of container
     useEffect(() => {
         if (!ref.current) return
-        const rect = ref.current.getBoundingClientRect()
-        mouseX.set(rect.width / 2)
-        mouseY.set(rect.height / 2)
-    }, [mouseX, mouseY])
+
+        // Immediate set
+        const updateCenter = () => {
+            if (ref.current) {
+                const rect = ref.current.getBoundingClientRect()
+                // Only act if dimensions are valid
+                if (rect.width > 0 && rect.height > 0) {
+                    mouseX.set(rect.width / 2)
+                    mouseY.set(rect.height / 2)
+                }
+            }
+        }
+
+        updateCenter()
+
+        // Also update on resize to keep it centered if user hasn't moved mouse yet
+        window.addEventListener('resize', updateCenter)
+        return () => window.removeEventListener('resize', updateCenter)
+    }, []) // Dependency array empty to run once on mount
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return
