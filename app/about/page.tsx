@@ -31,6 +31,12 @@ const values = [
   },
 ]
 
+import { useState, useEffect } from 'react'
+import { supabase } from '@/utils/supabase'
+import Team, { TeamMemberProfile } from '@/components/Team'
+
+// ... imports remain the same
+
 export default function AboutPage() {
   const heroRef = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -41,12 +47,28 @@ export default function AboutPage() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 300])
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0])
 
+  const [teamMembers, setTeamMembers] = useState<TeamMemberProfile[]>([])
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      const { data } = await supabase
+        .from('team_members')
+        .select('*')
+        .eq('active', true)
+        .order('sort_order', { ascending: true })
+
+      if (data) setTeamMembers(data)
+    }
+    fetchTeam()
+  }, [])
+
   return (
     <main className="min-h-screen">
       <Navigation />
 
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
+        {/* ... (Hero content same as before) */}
         <motion.div
           className="absolute inset-0 z-0"
           style={{ y }}
@@ -91,6 +113,7 @@ export default function AboutPage() {
 
       {/* Story Section */}
       <section className="py-32 relative">
+        {/* ... (Story content same as before) */}
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
@@ -183,8 +206,12 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Team Section (Dynamic) */}
+      <Team members={teamMembers} />
+
       {/* CTA Section */}
       <section className="py-32 relative overflow-hidden">
+        {/* ... (CTA content same as before) */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-background"
           animate={{

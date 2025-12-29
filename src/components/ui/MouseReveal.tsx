@@ -24,35 +24,35 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
     const smoothX = useSpring(mouseX, { stiffness: 100, damping: 20, mass: 0.5 })
     const smoothY = useSpring(mouseY, { stiffness: 100, damping: 20, mass: 0.5 })
 
-    // Initialize mouse position to center of container
     useEffect(() => {
-        if (!ref.current) return
+        // Global mouse move handler
+        const handleGlobalMouseMove = (e: MouseEvent) => {
+            if (!ref.current) return
 
-        // Immediate set
-        const updateCenter = () => {
-            if (ref.current) {
-                const rect = ref.current.getBoundingClientRect()
-                // Only act if dimensions are valid
-                if (rect.width > 0 && rect.height > 0) {
-                    mouseX.set(rect.width / 2)
-                    mouseY.set(rect.height / 2)
-                }
-            }
+            const rect = ref.current.getBoundingClientRect()
+
+            // Check if mouse is near or inside the component (optional optimization, 
+            // but for this specific "flashlight" effect we usually want it to track 
+            // relative to the component even if outside, or clamp it. 
+            // For now, we track exact relative position.)
+
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+
+            mouseX.set(x)
+            mouseY.set(y)
         }
 
-        updateCenter()
+        // Initialize center position
+        if (ref.current) {
+            const rect = ref.current.getBoundingClientRect()
+            mouseX.set(rect.width / 2)
+            mouseY.set(rect.height / 2)
+        }
 
-        // Also update on resize to keep it centered if user hasn't moved mouse yet
-        window.addEventListener('resize', updateCenter)
-        return () => window.removeEventListener('resize', updateCenter)
-    }, []) // Dependency array empty to run once on mount
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!ref.current) return
-        const rect = ref.current.getBoundingClientRect()
-        mouseX.set(e.clientX - rect.left)
-        mouseY.set(e.clientY - rect.top)
-    }
+        window.addEventListener('mousemove', handleGlobalMouseMove)
+        return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
+    }, [mouseX, mouseY])
 
     const maskImage = useMotionTemplate`radial-gradient(${revealSize}px at ${smoothX}px ${smoothY}px, black, transparent), radial-gradient(${revealSize * 0.6}px at ${smoothX}px ${smoothY}px, black, transparent)`
 
@@ -60,7 +60,7 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
         <div
             ref={ref}
             className={`relative overflow-hidden ${className}`}
-            onMouseMove={handleMouseMove}
+        // pointer-events-none is handled by parent, but we don't rely on onMouseMove here anymore
         >
             {/* Base Layer (Always Visible) */}
             <div className="relative z-10 w-full h-full">
@@ -92,7 +92,12 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
     )
 }
 
+import { NeuralMind } from './reveal-patterns/NeuralMind'
+import { AliveData } from './reveal-patterns/AliveData'
+import { RevenueFlow } from './reveal-patterns/RevenueFlow'
+
 export const RevealPatterns = {
+    // Legacy/Simple Patterns
     Grid: () => (
         <div className="absolute inset-0 w-full h-full opacity-60">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808066_1px,transparent_1px),linear-gradient(to_bottom,#80808066_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -101,81 +106,23 @@ export const RevealPatterns = {
     Gradient: () => (
         <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-emerald-500/10 via-purple-500/10 to-blue-500/10 animate-pulse mix-blend-screen" />
     ),
-    Particles: () => {
-        return (
-            <div className="absolute inset-0 w-full h-full opacity-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] filter contrast-150 brightness-100 mix-blend-overlay" />
-        )
-    },
-    Circuit: () => {
-        const id = useId()
-        return (
-            <div className="absolute inset-0 w-full h-full opacity-50">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-                    backgroundSize: '32px 32px'
-                }} />
-                <svg className="absolute inset-0 w-full h-full opacity-30" width="100%" height="100%">
-                    <pattern id={id} x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                        <path d="M10 10 L30 10 L30 30" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
-                        <path d="M70 70 L90 70 L90 90" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
-                        <circle cx="30" cy="30" r="2" fill="currentColor" className="text-white/30" />
-                        <circle cx="70" cy="70" r="2" fill="currentColor" className="text-white/30" />
-                    </pattern>
-                    <rect x="0" y="0" width="100%" height="100%" fill={`url(#${id})`} />
-                </svg>
-            </div>
-        )
-    },
-    Hexagon: () => (
-        <div className="absolute inset-0 w-full h-full opacity-40">
-            <div className="absolute inset-0" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='40' viewBox='0 0 24 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40c5.523 0 10-4.477 10-10V10C10 4.477 5.523 0 0 0h24c-5.523 0-10 4.477-10 10v20c0 5.523 5.523 10 10 10H0z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-            }} />
-        </div>
-    ),
-    Plus: () => (
-        <div className="absolute inset-0 w-full h-full opacity-50">
-            <div className="absolute inset-0" style={{
-                backgroundImage: `radial-gradient(white 1px, transparent 0)`,
-                backgroundSize: '40px 40px'
-            }} />
-            <div className="absolute inset-0" style={{
-                backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-                backgroundSize: '80px 80px'
-            }} />
-        </div>
-    ),
-    Data: () => {
-        const [binary, setBinary] = useState('')
-        useEffect(() => {
-            setBinary(Array(2000).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join(' '))
-        }, [])
-        return (
-            <div className="absolute inset-0 w-full h-full opacity-40 font-mono text-[10px] leading-3 overflow-hidden break-all text-emerald-500/40 select-none">
-                {binary}
-            </div>
-        )
-    },
-    Stripes: () => (
-        <div className="absolute inset-0 w-full h-full opacity-30">
-            <div className="absolute inset-0" style={{
-                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 11px)'
-            }} />
-        </div>
-    ),
-    Waves: () => {
-        const id = useId()
-        return (
-            <div className="absolute inset-0 w-full h-full opacity-40">
-                <svg className="absolute inset-0 w-full h-full" width="100%" height="100%">
-                    <pattern id={id} x="0" y="0" width="100" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M0 10 Q 25 20 50 10 T 100 10" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
-                    </pattern>
-                    <rect x="0" y="0" width="100%" height="100%" fill={`url(#${id})`} />
-                </svg>
-            </div>
-        )
-    }
-}
+    Particles: () => <NeuralMind themeColor="#cbd5e1" />, // Default generic neural
 
+    // New Sentient Patterns
+    Circuit: () => <NeuralMind themeColor="#3b82f6" />, // Blue Neural for Tech
+    Hexagon: () => <RevenueFlow themeColor="#f59e0b" />, // Gold Flow for Revenue
+    Data: () => <AliveData themeColor="#10b981" />,      // Green Matrix for Data
+    Waves: () => <NeuralMind themeColor="#8b5cf6" />,    // Purple Neural for Creative
+    Plus: () => <RevenueFlow themeColor="#ec4899" />,    // Pink Flow for Mobile
+    Stripes: () => <AliveData themeColor="#06b6d4" />,   // Cyan Matrix for SEO
+
+    // Themed Patterns for Perfect Matching
+    Creative: () => <NeuralMind themeColor="#22c55e" />, // Green Neural for UI/UX
+    Mobile: () => <RevenueFlow themeColor="#a855f7" />,  // Purple Flow for Apps
+    Insights: () => <AliveData themeColor="#6366f1" />,  // Indigo Matrix for Analytics
+
+    // Direct Access (for explicit usage) - High-End Effects
+    Neural: () => <NeuralMind themeColor="#10b981" />,    // Default: Emerald for AI
+    Matrix: () => <AliveData themeColor="#10b981" />,      // Default: Emerald for Data
+    Flow: () => <RevenueFlow themeColor="#f59e0b" />       // Default: Gold for Revenue
+}

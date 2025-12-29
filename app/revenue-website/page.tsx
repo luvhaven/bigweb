@@ -135,7 +135,7 @@ export default function RevenueWebsitePage() {
 
             {/* Hero Section - Optimized for Viewport Fit */}
             <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 z-10 min-h-[90vh] flex flex-col justify-center overflow-hidden">
-                <MouseReveal revealContent={<RevealPatterns.Hexagon />} revealSize={600} className="w-full h-full absolute inset-0 z-0">
+                <MouseReveal revealContent={<RevealPatterns.Flow />} revealSize={600} className="w-full h-full absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-black/50" />
                 </MouseReveal>
                 <div className="container mx-auto px-4 max-w-6xl text-center relative z-10">
@@ -152,19 +152,38 @@ export default function RevenueWebsitePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-7xl font-extrabold tracking-tight mb-4 leading-[1.1] md:leading-[1.1]"
+                        className="text-5xl md:text-8xl/[1.05] font-black tracking-tight mb-6 leading-tight"
                     >
-                        We Build Websites That <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Actually Get Customers.</span>
+                        <span className="bg-gradient-to-br from-white via-zinc-50 to-zinc-300 bg-clip-text text-transparent">
+                            We Build Websites That
+                        </span>
+                        <br className="hidden md:block" />
+                        <span className="relative inline-block">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-500 drop-shadow-[0_0_80px_rgba(16,185,129,0.3)]">
+                                Actually Get Customers.
+                            </span>
+                            <svg className="absolute w-full h-5 -bottom-3 left-0 opacity-30" viewBox="0 0 400 12" preserveAspectRatio="none">
+                                <motion.path
+                                    d="M0 6 Q 100 12 200 6 T 400 6"
+                                    stroke="currentColor"
+                                    className="text-emerald-400"
+                                    strokeWidth="4"
+                                    fill="none"
+                                    initial={{ pathLength: 0, opacity: 0 }}
+                                    animate={{ pathLength: 1, opacity: 0.3 }}
+                                    transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+                                />
+                            </svg>
+                        </span>
                     </motion.h1>
 
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-lg md:text-xl text-zinc-400 mb-6 max-w-3xl mx-auto leading-relaxed"
+                        className="text-xl md:text-2xl text-zinc-300 mb-10 max-w-3xl mx-auto leading-relaxed font-light"
                     >
-                        Most agencies charge $10k+ for "brochure" sites. Get a complete, high-performance <strong className="text-white">Revenue System</strong> (Next.js + AI + SEO) ready in 10 days.
+                        Most agencies charge $10k+ for "brochure" sites. Get a complete, high-performance <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-bold">Revenue System</strong> (Next.js + AI + SEO) ready in <span className="text-white font-semibold underline decoration-emerald-500/40 decoration-2 underline-offset-4">10 days</span>.
                     </motion.p>
 
                     <motion.div
@@ -176,16 +195,58 @@ export default function RevenueWebsitePage() {
                         <MagneticButton>
                             <Link
                                 href="#pricing"
-                                className="group relative bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-2xl shadow-emerald-500/30 transition-all flex items-center gap-2 overflow-hidden"
+                                className="group relative bg-gradient-to-r from-emerald-600 via-emerald-500 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-xl px-10 py-5 rounded-2xl shadow-2xl shadow-emerald-500/50 hover:shadow-emerald-400/70 transition-all flex items-center gap-3 overflow-hidden"
                             >
-                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                                <span className="relative">See Pricing & Packages</span>
-                                <ArrowRight className="w-5 h-5 relative group-hover:translate-x-1 transition-transform" />
+                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                                <span className="relative z-10">See Pricing & Packages</span>
+                                <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </MagneticButton>
                         <div className="text-sm text-zinc-500 flex items-center gap-2">
                             <Shield className="w-4 h-4 text-emerald-500" />
                             <span className="border-b border-zinc-700">Verified Agency Quality</span>
+                        </div>
+                    </motion.div>
+
+                    {/* Trust Indicators */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="flex flex-wrap items-center justify-center gap-8 mt-12 pt-8 border-t border-white/5"
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="flex -space-x-3">
+                                {['bg-gradient-to-br from-emerald-400 to-cyan-400', 'bg-gradient-to-br from-purple-400 to-pink-400', 'bg-gradient-to-br from-orange-400 to-red-400', 'bg-gradient-to-br from-blue-400 to-indigo-400'].map((gradient, i) => (
+                                    <div key={i} className={`w-10 h-10 rounded-full ${gradient} border-2 border-background flex items-center justify-center text-xs font-bold text-white shadow-lg`}>
+                                        ★
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="text-left">
+                                <div className="text-white font-semibold text-sm">500+ Revenue Websites Built</div>
+                                <div className="text-zinc-400 text-xs">Avg. 40% conversion increase</div>
+                            </div>
+                        </div>
+                        <div className="h-8 w-px bg-white/10" />
+                        <div className="flex items-center gap-2">
+                            <svg className="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <div className="text-left">
+                                <div className="text-white font-semibold text-sm">4.9/5 Stars</div>
+                                <div className="text-zinc-400 text-xs">From 200+ clients</div>
+                            </div>
+                        </div>
+                        <div className="h-8 w-px bg-white/10" />
+                        <div className="flex items-center gap-2">
+                            <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                <Zap className="w-5 h-5 text-emerald-500" />
+                            </div>
+                            <div className="text-left">
+                                <div className="text-white font-semibold text-sm">100/100 Speed Score</div>
+                                <div className="text-zinc-400 text-xs">Guaranteed performance</div>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -686,6 +747,25 @@ export default function RevenueWebsitePage() {
                     </div>
                 </div>
             </section >
+
+            {/* Discovery Call CTA */}
+            <section className="py-24 border-t border-white/5 bg-gradient-to-b from-black to-emerald-950/20 relative overflow-hidden">
+                <div className="container mx-auto px-4 text-center relative z-10">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-8">Still have questions?</h2>
+
+                    <Link
+                        href="/contact"
+                        className="inline-flex items-center gap-3 text-emerald-400 hover:text-emerald-300 font-bold text-xl md:text-2xl transition-all group hover:scale-105"
+                    >
+                        <Calendar className="w-6 h-6" />
+                        <span className="border-b-2 border-emerald-500/30 group-hover:border-emerald-500">Book a free 15-min discovery call</span>
+                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </div>
+
+                {/* Background Glow */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
+            </section>
 
             {/* Footer Simple */}
             < footer className="py-12 text-center text-zinc-600 text-sm border-t border-white/5 bg-black z-10 relative" >

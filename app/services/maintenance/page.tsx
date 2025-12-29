@@ -100,6 +100,7 @@ export default function MaintenancePage() {
                 description="Don't let your investment decay. We keep your digital presence secure, high-performing, and optimized for the AI era."
                 badgeText="Maintenance & Growth"
                 themeColor="green"
+                pattern="Creative"
             />
 
             <BentoGrid

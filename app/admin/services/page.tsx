@@ -1,172 +1,150 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Plus, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
-import { format } from 'date-fns'
-import AdminHeader from '@/components/admin/AdminHeader'
-import DataTable, { Column } from '@/components/admin/DataTable'
+import { useState, useEffect } from 'react'
+import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import AdminSidebar from '@/components/admin/AdminSidebar'
 import { Button } from '@/components/ui/button'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner' // Assuming sonner is installed as confirmed in task.md
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Loader2, Plus, Edit, Trash2, Eye, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import { Badge } from '@/components/ui/badge'
 
-interface Service {
+interface ServicePage {
     id: string
-    title: string
     slug: string
-    is_active: boolean
-    pricing_model: string
-    starting_price: number | null
-    updated_at: string
+    title: string
+    highlight: string
+    description: string
+    theme_color: string
+    icon: string
+    featured: boolean
+    published: boolean
+    sort_order: number
 }
 
-export default function ServicesPage() {
-    const supabase = createClient()
-    const queryClient = useQueryClient()
-    const [deleteId, setDeleteId] = useState<string | null>(null)
+export default function ServicesIndexPage() {
+    const [services, setServices] = useState<ServicePage[]>([])
+    const [loading, setLoading] = useState(true)
 
-    // React Query for Fetching
-    const { data: services = [], isLoading } = useQuery({
-        queryKey: ['admin', 'services'],
-        queryFn: async () => {
+    useEffect(() => {
+        loadServices()
+    }, [])
+
+    const loadServices = async () => {
+        try {
+            setLoading(true)
             const { data, error } = await supabase
-                .from('services')
-                .select('id, title, slug, is_active, pricing_model, starting_price, updated_at')
-                .order('order_index', { ascending: true })
+                .from('service_pages')
+                .select('*')
+                .order('sort_order', { ascending: true })
 
             if (error) throw error
-            return data as Service[]
+            setServices(data || [])
+        } catch (error) {
+            console.error('Error loading services:', error)
+        } finally {
+            setLoading(false)
         }
-    })
-
-    // React Query for Deleting
-    const deleteMutation = useMutation({
-        mutationFn: async (id: string) => {
-            const { error } = await supabase
-                .from('services')
-                .delete()
-                .eq('id', id)
-            if (error) throw error
-        },
-        onSuccess: () => {
-            toast.success('Service deleted successfully')
-            queryClient.invalidateQueries({ queryKey: ['admin', 'services'] })
-            setDeleteId(null)
-        },
-        onError: (error: any) => {
-            console.error('Error deleting service:', error)
-            toast.error('Failed to delete service: ' + error.message)
-        }
-    })
-
-    const handleDelete = async () => {
-        if (!deleteId) return
-        deleteMutation.mutate(deleteId)
     }
 
-    const columns: Column<Service>[] = [
-        {
-            header: 'Title',
-            cell: (service) => (
-                <div>
-                    <div className="font-medium text-foreground">{service.title}</div>
-                    <div className="text-xs text-muted-foreground">/{service.slug}</div>
-                </div>
-            )
-        },
-        {
-            header: 'Status',
-            cell: (service) => (
-                service.is_active ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500 ring-1 ring-inset ring-emerald-500/20">
-                        <CheckCircle className="w-3.5 h-3.5" />
-                        Active
-                    </span>
-                ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-500/10 text-zinc-400 ring-1 ring-inset ring-zinc-500/20">
-                        <XCircle className="w-3.5 h-3.5" />
-                        Inactive
-                    </span>
-                )
-            )
-        },
-        {
-            header: 'Pricing',
-            cell: (service) => (
-                <div className="text-zinc-300">
-                    {service.starting_price ? (
-                        <span>From ${service.starting_price.toLocaleString()}</span>
-                    ) : (
-                        <span className="text-muted-foreground">Custom Quote</span>
-                    )}
-                    <span className="text-xs text-muted-foreground block capitalize">{service.pricing_model}</span>
-                </div>
-            )
-        },
-        {
-            header: 'Last Updated',
-            cell: (service) => (
-                <span className="text-muted-foreground">
-                    {format(new Date(service.updated_at), 'MMM d, yyyy')}
-                </span>
-            )
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this service page?')) return
+
+        try {
+            const { error } = await supabase
+                .from('service_pages')
+                .delete()
+                .eq('id', id)
+
+            if (error) throw error
+            loadServices()
+        } catch (error) {
+            console.error('Error deleting service:', error)
         }
-    ]
+    }
 
     return (
-        <div className="space-y-6">
-            <AdminHeader
-                title="Services"
-                description="Manage your service offerings and pricing"
-            >
-                <Link href="/admin/services/new">
-                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
-                        <Plus className="w-4 h-4" />
-                        Add New Service
-                    </Button>
-                </Link>
-            </AdminHeader>
+        <div className="flex min-h-screen bg-background">
+            <AdminSidebar />
 
-            <DataTable
-                columns={columns}
-                data={services}
-                loading={isLoading}
-                editLink={(service) => `/admin/services/${service.id}`}
-                onDelete={(id) => setDeleteId(id)}
-                emptyMessage="No services found. Create one to get started."
-            />
-
-            {/* Delete Confirmation Modal */}
-            {deleteId && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-card border border-border rounded-xl max-w-sm w-full p-6 shadow-xl">
-                        <div className="flex items-center gap-3 text-red-500 mb-4">
-                            <AlertCircle className="w-6 h-6" />
-                            <h3 className="text-lg font-bold">Delete Service?</h3>
-                        </div>
-                        <p className="text-muted-foreground mb-6">
-                            Are you sure you want to delete this service? This action cannot be undone.
+            <div className="flex-1 ml-64 p-6">
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 className="text-4xl font-bold">Services</h1>
+                        <p className="text-muted-foreground mt-2">
+                            Manage your service offerings, descriptions, and feature lists.
                         </p>
-                        <div className="flex items-center justify-end gap-3">
-                            <button
-                                onClick={() => setDeleteId(null)}
-                                className="px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                disabled={deleteMutation.isPending}
-                                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
-                            >
-                                {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-                            </button>
-                        </div>
                     </div>
+
+                    <Link href="/admin/services/new">
+                        <Button size="lg" className="gap-2">
+                            <Plus className="w-4 h-4" />
+                            Add New Service
+                        </Button>
+                    </Link>
                 </div>
-            )}
+
+                {loading ? (
+                    <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                    </div>
+                ) : (
+                    <div className="grid gap-4">
+                        {services.map((service) => (
+                            <Card key={service.id} className="hover:shadow-md transition-all">
+                                <CardContent className="p-6 flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-${service.theme_color}-500/10 text-${service.theme_color}-500`}>
+                                            {/* We'll render dynamic icons later, placeholder for now */}
+                                            <span className="text-xl font-bold">{service.title.charAt(0)}</span>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-xl font-bold">{service.title}</h3>
+                                                {service.featured && <Badge variant="secondary">Featured</Badge>}
+                                                {!service.published && <Badge variant="destructive">Draft</Badge>}
+                                            </div>
+                                            <p className="text-muted-foreground line-clamp-1 max-w-xl">
+                                                {service.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                        <Link href={`/${service.slug}`} target="_blank">
+                                            <Button variant="ghost" size="icon">
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
+                                        </Link>
+                                        <Link href={`/admin/services/${service.id}`}>
+                                            <Button variant="outline" size="sm" className="gap-2">
+                                                <Edit className="w-4 h-4" />
+                                                Edit Content
+                                            </Button>
+                                        </Link>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => handleDelete(service.id)}
+                                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+
+                        {services.length === 0 && (
+                            <div className="text-center py-12 border-2 border-dashed rounded-lg">
+                                <h3 className="text-lg font-medium text-muted-foreground">No services found</h3>
+                                <p className="text-sm text-muted-foreground mt-1">Create your first service page to get started.</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
-

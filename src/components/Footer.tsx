@@ -35,10 +35,10 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { href: '#', label: 'Facebook' },
-  { href: '#', label: 'Twitter' },
-  { href: '#', label: 'Instagram' },
-  { href: '#', label: 'LinkedIn' },
+  { href: 'https://facebook.com/bigwebdigital', label: 'Facebook' },
+  { href: 'https://twitter.com/bigwebdigital', label: 'Twitter' },
+  { href: 'https://instagram.com/bigwebdigital', label: 'Instagram' },
+  { href: 'https://linkedin.com/company/bigweb-digital', label: 'LinkedIn' },
 ]
 
 export default function Footer() {

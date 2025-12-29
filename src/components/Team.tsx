@@ -6,54 +6,56 @@ import { useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Linkedin, Twitter, Github } from "lucide-react";
 
-const team = [
+export interface TeamMemberProfile {
+  id?: string
+  name: string
+  role: string
+  bio: string
+  photo_url: string
+  linkedin_url?: string
+  twitter_url?: string
+}
+
+const defaultTeam: TeamMemberProfile[] = [
   {
     name: "Sarah Chen",
     role: "Creative Director",
     bio: "Visionary designer with 10+ years shaping digital experiences",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
+    photo_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+    linkedin_url: "#",
+    twitter_url: "#"
   },
   {
     name: "Marcus Rodriguez",
     role: "Lead Developer",
     bio: "Full-stack architect building scalable web solutions",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
+    photo_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    linkedin_url: "#",
+    twitter_url: "#"
   },
   {
     name: "Emily Watson",
     role: "UX Strategist",
     bio: "Human-centered designer crafting intuitive interfaces",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
+    photo_url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+    linkedin_url: "#",
+    twitter_url: "#"
   },
   {
     name: "David Kim",
     role: "Technical Lead",
     bio: "Innovation expert driving cutting-edge solutions",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
+    photo_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+    linkedin_url: "#",
+    twitter_url: "#"
   },
 ];
 
-const TeamMember = ({ member, index }: { member: typeof team[0]; index: number }) => {
+interface TeamProps {
+  members?: TeamMemberProfile[]
+}
+
+const TeamMember = ({ member, index }: { member: TeamMemberProfile; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -76,7 +78,7 @@ const TeamMember = ({ member, index }: { member: typeof team[0]; index: number }
       <Card className="group relative overflow-hidden bg-card border-border hover:border-accent transition-all duration-500 cursor-pointer">
         <div className="aspect-square relative overflow-hidden">
           <motion.img
-            src={member.image}
+            src={member.photo_url}
             alt={member.name}
             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
             style={{ rotate }}
@@ -84,27 +86,30 @@ const TeamMember = ({ member, index }: { member: typeof team[0]; index: number }
             transition={{ duration: 0.5 }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
-          
+
           {/* Social Links Overlay */}
           <motion.div
             className="absolute inset-0 bg-accent/90 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             initial={false}
           >
-            {Object.entries(member.social).map(([platform, url], i) => (
+            {member.linkedin_url && (
               <motion.a
-                key={platform}
-                href={url}
+                href={member.linkedin_url}
                 className="text-primary-foreground hover:text-background transition-colors duration-300"
-                initial={{ y: 20, opacity: 0 }}
                 whileHover={{ scale: 1.2, rotate: 360 }}
-                animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.1 }}
               >
-                {platform === "linkedin" && <Linkedin className="w-6 h-6" />}
-                {platform === "twitter" && <Twitter className="w-6 h-6" />}
-                {platform === "github" && <Github className="w-6 h-6" />}
+                <Linkedin className="w-6 h-6" />
               </motion.a>
-            ))}
+            )}
+            {member.twitter_url && (
+              <motion.a
+                href={member.twitter_url}
+                className="text-primary-foreground hover:text-background transition-colors duration-300"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+              >
+                <Twitter className="w-6 h-6" />
+              </motion.a>
+            )}
           </motion.div>
         </div>
 
@@ -128,9 +133,11 @@ const TeamMember = ({ member, index }: { member: typeof team[0]; index: number }
   );
 };
 
-const Team = () => {
+const Team = ({ members = defaultTeam }: TeamProps) => {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true });
+
+  const displayMembers = members.length > 0 ? members : defaultTeam
 
   return (
     <section id="team" className="py-32 relative overflow-hidden">
@@ -161,7 +168,7 @@ const Team = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {team.map((member, index) => (
+          {displayMembers.map((member, index) => (
             <TeamMember key={index} member={member} index={index} />
           ))}
         </div>

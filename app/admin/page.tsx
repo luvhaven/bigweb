@@ -291,8 +291,25 @@ export default function AdminDashboard() {
                                             {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
                                         </span>
                                     </div>
-                                    <p className="text-xs text-muted-foreground truncate">{activity.email}</p>
-                                    <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{activity.message}</p>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <p className="text-xs text-muted-foreground truncate">{activity.email}</p>
+                                        {activity.source && (
+                                            <span className="px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-medium border border-blue-500/20">
+                                                {activity.source}
+                                            </span>
+                                        )}
+                                        {activity.status && (
+                                            <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium border ${activity.status === 'new' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
+                                                    activity.status === 'read' ? 'bg-zinc-500/10 text-zinc-500 border-zinc-500/20' :
+                                                        'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                                                }`}>
+                                                {activity.status.toUpperCase()}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="text-sm text-foreground/80 line-clamp-2 mt-2 bg-secondary/30 p-2 rounded-md italic">
+                                        "{activity.message}"
+                                    </p>
                                 </div>
                             </div>
                         ))

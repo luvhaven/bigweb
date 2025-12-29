@@ -147,6 +147,7 @@ export default function GAIOPage() {
                 highlight="Generative AI"
                 description="Don't just rank on Google. Be the answer on ChatGPT, Gemini, and Perplexity. We optimize your brand for the AI era."
                 themeColor="purple"
+                pattern="Waves"
             />
 
             {/* Introduction Section */}

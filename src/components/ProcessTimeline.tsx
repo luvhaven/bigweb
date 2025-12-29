@@ -3,7 +3,14 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
-const steps = [
+
+export interface ProcessStep {
+    title: string
+    description: string
+    icon: string
+}
+
+const defaultSteps: ProcessStep[] = [
     {
         title: "Discovery",
         description: "We dive deep into your business goals, audience, and competitors to build a solid foundation.",
@@ -36,7 +43,11 @@ const steps = [
     }
 ]
 
-export default function ProcessTimeline() {
+interface ProcessTimelineProps {
+    steps?: ProcessStep[]
+}
+
+export default function ProcessTimeline({ steps = defaultSteps }: ProcessTimelineProps) {
     const containerRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: containerRef,

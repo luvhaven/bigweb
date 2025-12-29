@@ -117,7 +117,7 @@ export default function AnalyticsPage() {
         description="Data-driven optimization that continuously improves conversion rates. Make smarter decisions with powerful analytics that reveal what's working and what's not."
         badgeText="Analytics & CRO"
         themeColor="indigo"
-        pattern="Data"
+        pattern="Insights"
       />
 
       {/* Structured Data */}

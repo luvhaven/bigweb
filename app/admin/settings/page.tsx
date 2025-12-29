@@ -1,21 +1,32 @@
-'use client'
+"use client"
 
 import { useState, useEffect } from 'react'
-import { Save, Loader2, Globe, Shield, Activity, Mail, Bell, Smartphone, User } from 'lucide-react'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
-import { motion } from 'framer-motion'
-import { Toaster, toast } from 'sonner'
+import AdminHeader from '@/components/admin/AdminHeader'
+import AdminSidebar from '@/components/admin/AdminSidebar'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Save, Loader2, AlertCircle, CheckCircle } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
 
-export default function SettingsPage() {
-    const [loading, setLoading] = useState(false)
-    const [settings, setSettings] = useState({
-        site_name: 'BigWeb',
-        site_description: 'Premium Web Development',
-        contact_email: 'hello@bigweb.com',
-        maintenance_mode: false,
-        registration_enabled: false,
-        notifications_enabled: true
-    })
+interface Setting {
+    id: string
+    category: string
+    setting_key: string
+    setting_value: any
+    description: string
+    data_type: string
+}
+
+export default function SiteSettingsPage() {
+    const { profile } = useAuth()
+    const [settings, setSettings] = useState<Setting[]>([])
+    const [loading, setLoading] = useState(true)
+    const [saving, setSaving] = useState(false)
+    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
     useEffect(() => {
         loadSettings()
@@ -23,200 +34,219 @@ export default function SettingsPage() {
 
     const loadSettings = async () => {
         try {
-            const { data } = await supabase
+            setLoading(true)
+            const { data, error } = await supabase
                 .from('site_settings')
                 .select('*')
-                .single()
-
-            if (data) {
-                setSettings(prev => ({ ...prev, ...data }))
-            }
-        } catch (error) {
-            console.error('Error loading settings:', error)
-        }
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setLoading(true)
-
-        try {
-            const { error } = await supabase
-                .from('site_settings')
-                .upsert([settings as any])
+                .order('category', { ascending: true })
+                .order('setting_key', { ascending: true })
 
             if (error) throw error
-            toast.success('Settings saved successfully')
+            setSettings(data || [])
         } catch (error) {
-            console.error('Error saving settings:', error)
-            toast.success('Settings updated') // Fallback for simulation
+            console.error('Error loading settings:', error)
+            setMessage({ type: 'error', text: 'Failed to load settings' })
         } finally {
             setLoading(false)
         }
     }
 
-    return (
-        <div className="max-w-4xl space-y-8">
-            <Toaster position="top-right" theme="dark" />
+    const updateSetting = (key: string, value: any) => {
+        setSettings(settings.map(s =>
+            s.setting_key === key ? { ...s, setting_value: value } : s
+        ))
+    }
 
-            <div>
-                <h1 className="text-3xl font-bold text-white tracking-tight">Settings</h1>
-                <p className="text-zinc-400 mt-1">Configure your application preferences</p>
-            </div>
+    const handleSave = async () => {
+        try {
+            setSaving(true)
+            setMessage(null)
 
-            <form onSubmit={handleSubmit} className="space-y-8">
-                {/* General Settings */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-8 space-y-6 hover:border-zinc-700 transition-colors"
-                >
-                    <div className="flex items-center gap-3 mb-6 pb-6 border-b border-zinc-800">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                            <Globe className="w-5 h-5 text-emerald-500" />
-                        </div>
-                        <div>
-                            <h2 className="text-lg font-semibold text-white">General Information</h2>
-                            <p className="text-sm text-zinc-500">Basic site identity and SEO defaults</p>
-                        </div>
+            // Update each setting
+            for (const setting of settings) {
+                const { error } = await supabase
+                    .from('site_settings')
+                    .update({
+                        setting_value: setting.setting_value,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('setting_key', setting.setting_key)
+
+                if (error) throw error
+            }
+
+            // Trigger revalidation to update frontend
+            await fetch('/api/revalidate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: '/' })
+            })
+
+            setMessage({ type: 'success', text: 'Settings saved successfully! Frontend will update shortly.' })
+        } catch (error) {
+            console.error('Error saving settings:', error)
+            setMessage({ type: 'error', text: 'Failed to save settings' })
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    const renderSettingInput = (setting: Setting) => {
+        const value = typeof setting.setting_value === 'string'
+            ? setting.setting_value.replace(/^"|"$/g, '')
+            : setting.setting_value
+
+        switch (setting.data_type) {
+            case 'boolean':
+                return (
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            id={setting.setting_key}
+                            checked={value === true}
+                            onChange={(e) => updateSetting(setting.setting_key, e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-300"
+                        />
+                        <Label htmlFor={setting.setting_key} className="cursor-pointer">
+                            {setting.description}
+                        </Label>
                     </div>
+                )
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-zinc-300">Site Name</label>
-                            <input
-                                type="text"
-                                value={settings.site_name}
-                                onChange={(e) => setSettings(prev => ({ ...prev, site_name: e.target.value }))}
-                                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-zinc-300">Contact Email</label>
-                            <input
-                                type="email"
-                                value={settings.contact_email}
-                                onChange={(e) => setSettings(prev => ({ ...prev, contact_email: e.target.value }))}
-                                className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-zinc-300">Site Description</label>
-                        <textarea
-                            value={settings.site_description}
-                            onChange={(e) => setSettings(prev => ({ ...prev, site_description: e.target.value }))}
-                            className="w-full h-24 px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none"
+            case 'color':
+                return (
+                    <div className="flex gap-2">
+                        <input
+                            type="color"
+                            value={value}
+                            onChange={(e) => updateSetting(setting.setting_key, `"${e.target.value}"`)}
+                            className="w-12 h-10 rounded border"
+                        />
+                        <Input
+                            type="text"
+                            value={value}
+                            onChange={(e) => updateSetting(setting.setting_key, `"${e.target.value}"`)}
+                            placeholder="#10b981"
                         />
                     </div>
-                </motion.div>
+                )
 
-                {/* System Settings */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-8 space-y-6 hover:border-zinc-700 transition-colors"
-                >
-                    <div className="flex items-center gap-3 mb-6 pb-6 border-b border-zinc-800">
-                        <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
-                            <Shield className="w-5 h-5 text-blue-500" />
-                        </div>
-                        <div>
-                            <h2 className="text-lg font-semibold text-white">System Control</h2>
-                            <p className="text-sm text-zinc-500">Access control and maintenance</p>
-                        </div>
+            case 'number':
+                return (
+                    <Input
+                        type="number"
+                        value={value}
+                        onChange={(e) => updateSetting(setting.setting_key, parseInt(e.target.value))}
+                    />
+                )
+
+            default:
+                return (
+                    <Input
+                        type="text"
+                        value={value}
+                        onChange={(e) => updateSetting(setting.setting_key, `"${e.target.value}"`)}
+                        placeholder={setting.description}
+                    />
+                )
+        }
+    }
+
+    const categories = [...new Set(settings.map(s => s.category))]
+
+    return (
+        <div className="flex min-h-screen bg-background">
+            <AdminSidebar />
+
+            <div className="flex-1 ml-64 p-6">
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 className="text-4xl font-bold">Site Settings</h1>
+                        <p className="text-muted-foreground mt-2">
+                            Configure your website's global settings, branding, and integrations
+                        </p>
                     </div>
 
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-xl border border-zinc-800/50 hover:border-zinc-700 transition-colors">
-                            <div className="flex gap-4">
-                                <div className="mt-1">
-                                    <Activity className="w-5 h-5 text-zinc-400" />
-                                </div>
-                                <div>
-                                    <div className="font-medium text-white">Maintenance Mode</div>
-                                    <div className="text-sm text-zinc-500">Temporarily disable public access</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={settings.maintenance_mode}
-                                    onChange={(e) => setSettings(prev => ({ ...prev, maintenance_mode: e.target.checked }))}
-                                    className="sr-only peer"
-                                />
-                                <div className="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                            </label>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-xl border border-zinc-800/50 hover:border-zinc-700 transition-colors">
-                            <div className="flex gap-4">
-                                <div className="mt-1">
-                                    <User className="w-5 h-5 text-zinc-400" />
-                                </div>
-                                <div>
-                                    <div className="font-medium text-white">Public Registration</div>
-                                    <div className="text-sm text-zinc-500">Allow new users to sign up</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={settings.registration_enabled}
-                                    onChange={(e) => setSettings(prev => ({ ...prev, registration_enabled: e.target.checked }))}
-                                    className="sr-only peer"
-                                />
-                                <div className="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                            </label>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-xl border border-zinc-800/50 hover:border-zinc-700 transition-colors">
-                            <div className="flex gap-4">
-                                <div className="mt-1">
-                                    <Bell className="w-5 h-5 text-zinc-400" />
-                                </div>
-                                <div>
-                                    <div className="font-medium text-white">Notifications</div>
-                                    <div className="text-sm text-zinc-500">Enable email alerts for new events</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={settings.notifications_enabled}
-                                    onChange={(e) => setSettings(prev => ({ ...prev, notifications_enabled: e.target.checked }))}
-                                    className="sr-only peer"
-                                />
-                                <div className="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                            </label>
-                        </div>
-                    </div>
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="flex justify-end pt-4"
-                >
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="inline-flex items-center gap-2 px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl transition-all font-medium disabled:opacity-50 hover:shadow-lg hover:shadow-emerald-500/20 active:scale-95 transform duration-100"
+                    <Button
+                        onClick={handleSave}
+                        disabled={saving}
+                        size="lg"
+                        className="gap-2"
                     >
-                        {loading ? (
-                            <Loader2 className="w-5 h-5 animate-spin" />
+                        {saving ? (
+                            <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                Saving...
+                            </>
                         ) : (
-                            <Save className="w-5 h-5" />
+                            <>
+                                <Save className="w-4 h-4" />
+                                Save All Changes
+                            </>
                         )}
-                        Save Changes
-                    </button>
-                </motion.div>
-            </form>
+                    </Button>
+                </div>
+
+                {message && (
+                    <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${message.type === 'success'
+                        ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                        : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                        }`}>
+                        {message.type === 'success' ? (
+                            <CheckCircle className="w-5 h-5" />
+                        ) : (
+                            <AlertCircle className="w-5 h-5" />
+                        )}
+                        <span>{message.text}</span>
+                    </div>
+                )}
+
+                {loading ? (
+                    <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                    </div>
+                ) : (
+                    <Tabs defaultValue={categories[0]} className="space-y-6">
+                        <TabsList className="grid grid-cols-6 w-full max-w-3xl">
+                            {categories.map(category => (
+                                <TabsTrigger key={category} value={category} className="capitalize">
+                                    {category}
+                                </TabsTrigger>
+                            ))}
+                        </TabsList>
+
+                        {categories.map(category => (
+                            <TabsContent key={category} value={category}>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="capitalize">{category} Settings</CardTitle>
+                                        <CardDescription>
+                                            Manage {category} configuration options
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-6">
+                                        {settings
+                                            .filter(s => s.category === category)
+                                            .map(setting => (
+                                                <div key={setting.setting_key} className="space-y-2">
+                                                    {setting.data_type !== 'boolean' && (
+                                                        <Label htmlFor={setting.setting_key}>
+                                                            {setting.description}
+                                                        </Label>
+                                                    )}
+                                                    {renderSettingInput(setting)}
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Key: {setting.setting_key}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                        ))}
+                    </Tabs>
+                )}
+            </div>
         </div>
     )
 }
-

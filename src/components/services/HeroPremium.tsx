@@ -93,11 +93,19 @@ export default function HeroPremium({
                     {/* Headline */}
                     <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
                         {title} <br className="hidden md:block" />
-                        <span className={`text-transparent bg-clip-text bg-gradient-to-r from-${themeColor}-400 to-${themeColor}-600 relative inline-block`}>
+                        <span className="text-white relative inline-block font-black">
                             {highlight}
                             {/* Underline decoration */}
                             <svg className="absolute w-full h-3 -bottom-2 left-0 text-current opacity-30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
+                                <motion.path
+                                    d="M0 5 Q 50 10 100 5"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    fill="none"
+                                    initial={{ pathLength: 0, opacity: 0 }}
+                                    animate={{ pathLength: 1, opacity: 0.3 }}
+                                    transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
+                                />
                             </svg>
                         </span>
                     </h1>

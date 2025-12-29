@@ -151,6 +151,7 @@ export default function AIConsultingPage() {
         highlight="Saves 20+ Hours Weekly"
         description="Let AI handle the repetitive work. Free your team from manual tasks with intelligent automation. Results: 10x efficiency gains, $50K+ annual savings."
         themeColor="cyan"
+        pattern="Stripes"
       />
 
       <div className="container mx-auto px-6">

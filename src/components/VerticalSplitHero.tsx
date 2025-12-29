@@ -15,6 +15,7 @@ import TextReveal from '@/components/ui/TextReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// ... (interfaces)
 interface HeroSlide {
   id: number
   title: string
@@ -28,13 +29,9 @@ interface HeroSlide {
   video?: string
 }
 
-import heroConversion from '@/assets/hero-conversion.png'
-import heroSeo from '@/assets/hero-seo.png'
-import heroTech from '@/assets/hero-tech.png'
-
-// ... (keep existing imports)
-
-const slides: HeroSlide[] = [
+// Default slides (Fallback)
+const defaultSlides: HeroSlide[] = [
+  // ... (keep existing default slides content if needed, or moved to a separate file, but for now specific hardcoded slides are fine as fallback)
   {
     id: 1,
     title: "Turn Visitors Into Customers",
@@ -42,7 +39,7 @@ const slides: HeroSlide[] = [
     description: "Stop losing sales to poor UX. We build conversion-optimized websites that turn your traffic into revenue—averaging 4x conversion increases for our clients.",
     cta: "Get Your Free Growth Audit",
     ctaLink: "/contact",
-    image: heroConversion.src,
+    image: "/assets/hero-conversion.png", // Corrected path assumption
     stat: "4x",
     statLabel: "Your Conversions"
   },
@@ -53,7 +50,7 @@ const slides: HeroSlide[] = [
     description: "Rank higher, load faster, and outperform competitors. Our technical SEO and performance optimization strategies put your brand at the top of search results.",
     cta: "Start Dominating Today",
     ctaLink: "/services/seo-growth",
-    image: heroSeo.src,
+    image: "/assets/hero-seo.png",
     stat: "#1",
     statLabel: "Search Rankings"
   },
@@ -64,15 +61,29 @@ const slides: HeroSlide[] = [
     description: "Built on the latest stack (Next.js 15, React 19). Scalable, secure, and ready for whatever the future of the web brings.",
     cta: "Build The Future",
     ctaLink: "/services/web-development",
-    image: heroTech.src,
+    image: "/assets/hero-tech.png",
     stat: "100%",
     statLabel: "Scalability"
   }
 ]
 
-export default function VerticalSplitHero() {
+interface VerticalSplitHeroProps {
+  cmsSlide?: HeroSlide
+}
+
+export default function VerticalSplitHero({ cmsSlide }: VerticalSplitHeroProps) {
+  // Use CMS slide if provided, otherwise default to static slides
+  const slides = cmsSlide ? [cmsSlide] : defaultSlides
+
   const [activeSlide, setActiveSlide] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(!cmsSlide) // Auto-play only if multiple slides
+
+  // If only 1 slide, force activeSlide to 0
+  useEffect(() => {
+    if (slides.length === 1) setActiveSlide(0)
+  }, [slides.length])
+
+  // ... (rest of logic)
   const [isLoaded, setIsLoaded] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const isTouch = useTouchDevice()

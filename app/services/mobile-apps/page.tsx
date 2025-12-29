@@ -181,7 +181,7 @@ export default function MobileAppsPage() {
         description="Native iOS & Android experiences that users can't stop engaging with. Build habit-forming mobile experiences with stunning design, addictive UX, and smooth performance. Results: 4.8+ app store ratings."
         badgeText="Mobile App Development"
         themeColor="purple"
-        pattern="Plus"
+        pattern="Mobile"
       />
 
       {/* Extended Content Section for SEO */}

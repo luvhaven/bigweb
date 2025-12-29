@@ -115,38 +115,67 @@ export default function AIBoostLandingPage() {
 
             {/* Hero Section */}
             <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 overflow-hidden">
-                <MouseReveal revealContent={<RevealPatterns.Data />} revealSize={600} className="w-full h-full absolute inset-0 z-0">
+                <MouseReveal revealContent={<RevealPatterns.Neural />} revealSize={600} className="w-full h-full absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-transparent" />
                 </MouseReveal>
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-[#050505] to-[#050505] pointer-events-none" />
 
                 <div className="container mx-auto px-4 relative z-10 max-w-6xl">
                     <div className="text-center max-w-4xl mx-auto mb-12">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 text-emerald-400 text-sm font-semibold mb-6"
-                        >
-                            <Zap className="w-4 h-4 fill-current" />
-                            <span>Limited-Time Offer: Save $1,003 Instantly</span>
-                        </motion.div>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 text-emerald-400 text-sm font-semibold backdrop-blur-sm"
+                            >
+                                <Zap className="w-4 h-4 fill-current" />
+                                <span>Limited-Time Offer: Save $1,003 Instantly</span>
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.2 }}
+                                className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-full px-4 py-1.5 text-red-400 text-xs font-bold"
+                            >
+                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                <span>Only 2 Slots Left This Week</span>
+                            </motion.div>
+                        </div>
 
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-6xl/tight font-extrabold tracking-tight mb-6 bg-gradient-to-br from-white via-white to-zinc-500 bg-clip-text text-transparent"
+                            className="text-5xl md:text-7xl/[1.1] font-black tracking-tight mb-8 relative"
                         >
-                            Struggling with Missed Leads & Overwhelmed Support?
+                            <span className="bg-gradient-to-br from-white via-emerald-50 to-emerald-200/90 bg-clip-text text-transparent drop-shadow-2xl">
+                                Struggling with Missed Leads
+                            </span>
+                            <br />
+                            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-500 bg-clip-text text-transparent relative inline-block">
+                                & Overwhelmed Support?
+                                <svg className="absolute w-full h-4 -bottom-2 left-0 opacity-40" viewBox="0 0 300 10" preserveAspectRatio="none">
+                                    <motion.path
+                                        d="M0 5 Q 75 10 150 5 T 300 5"
+                                        stroke="currentColor"
+                                        className="text-emerald-400"
+                                        strokeWidth="3"
+                                        fill="none"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        animate={{ pathLength: 1, opacity: 0.4 }}
+                                        transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+                                    />
+                                </svg>
+                            </span>
                         </motion.h1>
 
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="text-xl md:text-2xl text-zinc-400 mb-8 max-w-2xl mx-auto leading-relaxed"
+                            className="text-xl md:text-2xl text-zinc-300 mb-10 max-w-3xl mx-auto leading-relaxed font-light"
                         >
-                            Get a <span className="text-white font-semibold">Custom AI Chatbot</span> that works 24/7 to boost conversions and save you 20+ hours every single week.
+                            Get a <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-bold">Custom AI Chatbot</span> that works 24/7 to boost conversions and save you <span className="text-white font-semibold underline decoration-emerald-500/30 decoration-2 underline-offset-4">20+ hours</span> every single week.
                         </motion.p>
 
                         <motion.div
@@ -156,15 +185,47 @@ export default function AIBoostLandingPage() {
                             className="flex flex-col sm:flex-row items-center justify-center gap-4"
                         >
                             <Link
-                                href="https://raenest.com/pay" // Placeholder
-                                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-xl shadow-emerald-500/20 transition-all hover:scale-105 flex items-center justify-center gap-2 group"
+                                href="https://raenest.com/pay"
+                                className="w-full sm:w-auto relative bg-gradient-to-r from-emerald-600 via-emerald-500 to-cyan-600 hover:from-emerald-500 hover:via-cyan-500 hover:to-emerald-600 text-white font-bold text-lg px-10 py-5 rounded-2xl shadow-2xl shadow-emerald-500/40 transition-all hover:scale-105 hover:shadow-emerald-500/60 flex items-center justify-center gap-2 group overflow-hidden"
                             >
-                                <span>Secure My Spot & Pay Deposit</span>
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                                <span className="relative z-10 text-xl">Secure My Spot & Pay Deposit</span>
+                                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform relative z-10" />
                             </Link>
                             <div className="text-sm text-zinc-500 mt-2 sm:mt-0">
                                 <span className="block text-zinc-400 font-medium">Deposit: $1,248.50</span>
                                 <span className="line-through opacity-70">Normally $1,750</span>
+                            </div>
+                        </motion.div>
+
+                        {/* Trust Badges & Social Proof */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="flex flex-wrap items-center justify-center gap-6 mt-8 pt-8 border-t border-white/5"
+                        >
+                            <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                                <div className="flex -space-x-2">
+                                    {[1, 2, 3, 4].map((i) => (
+                                        <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 border-2 border-background flex items-center justify-center text-xs font-bold text-black">
+                                            {String.fromCharCode(64 + i)}
+                                        </div>
+                                    ))}
+                                </div>
+                                <span className="font-medium">Join 200+ businesses saving 20+ hrs/week</span>
+                            </div>
+                            <div className="h-4 w-px bg-white/10" />
+                            <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                                <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span className="font-medium">4.9/5 from 156 reviews</span>
+                            </div>
+                            <div className="h-4 w-px bg-white/10" />
+                            <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                                <Shield className="w-5 h-5 text-emerald-500" />
+                                <span className="font-medium">30-Day Money-Back Guarantee</span>
                             </div>
                         </motion.div>
                     </div>

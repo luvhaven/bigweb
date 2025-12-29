@@ -20,6 +20,7 @@ export default function StaffAugmentation() {
                 description="Deploy pre-vetted, elite engineering squads into your workflow in 48 hours. Zero recruitment fees. Zero HR headaches. 100% Code Velocity."
                 badgeText="Squad Extraction Protocol"
                 themeColor="indigo"
+                pattern="Insights"
             />
 
             {/* The Problem / Solution Grid */}

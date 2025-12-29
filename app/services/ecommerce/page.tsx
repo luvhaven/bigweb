@@ -139,6 +139,7 @@ export default function EcommercePage() {
         description="Conversion-optimized shopping experiences with advanced payment integrations. Turn browsers into buyers and buyers into repeat customers. Results: 180% average revenue increase."
         badgeText="E-Commerce Solutions"
         themeColor="orange"
+        pattern="Hexagon"
       />
 
       {/* Structured Data */}

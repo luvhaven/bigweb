@@ -1,10 +1,15 @@
-<svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="80" height="60" rx="12" fill="#0f0f0f"/>
-    <path
-        d="M 10 30 L 20 30 L 30 55 L 40 5 L 50 55 L 60 5 L 70 30 L 80 30"
-        stroke="#8b5cf6"
-        stroke-width="6"
-        stroke-linecap="square"
-        stroke-linejoin="miter"
-    />
+<svg width="64" height="64" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pulse-gradient" x1="0" y1="256" x2="512" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" stroke="url(#pulse-gradient)" stroke-width="32" stroke-opacity="0.2" fill="none" />
+  <path d="M76 256 H146 L176 166 L236 346 L296 106 L336 256 H436" 
+        stroke="url(#pulse-gradient)" 
+        stroke-width="48" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
 </svg>

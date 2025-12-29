@@ -151,6 +151,7 @@ export default function SEOMarketingPage() {
                 highlight="Found on Google"
                 description="Rank #1 for keywords that matter. Drive organic traffic, leads, and revenue with data-driven SEO."
                 themeColor="emerald"
+                pattern="Data"
             />
 
             <div className="container mx-auto px-6">

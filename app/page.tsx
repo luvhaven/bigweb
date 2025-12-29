@@ -1,4 +1,4 @@
-'use client'
+import { supabase } from '@/utils/supabase'
 
 import Navigation from '@/components/AdvancedNavigation'
 import SkipToContent from '@/components/SkipToContent'
@@ -23,13 +23,45 @@ import ROICalculator from '@/components/conversion/ROICalculator'
 import TestimonialTicker from '@/components/trust/TestimonialTicker'
 import BeforeAfterSlider from '@/components/trust/BeforeAfterSlider'
 
-export default function HomePage() {
+export const revalidate = 60 // Revalidate every 60 seconds
+
+export default async function HomePage() {
+  // Fetch Hero Data
+  let heroData: any = undefined
+  try {
+    const { data } = await supabase
+      .from('hero_sections')
+      .select('*')
+      .eq('page_slug', 'home')
+      .single()
+
+    if (data) {
+      // Map DB structure to Component structure
+      const statItem = data.stats?.[0] || { value: '100%', label: 'Satisfaction' }
+
+      heroData = {
+        id: data.id,
+        title: `${data.title} ${data.highlight || ''}`,
+        subtitle: data.subtitle || 'Premium Web Development',
+        description: data.description || '',
+        cta: data.cta_primary_text || 'Get Started',
+        ctaLink: data.cta_primary_url || '/contact',
+        image: data.background_image || '/assets/hero-conversion.png',
+        stat: statItem.value || '100%',
+        statLabel: statItem.label || 'Satisfaction'
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching hero data:', err)
+  }
+
   return (
     <>
       <SkipToContent />
       <Navigation />
       <main id="main-content" className="min-h-screen overflow-hidden" role="main" aria-label="Main content">
-        <VerticalSplitHero />
+        <VerticalSplitHero cmsSlide={heroData} />
+
 
         {/* Client Logos - Social Proof */}
         <ClientMarquee />
