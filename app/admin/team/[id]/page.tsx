@@ -11,9 +11,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Save, ArrowLeft } from 'lucide-react'
 
-export default function EditTeamPage({ params }: { params: { id: string } }) {
+export default async function EditTeamPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
+    return <EditTeamPageClient id={id} />
+}
+
+function EditTeamPageClient({ id }: { id: string }) {
     const router = useRouter()
-    const isNew = params.id === 'new'
+    const isNew = id === 'new'
     const [loading, setLoading] = useState(!isNew)
     const [saving, setSaving] = useState(false)
 
@@ -30,14 +35,14 @@ export default function EditTeamPage({ params }: { params: { id: string } }) {
 
     useEffect(() => {
         if (!isNew) loadMember()
-    }, [params.id])
+    }, [id])
 
     const loadMember = async () => {
         try {
             const { data, error } = await supabase
                 .from('team_members')
                 .select('*')
-                .eq('id', params.id)
+                .eq('id', id)
                 .single()
             if (error) throw error
             if (data) setFormData(data)
@@ -63,7 +68,7 @@ export default function EditTeamPage({ params }: { params: { id: string } }) {
                 const { error: e } = await supabase.from('team_members').insert([payload])
                 error = e
             } else {
-                const { error: e } = await supabase.from('team_members').update(payload).eq('id', params.id)
+                const { error: e } = await supabase.from('team_members').update(payload).eq('id', id)
                 error = e
             }
             if (error) throw error

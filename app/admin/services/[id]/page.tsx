@@ -13,10 +13,15 @@ import { Loader2, Save, ArrowLeft, Plus, X } from 'lucide-react'
 import JsonListEditor from '@/components/admin/JsonListEditor'
 import { useToast } from '@/components/ui/use-toast'
 
-export default function EditServicePage({ params }: { params: { id: string } }) {
+export default async function EditServicePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
+    return <EditServicePageClient id={id} />
+}
+
+function EditServicePageClient({ id }: { id: string }) {
     const router = useRouter()
     // const { toast } = useToast() // If you have a toast component
-    const isNew = params.id === 'new'
+    const isNew = id === 'new'
     const [loading, setLoading] = useState(!isNew)
     const [saving, setSaving] = useState(false)
 
@@ -42,14 +47,14 @@ export default function EditServicePage({ params }: { params: { id: string } }) 
         if (!isNew) {
             loadService()
         }
-    }, [params.id])
+    }, [id])
 
     const loadService = async () => {
         try {
             const { data, error } = await supabase
                 .from('service_pages')
                 .select('*')
-                .eq('id', params.id)
+                .eq('id', id)
                 .single()
 
             if (error) throw error
@@ -83,7 +88,7 @@ export default function EditServicePage({ params }: { params: { id: string } }) 
                 const { error: updateError } = await supabase
                     .from('service_pages')
                     .update(payload)
-                    .eq('id', params.id)
+                    .eq('id', id)
                 error = updateError
             }
 

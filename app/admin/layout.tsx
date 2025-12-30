@@ -4,11 +4,19 @@ import { ReactNode, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { QueryProvider } from '@/providers/QueryProvider'
 import AdminSidebar from '@/components/admin/Sidebar'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth, AuthProvider } from '@/hooks/useAuth'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Bell, Search } from 'lucide-react'
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+    return (
+        <AuthProvider>
+            <AdminLayoutContent>{children}</AdminLayoutContent>
+        </AuthProvider>
+    )
+}
+
+function AdminLayoutContent({ children }: { children: ReactNode }) {
     const { user, profile, loading } = useAuth()
     const router = useRouter()
     const pathname = usePathname()

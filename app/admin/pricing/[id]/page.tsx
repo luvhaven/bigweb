@@ -11,9 +11,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Save, ArrowLeft, Plus, X } from 'lucide-react'
 
-export default function EditPricingPage({ params }: { params: { id: string } }) {
+export default async function EditPricingPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
+    return <EditPricingPageClient id={id} />
+}
+
+function EditPricingPageClient({ id }: { id: string }) {
     const router = useRouter()
-    const isNew = params.id === 'new'
+    const isNew = id === 'new'
     const [loading, setLoading] = useState(!isNew)
     const [saving, setSaving] = useState(false)
 
@@ -32,14 +37,14 @@ export default function EditPricingPage({ params }: { params: { id: string } }) 
         if (!isNew) {
             loadTier()
         }
-    }, [params.id])
+    }, [id])
 
     const loadTier = async () => {
         try {
             const { data, error } = await supabase
                 .from('pricing_tiers')
                 .select('*')
-                .eq('id', params.id)
+                .eq('id', id)
                 .single()
 
             if (error) throw error
@@ -96,7 +101,7 @@ export default function EditPricingPage({ params }: { params: { id: string } }) 
                 const { error: updateError } = await supabase
                     .from('pricing_tiers')
                     .update(payload)
-                    .eq('id', params.id)
+                    .eq('id', id)
                 error = updateError
             }
 
