@@ -11,9 +11,16 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Save, ArrowLeft } from 'lucide-react'
 
-export default function EditContentPage({ params }: { params: { id: string } }) {
+export default async function EditContentPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
+
+    // Client component for form functionality
+    return <EditContentPageClient id={id} />
+}
+
+function EditContentPageClient({ id }: { id: string }) {
     const router = useRouter()
-    const isNew = params.id === 'new'
+    const isNew = id === 'new'
     const [loading, setLoading] = useState(!isNew)
     const [saving, setSaving] = useState(false)
 
@@ -28,14 +35,14 @@ export default function EditContentPage({ params }: { params: { id: string } }) 
 
     useEffect(() => {
         if (!isNew) loadPage()
-    }, [params.id])
+    }, [id])
 
     const loadPage = async () => {
         try {
             const { data, error } = await supabase
                 .from('pages')
                 .select('*')
-                .eq('id', params.id)
+                .eq('id', id)
                 .single()
 
             if (error) throw error
@@ -57,7 +64,7 @@ export default function EditContentPage({ params }: { params: { id: string } }) 
                 const { error } = await supabase.from('pages').insert([payload])
                 if (error) throw error
             } else {
-                const { error } = await supabase.from('pages').update(payload).eq('id', params.id)
+                const { error } = await supabase.from('pages').update(payload).eq('id', id)
                 if (error) throw error
             }
 
