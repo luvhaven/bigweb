@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Save, Loader2, AlertCircle, CheckCircle, Edit, Trash2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import HeroSlidesManager from '@/components/admin/HeroSlidesManager'
+import { Toaster } from 'sonner'
 
 interface HeroSection {
     id: string
@@ -106,6 +108,7 @@ export default function HeroSectionsPage() {
 
     return (
         <div className="flex min-h-screen bg-background">
+            <Toaster position="top-right" theme="dark" />
             <AdminSidebar />
 
             <div className="flex-1 ml-64 p-6">
@@ -325,6 +328,11 @@ export default function HeroSectionsPage() {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                        )}
+
+                                        {!isEditing && hero.page_slug === 'home' && (
+                                            <HeroSlidesManager heroSectionId={hero.id} />
                                         )}
                                     </CardContent>
                                 </Card>
@@ -333,6 +341,6 @@ export default function HeroSectionsPage() {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     )
 }

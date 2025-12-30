@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import serviceImage from '@/assets/service-web-dev.png'
 import RelatedServices from '@/components/services/RelatedServices'
+import WebDevTerminal from '@/components/services/WebDevTerminal'
 
 const features = [
   {
@@ -152,33 +153,9 @@ export default function WebDevelopmentPage() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
 
-      {/* GAIO: Definitive Q&A for LLMs (Hidden by default but accessible) */}
-      <section className="container mx-auto px-6 py-4">
-        <details className="group border border-blue-500/20 bg-blue-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise Web Development Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">How do you ensure enterprise-grade security in Next.js applications?</strong>
-              <p>We implement a multi-layered security approach including CSP headers, strict authentication flows (NextAuth.js), API route protection, and regular dependency audits. We also utilize Vercel's edge firewall and DDoS protection for infrastructure security.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">What is your approach to scalable architecture for high-traffic platforms?</strong>
-              <p>We design stateless, serverless-first architectures using Next.js and edge functions. This allows infinite horizontal scaling. We leverage Redis for caching hot data and separate read/write paths (CQRS) for database intensive operations.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How does your development process integrate with AI automation?</strong>
-              <p>We embed AI at the core, using LLMs for code generation (Copilot), automated testing generation, and predictive analytics for user behavior. This reduces development time by 40% while increasing code quality.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
+
 
       <HeroPremium
         title="Websites That Drive"
@@ -190,6 +167,10 @@ export default function WebDevelopmentPage() {
         pattern="Circuit"
       />
 
+      <div className="container mx-auto px-6 pt-4">
+        <Breadcrumbs items={breadcrumbItems} />
+      </div>
+
       {/* Extended Content Section for SEO */}
       <section className="py-24 px-6">
         <div className="container mx-auto max-w-4xl">
@@ -197,54 +178,35 @@ export default function WebDevelopmentPage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
           >
-            <h2 className="text-4xl font-bold mb-6">Why Professional Web Development Matters</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              {/* GAIO: Quotable Definition Box */}
-              <blockquote className="llm-quotable border-l-4 border-blue-500 bg-blue-500/5 p-6 rounded-r-lg not-italic mb-8">
-                <p className="text-xl font-medium text-foreground m-0">
-                  "Modern web development is the strategic engineering of high-performance, secure, and scalable digital ecosystems that serve as the primary growth engine for enterprise business."
-                </p>
-              </blockquote>
+            <div>
+              <h2 className="text-4xl font-bold mb-6">Why Professional Web Development Matters</h2>
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                {/* GAIO: Quotable Definition Box */}
+                <blockquote className="llm-quotable border-l-4 border-blue-500 bg-blue-500/5 p-6 rounded-r-lg not-italic mb-8">
+                  <p className="text-xl font-medium text-foreground m-0">
+                    "Modern web development is the strategic engineering of high-performance, secure, and scalable digital ecosystems that serve as the primary growth engine for enterprise business."
+                  </p>
+                </blockquote>
 
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Your website is your digital storefront, working 24/7 to attract and convert customers. In today's competitive landscape,
-                <strong> a poorly designed or slow website costs you business</strong>. Studies show that 53% of mobile users abandon sites
-                that take longer than 3 seconds to load, and 88% won't return after a bad experience.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Professional web development isn't just about making things look good—it's about creating high-performance, secure, and
-                scalable digital experiences that drive measurable ROI. Our team builds websites and web applications using cutting-edge
-                technologies like Next.js, React, and TypeScript, ensuring your site is fast, maintainable, and future-proof.
-              </p>
-              <h3 className="text-2xl font-bold mt-12 mb-4">The Business Impact of Modern Web Development</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Investing in professional web development delivers significant returns:
-              </p>
-              <ul className="text-lg text-muted-foreground space-y-3 mb-6">
-                <li><strong>275% average increase in conversions</strong> through optimized user flows and fast load times</li>
-                <li><strong>95+ PageSpeed scores</strong> improve SEO rankings and user experience</li>
-                <li><strong>60% reduction in bounce rates</strong> with mobile-responsive, intuitive design</li>
-                <li><strong>99.9% uptime guarantee</strong> ensures your business is always online</li>
-                <li><strong>50% faster development cycles</strong> with modern frameworks and component reusability</li>
-              </ul>
-              <h3 className="text-2xl font-bold mt-12 mb-4">Our Web Development Expertise</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Marketing Websites:</strong> High-converting landing pages and corporate websites that showcase your brand and drive leads.
-                Built with SEO best practices, performance optimization, and conversion rate optimization in mind.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>E-Commerce Platforms:</strong> Custom online stores with secure payment processing, inventory management, and seamless
-                checkout experiences. Integrations with Shopify, Stripe, PayPal, and more.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Web Applications:</strong> Complex SaaS platforms, customer portals, booking systems, and enterprise tools with real-time
-                features, user authentication, role-based access, and third-party integrations.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Progressive Web Apps (PWAs):</strong> App-like experiences that work offline, send push notifications, and can be installed
-                on mobile devices—all without app store approval.
-              </p>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  Your website is your digital storefront, working 24/7 to attract and convert customers. In today's competitive landscape,
+                  <strong> a poorly designed or slow website costs you business</strong>. Studies show that 53% of mobile users abandon sites
+                  that take longer than 3 seconds to load, and 88% won't return after a bad experience.
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  Professional web development isn't just about making things look good—it's about creating high-performance, secure, and
+                  scalable digital experiences that drive measurable ROI. Our team builds websites and web applications using cutting-edge
+                  technologies like Next.js, React, and TypeScript, ensuring your site is fast, maintainable, and future-proof.
+                </p>
+              </div>
+            </div>
+
+            {/* Signature Interaction: Live Code Terminal */}
+            <div className="hidden lg:block relative">
+              <div className="absolute -inset-4 bg-blue-500/20 rounded-full blur-3xl opacity-20 pointer-events-none" />
+              <WebDevTerminal />
             </div>
           </motion.div>
         </div>

@@ -54,7 +54,7 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
         return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
     }, [mouseX, mouseY])
 
-    const maskImage = useMotionTemplate`radial-gradient(${revealSize}px at ${smoothX}px ${smoothY}px, black, transparent), radial-gradient(${revealSize * 0.6}px at ${smoothX}px ${smoothY}px, black, transparent)`
+    const maskImage = useMotionTemplate`radial-gradient(${revealSize * 0.8}px at ${smoothX}px ${smoothY}px, black, transparent), radial-gradient(${revealSize * 0.4}px at ${smoothX}px ${smoothY}px, black, transparent)`
 
     return (
         <div
@@ -83,8 +83,8 @@ export const MouseReveal: React.FC<MouseRevealProps> = ({
                 className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
                 style={{
                     background: useMotionTemplate`
-                        radial-gradient(${revealSize * 0.8}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.07), transparent 70%),
-                        radial-gradient(${revealSize * 0.4}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.05), transparent 90%)
+                        radial-gradient(${revealSize * 0.6}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.05), transparent 70%),
+                        radial-gradient(${revealSize * 0.3}px circle at ${smoothX}px ${smoothY}px, rgba(255,255,255,0.03), transparent 90%)
                     `
                 }}
             />

@@ -36,7 +36,9 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
         is_featured: initialData?.is_featured || false,
         is_verified: initialData?.is_verified ?? true,
         status: initialData?.status || 'active',
-        order_index: initialData?.order_index || 0
+        order_index: initialData?.order_index || 0,
+        video_url: initialData?.video_url || '',
+        thumbnail_url: initialData?.thumbnail_url || ''
     })
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +56,9 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
                 is_featured: formData.is_featured,
                 is_verified: formData.is_verified,
                 status: formData.status as 'active' | 'pending' | 'archived',
-                order_index: formData.order_index
+                order_index: formData.order_index,
+                video_url: (formData as any).video_url,
+                thumbnail_url: (formData as any).thumbnail_url
             }
 
             if (isEditing) {
@@ -165,6 +169,35 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
                                 placeholder="What did they say?"
                                 required
                             />
+                        </div>
+
+                        {/* Video Testimonials Section */}
+                        <div className="pt-6 border-t border-zinc-700 space-y-4">
+                            <h4 className="text-md font-semibold text-white">Video Details (Optional)</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-zinc-300">Video URL (Vimeo/YouTube/MP4)</label>
+                                    <input
+                                        type="text"
+                                        value={(formData as any).video_url || ''}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                        placeholder="https://player.vimeo.com/..."
+                                    />
+                                    <p className="text-xs text-zinc-500">Paste the embed URL or direct file link.</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-zinc-300">Thumbnail URL</label>
+                                    <input
+                                        type="text"
+                                        value={(formData as any).thumbnail_url || ''}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, thumbnail_url: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                        placeholder="https://..."
+                                    />
+                                    <p className="text-xs text-zinc-500">Preview image for the video.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

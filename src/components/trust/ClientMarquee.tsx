@@ -2,17 +2,35 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
-const clients = [
-    { name: 'TechCorp', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'Innovate', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'FutureScale', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'GlobalSystems', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'AlphaGroup', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'OmegaLabs', logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+const defaultClients = [
+    { name: 'TechCorp', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Innovate', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'FutureScale', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'GlobalSystems', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
 ]
 
 export default function ClientMarquee() {
+    const [clients, setClients] = useState<any[]>(defaultClients)
+
+    useEffect(() => {
+        const loadClients = async () => {
+            try {
+                // Dynamically import to avoid circular dependencies if any
+                const { clientsAPI } = await import('@/lib/api/clients')
+                const data = await clientsAPI.getActive()
+                if (data && data.length > 0) setClients(data)
+            } catch (e) {
+                console.error("Failed to load clients", e)
+            }
+        }
+        loadClients()
+    }, [])
+
+    // Ensure we have enough items for seamless loop
+    const displayClients = clients.length < 5 ? [...clients, ...clients, ...clients] : [...clients, ...clients]
+
     return (
         <div className="w-full py-12 overflow-hidden bg-background/50 backdrop-blur-sm border-y border-white/5">
             <div className="container mx-auto px-4 mb-8">
@@ -27,17 +45,18 @@ export default function ClientMarquee() {
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: 25,
+                        duration: 35,
                         ease: "linear",
                         repeatType: "loop"
                     }}
                 >
-                    {[...clients, ...clients].map((client, i) => (
-                        <div key={i} className="relative w-32 h-12 grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100 cursor-pointer">
-                            {/* Using placeholder images for demo - replace with real logos */}
-                            <div className="w-full h-full flex items-center justify-center font-bold text-xl text-white/20 hover:text-orange-500/80 transition-colors">
-                                {client.name}
-                            </div>
+                    {displayClients.map((client, i) => (
+                        <div key={i} className="relative h-12 grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100 cursor-pointer flex items-center justify-center min-w-[120px]">
+                            {client.logo_url && client.logo_url.startsWith('http') ? (
+                                <img src={client.logo_url} alt={client.name} className="h-full object-contain max-w-[150px]" />
+                            ) : (
+                                <div className="text-xl font-bold text-white/40 hover:text-white transition-colors">{client.name}</div>
+                            )}
                         </div>
                     ))}
                 </motion.div>

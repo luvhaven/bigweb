@@ -560,7 +560,7 @@ export default function RevenueWebsitePage() {
                         <p className="text-zinc-400 max-w-2xl mx-auto text-lg">Stop paying monthly fees for Wix/Shopify. Own your high-performance asset.</p>
 
                         <div className="inline-block mt-8 bg-black/50 border border-red-500/30 text-red-400 px-6 py-2 rounded-full text-sm font-bold animate-pulse backdrop-blur-sm">
-                            ⚠️ Prices Increase January 1st
+                            ⚠️ Prices Increase January 10
                         </div>
                     </div>
 

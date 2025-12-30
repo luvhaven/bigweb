@@ -1,48 +1,63 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Play, Pause, Volume2, Maximize2 } from 'lucide-react'
 import Image from 'next/image'
+import { videosAPI, VideoItem } from '@/lib/api/videos'
 
-const videos = [
+const defaultVideos: VideoItem[] = [
     {
-        id: 1,
+        id: '1',
         title: "Brand Transformation",
         description: "How we helped a startup scale to $10M ARR",
-        thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
+        thumbnail_url: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
         duration: "3:45",
-        category: "Case Study"
+        category: "Case Study",
+        featured: true,
+        sort_order: 1
     },
     {
-        id: 2,
+        id: '2',
         title: "Design Process",
         description: "Behind the scenes of our creative workflow",
-        thumbnail: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
+        thumbnail_url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
         duration: "2:30",
-        category: "Process"
+        category: "Process",
+        featured: false,
+        sort_order: 2
     },
     {
-        id: 3,
-        title: "Client Testimonial",
-        description: "CEO shares their experience working with us",
-        thumbnail: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
-        duration: "1:45",
-        category: "Testimonial"
-    },
-    {
-        id: 4,
+        id: '3',
         title: "Tech Stack Demo",
         description: "Exploring our cutting-edge development tools",
-        thumbnail: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+        thumbnail_url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
         duration: "4:20",
-        category: "Technical"
+        category: "Technical",
+        featured: false,
+        sort_order: 3
     }
 ]
 
 export default function VideoShowcase() {
-    const [activeVideo, setActiveVideo] = useState<number | null>(null)
-    const [hoveredVideo, setHoveredVideo] = useState<number | null>(null)
+    const [videos, setVideos] = useState<VideoItem[]>(defaultVideos)
+    const [activeVideo, setActiveVideo] = useState<string | null>(null)
+    const [hoveredVideo, setHoveredVideo] = useState<string | null>(null)
+
+    useEffect(() => {
+        const loadVideos = async () => {
+            try {
+                const data = await videosAPI.getAll()
+                if (data && data.length > 0) setVideos(data)
+            } catch (e) {
+                console.error("Failed to load videos", e)
+            }
+        }
+        loadVideos()
+    }, [])
+
+    const featuredVideo = videos[0]
+    const gridVideos = videos.slice(1, 4) // Show top 3 after featured
 
     return (
         <section className="py-24 px-6 bg-secondary/5 relative overflow-hidden">
@@ -66,55 +81,57 @@ export default function VideoShowcase() {
                 </motion.div>
 
                 {/* Featured Video */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-12"
-                >
-                    <div className="relative aspect-video rounded-3xl overflow-hidden bg-card border border-border group">
-                        <Image
-                            src={videos[0].thumbnail}
-                            alt={videos[0].title}
-                            fill
-                            className="object-cover"
-                        />
+                {featuredVideo && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mb-12"
+                    >
+                        <div className="relative aspect-video rounded-3xl overflow-hidden bg-card border border-border group cursor-pointer">
+                            <Image
+                                src={featuredVideo.thumbnail_url}
+                                alt={featuredVideo.title}
+                                fill
+                                className="object-cover"
+                            />
 
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                            {/* Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                        {/* Content */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-8">
-                            <span className="inline-block px-3 py-1 bg-accent/90 text-white text-xs font-semibold rounded-full mb-4 w-fit">
-                                {videos[0].category}
-                            </span>
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                                {videos[0].title}
-                            </h3>
-                            <p className="text-white/80 text-lg mb-6 max-w-2xl">
-                                {videos[0].description}
-                            </p>
+                            {/* Content */}
+                            <div className="absolute inset-0 flex flex-col justify-end p-8">
+                                <span className="inline-block px-3 py-1 bg-accent/90 text-white text-xs font-semibold rounded-full mb-4 w-fit">
+                                    {featuredVideo.category}
+                                </span>
+                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                                    {featuredVideo.title}
+                                </h3>
+                                <p className="text-white/80 text-lg mb-6 max-w-2xl">
+                                    {featuredVideo.description}
+                                </p>
 
-                            {/* Play Button */}
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center shadow-2xl"
-                            >
-                                <Play className="w-6 h-6 ml-1" fill="currentColor" />
-                            </motion.button>
+                                {/* Play Button */}
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center shadow-2xl"
+                                >
+                                    <Play className="w-6 h-6 ml-1" fill="currentColor" />
+                                </motion.button>
+                            </div>
+
+                            {/* Duration Badge */}
+                            <div className="absolute top-6 right-6 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-sm font-medium rounded-lg">
+                                {featuredVideo.duration}
+                            </div>
                         </div>
-
-                        {/* Duration Badge */}
-                        <div className="absolute top-6 right-6 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-sm font-medium rounded-lg">
-                            {videos[0].duration}
-                        </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                )}
 
                 {/* Video Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {videos.slice(1).map((video, index) => (
+                    {gridVideos.map((video, index) => (
                         <motion.div
                             key={video.id}
                             initial={{ opacity: 0, y: 20 }}
@@ -127,7 +144,7 @@ export default function VideoShowcase() {
                         >
                             <div className="relative aspect-video rounded-2xl overflow-hidden bg-card border border-border">
                                 <Image
-                                    src={video.thumbnail}
+                                    src={video.thumbnail_url}
                                     alt={video.title}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -153,7 +170,7 @@ export default function VideoShowcase() {
                                         {video.category}
                                     </span>
                                     <h4 className="text-white font-bold mb-1">{video.title}</h4>
-                                    <p className="text-white/70 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="text-white/70 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 line-clamp-2">
                                         {video.description}
                                     </p>
                                 </div>

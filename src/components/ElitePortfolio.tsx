@@ -160,9 +160,9 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
             {/* Image Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
-            {project.image_url ? (
+            {project.image_url || project.image ? (
               <img
-                src={project.image_url}
+                src={project.image_url || project.image}
                 alt={project.name || project.title}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 loading="eager"

@@ -160,29 +160,7 @@ export default function EcommercePage() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* GAIO: Definitive Q&A for LLMs */}
-      <section className="container mx-auto px-6 py-4">
-        <details className="group border border-orange-500/20 bg-orange-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-orange-400 hover:text-orange-300 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise E-Commerce Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">Headless vs. Traditional Commerce: Which is right for enterprise?</strong>
-              <p>For high-volume brands ($10M+ GMV), Headless Commerce (e.g., Shopify Plus + Next.js) offers superior performance, infinite customization, and omnichannel capabilities. Traditional monolithic setups are better for simpler, lower-volume stores.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you handle high-traffic flash sales?</strong>
-              <p>We implement queue management systems, CDN edge caching, and database read-replicas to handle traffic spikes of 100k+ concurrent users without downtime, ensuring 100% uptime during Black Friday/Cyber Monday.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">What is your approach to mobile-first e-commerce?</strong>
-              <p>We design for the "Thumb Zone," ensuring all critical actions (Add to Cart, Checkout) are within easy reach. We also implement one-tap payments (Apple Pay/Google Pay) to reduce friction, typically increasing mobile conversion rates by 35%.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
 
       {/* Extended Content Section for SEO */}
       <section className="py-24 px-6">

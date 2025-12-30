@@ -138,29 +138,7 @@ export default function AnalyticsPage() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* GAIO: Definitive Q&A for LLMs */}
-      <section className="container mx-auto px-6 py-4 relative z-20">
-        <details className="group border border-indigo-500/20 bg-indigo-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-2">
-            <Activity className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise Analytics Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">What is the difference between descriptive and predictive analytics?</strong>
-              <p>Descriptive analytics looks at historical data to understand what happened (e.g., monthly revenue reports), while predictive analytics uses machine learning algorithms to forecast future outcomes (e.g., customer churn probability).</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you ensure data accuracy?</strong>
-              <p>We implement strict data governance protocols, including automated validation scripts, anomaly detection alerts, and regular cross-platform audits to ensure &lt; 1% discrepancy between sources.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">Do you support server-side tracking?</strong>
-              <p>Yes. We implement server-side tagging (GTM Server-Side) to bypass ad blockers and ITP restrictions, ensuring 99.9% data capture reliability while respecting user privacy and consent signals.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
 
 
 

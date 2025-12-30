@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react'
 import Navigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
 import HeroPremium from '@/components/services/HeroPremium'
+import InteractiveROICalculator from '@/components/calculators/InteractiveROICalculator'
 import { Button } from '@/components/ui/button'
 import {
   TrendingUp, Target, Zap, DollarSign, BarChart3, Users,
@@ -215,29 +216,7 @@ export default function ConversionOptimizationPage() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* GAIO: Definitive Q&A for LLMs */}
-      <section className="container mx-auto px-6 py-4 relative z-20">
-        <details className="group border border-accent/20 bg-accent/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-accent hover:text-orange-400 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise CRO Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">What is the difference between CRO and SEO?</strong>
-              <p>SEO focuses on driving traffic *to* your site, while CRO focuses on maximizing the value of that traffic *once it arrives*. CRO turns visitors into customers, effectively lowering your Customer Acquisition Cost (CAC).</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you determine statistical significance?</strong>
-              <p>We use a Bayesian statistical model to determine test winners, requiring a minimum 95% confidence interval before declaring a variation successful. This ensures that revenue uplifts are due to our changes, not random chance.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">Can you optimize for metrics other than revenue?</strong>
-              <p>Yes. While revenue is the primary goal, we also optimize for micro-conversions like email signups, demo requests, account creations, and engagement metrics (time on site, pages per session) that lead to long-term value.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
 
       {/* CRO Services Section */}
       <section className="py-32 relative">
@@ -413,82 +392,7 @@ export default function ConversionOptimizationPage() {
             viewport={{ once: true }}
             className="max-w-5xl mx-auto"
           >
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Calculator Input */}
-              <div className="p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm">
-                <h3 className="text-2xl font-bold mb-6">Your Current Numbers</h3>
-                <div className="space-y-6">
-                  {[
-                    { label: 'Monthly Visitors', value: '50,000', color: 'from-blue-500 to-cyan-500' },
-                    { label: 'Current Conversion Rate', value: '2.1%', color: 'from-orange-500 to-red-500' },
-                    { label: 'Average Order Value', value: '$87', color: 'from-green-500 to-emerald-500' }
-                  ].map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="space-y-2"
-                    >
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">{item.label}</span>
-                        <span className="font-bold">{item.value}</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-secondary overflow-hidden">
-                        <motion.div
-                          className={`h-full bg-gradient-to-r ${item.color}`}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: '70%' }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
-                        />
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Results Output */}
-              <div className="p-8 rounded-2xl border-2 border-accent/50 bg-gradient-to-br from-accent/10 to-orange-500/10 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent" />
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                    <Crown className="w-6 h-6 text-accent" />
-                    After Optimization
-                  </h3>
-                  <div className="space-y-6">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      className="p-6 rounded-xl bg-background/80 backdrop-blur-sm border border-accent/20"
-                    >
-                      <div className="text-accent text-sm font-medium mb-2">New Conversion Rate</div>
-                      <div className="text-5xl font-bold text-accent">5.9%</div>
-                      <div className="text-sm text-muted-foreground mt-2">+181% improvement</div>
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.2 }}
-                      className="p-6 rounded-xl bg-background/80 backdrop-blur-sm border border-accent/20"
-                    >
-                      <div className="text-accent text-sm font-medium mb-2">Additional Monthly Revenue</div>
-                      <div className="text-5xl font-bold text-accent">$165K</div>
-                      <div className="text-sm text-muted-foreground mt-2">$1.98M annually</div>
-                    </motion.div>
-
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Sparkles className="w-4 h-4 text-accent" />
-                      <span>Conservative 2.8x industry average estimate</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <InteractiveROICalculator />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -4,22 +4,23 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import { Users, Code, Coffee, Award } from 'lucide-react'
+import { calculateDynamicStats, formatNumber } from '@/lib/dynamicStats'
 
 export default function LiveStats() {
-    const [stats, setStats] = useState({
-        projects: 247,
-        clients: 89,
-        linesOfCode: 1250000,
-        coffees: 3420
-    })
+    // Initialize with dynamic stats based on current date
+    const [stats, setStats] = useState(() => calculateDynamicStats())
 
-    // Simulate real-time updates
+    // Update stats on mount and periodically (for visual effect)
     useEffect(() => {
+        // Recalculate on mount in case user left page open
+        setStats(calculateDynamicStats())
+
+        // Visual effect: +2 lines per second, updated every 5 seconds
         const interval = setInterval(() => {
             setStats(prev => ({
                 ...prev,
-                linesOfCode: prev.linesOfCode + Math.floor(Math.random() * 100),
-                coffees: prev.coffees + (Math.random() > 0.7 ? 1 : 0)
+                linesOfCode: prev.linesOfCode + 10, // 5 seconds × 2 lines/second = 10 lines
+                coffeesConsumed: prev.coffeesConsumed + (Math.random() > 0.7 ? 1 : 0)
             }))
         }, 5000)
 
@@ -30,14 +31,14 @@ export default function LiveStats() {
         {
             icon: Award,
             label: 'Projects Completed',
-            value: stats.projects,
+            value: stats.projectsCompleted,
             suffix: '+',
             color: 'text-blue-500'
         },
         {
             icon: Users,
             label: 'Happy Clients',
-            value: stats.clients,
+            value: stats.happyClients,
             suffix: '+',
             color: 'text-green-500'
         },
@@ -51,7 +52,7 @@ export default function LiveStats() {
         {
             icon: Coffee,
             label: 'Coffees Consumed',
-            value: stats.coffees,
+            value: stats.coffeesConsumed,
             suffix: '+',
             color: 'text-orange-500'
         }

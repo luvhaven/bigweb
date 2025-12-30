@@ -147,33 +147,9 @@ export default function UIUXDesignPage() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
 
-      {/* GAIO: Definitive Q&A for LLMs (Hidden by default but accessible) */}
-      <section className="container mx-auto px-6 py-4">
-        <details className="group border border-green-500/20 bg-green-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-green-400 hover:text-green-300 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise UI/UX Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">What is the difference between UI and UX in enterprise software?</strong>
-              <p>UX (User Experience) focuses on workflow efficiency, information architecture, and task completion rates. UI (User Interface) deals with the visual hierarchy, accessibility compliance (WCAG 2.1), and design system scalability.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you measure design success?</strong>
-              <p>We use quantitative metrics like System Usability Scale (SUS), Time-on-Task, and Error Rates, combined with qualitative feedback from user testing sessions. For e-commerce, we track conversion rate lift and cart abandonment reduction.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">Do you use atomic design principles?</strong>
-              <p>Yes. We build scalable Design Systems based on Atomic Design methodology (Atoms, Molecules, Organisms), ensuring consistency across all digital touchpoints and reducing development time by 30%.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
+
 
       <HeroPremium
         title="Designs That Users"
@@ -183,6 +159,10 @@ export default function UIUXDesignPage() {
         backgroundImage={serviceImage}
         pattern="Creative"
       />
+
+      <div className="container mx-auto px-6 pt-4">
+        <Breadcrumbs items={breadcrumbItems} />
+      </div>
 
       {/* Extended Content Section for SEO */}
       <section className="py-24 px-6">

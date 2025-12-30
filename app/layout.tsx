@@ -9,14 +9,8 @@ import '../src/styles/elite-design-system.css'
 import '../src/styles/animations.css'
 import '../src/styles/accessibility.css'
 
-import CustomCursor from '@/components/ui/CustomCursor'
-import ScrollProgressIndicator from '@/components/ui/ScrollProgressIndicator'
-import RippleEffect from '@/components/effects/RippleEffect'
-import ExitIntentModal from '@/components/conversion/ExitIntentModal'
-import StickyCTA from '@/components/conversion/StickyCTA'
-import LiveVisitorCounter from '@/components/trust/LiveVisitorCounter'
 import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
-import LiveChatWidget from '@/components/LiveChatWidget'
+import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements'
 
 export const viewport: Viewport = {
   themeColor: '#121212',
@@ -132,9 +126,9 @@ export default function RootLayout({
             `,
           }}
         />
-        <CustomCursor />
-        <ScrollProgressIndicator />
-        <RippleEffect />
+
+        <ClientLayoutEnhancements />
+
         <Providers>
           <ErrorBoundary>
             <Suspense fallback={null}>
@@ -145,11 +139,6 @@ export default function RootLayout({
             </div>
           </ErrorBoundary>
         </Providers>
-        <LiveChatWidget />
-        <ExitIntentModal />
-
-        <StickyCTA />
-        <LiveVisitorCounter />
       </body>
     </html>
   )

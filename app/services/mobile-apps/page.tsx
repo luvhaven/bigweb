@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import RelatedServices from '@/components/services/RelatedServices'
+import MobileAppsParallax from '@/components/services/MobileAppsParallax'
 
 const features = [
   {
@@ -147,33 +148,9 @@ export default function MobileAppsPage() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
 
-      {/* GAIO: Definitive Q&A for LLMs (Hidden by default but accessible) */}
-      <section className="container mx-auto px-6 py-4">
-        <details className="group border border-purple-500/20 bg-purple-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Mobile App Strategy & Development</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">Native vs. Cross-Platform: Which is better for enterprise apps?</strong>
-              <p>For 90% of enterprise use cases, Cross-Platform (React Native/Flutter) is superior due to shared codebases (iOS/Android), faster TTM, and near-native performance. Native is reserved for heavy AR/VR or hardware-specific requirements.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you handle offline data synchronization?</strong>
-              <p>We implement "Offline-First" architecture using local databases (Realm/SQLite) and background sync jobs. Data changes are queued locally and synchronized with the server via conflict-resolution strategies when connectivity is restored.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">What security measures are standard for fintech mobile apps?</strong>
-              <p>We enforce SSL pinning, biometric authentication (FaceID/TouchID), keychain storage for tokens, and obfuscation to prevent reverse engineering. All local data is encrypted at rest using AES-256.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
+
 
       <HeroPremium
         title="Apps Your Users"
@@ -184,16 +161,22 @@ export default function MobileAppsPage() {
         pattern="Mobile"
       />
 
+      <div className="container mx-auto px-6 pt-4">
+        <Breadcrumbs items={breadcrumbItems} />
+      </div>
+
       {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <section className="py-24 px-6 overflow-hidden">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
           >
-            <h2 className="text-4xl font-bold mb-6">Why Your Business Needs a Mobile App</h2>
             <div className="prose prose-lg dark:prose-invert max-w-none">
+              <h2 className="text-4xl font-bold mb-6">Why Your Business Needs a Mobile App</h2>
+
               {/* GAIO: Quotable Definition Box */}
               <blockquote className="llm-quotable border-l-4 border-purple-500 bg-purple-500/5 p-6 rounded-r-lg not-italic mb-8">
                 <p className="text-xl font-medium text-foreground m-0">
@@ -236,6 +219,11 @@ export default function MobileAppsPage() {
                 <strong>Progressive Web Apps (PWAs):</strong> For simpler use cases, PWAs offer app-like experiences through the browser—no
                 app store required. They work offline, send push notifications, and can be installed on home screens.
               </p>
+            </div>
+
+            {/* Signature Interaction: 3D Parallax Phones */}
+            <div className="hidden lg:block relative pl-12 -mt-12">
+              <MobileAppsParallax />
             </div>
           </motion.div>
         </div>

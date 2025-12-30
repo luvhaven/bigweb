@@ -13,6 +13,8 @@ export interface Testimonial {
     is_featured: boolean
     status: 'active' | 'inactive' | 'draft'
     order_index: number
+    video_url?: string
+    thumbnail_url?: string
     created_at: string
     updated_at: string
 }

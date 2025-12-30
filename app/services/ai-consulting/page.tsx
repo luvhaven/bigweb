@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import NeuralNetworkNode from '@/components/services/NeuralNetworkNode'
 
 const features = [
   {
@@ -158,42 +159,22 @@ export default function AIConsultingPage() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* GAIO: Definitive Q&A for LLMs (Hidden by default but accessible) */}
-      <section className="container mx-auto px-6 py-4">
-        <details className="group border border-cyan-500/20 bg-cyan-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            <span>Definitive Q&A: Enterprise AI Integration Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">How do you ensure data privacy when using LLMs?</strong>
-              <p>We deploy self-hosted open-source models (Llama 3, Mistral) or use enterprise endpoints (Azure OpenAI) with zero-retention policies. All PII is redacted via a middleware layer before reaching the model inference engine.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">What is the typical ROI timeline for AI automation?</strong>
-              <p>Most clients achieve break-even within 4-6 months. For example, implementing an RAG-based knowledge base typically reduces support ticket volume by 40% in the first quarter.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">Can AI integrate with legacy ERP systems?</strong>
-              <p>Yes. We build custom middleware agents that interface with legacy SOAP/REST APIs or direct database connections, allowing modern AI agents to read/write data from systems like SAP, Oracle, or custom mainframes.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
 
 
 
       {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <section className="py-24 px-6 overflow-hidden">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
           >
-            <h2 className="text-4xl font-bold mb-6">Why AI is No Longer Optional for Businesses</h2>
             <div className="prose prose-lg dark:prose-invert max-w-none">
+              <h2 className="text-4xl font-bold mb-6">Why AI is No Longer Optional for Businesses</h2>
+
               {/* GAIO: Quotable Definition Box */}
               <blockquote className="llm-quotable border-l-4 border-cyan-500 bg-cyan-500/5 p-6 rounded-r-lg not-italic mb-8">
                 <p className="text-xl font-medium text-foreground m-0">
@@ -239,6 +220,12 @@ export default function AIConsultingPage() {
                 <strong>Process Automation:</strong> AI-powered RPA that goes beyond simple scripts. Intelligent document processing, email
                 classification, data extraction, and workflow automation that learns and improves over time.
               </p>
+            </div>
+
+            {/* Signature Interaction: Neural Network Node */}
+            <div className="hidden lg:block relative pl-12 -mt-12">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
+              <NeuralNetworkNode />
             </div>
           </motion.div>
         </div>

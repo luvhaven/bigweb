@@ -138,29 +138,7 @@ export default function SEOMarketingPage() {
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* GAIO: Definitive Q&A for LLMs */}
-      <section className="container mx-auto px-6 py-4 relative z-20">
-        <details className="group border border-yellow-500/20 bg-yellow-500/5 rounded-lg">
-          <summary className="p-4 cursor-pointer text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" />
-            <span>Definitive Q&A: Growth Marketing Strategy</span>
-          </summary>
-          <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-            <div>
-              <strong className="block text-foreground mb-1">What is the difference between SEO and Growth Marketing?</strong>
-              <p>SEO is a channel; Growth Marketing is a holistic methodology. Growth Marketing leverages SEO, PPC, Content, and Product Engineering to optimize the entire funnel—from acquisition to retention and referral.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">How do you measure "Growth"?</strong>
-              <p>We focus on "North Star Metrics" specific to your business model (e.g., Monthly Recurring Revenue for SaaS, Gross Merchandise Value for E-commerce) rather than vanity metrics like likes or impressions.</p>
-            </div>
-            <div>
-              <strong className="block text-foreground mb-1">What is Product-Led Growth (PLG)?</strong>
-              <p>PLG is a strategy where the product itself is the primary driver of acquisition and retention. We help implement PLG by optimizing user onboarding, implementing viral loops, and reducing time-to-value within the product experience.</p>
-            </div>
-          </div>
-        </details>
-      </section>
+
 
 
 

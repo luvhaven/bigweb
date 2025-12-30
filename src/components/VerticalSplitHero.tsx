@@ -39,7 +39,7 @@ const defaultSlides: HeroSlide[] = [
     description: "Stop losing sales to poor UX. We build conversion-optimized websites that turn your traffic into revenue—averaging 4x conversion increases for our clients.",
     cta: "Get Your Free Growth Audit",
     ctaLink: "/contact",
-    image: "/assets/hero-conversion.png", // Corrected path assumption
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80", // Analytics/Dashboard
     stat: "4x",
     statLabel: "Your Conversions"
   },
@@ -50,7 +50,7 @@ const defaultSlides: HeroSlide[] = [
     description: "Rank higher, load faster, and outperform competitors. Our technical SEO and performance optimization strategies put your brand at the top of search results.",
     cta: "Start Dominating Today",
     ctaLink: "/services/seo-growth",
-    image: "/assets/hero-seo.png",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80", // Chart/Growth
     stat: "#1",
     statLabel: "Search Rankings"
   },
@@ -61,7 +61,7 @@ const defaultSlides: HeroSlide[] = [
     description: "Built on the latest stack (Next.js 15, React 19). Scalable, secure, and ready for whatever the future of the web brings.",
     cta: "Build The Future",
     ctaLink: "/services/web-development",
-    image: "/assets/hero-tech.png",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80", // Code/Tech
     stat: "100%",
     statLabel: "Scalability"
   }
@@ -69,11 +69,12 @@ const defaultSlides: HeroSlide[] = [
 
 interface VerticalSplitHeroProps {
   cmsSlide?: HeroSlide
+  slides?: HeroSlide[]
 }
 
-export default function VerticalSplitHero({ cmsSlide }: VerticalSplitHeroProps) {
-  // Use CMS slide if provided, otherwise default to static slides
-  const slides = cmsSlide ? [cmsSlide] : defaultSlides
+export default function VerticalSplitHero({ cmsSlide, slides: cmsSlides }: VerticalSplitHeroProps) {
+  // Use CMS slides if provided, otherwise CMS slide (single), otherwise default
+  const slides = cmsSlides && cmsSlides.length > 0 ? cmsSlides : (cmsSlide ? [cmsSlide] : defaultSlides)
 
   const [activeSlide, setActiveSlide] = useState(0)
   const [isPlaying, setIsPlaying] = useState(!cmsSlide) // Auto-play only if multiple slides
@@ -141,7 +142,7 @@ export default function VerticalSplitHero({ cmsSlide }: VerticalSplitHeroProps) 
       <div className="relative z-10 h-full grid grid-cols-1 lg:grid-cols-12">
 
         {/* Left Content Panel */}
-        <div className="lg:col-span-5 h-full flex flex-col justify-center px-6 lg:px-12 relative pt-40 lg:pt-32">
+        <div className="lg:col-span-5 h-full flex flex-col justify-center px-6 lg:px-12 relative pt-24 lg:pt-20">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide}

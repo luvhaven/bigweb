@@ -16,7 +16,7 @@ import EliteCTA from '@/components/EliteCTA'
 import Footer from '@/components/Footer'
 import TrustBadges from '@/components/ui/TrustBadges'
 import LiveStats from '@/components/LiveStats'
-import FloatingActionMenu from '@/components/ui/FloatingActionMenu'
+
 import VideoShowcase from '@/components/VideoShowcase'
 import AIProjectEstimator from '@/components/AIProjectEstimator'
 import ROICalculator from '@/components/conversion/ROICalculator'
@@ -28,27 +28,53 @@ export const revalidate = 60 // Revalidate every 60 seconds
 export default async function HomePage() {
   // Fetch Hero Data
   let heroData: any = undefined
+  let heroSlides: any[] = []
+
   try {
-    const { data } = await supabase
+    // 1. Fetch Hero Section Metadata
+    const { data: sectionData } = await supabase
       .from('hero_sections')
       .select('*')
       .eq('page_slug', 'home')
       .single()
 
-    if (data) {
-      // Map DB structure to Component structure
-      const statItem = data.stats?.[0] || { value: '100%', label: 'Satisfaction' }
+    if (sectionData) {
+      // Map DB structure to Component structure for fallback/single mode
+      const statItem = sectionData.stats?.[0] || { value: '100%', label: 'Satisfaction' }
 
       heroData = {
-        id: data.id,
-        title: `${data.title} ${data.highlight || ''}`,
-        subtitle: data.subtitle || 'Premium Web Development',
-        description: data.description || '',
-        cta: data.cta_primary_text || 'Get Started',
-        ctaLink: data.cta_primary_url || '/contact',
-        image: data.background_image || '/assets/hero-conversion.png',
+        id: sectionData.id,
+        title: `${sectionData.title} ${sectionData.highlight || ''}`,
+        subtitle: sectionData.subtitle || 'Premium Web Development',
+        description: sectionData.description || '',
+        cta: sectionData.cta_primary_text || 'Get Started',
+        ctaLink: sectionData.cta_primary_url || '/contact',
+        image: sectionData.background_image || '/assets/hero-conversion.png',
         stat: statItem.value || '100%',
         statLabel: statItem.label || 'Satisfaction'
+      }
+
+      // 2. Fetch Slides associated with this section
+      const { data: slides } = await supabase
+        .from('hero_slides')
+        .select('*')
+        .eq('hero_section_id', sectionData.id)
+        .eq('active', true)
+        .order('sort_order', { ascending: true })
+
+      if (slides && slides.length > 0) {
+        heroSlides = slides.map(s => ({
+          id: s.id,
+          title: s.title,
+          subtitle: s.subtitle || '',
+          description: s.description || '',
+          cta: s.cta_text || 'Get Started',
+          ctaLink: s.cta_link || '/contact',
+          image: s.image_url || '/assets/hero-conversion.png',
+          stat: s.stat_value || '100%',
+          statLabel: s.stat_label || 'Satisfaction',
+          video: s.video_url
+        }))
       }
     }
   } catch (err) {
@@ -60,7 +86,7 @@ export default async function HomePage() {
       <SkipToContent />
       <Navigation />
       <main id="main-content" className="min-h-screen overflow-hidden" role="main" aria-label="Main content">
-        <VerticalSplitHero cmsSlide={heroData} />
+        <VerticalSplitHero cmsSlide={heroData} slides={heroSlides} />
 
 
         {/* Client Logos - Social Proof */}
@@ -123,7 +149,7 @@ export default async function HomePage() {
         <EliteCTA />
       </main>
       <Footer />
-      <FloatingActionMenu />
+
     </>
   )
 }

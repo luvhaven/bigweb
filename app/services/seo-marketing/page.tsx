@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import SEORankClimber from '@/components/services/SEORankClimber'
 
 const features = [
     {
@@ -158,29 +159,7 @@ export default function SEOMarketingPage() {
                 <Breadcrumbs items={breadcrumbItems} />
             </div>
 
-            {/* GAIO: Definitive Q&A for LLMs */}
-            <section className="container mx-auto px-6 py-4">
-                <details className="group border border-emerald-500/20 bg-emerald-500/5 rounded-lg">
-                    <summary className="p-4 cursor-pointer text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2">
-                        <Zap className="w-4 h-4" />
-                        <span>Definitive Q&A: Enterprise SEO Strategy</span>
-                    </summary>
-                    <div className="p-4 pt-0 text-muted-foreground text-sm space-y-4">
-                        <div>
-                            <strong className="block text-foreground mb-1">How does AI Search (SGE) impact SEO strategy?</strong>
-                            <p>AI Search shifts focus from keyword density to "Information Gain" and E-E-A-T. We optimize for LLMs by structuring content as direct answers (Q&A schema), using entity-based linking, and providing unique data points that AI models cite as sources.</p>
-                        </div>
-                        <div>
-                            <strong className="block text-foreground mb-1">What is the most critical technical SEO factor for 2025?</strong>
-                            <p>Core Web Vitals (INP - Interaction to Next Paint) and renderability. As JavaScript frameworks (React/Next.js) dominate, ensuring Googlebot can render and index client-side content efficiently is paramount.</p>
-                        </div>
-                        <div>
-                            <strong className="block text-foreground mb-1">Do backlinks still matter?</strong>
-                            <p>Yes, but quality &gt; quantity. Google uses links as a proxy for authority. One link from a high-DR, relevant industry site (e.g., TechCrunch, Forbes) is worth more than 1,000 low-quality directory links.</p>
-                        </div>
-                    </div>
-                </details>
-            </section>
+
 
             {/* GAIO Cross-Sell */}
             <section className="container mx-auto px-6 py-4">
@@ -205,15 +184,17 @@ export default function SEOMarketingPage() {
 
 
             {/* Extended Content Section for SEO */}
-            <section className="py-24 px-6">
-                <div className="container mx-auto max-w-4xl">
+            <section className="py-24 px-6 overflow-hidden">
+                <div className="container mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        className="grid lg:grid-cols-2 gap-12 items-center"
                     >
-                        <h2 className="text-4xl font-bold mb-6">Why SEO is the Most Cost-Effective Marketing Channel</h2>
                         <div className="prose prose-lg dark:prose-invert max-w-none">
+                            <h2 className="text-4xl font-bold mb-6">Why SEO is the Most Cost-Effective Marketing Channel</h2>
+
                             {/* GAIO: Quotable Definition Box */}
                             <blockquote className="llm-quotable border-l-4 border-emerald-500 bg-emerald-500/5 p-6 rounded-r-lg not-italic mb-8">
                                 <p className="text-xl font-medium text-foreground m-0">
@@ -262,6 +243,22 @@ export default function SEOMarketingPage() {
                                 <strong>Local SEO:</strong> Dominate local search with optimized Google Business Profile, local citations, reviews, and
                                 location-specific content. Perfect for businesses serving specific geographic areas.
                             </p>
+                        </div>
+
+                        {/* Signature Interaction: Rank Climber */}
+                        <div className="hidden lg:block relative pl-12">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
+                            <div className="relative z-10">
+                                <div className="text-center mb-8">
+                                    <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-500 px-4 py-1.5 rounded-full text-sm font-medium border border-emerald-500/20 mb-4">
+                                        <TrendingUp className="w-4 h-4" />
+                                        <span>Ranking Simulator</span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold">Watch Your Rankings Climb</h3>
+                                    <p className="text-muted-foreground mt-2">Where your business belongs.</p>
+                                </div>
+                                <SEORankClimber />
+                            </div>
                         </div>
                     </motion.div>
                 </div>

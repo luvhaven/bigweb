@@ -2,38 +2,57 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, Pause, Volume2, VolumeX, Quote } from 'lucide-react'
+import { Play, Pause, Volume2, VolumeX, Quote, Loader2 } from 'lucide-react'
 import Image from 'next/image'
-
-const testimonials = [
-    {
-        id: 1,
-        name: "Sarah Johnson",
-        role: "CEO, TechFlow",
-        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
-        thumbnail: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
-        quote: "BigWeb transformed our digital presence completely. Our leads increased by 300% in just 3 months."
-    },
-    {
-        id: 2,
-        name: "Michael Chen",
-        role: "Founder, StartUp Inc",
-        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
-        thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
-        quote: "The team's attention to detail and technical expertise is unmatched. Highly recommended."
-    },
-    {
-        id: 3,
-        name: "Emily Davis",
-        role: "Marketing Dir, GrowthCo",
-        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
-        thumbnail: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
-        quote: "They didn't just build a website, they built a growth engine for our business."
-    }
-]
+import { testimonialsAPI, Testimonial } from '@/lib/api/testimonials'
 
 export default function VideoTestimonials() {
-    const [activeId, setActiveId] = useState<number | null>(null)
+    const [testimonials, setTestimonials] = useState<any[]>([]) // Using any to accommodate mapped structure
+    const [activeId, setActiveId] = useState<string | null>(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        loadVideos()
+    }, [])
+
+    const loadVideos = async () => {
+        try {
+            // Fetch all active testimonials
+            const data = await testimonialsAPI.getAll('active')
+
+            if (data) {
+                // Filter only those with video URLs
+                const videoTestimonials = data
+                    .filter(t => t.video_url && t.video_url.length > 0)
+                    .map(t => ({
+                        id: t.id,
+                        name: t.client_name,
+                        role: t.client_role || 'Client',
+                        video: t.video_url, // Map DB field to component prop
+                        thumbnail: t.thumbnail_url || t.client_image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', // Fallback
+                        quote: t.content
+                    }))
+                    .slice(0, 3) // Limit to 3 for the grid layout
+
+                setTestimonials(videoTestimonials.length > 0 ? videoTestimonials : defaultTestimonials)
+            } else {
+                setTestimonials(defaultTestimonials)
+            }
+        } catch (error) {
+            console.error('Failed to load video testimonials:', error)
+            setTestimonials(defaultTestimonials)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            </div>
+        )
+    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -135,3 +154,31 @@ function TestimonialCard({ testimonial, isActive, onPlay, onPause, index }: any)
         </motion.div>
     )
 }
+
+const defaultTestimonials = [
+    {
+        id: '1',
+        name: "Sarah Johnson",
+        role: "CEO, TechFlow",
+        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
+        thumbnail: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+        quote: "BigWeb transformed our digital presence completely. Our leads increased by 300% in just 3 months."
+    },
+    {
+        id: '2',
+        name: "Michael Chen",
+        role: "Founder, StartUp Inc",
+        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
+        thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+        quote: "The team's attention to detail and technical expertise is unmatched. Highly recommended."
+    },
+    {
+        id: '3',
+        name: "Emily Davis",
+        role: "Marketing Dir, GrowthCo",
+        video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761",
+        thumbnail: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+        quote: "They didn't just build a website, they built a growth engine for our business."
+    }
+]
+
