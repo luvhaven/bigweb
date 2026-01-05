@@ -12,7 +12,7 @@ import Navigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
 import CountdownTimer from '@/components/campaign/CountdownTimer'
 
-const CAMPAIGN_END = new Date('2026-01-07T23:59:59')
+const CAMPAIGN_END = new Date('2026-01-31T23:59:59')
 
 const packages = [
     {
@@ -252,7 +252,7 @@ export default function NewYearHubPage() {
                                     className={`relative bg-white/[0.02] border rounded-3xl p-8 ${pkg.popular ? `border-2 ${colors.border}` : 'border-white/10'} hover:border-white/20 transition-all duration-300`}
                                 >
                                     {pkg.popular && (
-                                        <div className={`absolute -top-4 left-1/2 -translate-x-1/2 ${colors.badge} text-white px-4 py-1 rounded-full text-sm font-bold`}>
+                                        <div className={`absolute -top-4 left-1/2 -translate-x-1/2 ${colors.badge} text-white px-4 py-1 rounded-full text-sm font-bold animate-pulse shadow-glow`}>
                                             MOST POPULAR
                                         </div>
                                     )}

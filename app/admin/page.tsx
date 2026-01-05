@@ -12,7 +12,7 @@ import {
     ArrowUpRight,
     Calendar
 } from 'lucide-react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 interface DashboardStats {
@@ -31,6 +31,7 @@ const statsConfig = [
 ]
 
 export default function AdminDashboard() {
+    const supabase = createClient()
     const [stats, setStats] = useState<DashboardStats>({
         totalProjects: 0,
         totalServices: 0,
@@ -48,10 +49,11 @@ export default function AdminDashboard() {
     async function fetchDashboardData() {
         try {
             // Fetch counts
-            const [projectsRes, servicesRes, testimonialsRes, leadsRes] = await Promise.all([
+            const [projectsRes, servicesRes, clientsRes, videosRes, leadsRes] = await Promise.all([
                 supabase.from('cms_projects').select('id', { count: 'exact', head: true }),
                 supabase.from('cms_services').select('id', { count: 'exact', head: true }),
-                supabase.from('cms_testimonials').select('id', { count: 'exact', head: true }),
+                supabase.from('cms_clients').select('id', { count: 'exact', head: true }),
+                supabase.from('cms_video_showroom').select('id', { count: 'exact', head: true }),
                 supabase.from('cms_leads').select('id', { count: 'exact', head: true }),
             ])
 
@@ -65,7 +67,7 @@ export default function AdminDashboard() {
             setStats({
                 totalProjects: projectsRes.count || 0,
                 totalServices: servicesRes.count || 0,
-                totalTestimonials: testimonialsRes.count || 0,
+                totalTestimonials: clientsRes.count || 0, // Using clients count as a conceptual 'Trust' metric for now
                 totalLeads: leadsRes.count || 0,
                 newLeadsToday: 0
             })
@@ -159,8 +161,8 @@ export default function AdminDashboard() {
                                         <p className="text-zinc-500 text-sm truncate">{lead.type}</p>
                                     </div>
                                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${lead.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
-                                            lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
-                                                'bg-zinc-700 text-zinc-400'
+                                        lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
+                                            'bg-zinc-700 text-zinc-400'
                                         }`}>
                                         {lead.status}
                                     </span>

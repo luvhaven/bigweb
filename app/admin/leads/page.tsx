@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
 import { Mail, Check, Archive, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -15,8 +15,8 @@ interface Lead {
     status: string
     created_at: string
 }
-
 export default function LeadsPage() {
+    const supabase = createClient()
     const [leads, setLeads] = useState<Lead[]>([])
     const [loading, setLoading] = useState(true)
     const [filter, setFilter] = useState<'all' | 'new' | 'contacted' | 'archived'>('all')
@@ -64,8 +64,8 @@ export default function LeadsPage() {
                         key={f}
                         onClick={() => setFilter(f)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors ${filter === f
-                                ? 'bg-emerald-500/20 text-emerald-400'
-                                : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'text-zinc-400 hover:text-white hover:bg-white/5'
                             }`}
                     >
                         {f} {f === 'all' ? `(${leads.length})` : `(${leads.filter(l => l.status === f).length})`}
@@ -117,8 +117,8 @@ export default function LeadsPage() {
 
                                 <div className="flex items-center gap-2 shrink-0">
                                     <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${lead.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
-                                            lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
-                                                'bg-zinc-700 text-zinc-400'
+                                        lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
+                                            'bg-zinc-700 text-zinc-400'
                                         }`}>
                                         {lead.status}
                                     </span>

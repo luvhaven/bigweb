@@ -13,7 +13,15 @@ const StickyCTA = dynamic(() => import('@/components/conversion/StickyCTA'), { s
 const LiveVisitorCounter = dynamic(() => import('@/components/trust/LiveVisitorCounter'), { ssr: false })
 const LiveChatWidget = dynamic(() => import('@/components/LiveChatWidget'), { ssr: false })
 
+import { usePathname } from 'next/navigation'
+
 export default function ClientLayoutEnhancements() {
+    const pathname = usePathname()
+    // Don't render engagement widgets on Admin pages
+    if (pathname?.startsWith('/admin')) {
+        return null
+    }
+
     return (
         <>
             <CustomCursor />

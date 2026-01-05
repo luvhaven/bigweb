@@ -30,11 +30,11 @@ import { useAuth } from '@/hooks/useAuth'
 // Sidebar Menu Configuration
 const menuItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { label: 'Navigation', href: '/admin/navigation', icon: Navigation },
-    { label: 'Heroes', href: '/admin/heroes', icon: ImageIcon },
-    { label: 'Services', href: '/admin/services', icon: Briefcase },
+    { label: 'Growth Packages', href: '/admin/growth', icon: Briefcase }, // New
+    { label: 'Media & Videos', href: '/admin/media', icon: ImageIcon },
+    { label: 'Clients', href: '/admin/clients', icon: Users },
+    { label: 'Services', href: '/admin/services', icon: Navigation },
     { label: 'Projects', href: '/admin/projects', icon: FolderKanban },
-    { label: 'Team', href: '/admin/team', icon: Users },
     { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
     { label: 'Leads', href: '/admin/leads', icon: FileText },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
@@ -107,8 +107,8 @@ export default function AdminLayoutV2({
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                        ? 'bg-emerald-500/20 text-emerald-400'
-                                        : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 <item.icon className="w-5 h-5 shrink-0" />

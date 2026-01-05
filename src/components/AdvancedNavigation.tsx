@@ -44,7 +44,8 @@ const AdvancedNavigation = () => {
 
   // Group Dynamic items into Buckets
   // New Schema: Navigation is a tree. servicesItem is the Mega Menu.
-  const servicesItem = navigation.find((item: any) => item.label === 'Services');
+  // We accept both "Services" and "Capabilities" as the trigger for the mega menu
+  const servicesItem = navigation.find((item: any) => item.label === 'Services' || item.label === 'Capabilities');
 
   // Work is a top-level link
   const workItems = []; // Work is now a direct link typically, but if we need a dropdown we'd look for children.

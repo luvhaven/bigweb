@@ -1,22 +1,75 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-    const res = NextResponse.next()
-    const supabase = createMiddlewareClient({ req: request, res })
+    let response = NextResponse.next({
+        request: {
+            headers: request.headers,
+        },
+    })
+
+    const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookies: {
+                get(name: string) {
+                    return request.cookies.get(name)?.value
+                },
+                set(name: string, value: string, options: CookieOptions) {
+                    request.cookies.set({
+                        name,
+                        value,
+                        ...options,
+                    })
+                    response = NextResponse.next({
+                        request: {
+                            headers: request.headers,
+                        },
+                    })
+                    response.cookies.set({
+                        name,
+                        value,
+                        ...options,
+                    })
+                },
+                remove(name: string, options: CookieOptions) {
+                    request.cookies.set({
+                        name,
+                        value: '',
+                        ...options,
+                    })
+                    response = NextResponse.next({
+                        request: {
+                            headers: request.headers,
+                        },
+                    })
+                    response.cookies.set({
+                        name,
+                        value: '',
+                        ...options,
+                    })
+                },
+            },
+        }
+    )
+
+    // IMPORTANT: Avoid writing any logic between createServerClient and
+    // supabase.auth.getUser(). A simple mistake could make it very hard to debug
+    // issues with users being randomly logged out.
 
     const {
-        data: { session },
-    } = await supabase.auth.getSession()
+        data: { user },
+    } = await supabase.auth.getUser()
 
     // Protect admin routes
     if (request.nextUrl.pathname.startsWith('/admin')) {
         // Allow access to login page AND debug page
         if (request.nextUrl.pathname === '/admin/login' || request.nextUrl.pathname === '/admin/debug') {
-            return res
+            return response
         }
 
-        if (!session) {
+        if (!user) {
             console.log('[Middleware] No session for admin, redirecting')
             return NextResponse.redirect(new URL('/admin/login', request.url))
         }
@@ -25,14 +78,13 @@ export async function middleware(request: NextRequest) {
         const { data: profile, error } = await supabase
             .from('admin_users')
             .select('role')
-            .eq('id', session.user.id)
+            .eq('id', user.id)
             .single()
 
         if (error || !profile) {
             console.log('[Middleware] Profile check failed:', error)
-            // Temporarily allow access if profile is missing to debug, OR redirect to debug
-            // For now, let's redirect to debug if profile is missing, so user can see why
-            return NextResponse.redirect(new URL('/admin/debug', request.url))
+            // Redirect to debug or show error, but better to safe fail to login or debug
+            return NextResponse.redirect(new URL('/admin/login?error=no_profile', request.url))
         }
 
         if (!['super_admin', 'admin', 'editor'].includes(profile.role)) {
@@ -43,12 +95,12 @@ export async function middleware(request: NextRequest) {
 
     // Protect client routes
     if (request.nextUrl.pathname.startsWith('/client')) {
-        if (!session) {
+        if (!user) {
             return NextResponse.redirect(new URL('/client/login', request.url))
         }
     }
 
-    return res
+    return response
 }
 
 export const config = {

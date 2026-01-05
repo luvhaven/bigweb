@@ -101,16 +101,19 @@ const faqs = [
     }
 ]
 
+import ExitIntentModal from '@/components/conversion/ExitIntentModal'
+
 export default function AIBoostLandingPage() {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
 
     return (
         <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30">
+            <ExitIntentModal />
             {/* Sticky Top Bar - Scarcity */}
             <div className="fixed top-0 inset-x-0 z-50 bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium shadow-lg shadow-emerald-900/20">
                 <span className="hidden md:inline">🔥 FLASH SALE ENDING SOON: </span>
-                Waitlist closing for 2025 Fast-Track Delivery.
-                <span className="font-bold ml-1">Offer Ends Jan 9.</span>
+                Waitlist closing for 2026 Fast-Track Delivery.
+                <span className="font-bold ml-1">Offer Ends Jan 31.</span>
             </div>
 
             {/* Hero Section */}

@@ -3,61 +3,13 @@
 import { Card } from "@/components/ui/card";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParallax } from "@/hooks/useParallax";
-import karatImg from "@/assets/project-karat.jpg";
-import stellarImg from "@/assets/project-stellar.jpg";
-import innovateImg from "@/assets/project-innovate.jpg";
-import velocityImg from "@/assets/project-velocity.jpg";
+import { createClient } from "@/lib/supabase/client";
 
-const projects = [
-  {
-    id: "karat",
-    title: "Karat",
-    category: "Fintech Platform",
-    description: "Revolutionary financial platform increasing creator revenue by 300%",
-    image: karatImg,
-    results: "+300% Revenue Growth",
-  },
-  {
-    id: "ecosmart",
-    title: "EcoSmart Home",
-    category: "IoT Dashboard",
-    image: "https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=1200",
-    description: "Smart home energy monitoring dashboard",
-    // Note: The original project objects do not have 'tags', 'link', 'colSpan', 'rowSpan'.
-    // Adding 'results' to match existing project structure.
-    results: "Enhanced Efficiency",
-  },
-  {
-    id: "stellar",
-    title: "Stellar",
-    category: "Blockchain Network",
-    description: "Next-gen payment infrastructure processing $2B+ in transactions",
-    image: stellarImg,
-    results: "$2B+ Transactions",
-  },
-  {
-    id: "innovate",
-    title: "Innovate",
-    category: "SaaS Application",
-    description: "Enterprise solution reducing operational costs by 45%",
-    image: innovateImg,
-    results: "45% Cost Reduction",
-  },
-  {
-    id: "velocity",
-    title: "Velocity",
-    category: "E-commerce Platform",
-    description: "Premium shopping experience achieving 180% conversion increase",
-    image: velocityImg,
-    results: "+180% Conversions",
-  },
-];
-
-const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => {
+const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   const ref = useRef(null);
   const imageRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -79,15 +31,15 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
       transition={{ duration: 0.6, delay: index * 0.2 }}
       style={{ rotate: cardRotate }}
     >
-      <Link href={`/project/${project.id}`}>
+      <Link href={`/project/${project.slug}`}>
         <Card className="group relative overflow-hidden bg-card border-border hover:border-accent transition-all duration-500 cursor-pointer hover:shadow-2xl hover:shadow-accent/20">
           <div ref={imageRef} className="aspect-[4/5] bg-secondary relative overflow-hidden">
             <motion.div
               className="w-full h-full"
               style={{ y: parallaxY, scale: imageScale }}
             >
-              <Image
-                src={project.image}
+              <img
+                src={project.cover_image_url || 'https://images.unsplash.com/photo-1558002038-1091a1661116'}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
@@ -108,9 +60,9 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
                 VIEW CASE STUDY
               </motion.span>
             </div>
-            {/* Results badge */}
+            {/* Results badge - using client_name or category as fallback if results not in DB */}
             <div className="absolute top-4 right-4 bg-accent text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-              {project.results}
+              {project.client_name || 'Latest Work'}
             </div>
           </div>
           <motion.div
@@ -124,7 +76,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
               {project.category}
             </p>
             <p className="text-muted-foreground leading-relaxed transform transition-all duration-500 group-hover:text-foreground">
-              {project.description}
+              {project.summary}
             </p>
           </motion.div>
         </Card>
@@ -136,6 +88,21 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
 const FeaturedWorkNext = () => {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true });
+  const [projects, setProjects] = useState<any[]>([]);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchProjects() {
+      // Fetch ALL published projects without limit (or large limit like 100)
+      const { data } = await supabase
+        .from('cms_projects')
+        .select('*')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true })
+      if (data) setProjects(data);
+    }
+    fetchProjects();
+  }, []);
 
   return (
     <section id="work" className="py-32 relative overflow-hidden">
@@ -160,13 +127,13 @@ const FeaturedWorkNext = () => {
             Projects that drive real business results
           </p>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From startups to enterprises, we've delivered digital experiences that exceed expectations and deliver measurable ROI
+            Explore our latest work showing full database integration.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+            <ProjectCard key={project.id || index} project={project} index={index} />
           ))}
         </div>
       </div>

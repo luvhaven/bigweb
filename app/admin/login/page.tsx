@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Sparkles, Loader2, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
-    const { signIn } = useAuth()
+    const { signIn, user } = useAuth()
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -16,9 +16,11 @@ export default function AdminLoginPage() {
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
-        console.log('[Admin Login] Mounted')
         setMounted(true)
-    }, [router])
+        if (user) {
+            router.replace('/admin')
+        }
+    }, [user, router])
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -26,30 +28,10 @@ export default function AdminLoginPage() {
         setLoading(true)
 
         try {
-            console.log('[Admin Login] Attempting login for:', email)
-            // Debug Env Vars
-            console.log('[Admin Login] Supabase Configured:', {
-                url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-                key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-            })
-
-            // Allow the spinner to show for at least 800ms for UX
-            const minLoadTime = new Promise(resolve => setTimeout(resolve, 800))
-
-            // Failsafe timeout (15s)
-            const loginPromise = signIn(email, password)
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error('Login request timed out. Check your network or console.')), 15000)
-            )
-
-            await Promise.all([
-                Promise.race([loginPromise, timeoutPromise]),
-                minLoadTime
-            ])
-
-            console.log('[Admin Login] Success! Redirecting...')
+            await signIn(email, password)
+            // Redirect is handled by onAuthStateChange in useAuth or useEffect above
+            // But we can force a push here just in case
             router.push('/admin')
-
         } catch (err: any) {
             console.error('[Admin Login] Error:', err)
             setError(err.message || 'Invalid email or password')

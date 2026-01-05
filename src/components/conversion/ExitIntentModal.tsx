@@ -31,10 +31,26 @@ export default function ExitIntentModal() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        setLoading(false)
-        setStep('success')
+
+        try {
+            const { createClient } = await import('@/lib/supabase/client')
+            const supabase = createClient()
+
+            const { error } = await supabase.from('cms_leads').insert([{
+                email,
+                type: 'audit',
+                message: `Audit Request for: ${url}`,
+                metadata: { url, source: 'exit_intent' }
+            }])
+
+            if (error) throw error
+            setStep('success')
+        } catch (error) {
+            console.error('Error submitting lead:', error)
+            // Optional: show error state
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (

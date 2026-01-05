@@ -13,7 +13,7 @@ import {
     Image,
     Users,
     Mail,
-    MessagesSquare,
+    MessageSquare,
     BarChart3,
     Settings,
     Search,
@@ -31,14 +31,14 @@ import BrandLogo from '@/components/branding/BrandLogo'
 const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
     { icon: FileText, label: 'Services', href: '/admin/services' },
-    { icon: FolderKanban, label: 'Portfolio', href: '/admin/portfolio' }, // Updated to match folder structure
-    { icon: BookOpen, label: 'Blog', href: '/admin/blog' },
-    { icon: Star, label: 'Testimonials', href: '/admin/testimonials' },
-    { icon: Image, label: 'Media', href: '/admin/media' },
-    { icon: Users, label: 'Clients', href: '/admin/clients' },
-    { icon: Mail, label: 'Contacts', href: '/admin/contacts' },
-    { icon: MessagesSquare, label: 'Chat', href: '/admin/chat' },
+    { icon: FolderKanban, label: 'Portfolio', href: '/admin/portfolio' },
     { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
+    { icon: Star, label: 'Growth Packages', href: '/admin/growth' }, // New
+    { icon: Image, label: 'Media & Videos', href: '/admin/media' }, // New name
+    { icon: Users, label: 'Clients', href: '/admin/clients' },
+    { icon: BookOpen, label: 'Blog', href: '/admin/blog' },
+    { icon: MessageSquare, label: 'Testimonials', href: '/admin/testimonials' },
+    { icon: Mail, label: 'Contacts', href: '/admin/contacts' },
     { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ]
 

@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User, SupabaseClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
 
 type Profile = any
 
@@ -24,122 +25,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [profile, setProfile] = useState<Profile | null>(null)
     const [loading, setLoading] = useState(true)
+    const router = useRouter()
 
-    // Initialise session and listen for auth changes
     useEffect(() => {
-        let mounted = true
-        console.log('AuthProvider: Mounting...')
-
-        // Failsafe: If nothing happens within 5 seconds, stop loading
-        const timeoutId = setTimeout(() => {
-            if (mounted && loading) {
-                console.warn('AuthProvider: Auth timed out, forcing loading false')
-                setLoading(false)
-            }
-        }, 5000)
-
         const initializeAuth = async () => {
-            console.log('AuthProvider: initializeAuth starting...')
             try {
-                const { data: { session }, error } = await supabase.auth.getSession()
-                if (error) {
-                    console.error('AuthProvider: getSession error', error)
-                }
-
-                if (mounted) {
-                    // console.log('AuthProvider: Session retrieved', session?.user?.email)
-                    setUser(session?.user ?? null)
-
-                    if (session?.user) {
-                        // console.log('AuthProvider: Loading profile...')
-                        await loadProfile(session.user)
-                        // console.log('AuthProvider: Profile loaded')
-                    }
+                const { data: { session } } = await supabase.auth.getSession()
+                setUser(session?.user ?? null)
+                if (session?.user) {
+                    await loadProfile(session.user)
                 }
             } catch (error) {
-                console.error('AuthProvider: Error checking session:', error)
+                console.error('Error initializing auth:', error)
             } finally {
-                if (mounted) {
-                    // console.log('AuthProvider: Setting loading false (init)')
-                    setLoading(false)
-                    clearTimeout(timeoutId)
-                }
+                setLoading(false)
             }
         }
 
         initializeAuth()
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            // console.log('AuthProvider: Auth state change:', event)
-            if (!mounted) return
-
+            console.log('Auth state change:', event)
             setUser(session?.user ?? null)
 
             if (session?.user) {
-                await loadProfile(session.user)
+                // Load profile in background, don't block UI if not needed immediately
+                loadProfile(session.user)
             } else {
                 setProfile(null)
             }
-            // console.log('AuthProvider: Setting loading false (auth change)')
-            setLoading(false)
-            clearTimeout(timeoutId)
+
+            if (event === 'SIGNED_OUT') {
+                router.refresh()
+            }
         })
 
         return () => {
-            mounted = false
-            clearTimeout(timeoutId)
             subscription.unsubscribe()
         }
-    }, [supabase]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [supabase, router])
 
     const loadProfile = async (currentUser: User) => {
         try {
-            // First try fetching by ID
-            let { data, error } = await supabase
+            const { data, error } = await supabase
                 .from('admin_users')
                 .select('*')
                 .eq('id', currentUser.id)
                 .single()
 
-            // If not found by ID, try fetching by email
-            // We use the passed currentUser object because React state 'user' might be stale
-            if (!data && currentUser.email) {
-                const { data: emailData } = await supabase
-                    .from('admin_users')
-                    .select('*')
-                    .eq('email', currentUser.email)
-                    .single()
-
-                if (emailData) {
-                    data = emailData
-                    error = null
-                }
-            }
-
-            if (error) {
-                console.log('No admin profile found or error:', error.message)
-                setProfile(null)
+            if (data) {
+                setProfile(data)
             } else {
-                setProfile(data as Profile)
+                console.warn('No admin profile found for user:', currentUser.id)
+                // Fallback or handle missing profile
+                setProfile(null)
             }
         } catch (e) {
-            console.error('Unexpected error loading profile:', e)
-            setProfile(null)
+            console.error('Error loading profile:', e)
         }
     }
 
     const signIn = async (email: string, password: string) => {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
-
-        // Immediate state update to prevent redirect race condition
-        if (data.session?.user) {
-            setUser(data.session.user)
-            // Don't await profile loading to prevent login blocking
-            loadProfile(data.session.user).catch(err =>
-                console.error('Background profile load failed:', err)
-            )
-        }
+        // onAuthStateChange will handle state updates
     }
 
     const signUp = async (email: string, password: string, fullName: string) => {
@@ -152,25 +101,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const signOut = async () => {
-        const { error } = await supabase.auth.signOut()
-        if (error) throw error
+        await supabase.auth.signOut()
         setUser(null)
         setProfile(null)
+        router.push('/admin/login')
     }
 
     const updateProfile = async (updates: Partial<Profile>) => {
-        if (!user) throw new Error('No user logged in')
+        if (!user) return
         const { data, error } = await supabase
             .from('admin_users')
-            .update(updates as any)
+            .update(updates)
             .eq('id', user.id)
             .select()
             .single()
+
         if (error) throw error
-        setProfile(data as Profile)
+        setProfile(data)
     }
 
-    const value: AuthContextType = {
+    const value = {
         user,
         profile,
         loading,
@@ -192,19 +142,14 @@ export function useAuth() {
     return context
 }
 
-// Permission checking hook
 export function usePermissions() {
     const { profile } = useAuth()
 
     const hasPermission = (permission: string): boolean => {
         if (!profile) return false
-        if (profile.role === 'admin') return true
-        const rolePermissions: Record<string, string[]> = {
-            editor: ['manage_pages', 'publish_pages', 'manage_media'],
-            client: [],
-            viewer: [],
-        }
-        return rolePermissions[profile.role]?.includes(permission) ?? false
+        if (profile.role === 'admin' || profile.role === 'super_admin') return true
+        // Add granular permissions if needed
+        return false
     }
 
     const hasRole = (role: string | string[]): boolean => {
@@ -216,8 +161,7 @@ export function usePermissions() {
     return {
         hasPermission,
         hasRole,
-        isAdmin: profile?.role === 'admin',
+        isAdmin: profile?.role === 'admin' || profile?.role === 'super_admin',
         isEditor: profile?.role === 'editor',
-        isClient: profile?.role === 'client',
     }
 }

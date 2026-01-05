@@ -171,20 +171,32 @@ export default function VerticalSplitHero({ cmsSlide, slides: cmsSlides }: Verti
                 {slides[activeSlide].subtitle}
               </motion.div>
 
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-                <TextReveal
-                  text={slides[activeSlide].title.split(' ')[0]}
-                  className="block text-foreground"
-                  delay={0.2}
-                  type="char"
-                />
-                <span className="block gradient-text-luxury">
-                  <TextReveal
-                    text={slides[activeSlide].title.split(' ').slice(1).join(' ')}
-                    delay={0.5}
-                    type="char"
-                  />
-                </span>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] min-h-[1.1em]">
+                {slides[activeSlide].title.includes(' ') ? (
+                  <>
+                    <TextReveal
+                      text={slides[activeSlide].title.split(' ')[0]}
+                      className="block text-foreground"
+                      delay={0.2}
+                      type="char"
+                    />
+                    <span className="block gradient-text-luxury pb-2">
+                      <TextReveal
+                        text={slides[activeSlide].title.split(' ').slice(1).join(' ')}
+                        delay={0.5}
+                        type="char"
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <span className="block gradient-text-luxury pb-2">
+                    <TextReveal
+                      text={slides[activeSlide].title}
+                      delay={0.2}
+                      type="char"
+                    />
+                  </span>
+                )}
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed animate-fade-up animation-stagger-4">

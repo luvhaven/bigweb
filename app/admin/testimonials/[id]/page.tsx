@@ -15,7 +15,10 @@ export default function EditTestimonialPage() {
         const loadTestimonial = async () => {
             try {
                 const id = Array.isArray(params.id) ? params.id[0] : params.id
-                if (!id) return;
+                if (!id || id === 'new') {
+                    setLoading(false)
+                    return
+                }
 
                 const { data, error } = await supabase
                     .from('testimonials')

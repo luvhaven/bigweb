@@ -20,88 +20,31 @@ export const viewport: Viewport = {
   userScalable: true,
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://bigwebdigital.com'),
-  title: {
-    default: 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
-    template: '%s | BIGWEB Digital',
-  },
-  description: 'Transform your digital presence with BIGWEB Digital. Expert web development, UI/UX design, mobile apps, AI automation, and SEO services. Trusted by 500+ brands worldwide. 98% client satisfaction, 3.2x average ROI increase.',
-  keywords: [
-    'digital agency',
-    'web development',
-    'UI/UX design',
-    'mobile app development',
-    'AI automation',
-    'SEO services',
-    'GAIO (Generative AI Optimization)',
-    'AI Search Ranking',
-    'digital transformation',
-    'enterprise software',
-    'Next.js development',
-    'React development',
-    'award-winning agency',
-  ],
-  authors: [{ name: 'BIGWEB Digital', url: 'https://bigwebdigital.com' }],
-  creator: 'BIGWEB Digital',
-  publisher: 'BIGWEB Digital',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  manifest: '/manifest.json',
-  icons: {
-    icon: [
-      { url: '/logo_pulse.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' }
-    ],
-    apple: '/apple-touch-icon.png',
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'BIGWEB Digital',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://bigwebdigital.com',
-    siteName: 'BIGWEB Digital',
-    title: 'BIGWEB Digital - Award-Winning Digital Agency',
-    description: 'Transform your digital presence with expert web development, UI/UX design, mobile apps, AI automation, and SEO services. Trusted by 500+ brands worldwide.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'BIGWEB Digital - Digital Agency',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@bigwebdigital',
-    creator: '@bigwebdigital',
-    title: 'BIGWEB Digital - Award-Winning Digital Agency',
-    description: 'Transform your digital presence with expert web development, UI/UX design, mobile apps, and AI automation. Trusted by 500+ brands.',
-    images: ['/og-image.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
-
 import { fetchGlobalContent } from '@/lib/globalContent'
 import { GlobalContentProvider } from '@/context/GlobalContentContext'
+
+export async function generateMetadata() {
+  const global = await fetchGlobalContent()
+  const { settings } = global
+
+  return {
+    metadataBase: new URL('https://bigwebdigital.com'),
+    title: {
+      default: settings?.site_name ? `${settings.site_name} - Award-Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
+      template: settings?.site_name ? `%s | ${settings.site_name}` : '%s | BIGWEB Digital',
+    },
+    description: settings?.site_description || 'Transform your digital presence with BIGWEB Digital. Expert web development, UI/UX design, mobile apps, AI automation, and SEO services.',
+    icons: {
+      icon: [
+        { url: settings?.favicon_url || '/logo_pulse.svg', type: 'image/svg+xml' },
+        { url: '/favicon.ico', sizes: 'any' }
+      ],
+    },
+    // ... preserve other static metadata if needed or move here
+  }
+}
+
+
 
 export default async function RootLayout({
   children,

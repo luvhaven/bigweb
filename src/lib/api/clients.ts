@@ -1,4 +1,4 @@
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
 
 export interface Client {
     id: string
@@ -8,10 +8,13 @@ export interface Client {
     sort_order: number
 }
 
+// Create a client instance
+const supabase = createClient()
+
 export const clientsAPI = {
     getAll: async () => {
         const { data, error } = await supabase
-            .from('clients')
+            .from('cms_clients')
             .select('*')
             .order('sort_order', { ascending: true })
 
@@ -21,9 +24,9 @@ export const clientsAPI = {
 
     getActive: async () => {
         const { data, error } = await supabase
-            .from('clients')
+            .from('cms_clients')
             .select('*')
-            .eq('active', true)
+            .eq('is_active', true)
             .order('sort_order', { ascending: true })
 
         if (error) throw error

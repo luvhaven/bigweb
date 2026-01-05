@@ -22,7 +22,8 @@ import {
     Moon,
     Sun,
     Menu,
-    FileText
+    FileText,
+    BarChart3
 } from 'lucide-react'
 
 // Sidebar Menu Configuration
@@ -35,6 +36,7 @@ const menuItems = [
     { label: 'Team', href: '/admin/team', icon: Users },
     { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
     { label: 'Leads', href: '/admin/leads', icon: FileText },
+    { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
 ]
 
@@ -147,8 +149,8 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                        ? 'bg-emerald-500/20 text-emerald-400'
-                                        : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 <item.icon className="w-5 h-5 shrink-0" />
