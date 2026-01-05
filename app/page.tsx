@@ -31,35 +31,38 @@ export default async function HomePage() {
   let heroSlides: any[] = []
 
   try {
-    // 1. Fetch Hero Section Metadata
+    // 1. Fetch Hero Section Metadata (New Schema)
     const { data: sectionData } = await supabase
-      .from('hero_sections')
+      .from('cms_heroes')
       .select('*')
-      .eq('page_slug', 'home')
+      .eq('slug', 'home')
       .single()
 
     if (sectionData) {
       // Map DB structure to Component structure for fallback/single mode
-      const statItem = sectionData.stats?.[0] || { value: '100%', label: 'Satisfaction' }
+      // cms_heroes stores stats as JSONB: [{ label, value }]
+      const stats = sectionData.stats || []
+      const statItem = stats[0] || { value: '100%', label: 'Satisfaction' }
 
       heroData = {
         id: sectionData.id,
-        title: `${sectionData.title} ${sectionData.highlight || ''}`,
+        title: sectionData.title,
+        highlight: sectionData.highlight_text,
         subtitle: sectionData.subtitle || 'Premium Web Development',
         description: sectionData.description || '',
         cta: sectionData.cta_primary_text || 'Get Started',
-        ctaLink: sectionData.cta_primary_url || '/contact',
-        image: sectionData.background_image || '/assets/hero-conversion.png',
+        ctaLink: sectionData.cta_primary_link || '/contact',
+        image: sectionData.media_url || '/assets/hero-conversion.png',
         stat: statItem.value || '100%',
         statLabel: statItem.label || 'Satisfaction'
       }
 
       // 2. Fetch Slides associated with this section
       const { data: slides } = await supabase
-        .from('hero_slides')
+        .from('cms_hero_slides')
         .select('*')
-        .eq('hero_section_id', sectionData.id)
-        .eq('active', true)
+        .eq('hero_id', sectionData.id)
+        .eq('is_active', true)
         .order('sort_order', { ascending: true })
 
       if (slides && slides.length > 0) {
@@ -70,15 +73,39 @@ export default async function HomePage() {
           description: s.description || '',
           cta: s.cta_text || 'Get Started',
           ctaLink: s.cta_link || '/contact',
-          image: s.image_url || '/assets/hero-conversion.png',
-          stat: s.stat_value || '100%',
-          statLabel: s.stat_label || 'Satisfaction',
-          video: s.video_url
+          image: s.media_url || '/assets/hero-conversion.png',
+          // Slides in new schema don't have individual stats - use parent or hardcoded interesting stats for variety if desired, 
+          // or just fallback to main hero stat.
+          stat: statItem.value || '100%',
+          statLabel: statItem.label || 'Satisfaction',
+          video: s.media_type === 'video' ? s.media_url : null
         }))
       }
     }
   } catch (err) {
     console.error('Error fetching hero data:', err)
+  }
+
+  let servicesData: any[] = []
+
+  // 3. Fetch Services
+  const { data: services } = await supabase
+    .from('cms_services')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+
+  if (services) {
+    servicesData = services.map(s => ({
+      title: s.title,
+      slug: s.slug,
+      tagline: s.short_description,
+      description: s.full_description?.slice(0, 150) + '...', // Truncate for card
+      features: s.features || [],
+      // Map benefits or use generic results if not available
+      results: s.benefits?.[0] || 'Proven Results',
+      image: s.hero_image_url || '/assets/service-default.jpg'
+    }))
   }
 
   return (
@@ -129,7 +156,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <ExpandingServices />
+        <ExpandingServices services={servicesData} />
         <EliteSectionDivider variant="curve" flip />
 
         <EliteProcess />

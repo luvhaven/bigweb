@@ -27,12 +27,23 @@ export default function AdminLoginPage() {
 
         try {
             console.log('[Admin Login] Attempting login for:', email)
+            // Debug Env Vars
+            console.log('[Admin Login] Supabase Configured:', {
+                url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+                key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+            })
 
             // Allow the spinner to show for at least 800ms for UX
             const minLoadTime = new Promise(resolve => setTimeout(resolve, 800))
 
+            // Failsafe timeout (15s)
+            const loginPromise = signIn(email, password)
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Login request timed out. Check your network or console.')), 15000)
+            )
+
             await Promise.all([
-                signIn(email, password),
+                Promise.race([loginPromise, timeoutPromise]),
                 minLoadTime
             ])
 

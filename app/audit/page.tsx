@@ -19,29 +19,46 @@ import {
     Target,
     Eye,
     FileText,
-    Download
+    Download,
+    Shield,
+    Info
 } from 'lucide-react'
+import dynamic from 'next/dynamic'
 
-interface AuditScore {
+// Dynamically import the download button to isolate @react-pdf/renderer from server bundle
+const AuditDownloadButton = dynamic(
+    () => import('@/components/audit/AuditDownloadButton'),
+    {
+        ssr: false,
+        loading: () => <Button variant="outline" disabled>Loading PDF Engine...</Button>,
+    }
+)
+
+// Updated Interfaces to match AuditEngine
+interface AuditIssue {
+    severity: 'critical' | 'warning' | 'info'
+    message: string
+    recommendation: string
+}
+
+interface AuditSection {
     score: number
-    issues: string[]
-    recommendations: string[]
+    issues: AuditIssue[]
+    details: Record<string, any>
 }
 
 interface AuditReport {
     url: string
-    performanceScore: number
-    seoScore: number
-    uiScore: number
-    accessibilityScore: number
-    copyScore: number
-    overallScore: number
-    performance: AuditScore
-    seo: AuditScore
-    ui: AuditScore
-    accessibility: AuditScore
-    copy: AuditScore
     timestamp: string
+    overallScore: number
+    categories: {
+        performance: AuditSection
+        seo: AuditSection
+        ui: AuditSection
+        accessibility: AuditSection
+        security: AuditSection
+        content: AuditSection
+    }
 }
 
 export default function AuditPage() {
@@ -67,14 +84,22 @@ export default function AuditPage() {
                 body: JSON.stringify({ url }),
             })
 
-            const data = await response.json()
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Audit failed')
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Audit failed');
+                }
+                setReport(data.report);
+            } else {
+                // If response is not JSON (likely a 500 server error HTML page)
+                const text = await response.text();
+                console.error("Non-JSON response:", text);
+                throw new Error(`Server returned a non-JSON response (${response.status}). This usually means a server-side error occurred.`);
             }
 
-            setReport(data.report)
         } catch (err: any) {
+            console.error(err)
             setError(err.message || 'Failed to audit website')
         } finally {
             setLoading(false)
@@ -88,11 +113,22 @@ export default function AuditPage() {
         return 'text-red-500'
     }
 
-    const getScoreBg = (score: number) => {
-        if (score >= 90) return 'from-green-500 to-emerald-500'
-        if (score >= 70) return 'from-yellow-500 to-orange-500'
-        if (score >= 50) return 'from-orange-500 to-red-500'
-        return 'from-red-500 to-rose-500'
+    const getSeverityIcon = (severity: string) => {
+        switch (severity) {
+            case 'critical': return <AlertCircle className="w-5 h-5 text-red-500" />
+            case 'warning': return <AlertCircle className="w-5 h-5 text-orange-500" />
+            case 'info': return <Info className="w-5 h-5 text-blue-500" />
+            default: return <CheckCircle2 className="w-5 h-5 text-green-500" />
+        }
+    }
+
+    const getSeverityBg = (severity: string) => {
+        switch (severity) {
+            case 'critical': return 'bg-red-500/10 border-red-500/20'
+            case 'warning': return 'bg-orange-500/10 border-orange-500/20'
+            case 'info': return 'bg-blue-500/10 border-blue-500/20'
+            default: return 'bg-green-500/10 border-green-500/20'
+        }
     }
 
     return (
@@ -116,20 +152,22 @@ export default function AuditPage() {
                             Audit Your Website in
                             <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-500">
-                                30 Seconds
+                                Real-Time
                             </span>
                         </h1>
 
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
-                            Get a comprehensive analysis of your website's performance, SEO, UI/UX, accessibility, and content quality — completely free.
+                            Get a comprehensive analysis of your Performance, SEO, Security, and more.
+                            <br />
+                            <span className="text-sm opacity-70">Powered by the new Deep-Scan Engine</span>
                         </p>
 
                         {/* URL Input */}
                         <div className="max-w-2xl mx-auto">
                             <div className="flex gap-4 mb-4">
                                 <Input
-                                    type="url"
-                                    placeholder="https://example.com"
+                                    type="text"
+                                    placeholder="example.com"
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleAudit()}
@@ -145,7 +183,7 @@ export default function AuditPage() {
                                     {loading ? (
                                         <>
                                             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                            Analyzing...
+                                            Scanning...
                                         </>
                                     ) : (
                                         <>
@@ -188,9 +226,9 @@ export default function AuditPage() {
                                     <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                                         <div className="flex-1 text-center md:text-left">
                                             <h2 className="text-2xl font-bold mb-2">Audit Report for</h2>
-                                            <p className="text-muted-foreground break-all">{report.url}</p>
+                                            <p className="text-muted-foreground break-all text-lg">{report.url}</p>
                                             <p className="text-sm text-muted-foreground mt-2">
-                                                {new Date(report.timestamp).toLocaleString()}
+                                                Scanned on {new Date(report.timestamp).toLocaleString()}
                                             </p>
                                         </div>
 
@@ -220,13 +258,14 @@ export default function AuditPage() {
                                     </div>
 
                                     {/* Score Breakdown */}
-                                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-8">
+                                    <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-8">
                                         {[
-                                            { label: 'Performance', score: report.performanceScore, icon: Zap },
-                                            { label: 'SEO', score: report.seoScore, icon: TrendingUp },
-                                            { label: 'UI/UX', score: report.uiScore, icon: Target },
-                                            { label: 'Accessibility', score: report.accessibilityScore, icon: Eye },
-                                            { label: 'Content', score: report.copyScore, icon: FileText },
+                                            { label: 'Performance', score: report.categories.performance.score, icon: Zap },
+                                            { label: 'SEO', score: report.categories.seo.score, icon: TrendingUp },
+                                            { label: 'UI/UX', score: report.categories.ui.score, icon: Target },
+                                            { label: 'Accessibility', score: report.categories.accessibility.score, icon: Eye },
+                                            { label: 'Security', score: report.categories.security.score, icon: Shield },
+                                            { label: 'Content', score: report.categories.content.score, icon: FileText },
                                         ].map((item) => {
                                             const Icon = item.icon
                                             return (
@@ -245,26 +284,30 @@ export default function AuditPage() {
 
                             {/* Detailed Analysis */}
                             <Tabs defaultValue="performance" className="w-full">
-                                <TabsList className="grid w-full grid-cols-5">
+                                <TabsList className="grid w-full grid-cols-6 mb-8 h-12">
                                     <TabsTrigger value="performance">Performance</TabsTrigger>
                                     <TabsTrigger value="seo">SEO</TabsTrigger>
                                     <TabsTrigger value="ui">UI/UX</TabsTrigger>
                                     <TabsTrigger value="accessibility">Accessibility</TabsTrigger>
-                                    <TabsTrigger value="copy">Content</TabsTrigger>
+                                    <TabsTrigger value="security">Security</TabsTrigger>
+                                    <TabsTrigger value="content">Content</TabsTrigger>
                                 </TabsList>
 
                                 {[
-                                    { key: 'performance', data: report.performance, title: 'Performance Analysis' },
-                                    { key: 'seo', data: report.seo, title: 'SEO Analysis' },
-                                    { key: 'ui', data: report.ui, title: 'UI/UX Analysis' },
-                                    { key: 'accessibility', data: report.accessibility, title: 'Accessibility Analysis' },
-                                    { key: 'copy', data: report.copy, title: 'Content Analysis' },
+                                    { key: 'performance', data: report.categories.performance, title: 'Performance Analysis' },
+                                    { key: 'seo', data: report.categories.seo, title: 'SEO Analysis' },
+                                    { key: 'ui', data: report.categories.ui, title: 'UI/UX Analysis' },
+                                    { key: 'accessibility', data: report.categories.accessibility, title: 'Accessibility Analysis' },
+                                    { key: 'security', data: report.categories.security, title: 'Security Analysis' },
+                                    { key: 'content', data: report.categories.content, title: 'Content Analysis' },
                                 ].map((tab) => (
                                     <TabsContent key={tab.key} value={tab.key} className="space-y-4">
                                         <Card>
                                             <CardHeader>
                                                 <div className="flex items-center justify-between">
-                                                    <CardTitle>{tab.title}</CardTitle>
+                                                    <CardTitle className="flex items-center gap-2">
+                                                        {tab.title}
+                                                    </CardTitle>
                                                     <div className={`text-4xl font-bold ${getScoreColor(tab.data.score)}`}>
                                                         {tab.data.score}
                                                     </div>
@@ -272,58 +315,61 @@ export default function AuditPage() {
                                                 <Progress value={tab.data.score} className="h-2" />
                                             </CardHeader>
                                             <CardContent className="space-y-6">
-                                                {/* Issues */}
-                                                {tab.data.issues.length > 0 && (
-                                                    <div>
-                                                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                                                            <AlertCircle className="w-5 h-5 text-orange-500" />
-                                                            Issues Found ({tab.data.issues.length})
-                                                        </h3>
-                                                        <ul className="space-y-2">
-                                                            {tab.data.issues.map((issue, idx) => (
-                                                                <motion.li
-                                                                    key={idx}
-                                                                    initial={{ opacity: 0, x: -20 }}
-                                                                    animate={{ opacity: 1, x: 0 }}
-                                                                    transition={{ delay: idx * 0.05 }}
-                                                                    className="flex items-start gap-3 p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg"
-                                                                >
-                                                                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
-                                                                    <span className="text-sm">{issue}</span>
-                                                                </motion.li>
-                                                            ))}
-                                                        </ul>
+                                                {/* Issues List */}
+                                                {tab.data.issues.length > 0 ? (
+                                                    <ul className="space-y-3">
+                                                        {tab.data.issues.map((issue, idx) => (
+                                                            <motion.li
+                                                                key={idx}
+                                                                initial={{ opacity: 0, x: -20 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                transition={{ delay: idx * 0.05 }}
+                                                                className={`flex items-start gap-4 p-4 rounded-lg border ${getSeverityBg(issue.severity)}`}
+                                                            >
+                                                                <div className="mt-1 flex-shrink-0">
+                                                                    {getSeverityIcon(issue.severity)}
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <p className="font-medium text-sm md:text-base">
+                                                                        {issue.message}
+                                                                    </p>
+                                                                    <p className="text-sm opacity-80 mt-1">
+                                                                        <span className="font-semibold">Fix: </span>
+                                                                        {issue.recommendation}
+                                                                    </p>
+                                                                </div>
+                                                                <div className="text-xs uppercase font-bold tracking-wider opacity-60 mt-1">
+                                                                    {issue.severity}
+                                                                </div>
+                                                            </motion.li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <div className="text-center py-12 text-muted-foreground flex flex-col items-center">
+                                                        <CheckCircle2 className="w-16 h-16 mb-4 text-green-500 opacity-80" />
+                                                        <p className="text-lg font-medium">No critical issues found!</p>
+                                                        <p className="text-sm">You are doing a great job in this category.</p>
                                                     </div>
                                                 )}
 
-                                                {/* Recommendations */}
-                                                {tab.data.recommendations.length > 0 && (
-                                                    <div>
-                                                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                                                            <CheckCircle2 className="w-5 h-5 text-green-500" />
-                                                            Recommendations ({tab.data.recommendations.length})
-                                                        </h3>
-                                                        <ul className="space-y-2">
-                                                            {tab.data.recommendations.map((rec, idx) => (
-                                                                <motion.li
-                                                                    key={idx}
-                                                                    initial={{ opacity: 0, x: -20 }}
-                                                                    animate={{ opacity: 1, x: 0 }}
-                                                                    transition={{ delay: idx * 0.05 }}
-                                                                    className="flex items-start gap-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg"
-                                                                >
-                                                                    <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                                                                    <span className="text-sm">{rec}</span>
-                                                                </motion.li>
+                                                {/* Category Details (if any) */}
+                                                {Object.keys(tab.data.details).length > 0 && (
+                                                    <div className="mt-6 pt-6 border-t">
+                                                        <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                                                            Technical Details
+                                                        </h4>
+                                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                            {Object.entries(tab.data.details).map(([key, value]) => (
+                                                                <div key={key} className="p-3 bg-muted/50 rounded-lg">
+                                                                    <div className="text-xs text-muted-foreground capitalize">
+                                                                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                                                                    </div>
+                                                                    <div className="font-mono font-medium truncate" title={String(value)}>
+                                                                        {String(value)}
+                                                                    </div>
+                                                                </div>
                                                             ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
-
-                                                {tab.data.issues.length === 0 && tab.data.recommendations.length === 0 && (
-                                                    <div className="text-center py-8 text-muted-foreground">
-                                                        <CheckCircle2 className="w-12 h-12 mx-auto mb-3 text-green-500" />
-                                                        <p>No issues found! Great job! 🎉</p>
+                                                        </div>
                                                     </div>
                                                 )}
                                             </CardContent>
@@ -335,10 +381,9 @@ export default function AuditPage() {
                             {/* CTA Section */}
                             <Card className="mt-8 bg-gradient-to-br from-accent/10 to-orange-500/10 border-accent/20">
                                 <CardContent className="p-8 text-center">
-                                    <h3 className="text-2xl font-bold mb-4">Need Help Fixing These Issues?</h3>
+                                    <h3 className="text-2xl font-bold mb-4">Ready to Fix These Issues?</h3>
                                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                                        Our team specializes in optimizing websites for performance, SEO, and conversions.
-                                        Let us help you turn these insights into results.
+                                        Our expert engineers can implement these fixes for you, boosting your conversions and search rankings.
                                     </p>
                                     <div className="flex flex-wrap gap-4 justify-center">
                                         <Button
@@ -348,14 +393,10 @@ export default function AuditPage() {
                                         >
                                             Get Free Consultation
                                         </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="outline"
-                                            onClick={() => window.print()}
-                                        >
-                                            <Download className="w-4 h-4 mr-2" />
-                                            Download Report
-                                        </Button>
+
+                                        <div className="inline-block">
+                                            <AuditDownloadButton report={report} />
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -364,78 +405,35 @@ export default function AuditPage() {
                 )}
             </AnimatePresence>
 
-            {/* Features Section */}
+            {/* Features Section - Only show when no report */}
             {!report && (
                 <section className="pb-32 px-6">
                     <div className="container mx-auto max-w-6xl">
+                        {/* This section remains largely the same, just ensuring icons are mapped correctly */}
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl font-bold mb-4">What We Analyze</h2>
+                            <h2 className="text-4xl font-bold mb-4">Five-Point Expert Analysis</h2>
                             <p className="text-xl text-muted-foreground">
-                                Comprehensive website audit across 5 critical categories
+                                We check what others miss.
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-3 gap-8">
                             {[
-                                {
-                                    icon: Zap,
-                                    title: 'Performance',
-                                    description: 'Page speed, image optimization, render-blocking resources, and loading times',
-                                    color: 'from-yellow-500 to-orange-500'
-                                },
-                                {
-                                    icon: TrendingUp,
-                                    title: 'SEO',
-                                    description: 'Meta tags, heading structure, alt texts, canonical tags, and Open Graph',
-                                    color: 'from-blue-500 to-cyan-500'
-                                },
-                                {
-                                    icon: Target,
-                                    title: 'UI/UX',
-                                    description: 'Mobile responsiveness, font sizes, touch targets, and form usability',
-                                    color: 'from-purple-500 to-pink-500'
-                                },
-                                {
-                                    icon: Eye,
-                                    title: 'Accessibility',
-                                    description: 'ARIA landmarks, screen reader compatibility, color contrast, and semantic HTML',
-                                    color: 'from-green-500 to-emerald-500'
-                                },
-                                {
-                                    icon: FileText,
-                                    title: 'Content Quality',
-                                    description: 'Copy readability, call-to-actions, value propositions, and content length',
-                                    color: 'from-red-500 to-rose-500'
-                                },
-                                {
-                                    icon: Download,
-                                    title: 'Detailed Report',
-                                    description: 'Get actionable recommendations and export your audit report as PDF',
-                                    color: 'from-orange-500 to-amber-500'
-                                },
-                            ].map((feature, idx) => {
-                                const Icon = feature.icon
-                                return (
-                                    <motion.div
-                                        key={feature.title}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        whileHover={{ y: -5 }}
-                                    >
-                                        <Card className="h-full hover:border-accent/50 transition-all">
-                                            <CardHeader>
-                                                <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
-                                                    <Icon className="w-6 h-6 text-white" />
-                                                </div>
-                                                <CardTitle>{feature.title}</CardTitle>
-                                                <CardDescription>{feature.description}</CardDescription>
-                                            </CardHeader>
-                                        </Card>
-                                    </motion.div>
-                                )
-                            })}
+                                { icon: Shield, title: 'Security', desc: 'SSL, HSTS, X-Frame checks' },
+                                { icon: Zap, title: 'Performance', desc: 'Asset weight, blocking scripts' },
+                                { icon: TrendingUp, title: 'SEO', desc: 'Meta, headings, canonicals' },
+                                { icon: Eye, title: 'Accessibility', desc: 'ARIA, contrast, labels' },
+                                { icon: FileText, title: 'Content', desc: 'Readability, keyword checking' },
+                                { icon: Target, title: 'UI/UX', desc: 'Viewport, mobile touch targets' },
+                            ].map((f, i) => (
+                                <Card key={i} className="bg-card/50 hover:bg-card transition-colors">
+                                    <CardHeader>
+                                        <f.icon className="w-8 h-8 text-accent mb-2" />
+                                        <CardTitle>{f.title}</CardTitle>
+                                        <CardDescription>{f.desc}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            ))}
                         </div>
                     </div>
                 </section>

@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react'
 import BrandLogo from '@/components/branding/BrandLogo'
 import BrowserWindow from '@/components/ui/BrowserWindow'
 import TechCorpDemo from '@/components/demos/TechCorpDemo'
+import { adminSupabase as supabase } from '@/utils/adminSupabase' // Re-using the admin client for simplicity in this demo, ideally use a public query client
 import dynamic from 'next/dynamic'
 
 const CryptoVaultDemo = dynamic(() => import('@/components/demos/CryptoVaultDemo'), { ssr: false })
@@ -25,10 +26,16 @@ const LuxuryFashionDemo = dynamic(() => import('@/components/demos/LuxuryFashion
 export default function ProjectPage() {
     const params = useParams()
     const router = useRouter()
-    const id = params.id as string
-    const project = PROJECTS.find(p => p.id === id)
+    const id = params.id as string // This is likely the slug from the URL
+    const [project, setProject] = useState<any>(null)
+    const [loading, setLoading] = useState(true)
     const containerRef = useRef<HTMLDivElement>(null)
     const [showDemo, setShowDemo] = useState(false)
+    const [showTechnicalOverlay, setShowTechnicalOverlay] = useState(false)
+
+    // Fallback to mock if fetch fails or while loading (optional, but cleaner to just load)
+    // We will start by trying to fetch from DB.
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
@@ -36,6 +43,34 @@ export default function ProjectPage() {
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+    useEffect(() => {
+        async function fetchProject() {
+            try {
+                // Try fetching from Supabase first
+                const { data, error } = await supabase
+                    .from('cms_projects')
+                    .select('*')
+                    .or(`slug.eq.${id},id.eq.${id}`) // Try matching slug OR id
+                    .single()
+
+                if (data) {
+                    setProject(data)
+                } else {
+                    // Fallback to MOCK data if not found in DB (for legacy support during migration)
+                    const mock = PROJECTS.find(p => p.id === id)
+                    setProject(mock || null)
+                }
+            } catch (e) {
+                console.error("Fetch error", e)
+                const mock = PROJECTS.find(p => p.id === id)
+                setProject(mock || null)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProject()
+    }, [id])
 
     // Lock body scroll when demo is open
     useEffect(() => {
@@ -49,6 +84,10 @@ export default function ProjectPage() {
         }
     }, [showDemo])
 
+    if (loading) {
+        return <div className="min-h-screen flex items-center justify-center bg-black text-white">Loading Neural Data...</div>
+    }
+
     if (!project) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground">
@@ -59,8 +98,26 @@ export default function ProjectPage() {
         )
     }
 
+    // Parse technical details if string, or use as object
+    const techDetails = typeof project.technical_details === 'string'
+        ? JSON.parse(project.technical_details || '{}')
+        : project.technical_details || {}
+
     return (
-        <div ref={containerRef} className="min-h-screen bg-background selection:bg-accent/30">
+        <div ref={containerRef} className="min-h-screen bg-background selection:bg-accent/30 relative">
+
+            {/* Neural Deconstructed Overlay Toggle */}
+            {project.deconstructed_view && (
+                <div className="fixed top-24 right-6 z-40">
+                    <button
+                        onClick={() => setShowTechnicalOverlay(!showTechnicalOverlay)}
+                        className={`backdrop-blur-xl border border-white/10 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all ${showTechnicalOverlay ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' : 'bg-black/50 text-white/50 hover:text-white'}`}
+                    >
+                        {showTechnicalOverlay ? 'Deconstructed: ON' : 'Deconstructed View'}
+                    </button>
+                </div>
+            )}
+
             {/* Demo Modal */}
             <AnimatePresence>
                 {showDemo && (
@@ -81,27 +138,11 @@ export default function ProjectPage() {
                             {/* Render specific demo based on ID */}
                             <BrowserWindow
                                 title={`${project.title} - Live Preview`}
-                                url={`https://${project.id.replace('-', '')}.platform/dashboard`}
+                                url={`https://${project.slug || project.id}.platform/dashboard`}
                                 onClose={() => setShowDemo(false)}
                             >
                                 {id === 'techcorp-platform' ? (
                                     <TechCorpDemo />
-                                ) : id === 'crypto-exchange' ? (
-                                    <CryptoVaultDemo />
-                                ) : id === 'urban-eats' ? (
-                                    <UrbanEatsDemo />
-                                ) : id === 'ecosmart-home' ? (
-                                    <EcoSmartHomeDemo />
-                                ) : id === 'neon-realty' ? (
-                                    <NeonRealtyDemo />
-                                ) : id === 'healthtrack-app' ? (
-                                    <HealthTrackDemo />
-                                ) : id === 'ai-content-studio' ? (
-                                    <AIContentStudioDemo />
-                                ) : id === 'finpay-wallet' ? (
-                                    <FinPayDemo />
-                                ) : id === 'luxury-fashion' ? (
-                                    <LuxuryFashionDemo />
                                 ) : (
                                     <div className="flex items-center justify-center h-full bg-slate-50 text-slate-400">
                                         <div className="text-center">
@@ -117,19 +158,23 @@ export default function ProjectPage() {
             </AnimatePresence>
 
             {/* Hero Section */}
-            <div className="relative h-screen w-full overflow-hidden">
+            <div className={`relative h-screen w-full overflow-hidden transition-all duration-700 ${showTechnicalOverlay ? 'opacity-20 blur-sm scale-95' : ''}`}>
                 <motion.div
                     style={{ y, opacity }}
                     className="absolute inset-0 z-0"
                 >
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background z-10" />
-                    <Image
-                        src={project.image_url}
-                        alt={project.title}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
+                    {project.hero_image_url || project.image_url ? (
+                        <Image
+                            src={project.hero_image_url || project.image_url}
+                            alt={project.title}
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                    ) : (
+                        <div className="w-full h-full bg-zinc-900" />
+                    )}
                 </motion.div>
 
                 <div className="relative z-20 container mx-auto px-6 h-full flex flex-col justify-center">
@@ -181,6 +226,38 @@ export default function ProjectPage() {
                 </div>
             </div>
 
+            {/* Neural Overlay Content */}
+            {showTechnicalOverlay && (
+                <div className="absolute top-0 left-0 w-full h-full z-30 pointer-events-none">
+                    <div className="container mx-auto px-6 h-screen flex items-center justify-end">
+                        <div className="w-[500px] border border-blue-500/30 bg-black/80 backdrop-blur-xl p-8 rounded-2xl pointer-events-auto">
+                            <h3 className="text-blue-400 font-mono text-sm mb-4 uppercase tracking-widest border-b border-blue-500/20 pb-2">Technical Deconstruction</h3>
+
+                            <div className="space-y-6">
+                                <div>
+                                    <div className="text-zinc-500 text-xs font-mono uppercase mb-1">Architecture</div>
+                                    <div className="text-white text-sm">
+                                        {techDetails.architecture_url ? (
+                                            <a href={techDetails.architecture_url} target="_blank" className="text-blue-400 hover:underline flex items-center gap-2">View System Diagram <ExternalLink className="w-3 h-3" /></a>
+                                        ) : 'Microservices Event-Driven Mesh'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-zinc-500 text-xs font-mono uppercase mb-1">Performance</div>
+                                    <div className="text-white font-mono text-lg">{techDetails.api_latency || '12ms'} <span className="text-zinc-600 text-xs">avg latency</span></div>
+                                </div>
+                                <div>
+                                    <div className="text-zinc-500 text-xs font-mono uppercase mb-1">Core Protocol</div>
+                                    <p className="text-zinc-300 text-sm font-mono leading-relaxed">
+                                        {techDetails.core_features || 'Custom WebSocket implementation with Redis Pub/Sub layer for real-time state synchronization across distributed nodes.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Content Section */}
             <div className="container mx-auto px-6 py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -201,16 +278,16 @@ export default function ProjectPage() {
                             <div className="space-y-6">
                                 <div>
                                     <p className="text-sm text-muted-foreground mb-1">Client</p>
-                                    <p className="font-medium text-lg">{project.client}</p>
+                                    <p className="font-medium text-lg">{project.client_name || project.client}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-muted-foreground mb-1">Year</p>
-                                    <p className="font-medium text-lg">{project.year}</p>
+                                    <p className="text-sm text-muted-foreground mb-1">Date</p>
+                                    <p className="font-medium text-lg">{project.completion_date || project.year}</p>
                                 </div>
                                 <div>
                                     <p className="text-sm text-muted-foreground mb-1">Services</p>
                                     <div className="flex flex-wrap gap-2 mt-2">
-                                        {project.technologies?.map(tech => (
+                                        {project.technologies?.map((tech: string) => (
                                             <span key={tech} className="px-3 py-1 rounded-md bg-background border border-white/10 text-sm">
                                                 {tech}
                                             </span>
@@ -237,7 +314,7 @@ export default function ProjectPage() {
                         <section>
                             <h2 className="text-3xl font-bold mb-6">Overview</h2>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                {project.longDescription}
+                                {project.description || project.longDescription}
                             </p>
                         </section>
 
@@ -260,13 +337,9 @@ export default function ProjectPage() {
                         {/* Results */}
                         <section className="py-12 px-8 rounded-3xl bg-gradient-to-br from-accent/10 to-transparent border border-accent/20">
                             <h3 className="text-2xl font-bold mb-8 text-center">Key Results</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                {project.results?.map((result, i) => (
-                                    <div key={i} className="text-center">
-                                        <p className="text-4xl md:text-5xl font-bold text-accent mb-2">{result.value}</p>
-                                        <p className="text-sm text-muted-foreground uppercase tracking-wider">{result.label}</p>
-                                    </div>
-                                ))}
+                            <div className="text-center text-muted-foreground whitespace-pre-line text-lg">
+                                {/* If results is string (from DB) display it, else if array (mock) map it */}
+                                {typeof project.results === 'string' ? project.results : project.results?.map((r: any, i: number) => <div key={i}>{r.value} - {r.label}</div>)}
                             </div>
                         </section>
 
@@ -295,13 +368,24 @@ export default function ProjectPage() {
                                 We selected a modern, future-proof technology stack designed for speed, scalability, and developer experience.
                             </p>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {project.technologies?.map((tech, i) => (
+                                {project.technologies?.map((tech: string, i: number) => (
                                     <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-secondary/20 border border-white/5">
                                         <div className="w-2 h-2 rounded-full bg-accent" />
                                         <span className="font-medium">{tech}</span>
                                     </div>
                                 ))}
                             </div>
+
+                            {/* Neural Technical Deep Dive Extension */}
+                            {techDetails.core_features && (
+                                <div className="mt-8 p-6 bg-blue-900/10 border border-blue-500/20 rounded-xl">
+                                    <h4 className="text-blue-400 font-bold mb-4 flex items-center gap-2"><Layers className="w-4 h-4" /> Neural Architecture Highlights</h4>
+                                    <div className="font-mono text-sm text-blue-200/80 whitespace-pre-wrap">
+                                        {techDetails.core_features}
+                                    </div>
+                                </div>
+                            )}
+
                         </section>
 
                         {/* Client Quote */}
@@ -319,7 +403,7 @@ export default function ProjectPage() {
                                     "The team at BIGWEB didn't just build a product; they transformed our entire business model. The results speak for themselves."
                                 </blockquote>
                                 <div>
-                                    <p className="font-bold text-lg">{project.client}</p>
+                                    <p className="font-bold text-lg">{project.client_name || project.client}</p>
                                     <p className="text-muted-foreground">Executive Team</p>
                                 </div>
                             </div>
@@ -329,7 +413,7 @@ export default function ProjectPage() {
                         <section>
                             <h3 className="text-2xl font-bold mb-8">Project Gallery</h3>
                             <div className="grid gap-8">
-                                {project.gallery?.map((img, i) => (
+                                {project.gallery_images?.map((img: string, i: number) => (
                                     <div key={i} className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
                                         <Image
                                             src={img}

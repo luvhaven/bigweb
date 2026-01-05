@@ -34,6 +34,7 @@ const values = [
 import { useState, useEffect } from 'react'
 import { supabase } from '@/utils/supabase'
 import Team, { TeamMemberProfile } from '@/components/Team'
+import GlobalCommandCenter from '@/components/visualizations/GlobalCommandCenter'
 
 // ... imports remain the same
 
@@ -161,20 +162,17 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="relative"
+                className="relative flex justify-center items-center"
               >
-                <div className="aspect-square rounded-2xl overflow-hidden relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=800&fit=crop"
-                    alt="Team collaboration"
-                    className="w-full h-full object-cover"
+                <div className="relative w-full aspect-square">
+                  <GlobalCommandCenter />
+
+                  <motion.div
+                    className="absolute -bottom-6 -left-6 w-48 h-48 bg-accent/10 rounded-full blur-3xl -z-10"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 4, repeat: Infinity }}
                   />
                 </div>
-                <motion.div
-                  className="absolute -bottom-6 -right-6 w-48 h-48 bg-accent/20 rounded-full blur-3xl"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                />
               </motion.div>
             </div>
 

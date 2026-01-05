@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import ServiceCard3D from "@/components/ui/ServiceCard3D";
 
-const services = [
+const defaultServices = [
   {
     title: "Interfaces That Turn Browsers Into Buyers",
     slug: "ui-ux-design",
@@ -87,7 +87,13 @@ const services = [
   },
 ];
 
-const ExpandingServices = () => {
+interface ExpandingServicesProps {
+  services?: any[]
+}
+
+const ExpandingServices = ({ services }: ExpandingServicesProps) => {
+  const displayServices = services && services.length > 0 ? services : defaultServices;
+
   return (
     <section className="py-32 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:40px_40px] pointer-events-none" />
@@ -112,7 +118,7 @@ const ExpandingServices = () => {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto perspective-2000">
-          {services.map((service, index) => (
+          {displayServices.map((service, index) => (
             <ServiceCard3D key={index} service={service} index={index} />
           ))}
         </div>

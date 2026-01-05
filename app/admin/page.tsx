@@ -1,322 +1,219 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import {
+    Users,
     FolderKanban,
     MessageSquare,
-    Mail,
-    Star,
-    Clock,
     FileText,
+    TrendingUp,
     Eye,
-    MousePointerClick,
-    DollarSign,
-    Users
+    ArrowUpRight,
+    Calendar
 } from 'lucide-react'
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
-import { AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { formatDistanceToNow } from 'date-fns'
-import AdminHeader from '@/components/admin/AdminHeader'
-import StatsCard from '@/components/admin/StatsCard'
-import { useAuth } from '@/hooks/useAuth'
+import { supabase } from '@/utils/supabase'
+import Link from 'next/link'
 
-// Sample data (will be replaced with real Supabase data)
-const trafficData = [
-    { date: 'Mon', visitors: 420, pageViews: 890, conversions: 12 },
-    { date: 'Tue', visitors: 580, pageViews: 1240, conversions: 18 },
-    { date: 'Wed', visitors: 690, pageViews: 1580, conversions: 24 },
-    { date: 'Thu', visitors: 520, pageViews: 1120, conversions: 15 },
-    { date: 'Fri', visitors: 780, pageViews: 1890, conversions: 28 },
-    { date: 'Sat', visitors: 450, pageViews: 980, conversions: 10 },
-    { date: 'Sun', visitors: 620, pageViews: 1350, conversions: 16 },
-]
+interface DashboardStats {
+    totalProjects: number
+    totalServices: number
+    totalTestimonials: number
+    totalLeads: number
+    newLeadsToday: number
+}
 
-const trafficSources = [
-    { name: 'Organic', value: 45, color: '#10b981' },
-    { name: 'Direct', value: 25, color: '#8b5cf6' },
-    { name: 'Referral', value: 20, color: '#f59e0b' },
-    { name: 'Social', value: 10, color: '#3b82f6' },
+const statsConfig = [
+    { key: 'totalProjects', label: 'Projects', icon: FolderKanban, color: 'from-blue-500 to-cyan-500', href: '/admin/projects' },
+    { key: 'totalServices', label: 'Services', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', href: '/admin/services' },
+    { key: 'totalTestimonials', label: 'Testimonials', icon: MessageSquare, color: 'from-purple-500 to-pink-500', href: '/admin/testimonials' },
+    { key: 'totalLeads', label: 'Total Leads', icon: FileText, color: 'from-orange-500 to-red-500', href: '/admin/leads' },
 ]
 
 export default function AdminDashboard() {
-    const { profile } = useAuth()
-    const [stats, setStats] = useState({
-        projects: 0,
-        testimonials: 0,
-        contacts: 0,
-        chatSessions: 0
+    const [stats, setStats] = useState<DashboardStats>({
+        totalProjects: 0,
+        totalServices: 0,
+        totalTestimonials: 0,
+        totalLeads: 0,
+        newLeadsToday: 0
     })
+    const [recentLeads, setRecentLeads] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-    const [currentTime, setCurrentTime] = useState(new Date())
-    const [recentActivity, setRecentActivity] = useState<any[]>([])
 
     useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-        return () => clearInterval(timer)
+        fetchDashboardData()
     }, [])
 
-    useEffect(() => {
-        loadDashboardData()
-    }, [])
-
-    const loadDashboardData = async () => {
+    async function fetchDashboardData() {
         try {
-            setLoading(true)
-
-            // Fetch counts from database
-            const [
-                { count: projectCount },
-                { count: testimonialCount },
-                { count: contactCount },
-                { count: chatCount }
-            ] = await Promise.all([
-                supabase.from('portfolio_projects').select('*', { count: 'exact', head: true }),
-                supabase.from('testimonials').select('*', { count: 'exact', head: true }),
-                supabase.from('contact_submissions').select('*', { count: 'exact', head: true }),
-                supabase.from('chat_sessions').select('*', { count: 'exact', head: true })
+            // Fetch counts
+            const [projectsRes, servicesRes, testimonialsRes, leadsRes] = await Promise.all([
+                supabase.from('cms_projects').select('id', { count: 'exact', head: true }),
+                supabase.from('cms_services').select('id', { count: 'exact', head: true }),
+                supabase.from('cms_testimonials').select('id', { count: 'exact', head: true }),
+                supabase.from('cms_leads').select('id', { count: 'exact', head: true }),
             ])
 
-            setStats({
-                projects: projectCount || 0,
-                testimonials: testimonialCount || 0,
-                contacts: contactCount || 0,
-                chatSessions: chatCount || 0
-            })
-
-            // Fetch recent activity (combining multiple sources)
-            const { data: recentContacts } = await supabase
-                .from('contact_submissions')
+            // Fetch recent leads
+            const { data: leads } = await supabase
+                .from('cms_leads')
                 .select('*')
                 .order('created_at', { ascending: false })
                 .limit(5)
 
-            setRecentActivity(recentContacts || [])
+            setStats({
+                totalProjects: projectsRes.count || 0,
+                totalServices: servicesRes.count || 0,
+                totalTestimonials: testimonialsRes.count || 0,
+                totalLeads: leadsRes.count || 0,
+                newLeadsToday: 0
+            })
+
+            setRecentLeads(leads || [])
         } catch (error) {
-            console.error('[Dashboard] Error loading data:', error)
+            console.error('Error fetching dashboard data:', error)
         } finally {
             setLoading(false)
         }
     }
 
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+            </div>
+        )
+    }
+
     return (
         <div className="space-y-8">
-            <AdminHeader
-                title="Dashboard"
-                description={`Welcome back, ${profile?.full_name || 'Admin'}. Here is your daily overview.`}
-            >
-                <div className="text-sm text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {currentTime.toLocaleTimeString()}
-                </div>
-            </AdminHeader>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatsCard
-                    title="Total Projects"
-                    value={stats.projects}
-                    change={12}
-                    trend="up"
-                    icon={<FolderKanban className="w-6 h-6" />}
-                    loading={loading}
-                />
-                <StatsCard
-                    title="Testimonials"
-                    value={stats.testimonials}
-                    change={5}
-                    trend="up"
-                    icon={<Star className="w-6 h-6" />}
-                    loading={loading}
-                />
-                <StatsCard
-                    title="New Contacts"
-                    value={stats.contacts}
-                    change={8}
-                    trend="up"
-                    icon={<Mail className="w-6 h-6" />}
-                    loading={loading}
-                />
-                <StatsCard
-                    title="Chat Sessions"
-                    value={stats.chatSessions}
-                    change={3}
-                    trend="down"
-                    icon={<MessageSquare className="w-6 h-6" />}
-                    loading={loading}
-                />
+            {/* Page Header */}
+            <div>
+                <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+                <p className="text-zinc-400 mt-1">Welcome back! Here's an overview of your CMS.</p>
             </div>
 
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Traffic Chart */}
-                <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 className="text-lg font-semibold text-foreground">Traffic Overview</h3>
-                            <p className="text-sm text-muted-foreground">Visitors and conversions this week</p>
-                        </div>
-                        <select className="bg-secondary border-none text-foreground rounded-lg px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                            <option>Last 7 days</option>
-                            <option>Last 30 days</option>
-                            <option>Last 90 days</option>
-                        </select>
-                    </div>
-                    <div className="h-72">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={trafficData}>
-                                <defs>
-                                    <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                                    </linearGradient>
-                                    <linearGradient id="colorConversions" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-                                <XAxis
-                                    dataKey="date"
-                                    stroke="#71717a"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                />
-                                <YAxis
-                                    stroke="#71717a"
-                                    fontSize={12}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickFormatter={(value) => `${value}`}
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: '#18181b',
-                                        border: '1px solid #27272a',
-                                        borderRadius: '8px',
-                                        color: '#fff'
-                                    }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="visitors"
-                                    stroke="#10b981"
-                                    strokeWidth={2}
-                                    fillOpacity={1}
-                                    fill="url(#colorVisitors)"
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="conversions"
-                                    stroke="#8b5cf6"
-                                    strokeWidth={2}
-                                    fillOpacity={1}
-                                    fill="url(#colorConversions)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-
-                {/* Traffic Sources */}
-                <div className="bg-card border border-border rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-6">Traffic Sources</h3>
-                    <div className="h-48 mb-6">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={trafficSources}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={80}
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                >
-                                    {trafficSources.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                </Pie>
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: '#18181b',
-                                        border: '1px solid #27272a',
-                                        borderRadius: '8px',
-                                        color: '#fff'
-                                    }}
-                                />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <div className="space-y-4">
-                        {trafficSources.map((source) => (
-                            <div key={source.name} className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: source.color }} />
-                                    <span className="text-sm text-muted-foreground">{source.name}</span>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {statsConfig.map((stat, index) => (
+                    <motion.div
+                        key={stat.key}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                    >
+                        <Link href={stat.href}>
+                            <div className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all group cursor-pointer">
+                                <div className="flex items-start justify-between">
+                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}>
+                                        <stat.icon className="w-6 h-6 text-white" />
+                                    </div>
+                                    <ArrowUpRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
                                 </div>
-                                <span className="text-sm font-medium text-foreground">{source.value}%</span>
+                                <div className="mt-4">
+                                    <p className="text-4xl font-bold text-white">
+                                        {stats[stat.key as keyof DashboardStats]}
+                                    </p>
+                                    <p className="text-zinc-400 text-sm mt-1">{stat.label}</p>
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                        </Link>
+                    </motion.div>
+                ))}
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-card border border-border rounded-xl p-6">
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-foreground">Recent Activity</h3>
-                    <a href="/admin/contacts" className="text-sm text-primary hover:text-primary/80 transition-colors">
-                        View all
-                    </a>
-                </div>
-                <div className="space-y-4">
-                    {recentActivity.length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto mb-3">
-                                <Clock className="w-6 h-6 text-muted-foreground" />
-                            </div>
-                            <p className="text-muted-foreground">No recent activity found</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Recent Leads */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6"
+                >
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-semibold text-white">Recent Leads</h2>
+                        <Link href="/admin/leads" className="text-sm text-emerald-400 hover:text-emerald-300">
+                            View All →
+                        </Link>
+                    </div>
+
+                    {recentLeads.length === 0 ? (
+                        <div className="text-center py-8">
+                            <FileText className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
+                            <p className="text-zinc-500">No leads yet</p>
+                            <p className="text-zinc-600 text-sm">Leads from forms will appear here</p>
                         </div>
                     ) : (
-                        recentActivity.map((activity) => (
-                            <div key={activity.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-secondary/50 transition-colors group">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <Mail className="w-5 h-5" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between gap-2 mb-1">
-                                        <p className="text-sm font-medium text-foreground truncate">{activity.name}</p>
-                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                            {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                        <div className="space-y-4">
+                            {recentLeads.map((lead) => (
+                                <div key={lead.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shrink-0">
+                                        <span className="text-white font-medium text-sm">
+                                            {lead.email?.charAt(0).toUpperCase() || '?'}
                                         </span>
                                     </div>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <p className="text-xs text-muted-foreground truncate">{activity.email}</p>
-                                        {activity.source && (
-                                            <span className="px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-medium border border-blue-500/20">
-                                                {activity.source}
-                                            </span>
-                                        )}
-                                        {activity.status && (
-                                            <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium border ${activity.status === 'new' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
-                                                    activity.status === 'read' ? 'bg-zinc-500/10 text-zinc-500 border-zinc-500/20' :
-                                                        'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
-                                                }`}>
-                                                {activity.status.toUpperCase()}
-                                            </span>
-                                        )}
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-white font-medium truncate">{lead.name || lead.email}</p>
+                                        <p className="text-zinc-500 text-sm truncate">{lead.type}</p>
                                     </div>
-                                    <p className="text-sm text-foreground/80 line-clamp-2 mt-2 bg-secondary/30 p-2 rounded-md italic">
-                                        "{activity.message}"
-                                    </p>
+                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${lead.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
+                                            lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
+                                                'bg-zinc-700 text-zinc-400'
+                                        }`}>
+                                        {lead.status}
+                                    </span>
                                 </div>
-                            </div>
-                        ))
+                            ))}
+                        </div>
                     )}
-                </div>
+                </motion.div>
+
+                {/* Quick Actions */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6"
+                >
+                    <h2 className="text-lg font-semibold text-white mb-6">Quick Actions</h2>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <Link href="/admin/heroes">
+                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
+                                <Eye className="w-8 h-8 text-blue-400 mb-3" />
+                                <p className="text-white font-medium">Edit Heroes</p>
+                                <p className="text-zinc-500 text-sm">Update page headers</p>
+                            </div>
+                        </Link>
+
+                        <Link href="/admin/services">
+                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
+                                <TrendingUp className="w-8 h-8 text-emerald-400 mb-3" />
+                                <p className="text-white font-medium">Manage Services</p>
+                                <p className="text-zinc-500 text-sm">Add or edit offerings</p>
+                            </div>
+                        </Link>
+
+                        <Link href="/admin/projects">
+                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
+                                <FolderKanban className="w-8 h-8 text-purple-400 mb-3" />
+                                <p className="text-white font-medium">Add Project</p>
+                                <p className="text-zinc-500 text-sm">Showcase your work</p>
+                            </div>
+                        </Link>
+
+                        <Link href="/admin/testimonials">
+                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
+                                <MessageSquare className="w-8 h-8 text-pink-400 mb-3" />
+                                <p className="text-white font-medium">Testimonials</p>
+                                <p className="text-zinc-500 text-sm">Client feedback</p>
+                            </div>
+                        </Link>
+                    </div>
+                </motion.div>
             </div>
         </div>
     )
 }
-

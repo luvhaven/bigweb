@@ -9,10 +9,9 @@ import { toast } from 'sonner'
 
 interface Testimonial {
     id: string
-    client_name: string
-    client_company: string
+    author_name: string
+    author_company: string | null
     rating: number
-    status: string
     is_featured: boolean
 }
 
@@ -27,9 +26,9 @@ export default function TestimonialsPage() {
         queryKey: ['admin', 'testimonials'],
         queryFn: async () => {
             const { data, error } = await supabase
-                .from('testimonials')
-                .select('id, client_name, client_company, rating, status, is_featured')
-                .order('order_index', { ascending: true })
+                .from('cms_testimonials')
+                .select('id, author_name, author_company, rating, is_featured')
+                .order('is_featured', { ascending: false })
 
             if (error) throw error
             return data as Testimonial[]
@@ -40,7 +39,7 @@ export default function TestimonialsPage() {
     const deleteMutation = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase
-                .from('testimonials')
+                .from('cms_testimonials')
                 .delete()
                 .eq('id', id)
             if (error) throw error
@@ -62,8 +61,8 @@ export default function TestimonialsPage() {
     }
 
     const filteredTestimonials = testimonials.filter(t =>
-        t.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.client_company.toLowerCase().includes(searchTerm.toLowerCase())
+        t.author_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (t.author_company || '').toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     return (
@@ -126,20 +125,14 @@ export default function TestimonialsPage() {
                                 filteredTestimonials.map((t) => (
                                     <tr key={t.id} className="hover:bg-zinc-800/30 transition-colors">
                                         <td className="px-6 py-4">
-                                            <div className="font-medium text-white">{t.client_name}</div>
-                                            <div className="text-xs text-zinc-500">{t.client_company}</div>
+                                            <div className="font-medium text-white">{t.author_name}</div>
+                                            <div className="text-xs text-zinc-500">{t.author_company || '—'}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-1">
                                                 <span className="text-white font-medium">{t.rating}</span>
                                                 <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
                                             </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 ring-inset capitalize 
-                                                ${t.status === 'active' ? 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20' : 'bg-zinc-500/10 text-zinc-400 ring-zinc-500/20'}`}>
-                                                {t.status}
-                                            </span>
                                         </td>
                                         <td className="px-6 py-4">
                                             {t.is_featured && (

@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' }
+      { url: '/logo_pulse.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
     ],
     apple: '/apple-touch-icon.png',
   },
@@ -100,11 +100,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+import { fetchGlobalContent } from '@/lib/globalContent'
+import { GlobalContentProvider } from '@/context/GlobalContentContext'
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const globalContent = await fetchGlobalContent()
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -127,18 +131,19 @@ export default function RootLayout({
           }}
         />
 
-        <ClientLayoutEnhancements />
-
-        <Providers>
-          <ErrorBoundary>
-            <Suspense fallback={null}>
-              <AnalyticsAdvanced />
-            </Suspense>
-            <div id="main-content" className="page-transition">
-              {children}
-            </div>
-          </ErrorBoundary>
-        </Providers>
+        <GlobalContentProvider {...globalContent}>
+          <ClientLayoutEnhancements />
+          <Providers>
+            <ErrorBoundary>
+              <Suspense fallback={null}>
+                <AnalyticsAdvanced />
+              </Suspense>
+              <div id="main-content" className="page-transition">
+                {children}
+              </div>
+            </ErrorBoundary>
+          </Providers>
+        </GlobalContentProvider>
       </body>
     </html>
   )

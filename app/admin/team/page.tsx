@@ -1,20 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
-import AdminSidebar from '@/components/admin/AdminSidebar'
+import { supabase } from '@/utils/supabase'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Plus, Loader2, Edit, Trash2, Github, Linkedin, Twitter } from 'lucide-react'
+import { Plus, Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 interface TeamMember {
     id: string
     name: string
     role: string
-    photo_url: string
-    active: boolean
+    image_url: string | null
+    sort_order: number
 }
 
 export default function TeamAdminPage() {
@@ -26,96 +25,87 @@ export default function TeamAdminPage() {
     }, [])
 
     const loadMembers = async () => {
-        try {
-            setLoading(true)
-            const { data, error } = await supabase
-                .from('team_members')
-                .select('*')
-                .order('sort_order', { ascending: true })
+        setLoading(true)
+        const { data } = await supabase
+            .from('cms_team')
+            .select('*')
+            .order('sort_order', { ascending: true })
 
-            if (error) throw error
-            setMembers(data || [])
-        } catch (error) {
-            console.error('Error loading team:', error)
-        } finally {
-            setLoading(false)
-        }
+        setMembers(data || [])
+        setLoading(false)
     }
 
     const handleDelete = async (id: string) => {
         if (!confirm('Delete this team member?')) return
-        try {
-            const { error } = await supabase.from('team_members').delete().eq('id', id)
-            if (error) throw error
-            loadMembers()
-        } catch (error) {
-            console.error(error)
-            alert('Failed to delete')
-        }
+        await supabase.from('cms_team').delete().eq('id', id)
+        loadMembers()
+    }
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+            </div>
+        )
     }
 
     return (
-        <div className="flex min-h-screen bg-background">
-            <AdminSidebar />
-            <div className="flex-1 ml-64 p-6">
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold">Team Members</h1>
-                        <p className="text-muted-foreground">Manage your team profiles.</p>
-                    </div>
-                    <Link href="/admin/team/new">
-                        <Button size="lg" className="gap-2"><Plus className="w-4 h-4" /> Add Member</Button>
-                    </Link>
+        <div className="space-y-8">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white">Team Members</h1>
+                    <p className="text-zinc-400 mt-1">Manage your team profiles</p>
                 </div>
+                <Link href="/admin/team/new">
+                    <Button className="bg-emerald-600 hover:bg-emerald-500">
+                        <Plus className="w-4 h-4 mr-2" /> Add Member
+                    </Button>
+                </Link>
+            </div>
 
-                {loading ? (
-                    <div className="flex items-center justify-center py-24"><Loader2 className="w-8 h-8 animate-spin" /></div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {members.map(member => (
-                            <Card key={member.id} className="overflow-hidden">
-                                <CardContent className="p-0">
-                                    <div className="flex items-center p-6 gap-4">
-                                        <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted">
-                                            {member.photo_url ? (
-                                                <Image src={member.photo_url} alt={member.name} fill className="object-cover" />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-xl font-bold bg-primary/10 text-primary">
-                                                    {member.name.charAt(0)}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-lg">{member.name}</h3>
-                                            <p className="text-sm text-muted-foreground">{member.role}</p>
-                                        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {members.map((member, index) => (
+                    <motion.div
+                        key={member.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-zinc-900/50 border border-white/10 rounded-2xl overflow-hidden"
+                    >
+                        <div className="flex items-center p-6 gap-4">
+                            <div className="relative w-16 h-16 rounded-full overflow-hidden bg-zinc-800 shrink-0">
+                                {member.image_url ? (
+                                    <Image src={member.image_url} alt={member.name} fill className="object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-xl font-bold text-emerald-400">
+                                        {member.name.charAt(0)}
                                     </div>
-                                    <div className="bg-muted/50 p-4 flex justify-between items-center border-t">
-                                        <span className={`text-xs px-2 py-1 rounded-full ${member.active ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
-                                            {member.active ? 'Active' : 'Inactive'}
-                                        </span>
-                                        <div className="flex gap-2">
-                                            <Link href={`/admin/team/${member.id}`}>
-                                                <Button size="sm" variant="outline"><Edit className="w-4 h-4" /></Button>
-                                            </Link>
-                                            <Button size="sm" variant="ghost" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete(member.id)}>
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
-
-                        {members.length === 0 && (
-                            <div className="col-span-full py-24 text-center border-2 border-dashed rounded-xl text-muted-foreground">
-                                No team members found.
+                                )}
                             </div>
-                        )}
+                            <div>
+                                <h3 className="font-bold text-lg text-white">{member.name}</h3>
+                                <p className="text-sm text-zinc-400">{member.role}</p>
+                            </div>
+                        </div>
+                        <div className="bg-zinc-800/50 p-4 flex justify-end items-center gap-2 border-t border-white/5">
+                            <Link href={`/admin/team/${member.id}`}>
+                                <Button size="sm" variant="ghost" className="text-zinc-400 hover:text-white">
+                                    <Edit className="w-4 h-4" />
+                                </Button>
+                            </Link>
+                            <Button size="sm" variant="ghost" className="text-zinc-400 hover:text-red-400" onClick={() => handleDelete(member.id)}>
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    </motion.div>
+                ))}
+
+                {members.length === 0 && (
+                    <div className="col-span-full py-12 text-center bg-zinc-900/50 border border-white/10 rounded-2xl text-zinc-500">
+                        No team members yet. Add your first team member.
                     </div>
                 )}
             </div>
         </div>
     )
-
 }

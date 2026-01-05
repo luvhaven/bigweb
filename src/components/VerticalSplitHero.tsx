@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSp
 import { ArrowRight, Play, Pause, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ParticleBackground from '@/components/effects/ParticleBackground'
@@ -77,11 +78,16 @@ export default function VerticalSplitHero({ cmsSlide, slides: cmsSlides }: Verti
   const slides = cmsSlides && cmsSlides.length > 0 ? cmsSlides : (cmsSlide ? [cmsSlide] : defaultSlides)
 
   const [activeSlide, setActiveSlide] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(!cmsSlide) // Auto-play only if multiple slides
+  const [isPlaying, setIsPlaying] = useState(true) // Always default to auto-play, will be controlled by slides.length check
 
-  // If only 1 slide, force activeSlide to 0
+  // If only 1 slide, force activeSlide to 0 and stop playing
   useEffect(() => {
-    if (slides.length === 1) setActiveSlide(0)
+    if (slides.length === 1) {
+      setActiveSlide(0)
+      setIsPlaying(false)
+    } else {
+      setIsPlaying(true)
+    }
   }, [slides.length])
 
   // ... (rest of logic)
@@ -253,15 +259,25 @@ export default function VerticalSplitHero({ cmsSlide, slides: cmsSlides }: Verti
               transition={{ duration: 0.8 }}
               className="absolute inset-0 [mask-image:linear-gradient(to_right,transparent,black_20%)]"
             >
-              <motion.img
-                src={slides[activeSlide].image}
-                alt={slides[activeSlide].title}
-                className="w-full h-full object-cover"
-                style={{
-                  x: mouseX,
-                  y: mouseY,
-                }}
-              />
+              <div className="relative w-full h-full">
+                {/* Wrapped in div because motion.custom(Image) can be tricky with types, simple motion.div wrapper is safer for parallax */}
+                <motion.div
+                  className="w-full h-full"
+                  style={{
+                    x: mouseX,
+                    y: mouseY,
+                  }}
+                >
+                  <Image
+                    src={slides[activeSlide].image}
+                    alt={slides[activeSlide].title}
+                    fill
+                    className="object-cover"
+                    priority={true}
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                  />
+                </motion.div>
+              </div>
             </motion.div>
           </AnimatePresence>
 

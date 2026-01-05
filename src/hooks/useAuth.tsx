@@ -27,37 +27,69 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Initialise session and listen for auth changes
     useEffect(() => {
-        const initializeAuth = async () => {
-            try {
-                const { data: { session } } = await supabase.auth.getSession()
-                setUser(session?.user ?? null)
+        let mounted = true
+        console.log('AuthProvider: Mounting...')
 
-                if (session?.user) {
-                    await loadProfile(session.user)
+        // Failsafe: If nothing happens within 5 seconds, stop loading
+        const timeoutId = setTimeout(() => {
+            if (mounted && loading) {
+                console.warn('AuthProvider: Auth timed out, forcing loading false')
+                setLoading(false)
+            }
+        }, 5000)
+
+        const initializeAuth = async () => {
+            console.log('AuthProvider: initializeAuth starting...')
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession()
+                if (error) {
+                    console.error('AuthProvider: getSession error', error)
+                }
+
+                if (mounted) {
+                    // console.log('AuthProvider: Session retrieved', session?.user?.email)
+                    setUser(session?.user ?? null)
+
+                    if (session?.user) {
+                        // console.log('AuthProvider: Loading profile...')
+                        await loadProfile(session.user)
+                        // console.log('AuthProvider: Profile loaded')
+                    }
                 }
             } catch (error) {
-                console.error('Error checking session:', error)
+                console.error('AuthProvider: Error checking session:', error)
             } finally {
-                setLoading(false)
+                if (mounted) {
+                    // console.log('AuthProvider: Setting loading false (init)')
+                    setLoading(false)
+                    clearTimeout(timeoutId)
+                }
             }
         }
 
         initializeAuth()
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            // console.log('AuthProvider: Auth state change:', event)
+            if (!mounted) return
+
             setUser(session?.user ?? null)
 
             if (session?.user) {
-                // Should reload profile if user changes or we don't have it
-                // We pass the new session.user to avoid stale state
                 await loadProfile(session.user)
             } else {
                 setProfile(null)
             }
+            // console.log('AuthProvider: Setting loading false (auth change)')
             setLoading(false)
+            clearTimeout(timeoutId)
         })
 
-        return () => subscription.unsubscribe()
+        return () => {
+            mounted = false
+            clearTimeout(timeoutId)
+            subscription.unsubscribe()
+        }
     }, [supabase]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const loadProfile = async (currentUser: User) => {
@@ -97,8 +129,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const signIn = async (email: string, password: string) => {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
+
+        // Immediate state update to prevent redirect race condition
+        if (data.session?.user) {
+            setUser(data.session.user)
+            // Don't await profile loading to prevent login blocking
+            loadProfile(data.session.user).catch(err =>
+                console.error('Background profile load failed:', err)
+            )
+        }
     }
 
     const signUp = async (email: string, password: string, fullName: string) => {

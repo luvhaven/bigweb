@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { checkUserStatus } from './actions'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function DebugAuthPage() {
+    const { user, profile, loading } = useAuth()
     const [email, setEmail] = useState('')
     const [result, setResult] = useState<any>(null)
     const [error, setError] = useState('')
@@ -26,6 +28,46 @@ export default function DebugAuthPage() {
                 ADMIN AUTH DEBUGGER
             </h1>
 
+            {/* Auto-Detected Session Info */}
+            <div className="mb-12 p-6 bg-zinc-900 border border-zinc-700 rounded-xl">
+                <h2 className="text-xl text-blue-400 mb-4 font-bold">Current Session Status</h2>
+                {loading ? (
+                    <div className="text-zinc-500">Loading session...</div>
+                ) : user ? (
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <StatusItem label="User ID (UUID)" value={user.id} />
+                            <StatusItem label="Email" value={user.email || 'N/A'} />
+                            <StatusItem label="Admin Profile" value={profile ? 'FOUND' : 'MISSING'} />
+                        </div>
+
+                        {!profile && (
+                            <div className="mt-6 p-4 bg-red-900/10 border border-red-500/50 rounded-lg">
+                                <p className="text-red-400 font-bold mb-2">⚠️ CRISIS: You are not in the `admin_users` table.</p>
+                                <p className="text-zinc-400 text-sm mb-4">Run this SQL in Supabase to fix your access immediately:</p>
+                                <div className="bg-black p-4 rounded border border-zinc-700 relative group">
+                                    <code className="text-green-400 text-sm break-all">
+                                        INSERT INTO public.admin_users (id, role, full_name)<br />
+                                        VALUES ('{user.id}', 'super_admin', 'Admin User');
+                                    </code>
+                                </div>
+                            </div>
+                        )}
+
+                        {profile && (
+                            <div className="mt-6 p-4 bg-green-900/10 border border-green-500/50 rounded-lg">
+                                <p className="text-green-400 font-bold">✅ Access Granted. You should be able to visit /admin.</p>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="text-yellow-500">
+                        No active session found. Please <a href="/admin/login" className="underline text-white">Login</a> first.
+                    </div>
+                )}
+            </div>
+
+            <h2 className="text-lg text-zinc-500 mb-4">Manual User Lookup</h2>
             <div className="max-w-xl space-y-8">
                 <form action={handleCheck} className="flex gap-4">
                     <input

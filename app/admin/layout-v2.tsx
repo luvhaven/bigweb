@@ -1,15 +1,14 @@
 'use client'
 
-import { ReactNode, useEffect, useState, useRef } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { QueryProvider } from '@/providers/QueryProvider'
-import { useAuth, AuthProvider } from '@/hooks/useAuth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     LayoutDashboard,
     Navigation,
     Image as ImageIcon,
+    FileText,
     Briefcase,
     FolderKanban,
     Users,
@@ -22,8 +21,11 @@ import {
     Moon,
     Sun,
     Menu,
-    FileText
+    X
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useAuth } from '@/hooks/useAuth'
 
 // Sidebar Menu Configuration
 const menuItems = [
@@ -38,33 +40,17 @@ const menuItems = [
     { label: 'Settings', href: '/admin/settings', icon: Settings },
 ]
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-    return (
-        <AuthProvider>
-            <QueryProvider>
-                <AdminLayoutContent>{children}</AdminLayoutContent>
-            </QueryProvider>
-        </AuthProvider>
-    )
-}
-
-function AdminLayoutContent({ children }: { children: ReactNode }) {
-    const { user, loading, signOut } = useAuth()
-    const router = useRouter()
+export default function AdminLayoutV2({
+    children,
+}: {
+    children: React.ReactNode
+}) {
     const pathname = usePathname()
+    const router = useRouter()
+    const { user, signOut } = useAuth()
     const [sidebarOpen, setSidebarOpen] = useState(true)
+    const [darkMode, setDarkMode] = useState(true)
     const [commandOpen, setCommandOpen] = useState(false)
-    const searchInputRef = useRef<HTMLInputElement>(null)
-
-    // Skip layout for login/debug pages
-    const isAuthPage = pathname === '/admin/login' || pathname === '/admin/debug'
-
-    // Auth redirect
-    useEffect(() => {
-        if (!loading && !isAuthPage && !user) {
-            router.replace('/admin/login')
-        }
-    }, [user, loading, isAuthPage, router])
 
     // Handle Cmd+K
     useEffect(() => {
@@ -79,48 +65,22 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [])
 
-    useEffect(() => {
-        if (commandOpen && searchInputRef.current) {
-            searchInputRef.current.focus()
-        }
-    }, [commandOpen])
-
     const handleSignOut = async () => {
         await signOut()
         router.push('/admin/login')
     }
 
-    // Auth pages get minimal wrapper
-    if (isAuthPage) {
-        return <>{children}</>
-    }
-
-    // Loading state
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
-            </div>
-        )
-    }
-
-    // Not authenticated
-    if (!user) {
-        return null
-    }
-
     return (
-        <div className="min-h-screen bg-zinc-950">
+        <div className={`min-h-screen ${darkMode ? 'dark bg-zinc-950' : 'bg-gray-50'}`}>
             {/* Sidebar */}
             <motion.aside
                 initial={{ width: 280 }}
                 animate={{ width: sidebarOpen ? 280 : 80 }}
-                transition={{ duration: 0.2 }}
                 className="fixed left-0 top-0 h-full bg-zinc-900/95 backdrop-blur-xl border-r border-white/10 z-40 flex flex-col"
             >
                 {/* Logo */}
                 <div className="p-6 flex items-center gap-3 border-b border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
                         <span className="text-white font-bold text-lg">B</span>
                     </div>
                     <AnimatePresence>
@@ -131,7 +91,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 exit={{ opacity: 0, x: -10 }}
                                 className="text-white font-bold text-xl"
                             >
-                                BigWeb CMS
+                                BigWeb
                             </motion.span>
                         )}
                     </AnimatePresence>
@@ -158,7 +118,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -10 }}
-                                            className="font-medium whitespace-nowrap"
+                                            className="font-medium"
                                         >
                                             {item.label}
                                         </motion.span>
@@ -178,7 +138,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                         onClick={handleSignOut}
                         className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-all w-full"
                     >
-                        <LogOut className="w-5 h-5 shrink-0" />
+                        <LogOut className="w-5 h-5" />
                         {sidebarOpen && <span className="font-medium">Sign Out</span>}
                     </button>
                 </div>
@@ -186,7 +146,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
 
             {/* Main Content */}
             <div
-                className="transition-all duration-200"
+                className="transition-all duration-300"
                 style={{ marginLeft: sidebarOpen ? 280 : 80 }}
             >
                 {/* Top Header */}
@@ -219,16 +179,19 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full" />
                             </button>
 
+                            <button
+                                onClick={() => setDarkMode(!darkMode)}
+                                className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+                            >
+                                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            </button>
+
                             {/* User Avatar */}
                             <div className="flex items-center gap-3 pl-3 border-l border-white/10">
                                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
                                     <span className="text-white text-sm font-medium">
                                         {user?.email?.charAt(0).toUpperCase() || 'A'}
                                     </span>
-                                </div>
-                                <div className="hidden md:block">
-                                    <p className="text-sm font-medium text-white">{user?.email?.split('@')[0]}</p>
-                                    <p className="text-xs text-zinc-500">Administrator</p>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +224,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                             <div className="p-4 border-b border-white/10 flex items-center gap-3">
                                 <Search className="w-5 h-5 text-zinc-500" />
                                 <input
-                                    ref={searchInputRef}
+                                    autoFocus
                                     type="text"
                                     placeholder="Search pages, settings, or actions..."
                                     className="flex-1 bg-transparent text-white placeholder-zinc-500 outline-none"

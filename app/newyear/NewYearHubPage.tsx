@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
     Rocket, TrendingUp, Crown, ArrowRight, Shield, Clock, Award, Star,
@@ -103,6 +103,12 @@ const colorClasses = {
 }
 
 export default function NewYearHubPage() {
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
     return (
         <>
             <Navigation />
@@ -116,7 +122,7 @@ export default function NewYearHubPage() {
                     <div className="absolute bottom-0 left-1/2 w-[500px] h-[500px] bg-violet-500/10 rounded-full blur-[150px]" />
 
                     {/* Animated Particles */}
-                    {[...Array(20)].map((_, i) => (
+                    {isMounted && [...Array(20)].map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute w-1 h-1 bg-white/20 rounded-full"

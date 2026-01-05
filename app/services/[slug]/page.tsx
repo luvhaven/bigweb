@@ -6,10 +6,9 @@ import HeroPremium from '@/components/services/HeroPremium'
 import BentoGrid from '@/components/services/BentoGrid'
 import ProcessTimeline from '@/components/ProcessTimeline'
 import PricingCalculator from '@/components/PricingCalculator'
-import VideoTestimonials from '@/components/VideoTestimonials'
 import StickyCTABar from '@/components/mobile/StickyCTABar'
 import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 import * as LucideIcons from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -28,24 +27,39 @@ const getIcon = (name: string) => {
 
 export default async function DynamicServicePage({ params }: { params: { slug: string } }) {
     const { data: service } = await supabase
-        .from('service_pages')
+        .from('cms_services')
         .select('*')
         .eq('slug', params.slug)
+        .eq('is_active', true)
         .single()
 
-    if (!service || !service.published) {
+    if (!service) {
         notFound()
     }
 
-    // Parse JSONB fields (Supabase returns them as objects already usually, but let's be safe)
-    const features = Array.isArray(service.features) ? service.features.map((f: any) => ({
-        ...f,
-        icon: getIcon(f.icon)
-    })) : []
+    // Map features - simple string array or object array in new schema?
+    // CMS schema says: features JSONB DEFAULT '[]'::jsonb -- List of feature strings or objects
+    // Seed data uses strings mostly: ["Next.js", ...]. But BentoGrid likely expects objects.
+    // Let's normalize it.
+    const rawFeatures = service.features || []
+    const features = rawFeatures.map((f: any, i: number) => {
+        if (typeof f === 'string') {
+            // Create default feature object for BentoGrid
+            return {
+                title: f,
+                description: "",
+                icon: LucideIcons.CheckCircle
+            }
+        }
+        return {
+            ...f,
+            icon: getIcon(f.icon)
+        }
+    })
 
-    const processSteps = Array.isArray(service.process_steps) ? service.process_steps : []
-    const faqs = Array.isArray(service.faqs) ? service.faqs : []
+    const processSteps = service.process_steps || []
 
+    // Breadcrumbs
     const breadcrumbItems = [
         { label: 'Services', href: '/services' },
         { label: service.title, href: `/services/${service.slug}` }
@@ -56,12 +70,12 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
             {/* Structured Data */}
             <ServiceSchema
                 name={service.title}
-                description={service.description}
+                description={service.short_description || ''}
                 serviceType="ProfessionalService"
                 ratingValue={4.9}
                 reviewCount={100}
             />
-            <FAQSchema faqs={faqs} />
+            {/* FAQ Schema removed for now as generic services table might not have FAQs yet */}
             <BreadcrumbSchema items={[
                 { name: 'Home', url: 'https://bigwebdigital.com' },
                 ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
@@ -75,20 +89,20 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
 
             <HeroPremium
                 title={service.title}
-                highlight={service.highlight}
-                description={service.description}
-                badgeText={service.badge_text || 'Premium Service'}
-                themeColor={service.theme_color || 'emerald'}
-                backgroundImage={undefined} // Fixed!
-                pattern={service.pattern || 'Grid'}
+                highlight=""
+                description={service.short_description || ''}
+                badgeText="Premium Service"
+                themeColor="emerald"
+                backgroundImage={service.hero_image_url} // Fixed!
+                pattern="Grid"
             />
 
             {/* Dynamic Long Description / Content */}
-            {service.long_description && (
+            {service.full_description && (
                 <section className="py-24 px-6">
                     <div className="container mx-auto max-w-4xl">
                         <div className="prose prose-lg dark:prose-invert max-w-none whitespace-pre-wrap">
-                            {service.long_description}
+                            {service.full_description}
                         </div>
                     </div>
                 </section>
@@ -99,7 +113,7 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
                     title="Key Features"
                     subtitle="Why choose us for this service."
                     items={features}
-                    themeColor={service.theme_color || 'emerald'}
+                    themeColor="emerald"
                 />
             )}
 
@@ -113,35 +127,11 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
                 <div className="container mx-auto max-w-6xl text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">Transparent Pricing</h2>
                     <p className="text-xl text-muted-foreground mb-12">
-                        {service.starting_price
-                            ? `Packages starting at $${service.starting_price.toLocaleString()}`
-                            : "Contact us for a custom quote."}
+                        Contact us for a custom quote tailored to your specific needs.
                     </p>
                     <PricingCalculator />
                 </div>
             </section>
-
-            {/* FAQ Section */}
-            {faqs.length > 0 && (
-                <section className="py-32 px-6">
-                    <div className="container mx-auto max-w-4xl">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
-                        <div className="space-y-4">
-                            {faqs.map((faq: any, index: number) => (
-                                <details key={index} className="group bg-card border border-border rounded-xl overflow-hidden p-6">
-                                    <summary className="cursor-pointer font-bold text-lg flex justify-between items-center">
-                                        {faq.question}
-                                        <LucideIcons.ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" />
-                                    </summary>
-                                    <div className="mt-4 text-muted-foreground">
-                                        {faq.answer}
-                                    </div>
-                                </details>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* CTA Section */}
             <section className="py-24 px-6 relative overflow-hidden text-center">

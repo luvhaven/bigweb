@@ -33,6 +33,13 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
         completion_date: initialData?.completion_date || '',
         is_published: initialData?.is_published ?? true,
         is_featured: initialData?.is_featured || false,
+        // Neural Fields
+        deconstructed_view: initialData?.deconstructed_view || false,
+        technical_details: initialData?.technical_details || {
+            architecture_url: '',
+            api_latency: '',
+            core_features: '' // Stored as a string for easier editing, could be parsed to array
+        }
     })
 
     const addTech = (e: React.KeyboardEvent) => {
@@ -67,10 +74,15 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
                 status: formData.is_published ? 'published' : 'draft',
                 is_featured: formData.is_featured,
                 technologies: technologies.map(t => t.text),
-                featured_image: null, // Explicitly set to null to satisfy schema
+
+                // Neural Fields
+                deconstructed_view: formData.deconstructed_view,
+                technical_details: formData.technical_details,
+
+                featured_image: null,
                 gallery_images: null,
                 main_image: null,
-                website_url: formData.live_url, // Map to website_url just in case logic uses it
+                website_url: formData.live_url,
                 background_color: null,
                 text_color: null,
                 views_count: 0
@@ -226,6 +238,56 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
                             />
                         </div>
                     </div>
+
+                    {/* Technical Deep Dive (Neural Section) */}
+                    <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-6 space-y-6 border-l-4 border-l-blue-500">
+                        <div className="flex items-center gap-2">
+                            <h3 className="text-lg font-semibold text-white">Technical Deep Dive</h3>
+                            <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">NEURAL</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-zinc-300">Architecture Diagram URL</label>
+                                <input
+                                    type="url"
+                                    value={formData.technical_details.architecture_url}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        technical_details: { ...prev.technical_details, architecture_url: e.target.value }
+                                    }))}
+                                    className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors placeholder:text-zinc-600"
+                                    placeholder="https://... (Mermaid or Image)"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-zinc-300">Avg API Latency</label>
+                                <input
+                                    type="text"
+                                    value={formData.technical_details.api_latency}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        technical_details: { ...prev.technical_details, api_latency: e.target.value }
+                                    }))}
+                                    className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors placeholder:text-zinc-600"
+                                    placeholder="e.g. 12ms"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-zinc-300">Core Technical Features (JSON-like List)</label>
+                            <textarea
+                                value={formData.technical_details.core_features}
+                                onChange={(e) => setFormData(prev => ({
+                                    ...prev,
+                                    technical_details: { ...prev.technical_details, core_features: e.target.value }
+                                }))}
+                                className="w-full h-24 px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors resize-none font-mono text-sm"
+                                placeholder="- Real-time Websockets&#10;- Redis Caching Layer&#10;- Edge Functions"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Sidebar */}
@@ -254,7 +316,21 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        {/* Neural Config */}
+                        <div className="border-t border-zinc-800 pt-4 mt-4">
+                            <div className="flex items-center justify-between">
+                                <label className="text-sm font-medium text-blue-400">Deconstructed View</label>
+                                <input
+                                    type="checkbox"
+                                    checked={formData.deconstructed_view}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, deconstructed_view: e.target.checked }))}
+                                    className="w-5 h-5 rounded border-zinc-700 bg-zinc-800 text-blue-500 focus:ring-blue-500"
+                                />
+                            </div>
+                            <p className="text-xs text-zinc-500 mt-1">Enables technical overlay mode on the case study page.</p>
+                        </div>
+
+                        <div className="space-y-2 mt-4">
                             <label className="text-sm font-medium text-zinc-300">Completion Date</label>
                             <input
                                 type="date"
