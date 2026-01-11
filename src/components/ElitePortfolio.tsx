@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion'
 import { ArrowUpRight, Filter, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import gsap from 'gsap'
@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger)
 const MOCK_PROJECTS = [
   {
     id: 'nexus-flow-saas',
-    slug: 'saas-trial-conversion',
+    slug: 'nexus-flow',
     title: 'Nexus Flow: The 127% SaaS Funnel Re-Engineering',
     offer: 'Revenue Website System',
     category: 'SaaS',
@@ -29,7 +29,7 @@ const MOCK_PROJECTS = [
   },
   {
     id: 'aura-wear-ecommerce',
-    slug: 'ecommerce-cart-fix',
+    slug: 'aura-wear',
     title: 'Aura Wear Global: Surgical Checkout Recovery',
     offer: 'Fix Sprint',
     category: 'E-commerce',
@@ -41,7 +41,7 @@ const MOCK_PROJECTS = [
   },
   {
     id: 'vanguard-capital-leads',
-    slug: 'lead-gen-optimization',
+    slug: 'vanguard-capital',
     title: 'Vanguard Capital: 3.5x Authority Lead-Gen System',
     offer: 'Conversion Diagnostic',
     category: 'Finance',
@@ -64,13 +64,14 @@ interface ProjectCardProps {
 
 // Enhanced Project Card with 3D Tilt and Glow
 const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const isHovered = useInView(ref)
   const [rotateX, setRotateX] = useState(0)
   const [rotateY, setRotateY] = useState(0)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || isTouch) return
-    const rect = cardRef.current.getBoundingClientRect()
+    if (!ref.current || isTouch) return
+    const rect = ref.current.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     const centerX = rect.width / 2
@@ -89,10 +90,11 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
 
   return (
     <motion.div
-      ref={cardRef}
+      ref={ref}
       initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -128,8 +130,8 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
             ) : (
               <img
                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200"
-                alt="Case Study Placeholder"
-                className="w-full h-full object-cover"
+                alt="Architecture Visualization"
+                className="w-full h-full object-cover grayscale opacity-30"
               />
             )}
           </div>
@@ -231,16 +233,16 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
 
           if (title.includes('alpha') || title.includes('vortex') || title.includes('nexus') || title.includes('saas')) {
             newTitle = title.includes('vortex') ? "Vortex Pay: The Fintech Funnel Re-Engineering" : "Nexus Flow: The 127% SaaS Funnel Re-Engineering";
-            newSlug = 'saas-trial-conversion';
+            newSlug = 'nexus-flow';
           } else if (title.includes('beta') || title.includes('orbit') || title.includes('aura') || title.includes('ecommerce')) {
             newTitle = title.includes('orbit') ? "Orbit Market: Surgical Checkout Recovery" : "Aura Wear Global: Surgical Checkout Recovery";
-            newSlug = 'ecommerce-cart-fix';
+            newSlug = 'aura-wear';
           } else if (title.includes('gamma') || title.includes('aether') || title.includes('insights')) {
             newTitle = "Aether Insights: AI Revenue Engine";
             // If we don't have a specific slug for Aether, we can fallback or add one later
           } else if (title.includes('delta') || title.includes('sky') || title.includes('vanguard') || title.includes('lead-gen') || title.includes('finance')) {
             newTitle = title.includes('sky') ? "Sky Pulse: Cloud Infrastructure Scale" : "Vanguard Capital: 3.5x Authority Lead-Gen System";
-            newSlug = 'lead-gen-optimization';
+            newSlug = 'vanguard-capital';
           } else if (title.includes('epsilon') || title.includes('nexus logistics')) {
             newTitle = "Nexus Logistics: Fulfillment Conversion Fix";
           } else if (title.includes('zeta') || title.includes('prism')) {

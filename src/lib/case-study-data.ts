@@ -1,6 +1,6 @@
 export const caseStudies = [
     {
-        slug: 'saas-trial-conversion',
+        slug: 'nexus-flow',
         title: 'Nexus Flow: The 127% SaaS Funnel Re-Engineering',
         client: 'Nexus Flow Analytics',
         offer: 'Revenue Website System',
@@ -16,14 +16,14 @@ export const caseStudies = [
         technologies: ['Next.js', 'PostHog', 'A/B Testing', 'Behavioral Science'],
         image: '/images/projects/nexus-flow.png',
         author: {
-            name: 'Marcus Thorne',
+            name: 'Daniel Oriazowan',
             role: 'Lead Conversion Engineer',
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800",
+            image: "/images/team/daniel.jpg",
         },
         date: '2025-11-15',
     },
     {
-        slug: 'ecommerce-cart-fix',
+        slug: 'aura-wear',
         title: 'Aura Wear Global: Surgical Checkout Recovery',
         client: 'Aura Wear',
         offer: 'Fix Sprint',
@@ -41,12 +41,12 @@ export const caseStudies = [
         author: {
             name: 'Dr. Elena Vance',
             role: 'Behavioral Psychologist',
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800",
+            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800",
         },
         date: '2025-10-10',
     },
     {
-        slug: 'lead-gen-optimization',
+        slug: 'vanguard-capital',
         title: 'Vanguard Capital: 3.5x Authority Lead-Gen System',
         client: 'Vanguard Capital',
         offer: 'Conversion Diagnostic',
@@ -64,7 +64,7 @@ export const caseStudies = [
         author: {
             name: 'Julian Reed',
             role: 'UI/UX Architect',
-            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
+            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800",
         },
         date: '2025-09-22',
     },
