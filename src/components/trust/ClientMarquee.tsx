@@ -5,10 +5,10 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 const defaultClients = [
-    { name: 'TechCorp', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'Innovate', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'FutureScale', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'GlobalSystems', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Vortex Systems', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Aether Analytics', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Orbit Global', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Sky Pulse', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
 ]
 
 export default function ClientMarquee() {
