@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 import { TrendingUp, Zap, Award, Users } from 'lucide-react'
 
 const stats = [
-  { icon: TrendingUp, value: '500+', label: 'Projects Delivered', color: 'from-blue-500 to-cyan-500' },
-  { icon: Zap, value: '98%', label: 'Client Satisfaction', color: 'from-purple-500 to-pink-500' },
-  { icon: Award, value: '50+', label: 'Industry Awards', color: 'from-orange-500 to-red-500' },
-  { icon: Users, value: '250+', label: 'Happy Clients', color: 'from-green-500 to-emerald-500' },
+  { icon: TrendingUp, value: '$120M+', label: 'Client Revenue Generated', color: 'from-accent to-orange-600' },
+  { icon: Zap, value: '98%', label: 'Conversion Lift (Avg)', color: 'from-orange-500 to-red-600' },
+  { icon: Award, value: '142+', label: 'Audit Reports Delivered', color: 'from-blue-500 to-cyan-500' },
+  { icon: Users, value: '250+', label: 'High-Growth Founders', color: 'from-green-500 to-emerald-500' },
 ]
 
 export default function WhitePatternSection() {
@@ -19,18 +19,18 @@ export default function WhitePatternSection() {
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
             </pattern>
             <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
-              <circle cx="10" cy="10" r="1.5" fill="currentColor"/>
+              <circle cx="10" cy="10" r="1.5" fill="currentColor" />
             </pattern>
             <pattern id="diagonal" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" strokeWidth="1"/>
+              <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" strokeWidth="1" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
-        
+
         {/* Dot Pattern Overlay */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <rect width="100%" height="100%" fill="url(#dots)" />

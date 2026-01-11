@@ -56,12 +56,12 @@ All colors MUST be HSL.
 
     /* Premium Gradient Presets */
     --gradient-primary: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--primary)) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(var(--accent)) 0%, #a855f7 50%, #ec4899 100%);
-    --gradient-accent-purple: linear-gradient(135deg, hsl(var(--accent)) 0%, #8b5cf6 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--accent-light)) 50%, hsl(var(--accent-dark)) 100%);
+    --gradient-accent-orange: linear-gradient(135deg, hsl(var(--accent)) 0%, #f97316 100%);
     --gradient-shine: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     --gradient-mesh: radial-gradient(at 40% 20%, hsl(var(--accent) / 0.3) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsl(280 100% 70% / 0.2) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsl(200 100% 70% / 0.2) 0px, transparent 50%);
+      radial-gradient(at 80% 0%, hsl(30 100% 70% / 0.2) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsl(45 100% 70% / 0.2) 0px, transparent 50%);
 
     /* Glass Morphism */
     --glass-bg: rgba(255, 255, 255, 0.05);
@@ -161,18 +161,18 @@ All colors MUST be HSL.
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, hsl(var(--accent)), hsl(270 85% 55%));
+    background: linear-gradient(180deg, hsl(var(--accent)), hsl(var(--accent-dark)));
     border-radius: 10px;
     border: 2px solid hsl(var(--background));
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, hsl(var(--accent) / 0.9), hsl(270 85% 55% / 0.9));
+    background: linear-gradient(180deg, hsl(var(--accent) / 0.9), hsl(var(--accent-dark) / 0.9));
     box-shadow: 0 0 10px hsl(var(--accent) / 0.5);
   }
 
   ::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(180deg, hsl(var(--accent)), hsl(270 85% 55%));
+    background: linear-gradient(180deg, hsl(var(--accent)), hsl(var(--accent-dark)));
   }
 
   /* Firefox Scrollbar */
@@ -343,7 +343,7 @@ All colors MUST be HSL.
 
   /* Premium Gradient Text */
   .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(270 85% 60%));
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -401,15 +401,20 @@ All colors MUST be HSL.
   .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 20px hsl(var(--accent) / 0.3);
+    color: white !important;
+    /* Ensure text remains visible */
   }
 
-  .btn:active {
+  .btn:active,
+  button:active,
+  [role="button"]:active {
     transform: translateY(0) scale(0.98);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: white !important;
   }
 
   .btn-gradient {
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(270 85% 55%));
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-dark)));
     background-size: 200% 200%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -417,6 +422,7 @@ All colors MUST be HSL.
   .btn-gradient:hover {
     background-position: 100% 0;
     box-shadow: 0 8px 32px hsl(var(--accent) / 0.4), 0 0 40px hsl(var(--accent) / 0.3);
+    color: white !important;
   }
 
   /* Enhanced Glass Morphism */
@@ -480,7 +486,7 @@ All colors MUST be HSL.
     content: '';
     position: absolute;
     inset: -1px;
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(270 85% 55%));
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-dark)));
     border-radius: inherit;
     opacity: 0;
     transition: opacity 0.3s;

@@ -1,0 +1,32 @@
+[31mFailed to compile.
+[39m
+./src/components/audit-ui/AuditDownloadButton.tsx
+[31m[1mModule not found[22m[39m: ESM packages (@react-pdf/renderer) need to be imported. Use 'import' to reference the package instead. https://nextjs.org/docs/messages/import-esm-externals
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./app/audit/page.tsx
+
+./app/api/analytics/track/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/auth/login/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/blog/posts/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/careers/apply/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

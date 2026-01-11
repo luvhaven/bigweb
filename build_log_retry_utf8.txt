@@ -1,0 +1,73 @@
+﻿
+> bigweb-nextjs@1.0.0 build
+> next build
+
+   Γû▓ Next.js 15.5.9
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+node.exe : Browserslist: 
+browsers data 
+(caniuse-lite) is 7 months 
+old. Please run:
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Brows  
+  erslist: b...ld. Please   
+  run::String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+  npx update-browserslist-db
+@latest
+  Why you should do it 
+regularly: https://github.co
+m/browserslist/update-db#rea
+dme
+ Γ£ô Compiled successfully in 13.9s
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/components/AdvancedNav
+igation.tsx:56:9
+Type error: Property 'url' 
+is missing in type '{ id: 
+string; label: string; 
+sort_order: number; 
+children: { id: string; 
+label: string; url: string; 
+sort_order: number; }[]; }' 
+but required in type 
+'NavigationItem'.
+
+[0m [90m 54 |[39m       
+label[33m:[39m [32m'Capab
+ilities'[39m[33m,[39m
+ [90m 55 |[39m       
+children[33m:[39m [
+[31m[1m>[22m[39m[90m 
+56 |[39m         {
+ [90m    |[39m         
+[31m[1m^[22m[39m
+ [90m 57 |[39m           
+id[33m:[39m [32m'design'
+[39m[33m,[39m
+ [90m 58 |[39m           
+label[33m:[39m 
+[32m'Design & 
+Experience'[39m[33m,[39m
+ [90m 59 |[39m           
+sort_order[33m:[39m 
+[35m0[39m[33m,[39m[0m
+Next.js build worker exited 
+with code: 1 and signal: 
+null

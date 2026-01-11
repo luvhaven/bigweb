@@ -1,182 +1,139 @@
 import { supabase } from '@/utils/supabase'
 
-import Navigation from '@/components/AdvancedNavigation'
+import ConversionNavigation from '@/components/ConversionNavigation'
 import SkipToContent from '@/components/SkipToContent'
 import VerticalSplitHero from '@/components/VerticalSplitHero'
-import ClientMarquee from '@/components/trust/ClientMarquee'
+import ProblemSolution from '@/components/ProblemSolution'
+import ConversionOffers, { Offer } from '@/components/ConversionOffers'
+import TechStack3D from '@/components/TechStack3D'
+import ConversionProcess from '@/components/ConversionProcess'
+import AuthoritySection from '@/components/AuthoritySection'
+import ForensicComparison from '@/components/ForensicComparison'
 import ElitePortfolio from '@/components/ElitePortfolio'
-import EliteAbout from '@/components/EliteAbout'
-import CompetitiveEdge from '@/components/CompetitiveEdge'
-import ExpandingServices from '@/components/ExpandingServices'
-import EliteProcess from '@/components/EliteProcess'
-import EliteStatistics from '@/components/EliteStatistics'
+import ClientMarquee from '@/components/trust/ClientMarquee'
 import PremiumTestimonials from '@/components/PremiumTestimonials'
-import EliteSectionDivider from '@/components/EliteSectionDivider'
-import EliteCTA from '@/components/EliteCTA'
 import Footer from '@/components/Footer'
-import TrustBadges from '@/components/ui/TrustBadges'
 import LiveStats from '@/components/LiveStats'
-
-import VideoShowcase from '@/components/VideoShowcase'
-import AIProjectEstimator from '@/components/AIProjectEstimator'
-import ROICalculator from '@/components/conversion/ROICalculator'
-import TestimonialTicker from '@/components/trust/TestimonialTicker'
-import BeforeAfterSlider from '@/components/trust/BeforeAfterSlider'
 
 export const revalidate = 60 // Revalidate every 60 seconds
 
 export default async function HomePage() {
-  // Fetch Hero Data
-  let heroData: any = undefined
-  let heroSlides: any[] = []
-
-  try {
-    // 1. Fetch Hero Section Metadata (New Schema)
-    const { data: sectionData } = await supabase
-      .from('cms_heroes')
-      .select('*')
-      .eq('slug', 'home')
-      .single()
-
-    if (sectionData) {
-      // Map DB structure to Component structure for fallback/single mode
-      // cms_heroes stores stats as JSONB: [{ label, value }]
-      const stats = sectionData.stats || []
-      const statItem = stats[0] || { value: '100%', label: 'Satisfaction' }
-
-      heroData = {
-        id: sectionData.id,
-        title: sectionData.title,
-        highlight: sectionData.highlight_text,
-        subtitle: sectionData.subtitle || 'Premium Web Development',
-        description: sectionData.description || '',
-        cta: sectionData.cta_primary_text || 'Get Started',
-        ctaLink: sectionData.cta_primary_link || '/contact',
-        image: sectionData.media_url || '/assets/hero-conversion.png',
-        stat: statItem.value || '100%',
-        statLabel: statItem.label || 'Satisfaction'
-      }
-
-      // 2. Fetch Slides associated with this section
-      const { data: slides } = await supabase
-        .from('cms_hero_slides')
-        .select('*')
-        .eq('hero_id', sectionData.id)
-        .eq('is_active', true)
-        .order('sort_order', { ascending: true })
-
-      if (slides && slides.length > 0) {
-        heroSlides = slides.map(s => ({
-          id: s.id,
-          title: s.title,
-          subtitle: s.subtitle || '',
-          description: s.description || '',
-          cta: s.cta_text || 'Get Started',
-          ctaLink: s.cta_link || '/contact',
-          image: s.media_url || '/assets/hero-conversion.png',
-          // Slides in new schema don't have individual stats - use parent or hardcoded interesting stats for variety if desired, 
-          // or just fallback to main hero stat.
-          stat: statItem.value || '100%',
-          statLabel: statItem.label || 'Satisfaction',
-          video: s.media_type === 'video' ? s.media_url : null
-        }))
-      }
+  // Use the predefined High-Conversion Offers instead of legacy DB services
+  const offers: Offer[] = [
+    {
+      iconName: "BarChart3",
+      title: "Conversion Diagnostic",
+      price: "$399",
+      subtitle: "The Entry Point",
+      description: "A forensic analysis of your current funnel, messaging, and user experience. We uncover exactly where you are losing revenue.",
+      features: ["Full funnel breakdown", "Conversion blocker identification", "Messaging clarity score", "Prioritized fix list"],
+      cta: "Start Your Diagnostic",
+      link: "/offers/diagnostic",
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      highlight: false
+    },
+    {
+      iconName: "Zap",
+      title: "Conversion Fix Sprint",
+      price: "$1,000+",
+      subtitle: "Rapid Execution",
+      description: "We surgically fix the critical 20% that drives 80% of your results. Fast, focused execution on high-impact conversion points.",
+      features: ["1-3 Critical page fixes", "Headline & Copy optimization", "CTA placement & design", "Speed optimization"],
+      cta: "Fix My Website",
+      link: "/offers/fix-sprint",
+      color: "text-accent",
+      bg: "bg-accent/10",
+      highlight: true
+    },
+    {
+      iconName: "Layers",
+      title: "Revenue Website System",
+      price: "$3,000+",
+      subtitle: "The Full Build",
+      description: "A complete rebuild from the ground up, engineered for conversion psychology first, visual design second.",
+      features: ["Complete architecture rebuild", "Conversion-focused copywriting", "Next.js performance stack", "Full mobile optimization"],
+      cta: "Build Revenue System",
+      link: "/offers/revenue-system",
+      color: "text-purple-500",
+      bg: "bg-purple-500/10",
+      highlight: false
+    },
+    {
+      iconName: "RefreshCw",
+      title: "Optimization Retainer",
+      price: "$500 - $2k/mo",
+      subtitle: "Continuous Growth",
+      description: "Your in-house conversion team. We constantly monitor, A/B test, and refine your site to squeeze every drop of ROI.",
+      features: ["Monthly A/B testing", "Heatmap analysis", "Performance monitoring", "Iterative copy updates"],
+      cta: "Discuss Retainer",
+      link: "/offers/retainer",
+      color: "text-green-500",
+      bg: "bg-green-500/10",
+      highlight: false
     }
-  } catch (err) {
-    console.error('Error fetching hero data:', err)
-  }
-
-  let servicesData: any[] = []
-
-  // 3. Fetch Services
-  const { data: services } = await supabase
-    .from('cms_services')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true })
-
-  if (services) {
-    servicesData = services.map(s => ({
-      title: s.title,
-      slug: s.slug,
-      tagline: s.short_description,
-      description: s.full_description?.slice(0, 150) + '...', // Truncate for card
-      features: s.features || [],
-      // Map benefits or use generic results if not available
-      results: s.benefits?.[0] || 'Proven Results',
-      image: s.hero_image_url || '/assets/service-default.jpg'
-    }))
-  }
+  ]
 
   return (
-    <>
+    <main className="min-h-screen bg-background text-foreground selection:bg-accent/30">
       <SkipToContent />
-      <Navigation />
-      <main id="main-content" className="min-h-screen overflow-hidden" role="main" aria-label="Main content">
-        <VerticalSplitHero cmsSlide={heroData} slides={heroSlides} />
+      <ConversionNavigation />
 
+      {/* Hero Section - The "Hook" */}
+      <VerticalSplitHero />
 
-        {/* Client Logos - Social Proof */}
-        <ClientMarquee />
+      {/* Live Statistics - Immediate Social Proof */}
+      <LiveStats />
 
-        {/* Trust Indicators */}
-        <section className="py-12 bg-secondary/5">
-          <div className="container mx-auto">
-            <TrustBadges />
-          </div>
-        </section>
+      {/* Problem & Solution - The "Why" */}
+      <ProblemSolution />
 
-        <EliteSectionDivider variant="particles" />
-        <EliteStatistics />
-        <EliteSectionDivider variant="gradient-flow" intensity="medium" />
+      {/* Social Proof Interlude */}
+      <ClientMarquee />
 
-        {/* Live Stats */}
-        <LiveStats />
+      {/* The Offers - The "What" */}
+      <ConversionOffers offers={offers.length > 0 ? offers : undefined} />
 
-        <EliteSectionDivider variant="wave" />
-        <ElitePortfolio />
+      {/* Tech Stack - "Elite" Visualizer */}
+      <TechStack3D />
 
-        {/* AI Project Estimator - Premium Feature */}
-        <EliteSectionDivider variant="gradient-flow" intensity="bold" />
-        <AIProjectEstimator />
+      {/* Process - The "How" */}
+      <ConversionProcess />
 
-        <EliteSectionDivider variant="wave" />
-        <EliteAbout />
-        <CompetitiveEdge />
+      {/* Forensic Comparison - The "Proof of Protocol" */}
+      <ForensicComparison />
 
-        <EliteSectionDivider variant="mesh" />
+      {/* Authority - The "Who" */}
+      <AuthoritySection />
 
-        {/* Transformation Showcase */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
-              Transforming <span className="text-gradient">Visions</span> into Reality
-            </h2>
-            <BeforeAfterSlider />
-          </div>
-        </section>
+      {/* Case Studies - The "Proof" */}
+      <div className="py-24 bg-card/30">
+        <ElitePortfolio title="The Laboratory Archive" />
+      </div>
 
-        <ExpandingServices services={servicesData} />
-        <EliteSectionDivider variant="curve" flip />
-
-        <EliteProcess />
-        <EliteSectionDivider variant="gradient-flow" intensity="bold" flip />
-
-        <TestimonialTicker />
+      {/* Results/Reviews */}
+      <div className="py-12">
         <PremiumTestimonials />
-        <EliteSectionDivider variant="particles" />
+      </div>
 
-        {/* ROI Calculator */}
-        <ROICalculator />
+      {/* Final CTA handled by Footer/Navigation, or add specific one here */}
+      <section className="py-24 bg-accent text-white text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="container mx-auto px-6 relative z-10">
+          <h2 className="text-4xl font-bold mb-6">Stop Leaving Money on the Table</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            Your competition is already optimizing. Get a clear roadmap to higher revenue today.
+          </p>
+          <a
+            href="/offers/diagnostic"
+            className="inline-flex h-14 items-center justify-center rounded-md bg-white text-accent hover:bg-white/90 px-8 text-lg font-bold transition-colors shadow-xl"
+          >
+            Start Your Diagnostic
+          </a>
+        </div>
+      </section>
 
-        {/* Video Showcase */}
-        <VideoShowcase />
-
-        <EliteSectionDivider variant="wave" />
-        <EliteCTA />
-      </main>
       <Footer />
-
-    </>
+    </main>
   )
 }

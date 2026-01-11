@@ -1,4 +1,5 @@
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 export interface PortfolioItem {
     id: string

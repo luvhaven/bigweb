@@ -1,4 +1,5 @@
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 export const pagesAPI = {
     // Get all pages

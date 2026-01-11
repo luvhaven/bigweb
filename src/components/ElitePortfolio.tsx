@@ -16,84 +16,39 @@ gsap.registerPlugin(ScrollTrigger)
 // Fallback mock data for when database is not set up
 const MOCK_PROJECTS = [
   {
-    id: 'techcorp-platform',
-    name: 'TechCorp Enterprise Platform',
-    title: 'TechCorp Enterprise Platform',
+    id: 'nexus-flow-saas',
+    slug: 'saas-trial-conversion',
+    title: 'Nexus Flow: The 127% SaaS Funnel Re-Engineering',
+    offer: 'Revenue Website System',
     category: 'SaaS',
-    description: 'Cloud-based collaboration platform for enterprise teams',
-    image_url: '/artifacts/techcorp_platform_dashboard_1764589013521.png',
+    description: 'A complete architectural rebuild of a multi-tenant analytics platform. Eliminated cognitive friction in the pricing matrix and streamlined path-to-upgrade.',
+    results: '+127% Conversion Lift',
+    image_url: '/images/projects/nexus-flow.png',
+    image: '/images/projects/nexus-flow.png',
     created_at: new Date().toISOString()
   },
   {
-    id: 'finpay-wallet',
-    name: 'FinPay Digital Wallet',
-    title: 'FinPay Digital Wallet',
-    category: 'Fintech',
-    description: 'Secure mobile payment solution with cryptocurrency integration',
-    image_url: '/artifacts/finpay_wallet_app_1764589030619.png',
+    id: 'aura-wear-ecommerce',
+    slug: 'ecommerce-cart-fix',
+    title: 'Aura Wear Global: Surgical Checkout Recovery',
+    offer: 'Fix Sprint',
+    category: 'E-commerce',
+    description: 'Transforming a high-abandonment mobile checkout into a high-trust conversion engine. Reduced friction points by 60% through surgical UI optimization.',
+    results: '40% Revenue Recovery',
+    image_url: '/images/projects/aura-wear.png',
+    image: '/images/projects/aura-wear.png',
     created_at: new Date().toISOString()
   },
   {
-    id: 'healthtrack-app',
-    name: 'HealthTrack Pro',
-    title: 'HealthTrack Pro',
-    category: 'Healthcare',
-    description: 'AI-powered health monitoring platform',
-    image_url: '/artifacts/healthtrack_dashboard_1764589047595.png',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'luxury-fashion',
-    name: 'Luxury Fashion Store',
-    title: 'Luxury Fashion Store',
-    category: 'E-Commerce',
-    description: 'Premium e-commerce experience with AR try-on',
-    image_url: '/artifacts/luxury_fashion_ecommerce_1764589064929.png',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'ai-content-studio',
-    name: 'AI Content Studio',
-    title: 'AI Content Studio',
-    category: 'AI',
-    description: 'Next-generation content creation platform',
-    image_url: '/artifacts/ai_content_studio_1764589081328.png',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'crypto-exchange',
-    name: 'CryptoVault Exchange',
-    title: 'CryptoVault Exchange',
-    category: 'Fintech',
-    description: 'Institutional-grade cryptocurrency trading platform',
-    image_url: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=800&q=80',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'ecosmart-home',
-    name: 'EcoSmart Home',
-    title: 'EcoSmart Home',
-    category: 'IoT',
-    description: 'Smart home automation app for energy efficiency',
-    image_url: 'https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=1200',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'urban-eats',
-    name: 'Urban Eats',
-    title: 'Urban Eats',
-    category: 'Mobile App',
-    description: 'Hyper-local food delivery experience',
-    image_url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'neon-realty',
-    name: 'Neon Realty',
-    title: 'Neon Realty',
-    category: 'Real Estate',
-    description: 'Immersive 3D real estate browsing platform',
-    image_url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+    id: 'vanguard-capital-leads',
+    slug: 'lead-gen-optimization',
+    title: 'Vanguard Capital: 3.5x Authority Lead-Gen System',
+    offer: 'Conversion Diagnostic',
+    category: 'Finance',
+    description: 'Building institutional trust through strategic typography and intent-based lead captures. Identified and fixed critical messaging-to-market gaps.',
+    results: '350% Quality Lead Growth',
+    image_url: '/images/projects/vanguard-capital.png',
+    image: '/images/projects/vanguard-capital.png',
     created_at: new Date().toISOString()
   }
 ]
@@ -154,38 +109,57 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="relative h-[500px] rounded-2xl overflow-hidden glass border-0 cursor-pointer shadow-luxury transition-all duration-500 group-hover:shadow-[0_0_50px_-10px_rgba(var(--accent),0.4)]"
       >
-        <Link href={`/portfolio/${project.id}`}>
+        <Link href={`/case-studies/${project.slug || project.id}`}>
           {/* Image Container */}
           <div className="absolute inset-0 overflow-hidden">
             {/* Image Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
-            {project.image_url || project.image ? (
+            {project.image_url || project.image || project.hero_image_url ? (
               <img
-                src={project.image_url || project.image}
-                alt={project.name || project.title}
+                src={project.image_url || project.image || project.hero_image_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200'}
+                alt={project.name || project.title || 'Case Study'}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 loading="eager"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200';
+                }}
               />
             ) : (
-              <div className="w-full h-full bg-secondary flex items-center justify-center text-muted-foreground">
-                No Image
-              </div>
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200"
+                alt="Case Study Placeholder"
+                className="w-full h-full object-cover"
+              />
             )}
           </div>
 
           {/* Content */}
           <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
             <div className="transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
-              <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium mb-3 backdrop-blur-md border border-accent/20">
-                {project.category}
-              </span>
+              <div className="flex flex-wrap gap-2 mb-3">
+                <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-accent/20">
+                  {project.category}
+                </span>
+                {project.offer && (
+                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-white/20">
+                    {project.offer}
+                  </span>
+                )}
+              </div>
               <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-accent transition-colors duration-300">
                 {project.title}
               </h3>
-              <p className="text-gray-300 mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+              <p className="text-gray-300 mb-6 group-hover:text-white transition-colors duration-300 line-clamp-2">
                 {project.description}
               </p>
+
+              {project.results && (
+                <div className="mb-6 p-4 rounded-xl bg-accent/10 border border-accent/20 backdrop-blur-sm">
+                  <div className="text-xs text-accent uppercase font-bold tracking-widest mb-1">Impact Result</div>
+                  <div className="text-2xl font-black text-white">{project.results}</div>
+                </div>
+              )}
 
               <div className="flex items-center gap-2 text-white font-medium group/btn">
                 <span className="relative overflow-hidden">
@@ -217,7 +191,7 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
   const [activeCategory, setActiveCategory] = useState('All')
   const [visibleProjects, setVisibleProjects] = useState<any[]>(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
   const [allProjects, setAllProjects] = useState<any[]>(MOCK_PROJECTS)
-  const [categories, setCategories] = useState<string[]>(['All', 'SaaS', 'Fintech', 'Healthcare', 'E-Commerce', 'AI'])
+  const [categories, setCategories] = useState<string[]>(['All', 'SaaS', 'E-commerce', 'Finance', 'Fintech', 'AI'])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const isTouch = useTouchDevice()
@@ -229,20 +203,41 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
 
   const loadProjects = async () => {
     try {
-      // setIsLoading(true) - Don't show loader, just silently update if DB works
       const data = await projectsAPI.getAll()
 
       if (data && data.length > 0) {
-        setAllProjects(data)
-        setVisibleProjects(data.slice(0, PROJECTS_PER_PAGE))
+        // Map dynamic data to hyperrealistic local assets if slugs or titles match
+        const mappedData = data.map((p: any) => {
+          const searchStr = `${p.slug || ''} ${p.title || ''} ${p.name || ''} ${p.category || ''} ${p.client || ''}`.toLowerCase();
+          let img = '';
+
+          if (searchStr.includes('vanguard') || searchStr.includes('capital') || searchStr.includes('lead-gen') || searchStr.includes('finance')) {
+            img = '/images/projects/vanguard-capital.png';
+          } else if (searchStr.includes('nexus') || searchStr.includes('saas') || searchStr.includes('flow')) {
+            img = '/images/projects/nexus-flow.png';
+          } else if (searchStr.includes('aura') || searchStr.includes('ecommerce') || searchStr.includes('wear')) {
+            img = '/images/projects/aura-wear.png';
+          }
+
+          if (img) {
+            return {
+              ...p,
+              image_url: img,
+              image: img,
+              hero_image_url: img,
+              thumbnail_url: img
+            };
+          }
+          return p;
+        });
+
+        setAllProjects(mappedData)
+        setVisibleProjects(mappedData.slice(0, PROJECTS_PER_PAGE))
 
         // Extract unique categories from projects
-        const uniqueCategories = ['All', ...new Set(data
+        const uniqueCategories = ['All', ...new Set(mappedData
           .map((p: any) => {
-            // Handle tags array if it exists
-            if (p.tags && Array.isArray(p.tags) && p.tags.length > 0) {
-              return p.tags
-            }
+            if (p.tags && Array.isArray(p.tags) && p.tags.length > 0) return p.tags
             return p.category
           })
           .flat()
@@ -252,7 +247,6 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
       }
     } catch (error) {
       console.warn('Database fetch failed, keeping mock data:', error)
-      // No action needed, fallback is already loaded
     } finally {
       setIsLoading(false)
     }

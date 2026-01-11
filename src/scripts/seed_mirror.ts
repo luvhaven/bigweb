@@ -17,120 +17,280 @@ if (!supabaseUrl || !supabaseServiceKey) {
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function seed() {
-    console.log('🌱 Starting Absolute Mirror Seed...');
+    console.log('🌱 Starting Conversion Lab Backend Sync...');
 
-    // 1. SITE SETTINGS
-    console.log('Settings...');
-    const settings = [
-        { category: 'general', setting_key: 'company_phone', setting_value: '"+234 703 057 6537"', description: 'Primary phone', data_type: 'string' },
-        { category: 'general', setting_key: 'company_email', setting_value: '"hello@bigwebdigital.com"', description: 'Primary email', data_type: 'string' },
-        { category: 'general', setting_key: 'company_address', setting_value: '"Global Presence: NA, EU, Asia, Africa"', description: 'Address', data_type: 'string' },
-        { category: 'social', setting_key: 'facebook_url', setting_value: '"https://facebook.com/bigwebdigital"', description: 'Facebook', data_type: 'url' },
-        { category: 'social', setting_key: 'twitter_url', setting_value: '"https://twitter.com/bigwebdigital"', description: 'Twitter', data_type: 'url' },
-        { category: 'social', setting_key: 'instagram_url', setting_value: '"https://instagram.com/bigwebdigital"', description: 'Instagram', data_type: 'url' },
-        { category: 'social', setting_key: 'linkedin_url', setting_value: '"https://linkedin.com/company/bigweb-digital"', description: 'LinkedIn', data_type: 'url' },
+    // 1. SERVICES/OFFERS
+    console.log('Syncing Services...');
+    const services = [
+        {
+            title: 'Conversion Diagnostic',
+            slug: 'diagnostic',
+            tagline: 'Know Exactly What\'s Broken',
+            description: 'A forensic audit of your website with a prioritized fix list. We analyze your funnel, identify revenue blockers, and show you exactly what to fix first.',
+            price_from: 399,
+            pricing_model: 'fixed',
+            features: ["Video walkthrough of your site", "Prioritized fix list", "Messaging & copy audit", "Competitor benchmarking", "48-hour turnaround"],
+            icon_name: 'Target',
+            color: 'blue',
+            sort_order: 1
+        },
+        {
+            title: 'Fix Sprint',
+            slug: 'fix-sprint',
+            tagline: 'Fix The Critical 20% in 7 Days',
+            description: 'We implement the high-impact fixes that drive 80% of results. Perfect for sites that need surgical precision, not a complete rebuild.',
+            price_from: 1000,
+            pricing_model: 'from',
+            features: ["1-3 pages optimized", "Copy rewrites for clarity", "CTA improvements", "Mobile responsiveness fixes", "7-day execution"],
+            icon_name: 'Zap',
+            color: 'orange',
+            sort_order: 2
+        },
+        {
+            title: 'Revenue System',
+            slug: 'revenue-system',
+            tagline: 'Complete Website Rebuild',
+            description: 'A conversion-engineered website built from the ground up. Modern architecture, lightning-fast performance, and every pixel optimized for revenue.',
+            price_from: 3000,
+            pricing_model: 'from',
+            features: ["Modern architecture", "Conversion-first design", "Sub-2-second load times", "Custom CMS", "8-week build process"],
+            icon_name: 'Layers',
+            color: 'orange',
+            sort_order: 3
+        },
+        {
+            title: 'Optimization Retainer',
+            slug: 'retainer',
+            tagline: 'Your In-House CRO Team',
+            description: 'Continuous optimization, A/B testing, and refinement. We act as your dedicated conversion team, constantly improving your revenue.',
+            price_from: 500,
+            price_to: 2000,
+            pricing_model: 'monthly',
+            features: ["Monthly A/B tests", "Conversion rate optimization", "Performance monitoring", "Priority support", "Ongoing improvements"],
+            icon_name: 'RefreshCw',
+            color: 'green',
+            sort_order: 4
+        }
     ];
 
-    for (const s of settings) {
-        const { error } = await supabase.from('site_settings').upsert(s, { onConflict: 'setting_key' });
-        if (error) console.error('Error setting ' + s.setting_key, error);
+    for (const service of services) {
+        const { error } = await supabase.from('cms_services').upsert(service, { onConflict: 'slug' });
+        if (error) console.error(`Error syncing service ${service.slug}:`, error.message);
     }
 
-    // 2. NAVIGATION (Clear Header First)
-    console.log('Navigation...');
-    await supabase.from('navigation_menus').delete().eq('menu_location', 'header');
-
-    // Top Level
-    const { data: navServices } = await supabase.from('navigation_menus').insert({ menu_location: 'header', label: 'Services', url: '#', sort_order: 1, icon: 'Grid' }).select('id').single();
-
-    await supabase.from('navigation_menus').insert([
-        { menu_location: 'header', label: 'About', url: '/about', sort_order: 2 },
-        { menu_location: 'header', label: 'Portfolio', url: '/portfolio', sort_order: 3 },
-        { menu_location: 'header', label: 'Blog', url: '/blog', sort_order: 4 },
-        { menu_location: 'header', label: 'Careers', url: '/careers', sort_order: 5 },
-        { menu_location: 'header', label: 'Estimator', url: '/estimator', sort_order: 6 },
-    ]);
-
-    if (navServices) {
-        // Categories
-        const { data: catEng } = await supabase.from('navigation_menus').insert({ menu_location: 'header', label: 'Engineering', url: '#', parent_id: navServices.id, sort_order: 1, icon: 'Code' }).select('id').single();
-        const { data: catDes } = await supabase.from('navigation_menus').insert({ menu_location: 'header', label: 'Design & Maintenance', url: '#', parent_id: navServices.id, sort_order: 2, icon: 'Palette' }).select('id').single();
-        const { data: catAI } = await supabase.from('navigation_menus').insert({ menu_location: 'header', label: 'Artificial Intelligence', url: '#', parent_id: navServices.id, sort_order: 3, icon: 'Brain' }).select('id').single();
-        const { data: catGrowth } = await supabase.from('navigation_menus').insert({ menu_location: 'header', label: 'Growth & Analytics', url: '#', parent_id: navServices.id, sort_order: 4, icon: 'TrendingUp' }).select('id').single();
-
-        if (catEng) {
-            await supabase.from('navigation_menus').insert([
-                { menu_location: 'header', label: 'Web Development', url: '/services/web-development', description: 'Custom apps', parent_id: catEng.id, sort_order: 1, icon: 'Code' },
-                { menu_location: 'header', label: 'Mobile Apps', url: '/services/mobile-apps', description: 'iOS & Android', parent_id: catEng.id, sort_order: 2, icon: 'Smartphone' },
-                { menu_location: 'header', label: 'E-Commerce', url: '/services/ecommerce', description: 'Online stores', parent_id: catEng.id, sort_order: 3, icon: 'ShoppingCart' },
-                { menu_location: 'header', label: 'Staff Augmentation', url: '/services/staff-augmentation', description: 'Scale teams', parent_id: catEng.id, sort_order: 4, icon: 'Users' }
-            ]);
+    // 2. CASE STUDIES
+    console.log('Syncing Case Studies...');
+    const caseStudies = [
+        {
+            title: 'Solving the "Trial Trap": 127% Increase in SaaS Conversions',
+            client_name: 'DataPulse Analytics',
+            slug: 'saas-trial-conversion',
+            industry: 'B2B SaaS',
+            challenge: 'High traffic to pricing page but only 2% trial signups. Complex messaging and unclear value proposition were causing drop-offs.',
+            solution: 'Simplified pricing page, clarified value prop, reduced form fields, added social proof above fold, implemented exit-intent offer.',
+            results: { conversion_increase: "127%", trial_signups: "+450/month", revenue_impact: "$1.2M ARR" },
+            image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200',
+            is_published: true,
+            sort_order: 1
+        },
+        {
+            title: 'Surgical Recovery: 70% to 38% Checkout Abandonment',
+            client_name: 'LuxeWear Global',
+            slug: 'ecommerce-cart-fix',
+            industry: 'Luxury E-commerce',
+            challenge: '70% cart abandonment rate. Customers adding items but not completing checkout. Mobile experience was particularly poor.',
+            solution: 'Redesigned checkout flow, added trust badges, implemented one-page checkout, optimized for mobile, added abandoned cart email sequence.',
+            results: { conversion_increase: "85%", cart_abandonment: "70% → 38%", revenue_increase: "$2.1M annually" },
+            image_url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200',
+            is_published: true,
+            sort_order: 2
+        },
+        {
+            title: '300% Scaling: The High-Ticket Authority Funnel',
+            client_name: 'Vanguard Consulting',
+            slug: 'lead-gen-optimization',
+            industry: 'Professional Services',
+            challenge: 'Spending $15k/month on ads but only getting 30 qualified leads. Cost per lead was too high to be profitable.',
+            solution: 'Rebuilt landing pages, implemented multi-step form, added video testimonials, created urgency with limited spots, optimized ad-to-page message match.',
+            results: { leads_increase: "300%", cost_per_lead: "$500 → $165", monthly_leads: "30 → 120" },
+            image_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=90',
+            is_published: true,
+            sort_order: 3
         }
-        // ... (Adding minimally to prove point, can duplicate full list if needed, but this covers the structure)
-        if (catDes) {
-            await supabase.from('navigation_menus').insert([
-                { menu_location: 'header', label: 'UI/UX Design', url: '/services/ui-ux-design', description: 'World-class interfaces', parent_id: catDes.id, sort_order: 1, icon: 'Palette' },
-                { menu_location: 'header', label: 'Maintenance', url: '/services/maintenance', description: '24/7 Security', parent_id: catDes.id, sort_order: 2, icon: 'Shield' }
-            ]);
+    ];
+
+    for (const study of caseStudies) {
+        const { error } = await supabase.from('cms_case_studies').upsert(study, { onConflict: 'slug' });
+        if (error) console.error(`Error syncing case study ${study.slug}:`, error.message);
+    }
+
+    // 3. FOOTER SECTIONS & LINKS
+    console.log('Syncing Footer architecture...');
+
+    // Clear existing to avoid duplicates if ID-less (in a real app we'd use consistent IDs)
+    await supabase.from('cms_footer_links').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('cms_footer_sections').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
+    const footerSections = [
+        { title: 'Brand & Lab', description: 'Join the Conversion Lab newsletter', sort_order: 1 },
+        { title: 'Our Offers', description: 'Engineered for revenue', sort_order: 2 },
+        { title: 'The Evidence', description: 'Proven results only', sort_order: 3 },
+        { title: 'The Lab Presence', description: 'Global Reach', sort_order: 4 }
+    ];
+
+    for (const section of footerSections) {
+        const { data: sectionData, error: sError } = await supabase.from('cms_footer_sections').insert(section).select().single();
+        if (sError) {
+            console.error(`Error syncing footer section ${section.title}:`, sError.message);
+            continue;
         }
-        if (catAI) {
-            await supabase.from('navigation_menus').insert([
-                { menu_location: 'header', label: 'AI Sales Agents', url: '/ai-boost', description: '24/7 automated bots', parent_id: catAI.id, sort_order: 1, icon: 'Bot' },
-                { menu_location: 'header', label: 'AI Consulting', url: '/services/ai-consulting', description: 'Strategic AI', parent_id: catAI.id, sort_order: 2, icon: 'Brain' },
-                { menu_location: 'header', label: 'GAIO Optimization', url: '/services/gaio', description: 'Rank #1 on ChatGPT', parent_id: catAI.id, sort_order: 3, icon: 'Search' }
-            ]);
+
+        const sectionId = sectionData.id;
+        let links: any[] = [];
+
+        if (section.title === 'Our Offers') {
+            links = [
+                { label: "Conversion Diagnostic", href: "/offers/diagnostic", sort_order: 1 },
+                { label: "7-Day Fix Sprint", href: "/offers/fix-sprint", sort_order: 2 },
+                { label: "Revenue Website System", href: "/offers/revenue-system", sort_order: 3 },
+                { label: "Optimization Retainer", href: "/offers/retainer", sort_order: 4 }
+            ];
+        } else if (section.title === 'The Evidence') {
+            links = [
+                { label: "Case Study Archive", href: "/case-studies", sort_order: 1 },
+                { label: "Success Mechanics", href: "/process", sort_order: 2 },
+                { label: "The Engineers", href: "/#team", sort_order: 3 },
+                { label: "Impact Metrics", href: "/#stats", sort_order: 4 }
+            ];
+        } else if (section.title === 'The Lab Presence') {
+            links = [
+                { label: "North America (US & CA)", href: "#", icon: "MapPin", sort_order: 1 },
+                { label: "United Kingdom & EU", href: "#", icon: "MapPin", sort_order: 2 },
+                { label: "Middle East (UAE)", href: "#", icon: "MapPin", sort_order: 3 },
+                { label: "Africa (NG & KE)", href: "#", icon: "MapPin", sort_order: 4 },
+                { label: "hello@bigwebdigital.com", href: "mailto:hello@bigwebdigital.com", icon: "Mail", sort_order: 5 }
+            ];
         }
-        if (catGrowth) {
-            await supabase.from('navigation_menus').insert([
-                { menu_location: 'header', label: 'SEO & Growth', url: '/services/seo-growth', description: 'Dominate rankings', parent_id: catGrowth.id, sort_order: 1, icon: 'TrendingUp' },
-                { menu_location: 'header', label: 'Analytics', url: '/services/analytics', description: 'Data-driven insights', parent_id: catGrowth.id, sort_order: 2, icon: 'BarChart' },
-                { menu_location: 'header', label: 'CRO & Sales', url: '/services/conversion-optimization', description: 'Turn visitors into buyers', parent_id: catGrowth.id, sort_order: 3, icon: 'TrendingUp' }
-            ]);
+
+        if (links.length > 0) {
+            const linksWithSection = links.map(l => ({ ...l, section_id: sectionId }));
+            const { error: lError } = await supabase.from('cms_footer_links').insert(linksWithSection);
+            if (lError) console.error(`Error syncing links for ${section.title}:`, lError.message);
         }
     }
 
-    // 3. FOOTER
-    console.log('Footer...');
-    await supabase.from('footer_sections').delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+    // 4. SITE SETTINGS
+    console.log('Syncing Site Settings...');
+    const settings = [
+        { setting_key: 'site_name', setting_value: 'BIGWEB Digital', description: 'Site name' },
+        { setting_key: 'site_tagline', setting_value: 'The Conversion Lab', description: 'Site tagline' },
+        { setting_key: 'contact_email', setting_value: 'hello@bigwebdigital.com', description: 'Contact email' },
+        { setting_key: 'contact_phone', setting_value: '+234 (703) 057-6537', description: 'Contact phone' },
+        { setting_key: 'primary_color', setting_value: '#ea580c', description: 'Primary brand color' },
+        { setting_key: 'company_address', setting_value: 'Global Presence: NA, EU, Asia, Africa', description: 'Address' },
+        { setting_key: 'facebook_url', setting_value: 'https://facebook.com/bigwebdigital', description: 'Facebook' },
+        { setting_key: 'twitter_url', setting_value: 'https://twitter.com/bigwebdigital', description: 'Twitter' },
+        { setting_key: 'instagram_url', setting_value: 'https://instagram.com/bigwebdigital', description: 'Instagram' },
+        { setting_key: 'linkedin_url', setting_value: 'https://linkedin.com/company/bigweb-digital', description: 'LinkedIn' }
+    ];
 
-    await supabase.from('footer_sections').insert([
-        { section_title: 'Brand & Newsletter', section_type: 'newsletter', column_position: 1, sort_order: 1, content: { text: "Stay updated" } },
+    // 5. HERO SLIDES
+    console.log('Syncing Hero Slides...');
+    const heroSlides = [
         {
-            section_title: 'Services', section_type: 'links', column_position: 2, sort_order: 1, content: [
-                { label: "Web Development", url: "/services/web-development" },
-                { label: "Mobile Apps", url: "/services/mobile-apps" },
-                { label: "UI/UX Design", url: "/services/ui-ux-design" },
-                { label: "SEO & Growth", url: "/services/seo-growth" },
-                { label: "E-Commerce", url: "/services/ecommerce" }
-            ]
+            title: "Performance Engineering for Modern Revenue Systems",
+            subtitle: "The Conversion Lab Protocol",
+            description: "We analyze, fix, and rebuild websites with a single goal: increasing your revenue. No fluff, no buzzwords, just engineered conversion outcomes.",
+            cta_text: "Request a Conversion Diagnostic",
+            cta_link: "/offers/diagnostic",
+            image_url: "/images/hero/revenue_system.png",
+            stat_value: "+300%",
+            stat_label: "Target ROI",
+            sort_order: 1,
+            active: true
         },
         {
-            section_title: 'More', section_type: 'links', column_position: 2, sort_order: 2, content: [
-                { label: "AI Consulting", url: "/services/ai-consulting" },
-                { label: "GAIO (AI Optimization)", url: "/services/gaio" },
-                { label: "Staff Augmentation", url: "/services/staff-augmentation" },
-                { label: "Maintenance", url: "/services/maintenance" }
-            ]
+            title: "Stop Losing Leads to Confusing Design",
+            subtitle: "Conversion Engineers, Not Just Designers",
+            description: "Pretty websites that don't sell are liabilities. We use data-driven psychology to clear bottlenecks and funnel visitors straight to your checkout or calendar.",
+            cta_text: "Fix My Website Sprints",
+            cta_link: "/offers/fix-sprint",
+            image_url: "/images/hero/design_fix.png",
+            stat_value: "1-3",
+            stat_label: "Sprint Weeks",
+            sort_order: 2,
+            active: true
         },
         {
-            section_title: 'Company', section_type: 'links', column_position: 3, sort_order: 1, content: [
-                { label: "About Us", url: "/about" },
-                { label: "Portfolio", url: "/portfolio" },
-                { label: "Careers", "url": "/careers" },
-                { label: "Blog", "url": "/blog" },
-                { label: "Contact", "url": "/contact" }
-            ]
-        },
-        {
-            section_title: 'Connect', section_type: 'links', column_position: 4, sort_order: 1, content: [
-                { label: "hello@bigwebdigital.com", url: "mailto:hello@bigwebdigital.com", icon: "Mail" },
-                { label: "+234 (703) 057-6537", url: "tel:+2347030576537", icon: "Phone" },
-                { label: "Global Presence", url: "#", icon: "MapPin", sublabel: "NA, EU, Asia, Africa" }
-            ]
+            title: "Your In-House Growth Team Without the Overhead",
+            subtitle: "Continuous Optimization Retainers",
+            description: "Launch is just the starting line. We rigorously A/B test, monitor, and refine your site effectively acting as your dedicated CRO department.",
+            cta_text: "Explore Optimization",
+            cta_link: "/offers/retainer",
+            image_url: "/images/hero/growth_team.png",
+            stat_value: "24/7",
+            stat_label: "Monitoring",
+            sort_order: 3,
+            active: true
         }
-    ]);
+    ];
 
-    console.log('✅ Seed Complete!');
+    for (const slide of heroSlides) {
+        const { error } = await supabase.from('hero_slides').upsert(slide, { onConflict: 'title' });
+        if (error) console.error(`Error syncing hero slide ${slide.title}:`, error.message);
+    }
+
+    // 6. TEAM MEMBERS
+    console.log('Syncing Lab Personnel...');
+    const teamMembers = [
+        {
+            name: "Dr. Elias Thorne",
+            role: "Chief Conversion Scientist",
+            bio: "Ph.D. in Behavioral Psychology with 15 years experience modeling user intent and friction points. Specializes in the 'Friction Extraction' Protocol.",
+            avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+            linkedin_url: "#",
+            twitter_url: "#",
+            sort_order: 1,
+            is_active: true
+        },
+        {
+            name: "Sarah Chen",
+            role: "Lead Conversion Engineer",
+            bio: "Former senior dev at Stripe with a focus on high-performance checkout systems and sub-second rendering. Architect of the 'Instant-Pay' flow.",
+            avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+            linkedin_url: "#",
+            twitter_url: "#",
+            sort_order: 2,
+            is_active: true
+        },
+        {
+            name: "Marcus Rodriguez",
+            role: "UX Forensic Specialist",
+            bio: "Expert in heatmap analysis and eye-tracking studies. Specializes in identifying psychological bottlenecks and 'Authority Gaps'.",
+            avatar_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+            linkedin_url: "#",
+            twitter_url: "#",
+            sort_order: 3,
+            is_active: true
+        },
+        {
+            name: "Lena Sokolov",
+            role: "Data & Retention Architect",
+            bio: "Algorithmic specialist focused on LTV optimization and personalized funnel architecture. Creator of the 'Diagnostic Re-modeling' framework.",
+            avatar_url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+            linkedin_url: "#",
+            twitter_url: "#",
+            sort_order: 4,
+            is_active: true
+        }
+    ];
+
+    for (const member of teamMembers) {
+        const { error } = await supabase.from('cms_team_members').upsert(member, { onConflict: 'name' });
+        if (error) console.error(`Error syncing team member ${member.name}:`, error.message);
+    }
+
+    console.log('✅ Synchronized Frontend Updates to Backend Successfully!');
 }
 
 seed().catch(console.error);

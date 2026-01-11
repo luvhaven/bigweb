@@ -30,13 +30,13 @@ export default function PremiumTestimonials() {
         setTestimonials([
           {
             id: '1',
-            client_name: "Sarah Jenkins",
+            client_name: "Sarah Chen",
             client_role: "Marketing Director",
-            client_company: "TechFlow Solutions",
-            content: "BIGWEB transformed our digital presence completely. Their attention to detail and innovative approach resulted in a 412% increase in conversions.",
+            client_company: "TechFlow SaaS",
+            content: "The Conversion Diagnostic revealed issues we'd been blind to for years. Implementing their recommended fixes increased our trial signups by 127% essentially overnight.",
             rating: 5,
             client_image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
-            result_metric: "+412% Conversions",
+            result_metric: "+127% Signup Rate",
             is_featured: true,
             status: 'active',
             order_index: 1,
@@ -45,13 +45,13 @@ export default function PremiumTestimonials() {
           },
           {
             id: '2',
-            client_name: "Kwame Osei",
-            client_role: "Tech Founder",
-            client_company: "Innovate Africa",
-            content: "The scalability of the architecture they built allowed us to expand to three new countries in under six months. World-class engineering.",
+            client_name: "Michael Rodriguez",
+            client_role: "Founder",
+            client_company: "GrowthMetrics",
+            content: "The Fix Sprint is the best $1,000 we ever spent. They optimized our pricing page in 7 days and we saw a 40% increase in checkout completions the following week.",
             rating: 5,
             client_image: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=150&q=80",
-            result_metric: "3 New Markets",
+            result_metric: "40% Checkout Boost",
             is_featured: true,
             status: 'active',
             order_index: 2,
@@ -60,46 +60,16 @@ export default function PremiumTestimonials() {
           },
           {
             id: '3',
-            client_name: "Lars Nielsen",
-            client_role: "Product Lead",
-            client_company: "Nordic Design Co.",
-            content: "Minimalist, efficient, and incredibly powerful. They understood our Scandinavian design ethos perfectly while delivering robust functionality.",
+            client_name: "Emily Thompson",
+            client_role: "CEO",
+            client_company: "StyleHub Fashion",
+            content: "Our new Revenue Website System is a Ferrari. It's lightning fast, beautiful, and most importantly, it actually sells. 2% to 5% site-wide conversion rate jump.",
             rating: 5,
-            client_image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80",
-            result_metric: "200% Efficiency",
+            client_image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
+            result_metric: "250% ROI",
             is_featured: true,
             status: 'active',
             order_index: 3,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: '4',
-            client_name: "Isabella Rossi",
-            client_role: "Creative Director",
-            client_company: "Milano Fashion",
-            content: "A digital masterpiece. The animations and interactions feel so organic. Our luxury clientele finally has an online experience that matches our brand.",
-            rating: 5,
-            client_image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
-            result_metric: "Award Winning",
-            is_featured: true,
-            status: 'active',
-            order_index: 4,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: '5',
-            client_name: "Amir Al-Fayed",
-            client_role: "CEO",
-            client_company: "Future Vision Holdings",
-            content: "We needed a partner who could execute at the speed of Dubai. BIGWEB delivered a complex enterprise solution weeks ahead of schedule.",
-            rating: 5,
-            client_image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
-            result_metric: "2x Revenue",
-            is_featured: true,
-            status: 'active',
-            order_index: 5,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           }
@@ -225,7 +195,7 @@ export default function PremiumTestimonials() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

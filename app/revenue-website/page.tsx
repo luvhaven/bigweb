@@ -114,14 +114,14 @@ const faqs = [
     }
 ]
 
-import ExitIntentModal from '@/components/conversion/ExitIntentModal'
+
 
 export default function RevenueWebsitePage() {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
 
     return (
         <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30 overflow-x-hidden">
-            <ExitIntentModal />
+
             {/* Elite Background */}
             <div className="fixed inset-0 z-0">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-emerald-600/10 blur-[120px] rounded-full opacity-50 pointer-events-none" />
@@ -130,7 +130,7 @@ export default function RevenueWebsitePage() {
 
             {/* Sticky Top Bar */}
             <div className="fixed top-0 inset-x-0 z-50 bg-emerald-950/90 backdrop-blur-md text-white text-center py-2 px-4 text-xs md:text-sm font-medium shadow-lg shadow-emerald-900/20 border-b border-white/10 flex justify-center items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+
                 <span><span className="text-emerald-400 font-bold">UPDATE:</span> Only 2 spots left for Jan design sprints.</span>
                 <span className="opacity-50 hidden sm:inline">|</span>
                 <span className="font-bold hidden sm:inline">Offer Ends Jan 31</span>
@@ -364,7 +364,7 @@ export default function RevenueWebsitePage() {
                                                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
                                             </div>
                                             <div className="ml-4 h-5 w-48 bg-white/5 rounded-full flex items-center px-2">
-                                                <div className="w-3 h-3 rounded-full bg-emerald-500/50 mr-2 animate-pulse" />
+
                                                 <div className="h-1.5 w-20 bg-white/10 rounded-full" />
                                             </div>
                                         </div>

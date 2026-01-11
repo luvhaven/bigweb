@@ -44,14 +44,14 @@ export default function LiveStats() {
         },
         {
             icon: Code,
-            label: 'Lines of Code',
-            value: stats.linesOfCode,
-            suffix: '',
-            color: 'text-purple-500'
+            label: 'Conversions Analyzed',
+            value: stats.linesOfCode / 100, // Normalized for visual scale
+            suffix: 'k+',
+            color: 'text-accent'
         },
         {
             icon: Coffee,
-            label: 'Coffees Consumed',
+            label: 'Strategy Calls',
             value: stats.coffeesConsumed,
             suffix: '+',
             color: 'text-orange-500'

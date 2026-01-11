@@ -11,14 +11,19 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export async function fetchGlobalContent() {
     // 1. Fetch all data in parallel
     const [settingsRes, navRes, footerSectionsRes, footerLinksRes] = await Promise.all([
-        supabase.from('cms_settings').select('*').single(),
-        supabase.from('cms_navigation').select('*').order('sort_order', { ascending: true }),
+        supabase.from('cms_site_settings').select('*'),
+        supabase.from('cms_navigation').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
         supabase.from('cms_footer_sections').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
         supabase.from('cms_footer_links').select('*').eq('is_active', true).order('sort_order', { ascending: true })
     ]);
 
-    // 2. Process Settings
-    const settings = settingsRes.data || {};
+    // 2. Process Settings (Array to Object mapping)
+    const settings: Record<string, any> = {};
+    if (settingsRes.data) {
+        settingsRes.data.forEach(s => {
+            settings[s.setting_key] = s.setting_value;
+        });
+    }
 
     // 3. Process Navigation (Build Tree)
     const navigation: any[] = [];
@@ -27,7 +32,11 @@ export async function fetchGlobalContent() {
         const idMap: Record<string, any> = {};
 
         rawNav.forEach(item => {
-            idMap[item.id] = { ...item, children: [] };
+            idMap[item.id] = {
+                ...item,
+                url: item.href || item.url, // Handle both for safety
+                children: []
+            };
         });
 
         rawNav.forEach(item => {

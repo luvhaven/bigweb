@@ -98,12 +98,12 @@ export default function GenericAdminTable({ tableName, title, columns, defaultSo
 
         try {
             const { error: uploadError } = await supabase.storage
-                .from('cms_media')
+                .from('media')
                 .upload(filePath, file)
 
             if (uploadError) throw uploadError
 
-            const { data } = supabase.storage.from('cms_media').getPublicUrl(filePath)
+            const { data } = supabase.storage.from('media').getPublicUrl(filePath)
 
             // Update editor state
             setOpenEditor((prev: any) => ({ ...prev, [key]: data.publicUrl }))

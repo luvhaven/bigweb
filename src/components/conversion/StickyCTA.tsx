@@ -40,16 +40,10 @@ export default function StickyCTA() {
                     className="fixed bottom-6 left-0 right-0 z-40 px-4 pointer-events-none"
                 >
                     <div className="max-w-4xl mx-auto bg-background/80 backdrop-blur-xl border border-border/50 rounded-full shadow-2xl p-2 pl-6 flex items-center justify-between pointer-events-auto">
-                        <div className="hidden sm:flex items-center gap-2">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                            </span>
-                            <span className="font-medium text-sm">Accepting New Projects for Q1 2026</span>
-                        </div>
+
 
                         <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-                            <span className="sm:hidden font-medium text-sm">Start your project</span>
+                            <span className="sm:hidden font-medium text-sm">Elevate Your Conversion Rate Today</span>
                             <Link href="/contact">
                                 <Button className="rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20 group">
                                     <Sparkles className="w-4 h-4 mr-2" />

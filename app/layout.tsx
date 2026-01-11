@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -30,15 +31,15 @@ export async function generateMetadata() {
   return {
     metadataBase: new URL('https://bigwebdigital.com'),
     title: {
-      default: settings?.site_name ? `${settings.site_name} - Award-Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
-      template: settings?.site_name ? `%s | ${settings.site_name}` : '%s | BIGWEB Digital',
+      default: settings?.site_name ? `${settings.site_name} - Award - Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
+      template: settings?.site_name ? `% s | ${settings.site_name} ` : '%s | BIGWEB Digital',
     },
     description: settings?.site_description || 'Transform your digital presence with BIGWEB Digital. Expert web development, UI/UX design, mobile apps, AI automation, and SEO services.',
     icons: {
       icon: [
-        { url: settings?.favicon_url || '/logo_pulse.svg', type: 'image/svg+xml' },
-        { url: '/favicon.ico', sizes: 'any' }
+        { url: '/logo.svg', type: 'image/svg+xml' },
       ],
+      apple: '/logo.svg',
     },
     // ... preserve other static metadata if needed or move here
   }
@@ -62,15 +63,15 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Initialize accessibility features
-              if (typeof window !== 'undefined') {
-                // Respect prefers-reduced-motion
-                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-                if (prefersReducedMotion.matches) {
-                  document.documentElement.classList.add('reduce-motion');
-                }
-              }
-            `,
+// Initialize accessibility features
+if (typeof window !== 'undefined') {
+  // Respect prefers-reduced-motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (prefersReducedMotion.matches) {
+    document.documentElement.classList.add('reduce-motion');
+  }
+}
+`,
           }}
         />
 

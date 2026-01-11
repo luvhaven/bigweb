@@ -99,52 +99,52 @@ export default function PricingTable() {
 const defaultPlans: PricingTier[] = [
     {
         id: '1',
-        name: 'Starter',
-        price: '$2,999',
-        description: 'Perfect for small businesses looking to establish a premium presence.',
+        name: 'Conversion Diagnostic',
+        price: 'From $2,500',
+        description: 'Complete forensic audit and roadmap to fix your leaking revenue.',
         is_popular: false,
         sort_order: 1,
         features: [
-            'Custom Design System',
-            '5 Core Pages',
-            'Mobile Responsive',
-            'Basic SEO Setup',
-            'Contact Form Integration',
-            'CMS Integration'
+            'Forensic Data Audit',
+            'Behavioral Analysis',
+            'UX Research Report',
+            'Prioritized Fix List',
+            'ROI Projections',
+            'Strategy Session'
         ]
     },
     {
         id: '2',
-        name: 'Growth',
-        price: '$5,999',
-        description: 'For ambitious brands ready to scale with conversion-focused design.',
+        name: 'Fix Sprint',
+        price: '$5,000+',
+        description: 'Rapid, high-impact implementation of critical conversion fixes.',
         is_popular: true,
         sort_order: 2,
         features: [
-            'Everything in Starter',
-            'Advanced Animations (GSAP)',
-            'Conversion Optimization',
-            'Blog / Resource Center',
-            'Email Marketing Setup',
-            'Analytics Dashboard',
-            'Performance Optimization'
+            'Foundational Fixes',
+            'Speed Optimization',
+            'Messaging Overhaul',
+            'Mobile Optimization',
+            'CTA Refinement',
+            '1-Week Implementation',
+            'Performance Tracking'
         ]
     },
     {
         id: '3',
-        name: 'Enterprise',
-        price: 'Custom',
-        description: 'Full-scale digital transformation for market leaders.',
+        name: 'Revenue System',
+        price: 'From $15,000',
+        description: 'Full website rebuild engineered for maximum conversion performance.',
         is_popular: false,
         sort_order: 3,
         features: [
-            'Everything in Growth',
-            'Custom Web Application',
-            '3D Elements & WebGL',
-            'Advanced Integrations',
-            'Priority Support',
-            'A/B Testing Setup',
-            'Dedicated Project Manager'
+            'End-to-End Rebuild',
+            'Elite UX/UI Design',
+            'Custom CMS Integration',
+            'Advanced Animations',
+            'Intent-Based Copy',
+            'A/B Testing Framework',
+            '3-Months Post-Launch Support'
         ]
     }
 ]

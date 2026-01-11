@@ -101,14 +101,14 @@ const faqs = [
     }
 ]
 
-import ExitIntentModal from '@/components/conversion/ExitIntentModal'
+
 
 export default function AIBoostLandingPage() {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
 
     return (
         <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30">
-            <ExitIntentModal />
+
             {/* Sticky Top Bar - Scarcity */}
             <div className="fixed top-0 inset-x-0 z-50 bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium shadow-lg shadow-emerald-900/20">
                 <span className="hidden md:inline">🔥 FLASH SALE ENDING SOON: </span>
@@ -140,7 +140,7 @@ export default function AIBoostLandingPage() {
                                 transition={{ delay: 0.2 }}
                                 className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-full px-4 py-1.5 text-red-400 text-xs font-bold"
                             >
-                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+
                                 <span>Only 2 Slots Left This Week</span>
                             </motion.div>
                         </div>

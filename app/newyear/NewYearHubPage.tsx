@@ -122,13 +122,13 @@ export default function NewYearHubPage() {
                     <div className="absolute bottom-0 left-1/2 w-[500px] h-[500px] bg-violet-500/10 rounded-full blur-[150px]" />
 
                     {/* Animated Particles */}
-                    {isMounted && [...Array(20)].map((_, i) => (
+                    {[...Array(20)].map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute w-1 h-1 bg-white/20 rounded-full"
                             initial={{
-                                x: Math.random() * 100 + '%',
-                                y: Math.random() * 100 + '%',
+                                x: Math.floor(i * 5) + '%',
+                                y: Math.floor((i * 7) % 100) + '%',
                                 opacity: 0
                             }}
                             animate={{
@@ -136,9 +136,9 @@ export default function NewYearHubPage() {
                                 opacity: [0, 1, 0]
                             }}
                             transition={{
-                                duration: 3 + Math.random() * 2,
+                                duration: 3 + (i % 3),
                                 repeat: Infinity,
-                                delay: Math.random() * 2
+                                delay: i * 0.2
                             }}
                         />
                     ))}

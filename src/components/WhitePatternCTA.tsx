@@ -14,14 +14,14 @@ export default function WhitePatternCTA() {
           <defs>
             <pattern id="topographic" width="200" height="200" patternUnits="userSpaceOnUse">
               {/* Concentric circles creating topographic effect */}
-              <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-              <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-              <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-              <circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+              <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" strokeWidth="0.5" />
             </pattern>
             <pattern id="hexagons" width="50" height="43.4" patternUnits="userSpaceOnUse">
-              <path d="M25 0 L50 14.4 L50 28.9 L25 43.4 L0 28.9 L0 14.4 Z" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+              <path d="M25 0 L50 14.4 L50 28.9 L25 43.4 L0 28.9 L0 14.4 Z" fill="none" stroke="currentColor" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#topographic)" />
@@ -38,7 +38,7 @@ export default function WhitePatternCTA() {
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         <motion.div
-          className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-3xl"
+          className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-accent to-orange-400 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -73,9 +73,9 @@ export default function WhitePatternCTA() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-gray-200 rounded-full px-6 py-3 mb-8"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-accent/10 to-orange-50/50 border-2 border-accent/20 rounded-full px-6 py-3 mb-8"
             >
-              <Sparkles className="w-5 h-5 text-purple-600" />
+              <Sparkles className="w-5 h-5 text-accent" />
               <span className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
                 Limited Time Offer
               </span>
@@ -89,7 +89,7 @@ export default function WhitePatternCTA() {
               className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-6"
             >
               Ready to Transform Your
-              <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mt-2">
+              <span className="block bg-gradient-to-r from-accent via-orange-600 to-red-600 bg-clip-text text-transparent mt-2">
                 Digital Presence?
               </span>
             </motion.h2>
@@ -112,18 +112,18 @@ export default function WhitePatternCTA() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap items-center justify-center gap-4"
             >
-              <Link href="/estimator">
-                <Button 
+              <Link href="/offers/diagnostic">
+                <Button
                   size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg px-8 py-6 shadow-2xl hover:shadow-purple-500/50 transition-all group"
+                  className="bg-gradient-to-r from-accent to-orange-600 hover:from-accent hover:to-orange-700 text-white text-lg px-8 py-6 shadow-2xl hover:shadow-accent/40 transition-all group"
                 >
-                  Get Free Estimate
+                  Start Your Diagnostic
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              
+
               <Link href="/contact">
-                <Button 
+                <Button
                   size="lg"
                   variant="outline"
                   className="border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white text-lg px-8 py-6 transition-all"

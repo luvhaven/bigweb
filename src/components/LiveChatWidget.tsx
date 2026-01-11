@@ -130,7 +130,7 @@ export default function LiveChatWidget() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-accent to-accent-dark rounded-full shadow-[0_4px_20px_rgba(255,107,53,0.4)] flex items-center justify-center text-white group hover:shadow-[0_8px_30px_rgba(255,107,53,0.6)] transition-all duration-300"
+                        className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-accent to-orange-600 text-white shadow-[0_0_40px_-10px_rgba(255,107,53,0.5)] flex items-center justify-center relative overflow-hidden group hover:shadow-[0_8px_30px_rgba(255,107,53,0.6)] transition-all duration-300"
                     >
                         <MessageCircle className="w-8 h-8" />
                         {onlineAgents > 0 && (
@@ -162,7 +162,7 @@ export default function LiveChatWidget() {
                         )}
                     >
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-accent to-accent-dark p-5 flex items-center justify-between relative overflow-hidden">
+                        <div className="bg-gradient-to-r from-accent to-orange-600 p-5 flex items-center justify-between relative overflow-hidden">
                             <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />
                             <div className="flex items-center gap-4 relative z-10">
                                 <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/10 shadow-inner">

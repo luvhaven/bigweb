@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 export default function PortfolioCTA() {
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -38,7 +38,7 @@ export default function PortfolioCTA() {
           }}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-purple-500/20 blur-[120px]"
+          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-accent/20 blur-[120px]"
           animate={{
             scale: [1.2, 1, 1.2],
             opacity: [0.5, 0.3, 0.5],
@@ -57,7 +57,7 @@ export default function PortfolioCTA() {
           className="absolute inset-0 opacity-10"
           style={{ y }}
         >
-          <div 
+          <div
             className="w-full h-full"
             style={{
               backgroundImage: `
@@ -96,7 +96,7 @@ export default function PortfolioCTA() {
       </div>
 
       {/* Content */}
-      <motion.div 
+      <motion.div
         className="container mx-auto px-6 relative z-10"
         style={{ opacity, scale }}
       >
@@ -127,7 +127,7 @@ export default function PortfolioCTA() {
           >
             Ready to Transform
             <br />
-            <span className="bg-gradient-to-r from-accent via-orange-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent via-orange-500 to-orange-400 bg-clip-text text-transparent">
               Your Digital Vision?
             </span>
           </motion.h2>
@@ -140,7 +140,7 @@ export default function PortfolioCTA() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-muted-foreground text-center max-w-3xl mx-auto mb-12 leading-relaxed"
           >
-            Join hundreds of ambitious brands who've elevated their digital presence with our 
+            Join hundreds of ambitious brands who've elevated their digital presence with our
             award-winning solutions. Your project could be our next success story.
           </motion.p>
 
@@ -152,10 +152,10 @@ export default function PortfolioCTA() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
-            <Link href="/estimator">
-              <Button size="lg" className="text-lg px-10 py-7 group shadow-2xl shadow-accent/20">
+            <Link href="/offers/diagnostic">
+              <Button size="lg" className="text-lg px-10 py-7 group shadow-2xl shadow-accent/20 bg-accent hover:bg-accent/90">
                 <Zap className="mr-2 w-5 h-5" />
-                Get Instant Estimate
+                Start Your Diagnostic
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>

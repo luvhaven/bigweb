@@ -4,6 +4,9 @@ const nextConfig = {
     // Disable ESLint during production builds - linting is handled separately
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       {

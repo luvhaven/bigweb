@@ -1,144 +1,154 @@
-import { notFound } from 'next/navigation'
-import { blogPosts } from '@/lib/blog-data'
-import { agency } from '@/config/agency'
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import Image from 'next/image'
+import React from 'react'
+import { ArrowLeft, Clock, Calendar, Share2, Linkedin, Twitter } from 'lucide-react'
 import Link from 'next/link'
-import { ArrowLeft, Calendar, Clock } from 'lucide-react'
+import { notFound } from 'next/navigation'
+import { supabase } from '@/utils/supabase'
+import ConversionNavigation from '@/components/ConversionNavigation'
+import Footer from '@/components/Footer'
+import { Button } from '@/components/ui/button'
 
-interface BlogPostPageProps {
-    params: Promise<{
-        slug: string
-    }>
-}
+// Force dynamic rendering since we are fetching data based on slug
+export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
-    const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
-    if (!post) return {}
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+    const { data: post } = await supabase
+        .from('cms_blog_posts')
+        .select('*')
+        .eq('slug', params.slug)
+        .single()
+
+    if (!post) return { title: 'Post Not Found' }
 
     return {
-        title: `${post.title} | ${agency.name}`,
-        description: post.excerpt,
+        title: post.seo_title || post.title,
+        description: post.seo_description || post.excerpt,
         openGraph: {
-            title: post.title,
-            description: post.excerpt,
-            type: 'article',
-            authors: [post.author.name],
-            publishedTime: post.date,
-        },
+            images: [post.cover_image_url || '/og-image.jpg']
+        }
     }
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-    const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+    const { data: post, error } = await supabase
+        .from('cms_blog_posts')
+        .select(`
+            *,
+            category:cms_blog_categories(name, slug)
+        `)
+        .eq('slug', params.slug)
+        .single()
 
-    if (!post) {
+    if (error || !post) {
         notFound()
     }
 
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'BlogPosting',
-        headline: post.title,
-        description: post.excerpt,
-        author: {
-            '@type': 'Person',
-            name: post.author.name,
-            jobTitle: post.author.role,
-            url: `${agency.domain}/team/${post.author.name.toLowerCase().replace(' ', '-')}`,
-        },
-        publisher: {
-            '@type': 'Organization',
-            name: agency.name,
-            logo: {
-                '@type': 'ImageObject',
-                url: `${agency.domain}/logo.png`,
-            },
-        },
-        datePublished: post.date,
-        mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': `${agency.domain}/blog/${post.slug}`,
-        },
-    }
+    // Basic markdown-like parsing (conceptually) - for now assuming raw text or simple HTML usage
+    // In production, use 'react-markdown' or similar. 
+    // We will render paragraphs by splitting by \n\n for this MVP.
+    const contentParagraphs = post.content ? post.content.split('\n\n') : []
 
     return (
-        <main className="min-h-screen bg-background">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-            <Navigation />
+        <main className="min-h-screen bg-background selection:bg-accent/30">
+            <ConversionNavigation />
 
-            <article className="pt-32 pb-20">
+            <article className="pt-32 pb-24">
+                {/* Header */}
                 <div className="container mx-auto px-6 max-w-4xl">
-                    <Link
-                        href="/blog"
-                        className="inline-flex items-center text-muted-foreground hover:text-accent transition-colors mb-8 group"
-                    >
-                        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                        Back to Blog
+                    <Link href="/blog" className="inline-flex items-center text-muted-foreground hover:text-accent mb-8 transition-colors">
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Back to Knowledge Base
                     </Link>
 
-                    <header className="mb-12">
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-                            <span className="flex items-center">
-                                <Calendar className="w-4 h-4 mr-2" />
-                                {post.date}
-                            </span>
-                            <span className="flex items-center">
-                                <Clock className="w-4 h-4 mr-2" />
-                                {post.readTime}
-                            </span>
+                    <div className="flex flex-wrap gap-4 items-center mb-6 text-sm text-muted-foreground">
+                        <span className="px-3 py-1 rounded-full bg-accent/10 text-accent font-bold border border-accent/20">
+                            {post.category?.name || 'Article'}
+                        </span>
+                        <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" /> {post.reading_time_minutes} min read
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-                            {post.title}
-                        </h1>
+                        <div className="flex items-center gap-1">
+                            <Calendar className="w-4 h-4" /> {new Date(post.published_at).toLocaleDateString()}
+                        </div>
+                    </div>
 
-                        {/* Author Byline - Critical for E-E-A-T */}
-                        <div className="flex items-center gap-4 p-6 rounded-xl bg-card border border-border/50">
-                            <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                                <Image
-                                    src={post.author.image}
-                                    alt={post.author.name}
-                                    fill
-                                    className="object-cover"
-                                />
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                        {post.title}
+                    </h1>
+
+                    {post.cover_image_url && (
+                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-12 border border-white/10 shadow-2xl">
+                            <img src={post.cover_image_url} alt={post.title} className="w-full h-full object-cover" />
+                        </div>
+                    )}
+                </div>
+
+                {/* Content */}
+                <div className="container mx-auto px-6 max-w-3xl">
+                    <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-accent prose-img:rounded-xl">
+                        {contentParagraphs.map((paragraph: string, i: number) => {
+                            // Simple parsing for headings
+                            if (paragraph.startsWith('# ')) return <h1 key={i}>{paragraph.replace('# ', '')}</h1>
+                            if (paragraph.startsWith('## ')) return <h2 key={i} className="text-3xl mt-12 mb-6 text-foreground">{paragraph.replace('## ', '')}</h2>
+                            if (paragraph.startsWith('### ')) return <h3 key={i} className="text-2xl mt-8 mb-4 text-foreground">{paragraph.replace('### ', '')}</h3>
+                            if (paragraph.startsWith('1. ')) {
+                                // List hack
+                                const items = paragraph.split('\n').map(l => l.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
+                                return <ol key={i} className="list-decimal pl-6 space-y-2 mb-6 text-muted-foreground marker:text-accent">{items.map((item, idx) => <li key={idx} dangerouslySetInnerHTML={{ __html: item }} />)}</ol>
+                            }
+
+                            // Bold text replacement
+                            const pContent = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground">$1</strong>').replace(/\*(.*?)\*/g, '<em class="text-accent">$1</em>')
+
+                            return <p key={i} className="mb-6 text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: pContent }} />
+                        })}
+                    </div>
+
+                    {/* Author & Share */}
+                    <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-secondary overflow-hidden">
+                                {post.author_avatar_url ? (
+                                    <img src={post.author_avatar_url} alt={post.author_name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-accent text-white font-bold">
+                                        {post.author_name ? post.author_name[0] : 'A'}
+                                    </div>
+                                )}
                             </div>
                             <div>
-                                <div className="font-bold text-foreground">{post.author.name}</div>
-                                <div className="text-sm text-muted-foreground">{post.author.role}</div>
+                                <p className="font-bold text-foreground">{post.author_name}</p>
+                                <p className="text-xs text-muted-foreground">Conversion Engineer</p>
                             </div>
                         </div>
-                    </header>
 
-                    <div className="prose prose-lg prose-invert max-w-none">
-                        <p className="lead text-xl text-muted-foreground mb-8">
-                            {post.excerpt}
-                        </p>
-                        {/* Mock Content */}
-                        <div className="space-y-6 text-muted-foreground">
-                            <p>
-                                In the rapidly evolving landscape of digital technology, {post.title.toLowerCase()} represents a paradigm shift. At {agency.name}, we've observed that organizations adopting these methodologies see a 40% increase in operational efficiency.
-                            </p>
-                            <h2 className="text-2xl font-bold text-foreground mt-12 mb-6">The Strategic Advantage</h2>
-                            <p>
-                                Implementing this approach isn't just about technology; it's about fundamental business transformation. Our data shows that early adopters gain a significant competitive edge.
-                            </p>
-                            <blockquote className="border-l-4 border-accent pl-6 italic text-foreground my-8">
-                                "The integration of AI into web development isn't a trend—it's the new standard for digital excellence."
-                            </blockquote>
-                            <h2 className="text-2xl font-bold text-foreground mt-12 mb-6">Looking Ahead</h2>
-                            <p>
-                                As we move towards 2026, the convergence of these technologies will only accelerate. {agency.name} is committed to leading this charge, ensuring our partners stay ahead of the curve.
-                            </p>
+                        <div className="flex gap-2">
+                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
+                                <Twitter className="w-4 h-4" />
+                            </Button>
+                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
+                                <Linkedin className="w-4 h-4" />
+                            </Button>
+                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
+                                <Share2 className="w-4 h-4" />
+                            </Button>
                         </div>
                     </div>
                 </div>
             </article>
+
+            {/* CTA */}
+            <section className="py-24 bg-card border-y border-border">
+                <div className="container mx-auto px-6 text-center max-w-2xl">
+                    <h2 className="text-3xl font-bold mb-6">Need results like this?</h2>
+                    <p className="text-muted-foreground mb-8">
+                        Stop trying to figure it out alone. Get a forensic audit of your funnel in 48 hours.
+                    </p>
+                    <Link href="/offers/diagnostic">
+                        <Button size="lg" className="h-14 px-8 text-lg bg-accent hover:bg-accent-dark shadow-xl">
+                            Start Your Diagnostic
+                        </Button>
+                    </Link>
+                </div>
+            </section>
 
             <Footer />
         </main>

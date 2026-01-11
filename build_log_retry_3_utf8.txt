@@ -1,0 +1,75 @@
+﻿
+> bigweb-nextjs@1.0.0 build
+> next build
+
+   Γû▓ Next.js 15.5.9
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+node.exe : Browserslist: 
+browsers data 
+(caniuse-lite) is 7 months 
+old. Please run:
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Brows  
+  erslist: b...ld. Please   
+  run::String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+  npx update-browserslist-db
+@latest
+  Why you should do it 
+regularly: https://github.co
+m/browserslist/update-db#rea
+dme
+ Γ£ô Compiled successfully in 15.0s
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/components/chat/ChatWi
+dget.tsx:177:9
+Type error: Object literal 
+may only specify known 
+properties, and 
+'initialMessages' does not 
+exist in type 
+'UseChatOptions'.
+
+[0m [90m 175 |[39m       
+  api[33m:[39m [32m'/api/
+chat'[39m[33m,[39m
+ [90m 176 |[39m         
+body[33m:[39m { 
+visitorId[33m,[39m 
+sessionId }[33m,[39m
+[31m[1m>[22m[39m[90m 
+177 |[39m         
+initialMessages[33m:[39m 
+[][33m,[39m
+ [90m     |[39m         
+[31m[1m^[22m[39m
+ [90m 178 |[39m         
+onError[33m:[39m (err) 
+[33m=>[39m {
+ [90m 179 |[39m           
+  console[33m.[39merror([
+32m'Chat 
+error:'[39m[33m,[39m err)
+ [90m 180 |[39m           
+  setError([32m'Connection 
+interrupted. Please try 
+again.'[39m)[0m
+Next.js build worker exited 
+with code: 1 and signal: 
+null

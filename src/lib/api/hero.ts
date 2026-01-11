@@ -1,4 +1,5 @@
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 export const heroAPI = {
     async getAllSlides() {
@@ -14,8 +15,8 @@ export const heroAPI = {
         const { data, error } = await supabase
             .from('hero_slides')
             .select('*')
-            .eq('is_active', true)
-            .order('order_index')
+            .eq('active', true)
+            .order('sort_order', { ascending: true })
         if (error) throw error
         return data
     },

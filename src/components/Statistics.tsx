@@ -4,10 +4,10 @@ import { motion, useInView, useMotionValue, useSpring, useTransform, useMotionVa
 import { useEffect, useRef, useState } from "react";
 
 const stats = [
-  { value: 250, suffix: "+", label: "Projects Completed", color: "from-accent to-orange-400" },
-  { value: 98, suffix: "%", label: "Client Satisfaction", color: "from-purple-500 to-pink-500" },
-  { value: 50, suffix: "+", label: "Team Members", color: "from-blue-500 to-cyan-500" },
-  { value: 15, suffix: "+", label: "Years Experience", color: "from-green-500 to-emerald-500" },
+  { value: 250, suffix: "+", label: "Audits Completed", color: "from-accent to-orange-400" },
+  { value: 98, suffix: "%", label: "Conversion Lift", color: "from-orange-500 to-red-500" },
+  { value: 120, suffix: "M+", label: "Client Revenue", color: "from-blue-500 to-cyan-500" },
+  { value: 15, suffix: "+", label: "Strategy Experts", color: "from-green-500 to-emerald-500" },
 ];
 
 const AnimatedCounter = ({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) => {
@@ -68,7 +68,7 @@ const Statistics = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
         animate={{
           scale: [1, 1.3, 1],
           x: [0, -30, 0],
@@ -112,7 +112,7 @@ const Statistics = () => {
                   backgroundImage: `linear-gradient(135deg, ${stat.color.split(" ")[0]}, ${stat.color.split(" ")[1]})`,
                 }}
               />
-              
+
               <div className="relative p-8 rounded-xl border border-border bg-card/50 backdrop-blur-sm group-hover:border-accent transition-all duration-500">
                 <motion.div
                   className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
@@ -124,7 +124,7 @@ const Statistics = () => {
                 <p className="text-muted-foreground letter-spacing-wide uppercase text-sm group-hover:text-foreground transition-colors duration-300">
                   {stat.label}
                 </p>
-                
+
                 {/* Decorative element */}
                 <motion.div
                   className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.color} origin-left`}

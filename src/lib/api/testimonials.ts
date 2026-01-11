@@ -1,4 +1,5 @@
-import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 export interface Testimonial {
     id: string
@@ -21,38 +22,46 @@ export interface Testimonial {
 
 export const testimonialsAPI = {
     // Get all testimonials
-    async getAll(status?: string) {
-        let query = supabase
-            .from('testimonials')
-            .select('*')
-            .order('order_index', { ascending: true })
+    async getAll() {
+        // We don't have a status column in cms_testimonials, just return all or filter by param if intended?
+        // For compatibility, we'll just ignore status param for now or assume 'active' means everything visible.
 
-        if (status) {
-            query = query.eq('status', status)
-        }
+        let query = supabase
+            .from('cms_testimonials')
+            .select('*')
+            .order('sort_order', { ascending: true })
 
         const { data, error } = await query
 
         if (error) {
             console.error('🔥 Supabase API Error (getAll):', error)
-            console.error('Query:', { table: 'testimonials', status })
             throw error
         }
 
-        return data
+        return data?.map((t: any) => ({
+            ...t,
+            client_image: t.client_avatar_url,
+            order_index: t.sort_order,
+            status: 'active'
+        })) as Testimonial[]
     },
 
     // Get featured testimonials
     async getFeatured() {
         const { data, error } = await supabase
-            .from('testimonials')
+            .from('cms_testimonials')
             .select('*')
-            .eq('status', 'active')
             .eq('is_featured', true)
-            .order('order_index', { ascending: true })
+            .order('sort_order', { ascending: true })
 
         if (error) throw error
-        return data
+
+        return data?.map((t: any) => ({
+            ...t,
+            client_image: t.client_avatar_url,
+            order_index: t.sort_order,
+            status: 'active'
+        })) as Testimonial[]
     },
 
     // Get by ID

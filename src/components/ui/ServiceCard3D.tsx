@@ -76,23 +76,24 @@ export default function ServiceCard3D({ service, index }: ServiceCard3DProps) {
                 className="group relative h-full perspective-1000"
             >
                 <motion.div
-                    className="relative bg-card border border-border hover:border-accent transition-colors duration-300 card-hover-premium texture-noise h-full flex flex-col overflow-hidden rounded-xl"
+                    className="relative bg-card border border-transparent transition-all duration-300 card-hover-premium texture-noise h-full flex flex-col overflow-hidden rounded-xl group-hover:shadow-2xl group-hover:shadow-accent/20"
                     style={{
                         transform: "translateZ(0)",
+                        backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0))",
                     }}
                     animate={{
                         y: isHovered ? -8 : 0,
-                        boxShadow: isHovered
-                            ? "0 20px 40px -5px rgba(0, 0, 0, 0.2), 0 10px 20px -5px rgba(255, 107, 53, 0.15)"
-                            : "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
                     }}
                     transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                 >
+                    {/* Gradient Border Container */}
+                    <div className="absolute inset-0 rounded-xl p-[1px] bg-gradient-to-b from-white/10 to-transparent opacity-50 group-hover:opacity-100 group-hover:from-accent group-hover:via-accent/50 group-hover:to-transparent transition-all duration-500" style={{ mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }} />
+
                     {/* Shine Effect */}
                     <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10 mix-blend-overlay"
                         style={{
-                            background: `radial-gradient(circle at ${50 + x.get() * 100}% ${50 + y.get() * 100}%, rgba(255,255,255,0.2), transparent 50%)`
+                            background: `radial-gradient(circle at ${50 + x.get() * 100}% ${50 + y.get() * 100}%, rgba(255,255,255,0.3), transparent 50%)`
                         }}
                     />
 
