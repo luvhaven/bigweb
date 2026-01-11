@@ -31,7 +31,7 @@ const TeamMember = ({ member, index }: { member: TeamMemberType; index: number }
           <motion.img
             src={member.avatar_url || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200"}
             alt={member.name}
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+            className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700"
             style={{ rotate }}
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.5 }}
