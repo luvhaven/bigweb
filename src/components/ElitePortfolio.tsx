@@ -227,21 +227,35 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
           // New Hyperrealistic Name Mapping for Alpha/Beta/Gamma etc.
           const title = (p.title || p.name || '').toLowerCase();
           let newTitle = p.title || p.name;
-          if (title.includes('alpha')) newTitle = "Vortex Pay: The Fintech Funnel Re-Engineering";
-          if (title.includes('beta')) newTitle = "Orbit Market: Surgical Checkout Recovery";
-          if (title.includes('gamma')) newTitle = "Aether Insights: AI Revenue Engine";
-          if (title.includes('delta')) newTitle = "Sky Pulse: Cloud Infrastructure Scale";
-          if (title.includes('epsilon')) newTitle = "Nexus Logistics: Fulfillment Conversion Fix";
-          if (title.includes('zeta')) newTitle = "Prism Identity: Authority Branding Loop";
+          let newSlug = p.slug || p.id;
 
-          if (img) {
+          if (title.includes('alpha') || title.includes('vortex') || title.includes('nexus') || title.includes('saas')) {
+            newTitle = title.includes('vortex') ? "Vortex Pay: The Fintech Funnel Re-Engineering" : "Nexus Flow: The 127% SaaS Funnel Re-Engineering";
+            newSlug = 'saas-trial-conversion';
+          } else if (title.includes('beta') || title.includes('orbit') || title.includes('aura') || title.includes('ecommerce')) {
+            newTitle = title.includes('orbit') ? "Orbit Market: Surgical Checkout Recovery" : "Aura Wear Global: Surgical Checkout Recovery";
+            newSlug = 'ecommerce-cart-fix';
+          } else if (title.includes('gamma') || title.includes('aether') || title.includes('insights')) {
+            newTitle = "Aether Insights: AI Revenue Engine";
+            // If we don't have a specific slug for Aether, we can fallback or add one later
+          } else if (title.includes('delta') || title.includes('sky') || title.includes('vanguard') || title.includes('lead-gen') || title.includes('finance')) {
+            newTitle = title.includes('sky') ? "Sky Pulse: Cloud Infrastructure Scale" : "Vanguard Capital: 3.5x Authority Lead-Gen System";
+            newSlug = 'lead-gen-optimization';
+          } else if (title.includes('epsilon') || title.includes('nexus logistics')) {
+            newTitle = "Nexus Logistics: Fulfillment Conversion Fix";
+          } else if (title.includes('zeta') || title.includes('prism')) {
+            newTitle = "Prism Identity: Authority Branding Loop";
+          }
+
+          if (img || newSlug !== (p.slug || p.id)) {
             return {
               ...p,
               title: newTitle,
-              image_url: img,
-              image: img,
-              hero_image_url: img,
-              thumbnail_url: img
+              slug: newSlug,
+              image_url: img || p.image_url,
+              image: img || p.image,
+              hero_image_url: img || p.hero_image_url,
+              thumbnail_url: img || p.thumbnail_url
             };
           }
           return { ...p, title: newTitle };
