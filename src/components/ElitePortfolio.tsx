@@ -112,8 +112,8 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
         <Link href={`/case-studies/${project.slug || project.id}`}>
           {/* Image Container */}
           <div className="absolute inset-0 overflow-hidden">
-            {/* Image Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+            {/* Image Overlay Gradient - Subtle by default to show image */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-100 group-hover:from-black/90 group-hover:via-black/20 transition-all duration-500" />
 
             {project.image_url || project.image || project.hero_image_url ? (
               <img
@@ -136,38 +136,43 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
 
           {/* Content */}
           <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-            <div className="transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
+            <div className="relative z-30 flex flex-col">
+              {/* Mandatory Info (Always Visible) */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-accent/20">
+                <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md border border-accent/20">
                   {project.category}
                 </span>
-                {project.offer && (
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-white/20">
-                    {project.offer}
-                  </span>
-                )}
               </div>
-              <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-accent transition-colors duration-300">
+
+              <h3 className="text-3xl font-black text-white mb-2 group-hover:text-accent transition-colors duration-300 tracking-tighter uppercase leading-[0.9]">
                 {project.title}
               </h3>
-              <p className="text-gray-300 mb-6 group-hover:text-white transition-colors duration-300 line-clamp-2">
-                {project.description}
-              </p>
 
-              {project.results && (
-                <div className="mb-6 p-4 rounded-xl bg-accent/10 border border-accent/20 backdrop-blur-sm">
-                  <div className="text-xs text-accent uppercase font-bold tracking-widest mb-1">Impact Result</div>
-                  <div className="text-2xl font-black text-white">{project.results}</div>
+              {/* Revealable Info (Hidden by Default) */}
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                whileHover={{ opacity: 1, height: "auto" }}
+                className="overflow-hidden"
+              >
+                <p className="text-gray-300 mb-6 group-hover:text-white transition-colors duration-300 line-clamp-2 text-sm leading-relaxed mt-2">
+                  {project.description}
+                </p>
+
+                {project.results && (
+                  <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="text-[10px] text-accent uppercase font-black tracking-[0.3em] mb-1">Impact Result</div>
+                    <div className="text-xl font-black text-white">{project.results}</div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 text-white font-black uppercase text-[10px] tracking-[0.2em] group/btn">
+                  <span className="relative overflow-hidden">
+                    Open Case Study
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300" />
+                  </span>
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-accent" />
                 </div>
-              )}
-
-              <div className="flex items-center gap-2 text-white font-medium group/btn">
-                <span className="relative overflow-hidden">
-                  View Project
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300" />
-                </span>
-                <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-accent" />
-              </div>
+              </motion.div>
             </div>
           </div>
 
@@ -215,20 +220,31 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
             img = '/images/projects/vanguard-capital.png';
           } else if (searchStr.includes('nexus') || searchStr.includes('saas') || searchStr.includes('flow')) {
             img = '/images/projects/nexus-flow.png';
-          } else if (searchStr.includes('aura') || searchStr.includes('ecommerce') || searchStr.includes('wear')) {
+          } else if (searchStr.includes('aura') || searchStr.includes('ecommerce') || searchStr.includes('wear') || searchStr.includes('orbit')) {
             img = '/images/projects/aura-wear.png';
           }
+
+          // New Hyperrealistic Name Mapping for Alpha/Beta/Gamma etc.
+          const title = (p.title || p.name || '').toLowerCase();
+          let newTitle = p.title || p.name;
+          if (title.includes('alpha')) newTitle = "Vortex Pay: The Fintech Funnel Re-Engineering";
+          if (title.includes('beta')) newTitle = "Orbit Market: Surgical Checkout Recovery";
+          if (title.includes('gamma')) newTitle = "Aether Insights: AI Revenue Engine";
+          if (title.includes('delta')) newTitle = "Sky Pulse: Cloud Infrastructure Scale";
+          if (title.includes('epsilon')) newTitle = "Nexus Logistics: Fulfillment Conversion Fix";
+          if (title.includes('zeta')) newTitle = "Prism Identity: Authority Branding Loop";
 
           if (img) {
             return {
               ...p,
+              title: newTitle,
               image_url: img,
               image: img,
               hero_image_url: img,
               thumbnail_url: img
             };
           }
-          return p;
+          return { ...p, title: newTitle };
         });
 
         setAllProjects(mappedData)

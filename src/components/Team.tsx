@@ -90,10 +90,10 @@ const TeamMember = ({ member, index }: { member: TeamMemberType; index: number }
 const MOCK_TEAM: TeamMemberType[] = [
   {
     id: '1',
-    name: 'Marcus Thorne',
+    name: 'Daniel Oriazowan',
     role: 'Lead Conversion Engineer',
-    bio: 'Former algorithm researcher at a top-tier fintech. Marcus treats every landing page as a high-stakes math problem.',
-    avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800',
+    bio: 'Precision-focused engineer who treats every landing page as a high-stakes clinical trial. Daniel specializes in forensic funnel re-engineering and architecture.',
+    avatar_url: '/images/team/daniel.jpg',
     is_active: true,
     sort_order: 1,
     linkedin_url: '#'
@@ -102,8 +102,8 @@ const MOCK_TEAM: TeamMemberType[] = [
     id: '2',
     name: 'Dr. Elena Vance',
     role: 'Behavioral Psychologist',
-    bio: 'Ph.D. in Cognitive Load Theory. Elena maps the hidden neurological friction points in your user journey.',
-    avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800',
+    bio: 'Ph.D. in Cognitive Load Theory. Elena maps the hidden neurological friction points in your user journey to maximize conversion intent.',
+    avatar_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800',
     is_active: true,
     sort_order: 2,
     linkedin_url: '#'
@@ -112,7 +112,7 @@ const MOCK_TEAM: TeamMemberType[] = [
     id: '3',
     name: 'Julian Reed',
     role: 'UI/UX Architect',
-    bio: 'Julian doesn\'t draw; he structures. Specializes in building interfaces that reduce decision fatigue.',
+    bio: 'Julian doesn\'t draw; he structures. He builds high-performance interfaces that reduce decision fatigue through technical hierarchy.',
     avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800',
     is_active: true,
     sort_order: 3,
@@ -120,10 +120,10 @@ const MOCK_TEAM: TeamMemberType[] = [
   },
   {
     id: '4',
-    name: 'Sarah Chen',
+    name: 'Sarah Jenkins',
     role: 'Load Speed Specialist',
-    bio: 'Performance engineer obsessed with milliseconds. If your site takes longer than 1.2s to load, Sarah fixes it.',
-    avatar_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800',
+    bio: 'Performance engineer obsessed with milliseconds. Sarah optimizes the technical stack to ensure sub-second response times across the laboratory ecosystem.',
+    avatar_url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800',
     is_active: true,
     sort_order: 4,
     linkedin_url: '#'
