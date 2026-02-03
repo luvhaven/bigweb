@@ -68,9 +68,9 @@ const AdvancedNavigation = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ease-in-out border-b border-white/5 ${scrolled
-        ? "py-3 bg-black/95 md:bg-black/95 backdrop-blur-2xl shadow-2xl"
-        : "py-4 bg-black/90 md:bg-black/40 backdrop-blur-sm"
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] border-b border-white/5 ${scrolled
+        ? "py-3 bg-black/80 backdrop-blur-3xl shadow-2xl"
+        : "py-5 bg-black/40 backdrop-blur-xl"
         }`}
     >
       <div className="max-w-screen-2xl mx-auto px-8 md:px-12 flex items-center justify-between">
@@ -104,9 +104,9 @@ const AdvancedNavigation = () => {
                 >
                   <Link
                     href={item.url || '/services'}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-300 hover:text-white'}`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold tracking-tighter transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
                   >
-                    {item.label} <ChevronDown className={`w-4 h-4 transition-transform duration-300 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-70'}`} />
+                    {item.label} <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
                   </Link>
 
                   <AnimatePresence>
@@ -208,9 +208,9 @@ const AdvancedNavigation = () => {
                   <Link
                     href={item.url || '/#offers'}
                     onClick={(e) => handleLinkClick(e, item.url || '/#offers')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-300 hover:text-white'}`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold tracking-tighter transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
                   >
-                    {item.label} <ChevronDown className={`w-4 h-4 transition-transform duration-300 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-70'}`} />
+                    {item.label} <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
                   </Link>
 
                   <AnimatePresence>
@@ -260,7 +260,7 @@ const AdvancedNavigation = () => {
                     handleLinkClick(e, "/#evidence");
                   }
                 }}
-                className="px-4 py-2 rounded-lg text-sm font-semibold text-zinc-300 hover:text-white transition-all duration-300 whitespace-nowrap"
+                className="px-4 py-2 rounded-lg text-sm font-bold tracking-tighter text-zinc-400 hover:text-white transition-all duration-300 whitespace-nowrap"
               >
                 {item.label}
               </Link>

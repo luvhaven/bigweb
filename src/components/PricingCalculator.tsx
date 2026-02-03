@@ -96,7 +96,7 @@ export default function PricingCalculator() {
                 <div className="lg:col-span-2 space-y-10">
                     {categories.map((category) => (
                         <div key={category.id}>
-                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <h3 className="text-sm font-black mb-6 flex items-center gap-2 uppercase tracking-tighter-extreme text-zinc-400">
                                 {category.title}
                                 <div className="group relative">
                                     <Info className="w-4 h-4 text-muted-foreground cursor-help" />
@@ -122,20 +122,20 @@ export default function PricingCalculator() {
                                                     setSelections({ ...selections, [category.id]: option.id })
                                                 }
                                             }}
-                                            className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${isSelected
-                                                    ? 'border-accent bg-accent/5'
-                                                    : 'border-border hover:border-accent/50 hover:bg-accent/5'
+                                            className={`relative p-5 rounded-none border-2 cursor-pointer transition-all duration-300 ${isSelected
+                                                ? 'border-orange-600 bg-orange-600/5'
+                                                : 'border-white/5 hover:border-white/10 hover:bg-white/5'
                                                 }`}
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
+                                            whileHover={{ scale: 1.01 }}
+                                            whileTap={{ scale: 0.99 }}
                                         >
                                             <div className="flex justify-between items-start mb-2">
-                                                <span className="font-semibold">{option.label}</span>
-                                                {isSelected && <Check className="w-5 h-5 text-accent" />}
+                                                <span className="font-black text-xs uppercase tracking-tighter-extreme">{option.label}</span>
+                                                {isSelected && <Check className="w-4 h-4 text-orange-600" />}
                                             </div>
-                                            <p className="text-sm text-muted-foreground mb-2">{option.description}</p>
-                                            <div className="text-sm font-medium text-accent">
-                                                {option.price === 0 ? 'Included' : `+$${option.price.toLocaleString()}`}
+                                            <p className="text-[11px] text-zinc-500 mb-3 leading-tight font-medium">{option.description}</p>
+                                            <div className="text-[10px] font-mono font-black text-zinc-400">
+                                                {option.price === 0 ? 'LOG_INCLUDED' : `+${option.price.toLocaleString()}_USD`}
                                             </div>
                                         </motion.div>
                                     )
@@ -147,8 +147,8 @@ export default function PricingCalculator() {
 
                 {/* Summary */}
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 bg-muted/30 rounded-2xl p-6 border border-border">
-                        <h3 className="text-2xl font-bold mb-6">Estimated Cost</h3>
+                    <div className="sticky top-24 bg-[#0A0A0A] rounded-none p-8 border border-white/5 backdrop-blur-3xl shadow-2xl">
+                        <h3 className="text-xs font-mono font-black mb-8 uppercase tracking-[0.4em] text-zinc-600 border-b border-white/5 pb-4">Estimate_Summary</h3>
 
                         <div className="space-y-4 mb-8">
                             <div className="flex justify-between text-sm">
@@ -181,20 +181,20 @@ export default function PricingCalculator() {
                             )}
                         </div>
 
-                        <div className="pt-6 border-t border-border mb-8">
+                        <div className="pt-8 mb-10">
                             <div className="flex justify-between items-end">
-                                <span className="text-lg font-bold">Total Estimate</span>
-                                <span className="text-4xl font-bold text-accent">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Gross_Total</span>
+                                <span className="text-5xl font-black text-white tracking-tighter-extreme">
                                     <AnimatedCounter value={total} prefix="$" />
                                 </span>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-2 text-right">
-                                *Final quote may vary based on specific requirements
+                            <p className="text-[9px] font-mono text-zinc-700 mt-4 text-right uppercase">
+                                *Clinical_Precision_Verification_Required
                             </p>
                         </div>
 
-                        <Button className="w-full bg-accent hover:bg-accent-dark text-white py-6 text-lg shadow-glow">
-                            Get Detailed Quote
+                        <Button className="w-full h-20 bg-white text-black hover:bg-orange-600 hover:text-white rounded-none text-xs font-black uppercase tracking-[0.4em] transition-all">
+                            INITIALIZE DEPLOYMENT
                         </Button>
                     </div>
                 </div>

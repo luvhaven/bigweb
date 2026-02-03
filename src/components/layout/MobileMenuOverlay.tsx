@@ -44,50 +44,47 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                     initial={{ x: '100%' }}
                     animate={{ x: 0 }}
                     exit={{ x: '100%' }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="fixed inset-0 z-[9999] bg-[#000000] flex flex-col md:hidden"
-                    style={{ backgroundColor: '#000000' }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="fixed inset-0 z-[9999] bg-black flex flex-col md:hidden"
                 >
-                    {/* Background Noise & Gradient */}
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-                    <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] bg-[#FF4D00]/10 rounded-full blur-[120px] pointer-events-none" />
-                    <div className="absolute bottom-[-20%] left-[-20%] w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
+                    {/* Background Dynamics */}
+                    <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:40px_40px] pointer-events-none" />
+                    <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-orange-500/10 to-transparent pointer-events-none" />
 
                     {/* Header */}
-                    <div className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-white/5">
-                        <BrandLogo className="h-8 w-auto" />
+                    <div className="relative z-10 flex items-center justify-between px-8 py-6 border-b border-white/5">
+                        <BrandLogo className="h-7 w-auto" />
                         <button
                             onClick={onClose}
-                            className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-all text-white border border-white/10 active:scale-95"
+                            className="p-3 bg-zinc-950 border border-zinc-900 rounded-full text-white active:scale-90 transition-transform"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5" />
                         </button>
                     </div>
 
-                    {/* Main Content */}
-                    <div className="flex-1 overflow-y-auto px-6 py-6 relative z-10 no-scrollbar flex flex-col min-h-[50vh]">
-                        <nav className="flex flex-col gap-6 mb-8">
+                    {/* Navigation Menu */}
+                    <div className="flex-1 overflow-y-auto px-8 py-12 relative z-10 no-scrollbar">
+                        <nav className="flex flex-col gap-12">
                             {navigation.map((item, i) => (
                                 <motion.div
                                     key={item.id}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
                                     transition={{
-                                        delay: 0.2 + (i * 0.05),
-                                        duration: 0.5,
+                                        delay: 0.1 + (i * 0.08),
+                                        duration: 0.8,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
-                                    className="group"
                                 >
                                     <Link
                                         href={item.url || '#'}
                                         onClick={onClose}
-                                        className="block border-b border-white/5 pb-4"
+                                        className="group block"
                                     >
-                                        <div className="text-[10px] font-bold text-zinc-500 mb-1 tracking-[0.2em] uppercase">
-                                            {item.description || 'Section'}
+                                        <div className="text-[10px] font-mono font-black text-zinc-600 mb-2 uppercase tracking-[0.4em]">
+                                            Module_0{i + 1}
                                         </div>
-                                        <div className="text-3xl font-black text-white group-hover:text-[#FF4D00] transition-colors leading-tight uppercase italic">
+                                        <div className="text-5xl font-black text-white group-active:text-orange-500 transition-colors leading-[0.85] uppercase tracking-tighter-extreme">
                                             {item.label}
                                         </div>
                                     </Link>
@@ -95,23 +92,24 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                             ))}
                         </nav>
 
-                        <div className="grid grid-cols-2 gap-3 pb-8">
-                            {quickLinks.slice(0, 6).map((service, i) => {
+                        {/* Quick Capabilities */}
+                        <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-2 gap-4">
+                            {quickLinks.slice(0, 4).map((service, i) => {
                                 const Icon = iconMap[service.icon || 'Code'] || Code;
                                 return (
                                     <motion.div
                                         key={service.id}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.4 + (i * 0.05) }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.6 + (i * 0.1) }}
                                     >
                                         <Link
                                             href={service.url || '#'}
                                             onClick={onClose}
-                                            className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 active:bg-white/10 transition-all"
+                                            className="flex flex-col gap-3 p-5 rounded-2xl bg-zinc-950 border border-zinc-900 active:bg-zinc-900 transition-all"
                                         >
-                                            <Icon className="w-4 h-4 text-[#FF4D00]" />
-                                            <span className="text-[10px] font-black uppercase tracking-tight text-zinc-300">
+                                            <Icon className="w-5 h-5 text-orange-600" />
+                                            <span className="text-[9px] font-mono font-black uppercase tracking-widest text-zinc-500">
                                                 {service.label}
                                             </span>
                                         </Link>
@@ -121,15 +119,13 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                         </div>
                     </div>
 
-                    {/* Footer Services & Contact */}
-                    <div className="relative z-10 px-6 py-6 border-t border-white/5 bg-[#0A0A0A]">
-                        <div className="flex flex-col gap-4">
-                            <Button className="w-full h-14 text-base font-black bg-[#FF4D00] text-white hover:bg-[#CC3D00] rounded-xl transition-all shadow-lg shadow-orange-900/40" asChild>
-                                <Link href="/offers/revenue-roadmap" onClick={onClose} className="w-full">
-                                    GET REVENUE ROADMAP ($500) <ArrowRight className="w-5 h-5 ml-2" />
-                                </Link>
-                            </Button>
-                        </div>
+                    {/* Action Footer */}
+                    <div className="relative z-10 p-8 border-t border-white/5 bg-black">
+                        <Button className="w-full h-20 text-xs font-black bg-white text-black hover:bg-orange-600 hover:text-white rounded-none uppercase tracking-[0.4em] transition-all" asChild>
+                            <Link href="/offers/revenue-roadmap" onClick={onClose}>
+                                INITIALIZE ROADMAP <ArrowRight className="w-5 h-5 ml-4" />
+                            </Link>
+                        </Button>
                     </div>
                 </motion.div>
             )}

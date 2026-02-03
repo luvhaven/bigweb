@@ -88,10 +88,10 @@ function BentoCard({ item, themeColor, index }: { item: BentoItem, themeColor: s
                 </div>
 
                 <div className="mt-8">
-                    <h3 className="text-2xl font-bold mb-3 group-hover:translate-x-2 transition-transform duration-300">
+                    <h3 className="text-2xl font-black mb-3 tracking-tighter-extreme uppercase group-hover:translate-x-2 transition-transform duration-500">
                         {item.title}
                     </h3>
-                    <p className="text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-relaxed">
+                    <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300 leading-tight font-medium text-sm">
                         {item.description}
                     </p>
                 </div>
@@ -120,7 +120,7 @@ export default function BentoGrid({
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
+                        className="text-4xl md:text-6xl font-black mb-6 tracking-tighter-extreme uppercase leading-none"
                     >
                         {title}
                     </motion.h2>
@@ -129,7 +129,7 @@ export default function BentoGrid({
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-xl text-muted-foreground"
+                        className="text-xl text-zinc-500 font-medium tracking-tight"
                     >
                         {subtitle}
                     </motion.p>

@@ -259,10 +259,10 @@ export default function HeroPremium({
                     </div>
 
                     {/* Headline */}
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[0.9] uppercase text-white">
+                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter-extreme mb-12 leading-[0.85] uppercase text-white">
                         {title} <br className="hidden md:block" />
                         <span className={cn(
-                            "bg-gradient-to-r bg-clip-text text-transparent inline-block animate-gradient",
+                            "bg-gradient-to-r bg-clip-text text-transparent inline-block",
                             cv.gradient
                         )}>
                             {highlight}
@@ -270,7 +270,7 @@ export default function HeroPremium({
                     </h1>
 
                     {/* Description */}
-                    <p className="text-lg md:text-2xl text-muted-foreground mb-14 max-w-2xl mx-auto leading-relaxed font-medium">
+                    <p className="text-xl md:text-3xl text-zinc-500 mb-16 max-w-3xl mx-auto leading-tight tracking-tighter-extreme font-medium">
                         {description}
                     </p>
 

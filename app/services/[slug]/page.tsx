@@ -55,8 +55,15 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
         { label: service.title, href: `/services/${service.slug}` }
     ]
 
+    // Map process steps
+    const rawProcess = typeof service.process === 'string' ? JSON.parse(service.process) : (service.process || [])
+    const processSteps = rawProcess.map((step: any, i: number) => ({
+        ...step,
+        icon: getIcon(step.icon)
+    }))
+
     return (
-        <main className="min-h-screen bg-background selection:bg-blue-500/30">
+        <main className="min-h-screen bg-black selection:bg-orange-500/30 font-sans">
             {/* Structured Data */}
             <ServiceSchema
                 name={service.title}
@@ -124,16 +131,17 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
             </section>
 
             {/* CTA Section */}
-            <section className="py-24 px-6 relative overflow-hidden text-center">
-                <div className="container mx-auto max-w-4xl relative z-10">
-                    <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-                        Ready to Start?
+            <section className="py-48 px-6 relative overflow-hidden text-center bg-black">
+                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:60px_60px]" />
+                <div className="container mx-auto max-w-5xl relative z-10">
+                    <div className="text-[10px] font-mono font-black text-orange-500 mb-10 uppercase tracking-[0.6em]">System_Transition_Ready</div>
+                    <h2 className="text-6xl md:text-9xl font-black mb-16 tracking-tighter-extreme uppercase leading-[0.85] text-white italic">
+                        Plug the <br /><span className="text-zinc-800">Leak.</span>
                     </h2>
-                    <div className="flex flex-wrap gap-4 justify-center">
+                    <div className="flex flex-wrap gap-8 justify-center">
                         <Link href="/estimator">
-                            <Button size="lg" className="h-16 px-10 text-xl rounded-full">
-                                Get Free Estimate
-                                <ArrowRight className="ml-2 w-6 h-6" />
+                            <Button className="h-20 px-12 text-xs font-black bg-white text-black hover:bg-orange-600 hover:text-white rounded-none uppercase tracking-[0.4em] transition-all">
+                                GET FREE ESTIMATE <ArrowRight className="ml-4 w-5 h-5" />
                             </Button>
                         </Link>
                     </div>
