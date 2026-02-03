@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Loader2, CheckCircle2, AlertCircle, Mail, User, MessageSquare, Building } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 interface ContactFormProps {
     type?: string
@@ -35,6 +36,13 @@ export default function ContactForm({
         plan: defaultOffer,
         revenue: '',
     })
+
+    // Update form data if defaultOffer prop changes
+    useEffect(() => {
+        if (defaultOffer) {
+            setFormData(prev => ({ ...prev, plan: defaultOffer }))
+        }
+    }, [defaultOffer])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -109,29 +117,30 @@ export default function ContactForm({
     return (
         <div className="glass-card rounded-2xl p-8 border-white/10 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-3xl rounded-full" />
+            {/* Active Context Badge */}
             <div className="mb-8 relative z-10">
-                <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-widest mb-2">
+                <div className="flex items-center gap-3 text-accent text-xs font-bold uppercase tracking-widest mb-4">
                     <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                     </span>
-                    Lab Access: Priority
+                    {formData.plan ? `Targeting: ${formData.plan.replace('-', ' ').toUpperCase()}` : 'Lab Access: Open'}
                 </div>
-                <h3 className="text-3xl font-bold mb-3">Initiate Diagnostic</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                    Stop guessing. Start measuring. Provide your details below for a <span className="text-foreground font-semibold">Technical Conversion Blueprint</span>.
+
+                <h3 className="text-3xl font-black mb-3 text-white italic tracking-tighter uppercase">{title}</h3>
+                <p className="text-zinc-500 font-medium leading-relaxed max-w-md">
+                    {description}
                 </p>
 
-                <div className="mt-6 p-4 bg-accent/5 rounded-xl border border-accent/10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-accent mt-1 shrink-0" />
-                        <div className="text-xs text-muted-foreground"><span className="text-foreground font-bold">24hr Review:</span> Our lead scientist personally audits your site.</div>
+                {formData.plan === 'revenue-system' && (
+                    <div className="mt-6 p-4 bg-orange-600/10 border border-orange-500/20 rounded-xl flex items-start gap-4">
+                        <Building className="w-5 h-5 text-orange-500 mt-1 shrink-0" />
+                        <div>
+                            <div className="text-xs font-black uppercase tracking-widest text-orange-500 mb-1">Enterprise Application</div>
+                            <p className="text-xs text-zinc-400 font-medium">You are applying for a full system rebuild. This requires a preliminary architectural audit ($0).</p>
+                        </div>
                     </div>
-                    <div className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-accent mt-1 shrink-0" />
-                        <div className="text-xs text-muted-foreground"><span className="text-foreground font-bold">No Sales Pitch:</span> Just hard data and specific fixes.</div>
-                    </div>
-                </div>
+                )}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -200,11 +209,12 @@ export default function ContactForm({
                             <SelectTrigger className="h-12 bg-secondary/50 border-white/10 group-focus-within:border-accent/50 transition-colors">
                                 <SelectValue placeholder="Select an Offer" />
                             </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="diagnostic">Conversion Diagnostic</SelectItem>
-                                <SelectItem value="fix-sprint">7-Day Fix Sprint</SelectItem>
-                                <SelectItem value="revenue-system">Full Revenue Website System</SelectItem>
-                                <SelectItem value="retainer">Optimization Retainer</SelectItem>
+                            <SelectContent className="bg-zinc-950 border-zinc-800 text-white">
+                                <SelectItem value="diagnostic" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Conversion Diagnostic ($500)</SelectItem>
+                                <SelectItem value="fix-sprint" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">7-Day Fix Sprint ($1,500)</SelectItem>
+                                <SelectItem value="revenue-system" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Full Revenue System ($25k+)</SelectItem>
+                                <SelectItem value="retainer" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Optimization Retainer ($2.5k/m)</SelectItem>
+                                <SelectItem value="general" className="cursor-pointer font-medium focus:bg-zinc-800">General Inquiry</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -236,20 +246,21 @@ export default function ContactForm({
 
                 <Button
                     type="submit"
-                    className="w-full h-12 text-lg bg-accent hover:bg-accent-dark shadow-lg shadow-accent/20"
+                    className="w-full h-14 text-sm font-black uppercase tracking-[0.2em] bg-white text-black hover:bg-orange-600 hover:text-white shadow-xl transition-all duration-300 rounded-none group"
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (
                         <>
-                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                            Analyzing...
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            ENCRYPTING_DATA...
                         </>
                     ) : (
                         <>
-                            <Send className="w-5 h-5 mr-2" />
-                            {formData.plan === 'revenue-system'
-                                ? 'Secure My Strategy Call'
-                                : 'Get My Diagnostic Report'}
+                            {formData.plan === 'revenue-system' ? 'SUBMIT APPLICATION' :
+                                formData.plan === 'diagnostic' ? 'REQUEST DIAGNOSTIC' :
+                                    formData.plan === 'fix-sprint' ? 'CHECK SPRINT AVAILABILITY' :
+                                        'INITIATE TRANSMISSION'}
+                            <Send className="w-4 h-4 ml-4 group-hover:translate-x-1 transition-transform" />
                         </>
                     )}
                 </Button>

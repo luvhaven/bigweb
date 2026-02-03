@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Terminal, Maximize2, Minimize2, X, Command, Share2, Copy } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // Enhanced sample code with more realistic structure
 const sampleCode = `import { Premium } from '@bigweb/ui'
@@ -37,7 +38,12 @@ export default function DigitalExperience() {
   )
 }`
 
-export default function WebDevTerminal() {
+interface WebDevTerminalProps {
+    className?: string
+    style?: React.CSSProperties
+}
+
+export default function WebDevTerminal({ className, style }: WebDevTerminalProps) {
     const [displayText, setDisplayText] = useState('')
     const [isTyping, setIsTyping] = useState(false)
     const [activeTab, setActiveTab] = useState('page.tsx')
@@ -78,7 +84,7 @@ export default function WebDevTerminal() {
     }, [])
 
     return (
-        <div id="terminal-trigger" className="relative w-full max-w-2xl mx-auto">
+        <div id="terminal-trigger" className={cn("relative w-full max-w-2xl mx-auto", className)} style={style}>
             {/* Abstract Glow Background */}
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-xl blur opacity-20 animate-pulse" />
 
@@ -101,8 +107,8 @@ export default function WebDevTerminal() {
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={`px-3 py-1 rounded-md transition-all ${activeTab === tab
-                                        ? 'bg-white/10 text-white shadow-sm'
-                                        : 'text-white/40 hover:text-white/60'
+                                    ? 'bg-white/10 text-white shadow-sm'
+                                    : 'text-white/40 hover:text-white/60'
                                     }`}
                             >
                                 {tab}

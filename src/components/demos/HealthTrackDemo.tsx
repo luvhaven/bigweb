@@ -12,6 +12,7 @@ import {
     Calendar,
     Bell,
     Settings,
+    Users,
     AlertCircle,
     CheckCircle2,
     TrendingUp
@@ -43,214 +44,99 @@ export default function HealthTrackDemo() {
     }, [])
 
     return (
-        <div className="flex h-full bg-slate-50 font-sans overflow-hidden text-slate-900 selection:bg-teal-500/30">
-            {/* Sidebar */}
-            <div className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 z-20">
-                <div className="p-6 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-teal-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
-                        <Activity className="w-5 h-5" />
+        <div className="flex items-center justify-center py-10 bg-transparent">
+            {/* Phone Frame */}
+            <div className="relative w-[375px] h-[812px] bg-black rounded-[50px] shadow-2xl ring-8 ring-white/5 border-[8px] border-black overflow-hidden backdrop-blur-xl">
+                {/* Status Bar Mock */}
+                <div className="absolute top-0 inset-x-0 h-14 bg-white/90 backdrop-blur-md z-50 flex items-center justify-between px-6 pt-2">
+                    <span className="text-xs font-bold text-slate-900">9:41</span>
+                    <div className="flex gap-1.5">
+                        <div className="w-4 h-2.5 bg-slate-900 rounded-[1px]" />
+                        <div className="w-0.5 h-2.5 bg-slate-900/30 rounded-[1px]" />
                     </div>
-                    <span className="font-bold text-lg tracking-tight text-slate-800">HealthTrack</span>
                 </div>
 
-                <div className="px-6 mb-8">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                        <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+                {/* Main Content Area */}
+                <div className="h-full bg-slate-50 flex flex-col pt-14 pb-20 overflow-hidden text-slate-900 font-sans">
+                    {/* View Header */}
+                    <div className="px-6 py-4 flex items-center justify-between shrink-0">
+                        <div>
+                            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Welcome back</h2>
+                            <h1 className="text-2xl font-black text-slate-800 tracking-tight">Alex M.</h1>
+                        </div>
+                        <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm">
                             <img src="https://i.pravatar.cc/150?u=health" alt="User" className="w-full h-full object-cover" />
                         </div>
-                        <div>
-                            <p className="text-sm font-bold text-slate-800">Alex Morgan</p>
-                            <p className="text-xs text-slate-500">Premium Member</p>
-                        </div>
                     </div>
-                </div>
 
-                <nav className="flex-1 px-4 space-y-1">
-                    <NavItem icon={Activity} label="Overview" active={activeView === 'Overview'} onClick={() => setActiveView('Overview')} />
-                    <NavItem icon={Calendar} label="Appointments" active={activeView === 'Appointments'} onClick={() => setActiveView('Appointments')} />
-                    <NavItem icon={User} label="My Profile" active={activeView === 'My Profile'} onClick={() => setActiveView('My Profile')} />
-                    <NavItem icon={Settings} label="Settings" active={activeView === 'Settings'} onClick={() => setActiveView('Settings')} />
-                </nav>
+                    {/* Scrollable Content */}
+                    <div className="flex-1 overflow-y-auto px-6 pb-6 no-scrollbar">
+                        <motion.div
+                            key={activeView}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {activeView === 'Overview' && <OverviewView heartRate={heartRate} />}
+                            {activeView === 'Schedule' && <AppointmentsView />}
+                            {activeView === 'Community' && <CommunityView />}
+                            {activeView === 'Settings' && <SettingsView />}
+                        </motion.div>
+                    </div>
 
-                <div className="p-4 m-4 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-lg shadow-teal-500/20">
-                    <div className="flex items-center gap-2 mb-2">
-                        <div className="p-1.5 rounded-lg bg-white/20 backdrop-blur-sm">
-                            <TrendingUp className="w-4 h-4" />
-                        </div>
-                        <span className="font-bold text-sm">Health Score</span>
+                    {/* Bottom Navigation */}
+                    <div className="absolute bottom-0 inset-x-0 h-20 bg-white border-t border-slate-100 flex items-center justify-around px-2 z-40 pb-5">
+                        <NavItem icon={Activity} label="Overview" active={activeView === 'Overview'} onClick={() => setActiveView('Overview')} />
+                        <NavItem icon={Calendar} label="Schedule" active={activeView === 'Schedule'} onClick={() => setActiveView('Schedule')} />
+                        <NavItem icon={Users} label="Community" active={activeView === 'Community'} onClick={() => setActiveView('Community')} />
+                        <NavItem icon={Settings} label="Settings" active={activeView === 'Settings'} onClick={() => setActiveView('Settings')} />
                     </div>
-                    <div className="flex items-end gap-2 mb-1">
-                        <span className="text-3xl font-bold">92</span>
-                        <span className="text-sm text-teal-100 mb-1">/ 100</span>
-                    </div>
-                    <p className="text-xs text-teal-100">Top 5% of your age group</p>
+
+                    {/* Home Indicator */}
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-slate-300 rounded-full z-50"></div>
                 </div>
             </div>
-
-            {/* Main Content */}
-            <main className="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
-                {/* Header */}
-                <header className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-8 shrink-0 z-10">
-                    <h1 className="text-xl font-bold text-slate-800">{activeView}</h1>
-                    <div className="flex items-center gap-4">
-                        <button className="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors relative">
-                            <Bell className="w-5 h-5" />
-                            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
-                        </button>
-                        <button className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-bold hover:bg-teal-600 transition-colors shadow-lg shadow-teal-500/20">
-                            Generate Report
-                        </button>
-                    </div>
-                </header>
-
-                <div className="flex-1 overflow-y-auto p-8">
-                    <motion.div
-                        key={activeView}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        {activeView === 'Overview' && <OverviewView heartRate={heartRate} />}
-                        {activeView === 'Appointments' && <AppointmentsView />}
-                        {activeView === 'My Profile' && <ProfileView />}
-                        {activeView === 'Settings' && <SettingsView />}
-                    </motion.div>
-                </div>
-            </main>
         </div>
+
     )
 }
 
 // View Components
 const OverviewView = ({ heartRate }: { heartRate: number }) => (
-    <>
-        {/* Vitals Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {VITALS.map((vital) => (
-                <div key={vital.id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-start justify-between mb-4">
-                        <div className={`p-3 rounded-xl ${vital.bg} ${vital.color}`}>
-                            <vital.icon className="w-6 h-6" />
-                        </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${vital.status === 'Normal' || vital.status === 'Optimal' || vital.status === 'Excellent'
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-rose-100 text-rose-700'
-                            }`}>
-                            {vital.status}
-                        </span>
-                    </div>
-                    <div className="flex items-end gap-2 mb-1">
-                        <span className="text-3xl font-bold text-slate-800">
-                            {vital.id === 'heart' ? heartRate : vital.value}
-                        </span>
-                        <span className="text-sm text-slate-500 mb-1.5 font-medium">{vital.unit}</span>
-                    </div>
-                    <p className="text-sm text-slate-400 font-medium">{vital.label}</p>
+    <div className="space-y-6">
+        {/* Heart Rate Card */}
+        <div className="p-5 rounded-[2rem] bg-gradient-to-br from-rose-500 to-rose-600 text-white shadow-lg shadow-rose-500/30 relative overflow-hidden">
+            <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-4 opacity-90">
+                    <Heart className="w-5 h-5 fill-white/50" />
+                    <span className="text-sm font-bold">Heart Rate</span>
                 </div>
-            ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Chart Section */}
-            <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-bold text-slate-800">Heart Rate History</h2>
-                    <select className="bg-slate-50 border-none text-sm font-medium text-slate-600 rounded-lg px-3 py-1.5 focus:ring-0">
-                        <option>Last 24 Hours</option>
-                        <option>Last Week</option>
-                    </select>
+                <div className="flex items-end gap-2 mb-2">
+                    <span className="text-5xl font-black tracking-tighter">{heartRate}</span>
+                    <span className="text-lg font-medium opacity-80 mb-2">bpm</span>
                 </div>
-
-                {/* Simulated Graph */}
-                <div className="h-64 w-full relative">
-                    <div className="absolute inset-0 grid grid-rows-4">
-                        {[100, 80, 60, 40].map((val) => (
-                            <div key={val} className="border-t border-slate-100 relative">
-                                <span className="absolute -top-3 left-0 text-xs text-slate-400">{val}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="absolute inset-0 left-8 pt-4">
-                        <svg className="w-full h-full overflow-visible" preserveAspectRatio="none">
-                            <defs>
-                                <linearGradient id="heartGradient" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#F43F5E" stopOpacity="0.2" />
-                                    <stop offset="100%" stopColor="#F43F5E" stopOpacity="0" />
-                                </linearGradient>
-                            </defs>
-                            <motion.path
-                                d="M0,150 C50,140 100,160 150,100 C200,80 250,120 300,110 C350,100 400,140 450,130 C500,120 550,90 600,100 C650,110 700,80 750,90 C800,100 850,120 900,110"
-                                fill="url(#heartGradient)"
-                                stroke="#F43F5E"
-                                strokeWidth="3"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{ duration: 2, ease: "easeInOut" }}
-                            />
-                        </svg>
-                    </div>
+                <div className="h-1 w-full bg-white/20 rounded-full overflow-hidden">
+                    <motion.div
+                        animate={{ width: ["40%", "60%", "45%"] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="h-full bg-white/80"
+                    />
                 </div>
             </div>
-
-            {/* Recent Alerts */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 className="text-lg font-bold text-slate-800 mb-6">Recent Alerts</h2>
-                <div className="space-y-4">
-                    {ALERTS.map((alert) => (
-                        <div key={alert.id} className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                            <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${alert.type === 'warning' ? 'bg-rose-100 text-rose-600' :
-                                alert.type === 'success' ? 'bg-emerald-100 text-emerald-600' :
-                                    'bg-blue-100 text-blue-600'
-                                }`}>
-                                {alert.type === 'warning' ? <AlertCircle className="w-5 h-5" /> :
-                                    alert.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> :
-                                        <Bell className="w-5 h-5" />}
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium text-slate-800 leading-snug mb-1">{alert.message}</p>
-                                <p className="text-xs text-slate-500">{alert.time}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <button className="w-full mt-6 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors">
-                    View All History
-                </button>
-            </div>
+            <Activity className="absolute -right-6 -bottom-6 w-32 h-32 text-white/10" />
         </div>
-    </>
-)
 
-const AppointmentsView = () => (
-    <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold text-slate-900">Upcoming Appointments</h2>
-            <button className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-bold hover:bg-teal-600 transition-colors">
-                + Book Appointment
-            </button>
-        </div>
-        <div className="space-y-4">
-            {[
-                { id: 1, doctor: 'Dr. Anika Sharma', specialty: 'Cardiologist', date: 'Dec 15, 2024', time: '10:00 AM', type: 'Check-up' },
-                { id: 2, doctor: 'Dr. Michael Chen', specialty: 'General Physician', date: 'Dec 20, 2024', time: '2:30 PM', type: 'Follow-up' },
-                { id: 3, doctor: 'Dr. Emily Brown', specialty: 'Nutritionist', date: 'Dec 28, 2024', time: '11:00 AM', type: 'Consultation' },
-            ].map((apt) => (
-                <div key={apt.id} className="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold">
-                                {apt.doctor.split(' ')[1][0]}
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-slate-900">{apt.doctor}</h3>
-                                <p className="text-sm text-slate-500">{apt.specialty}</p>
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <p className="font-bold text-slate-900">{apt.date}</p>
-                            <p className="text-sm text-slate-500">{apt.time}</p>
-                        </div>
-                        <span className="px-3 py-1 rounded-full bg-teal-100 text-teal-700 text-xs font-bold">{apt.type}</span>
+        {/* Vitals Grid (Compact) */}
+        <div className="grid grid-cols-2 gap-4">
+            {VITALS.filter(v => v.id !== 'heart').map((vital) => (
+                <div key={vital.id} className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-between h-32 transition-transform hover:scale-[1.02]">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${vital.bg} ${vital.color}`}>
+                        <vital.icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                        <span className="text-2xl font-bold text-slate-800">{vital.value}</span>
+                        <span className="text-xs text-slate-400 ml-1">{vital.unit}</span>
+                        <p className="text-xs font-bold text-slate-500 mt-1">{vital.label}</p>
                     </div>
                 </div>
             ))}
@@ -258,84 +144,117 @@ const AppointmentsView = () => (
     </div>
 )
 
-const ProfileView = () => (
-    <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl border border-slate-100 p-8">
-            <div className="flex items-center gap-6 mb-8">
-                <div className="w-24 h-24 rounded-full bg-slate-200 overflow-hidden">
-                    <img src="https://i.pravatar.cc/150?u=health" alt="Profile" className="w-full h-full object-cover" />
+const AppointmentsView = () => (
+    <div className="space-y-6">
+        <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">Today</h2>
+            <button className="text-rose-500 text-xs font-bold uppercase tracking-wider">See All</button>
+        </div>
+        {[
+            { id: 1, doctor: 'Dr. Sharma', specialty: 'Cardio', time: '10:00 AM', color: 'bg-teal-500' },
+            { id: 2, doctor: 'Dr. Chen', specialty: 'GP', time: '2:30 PM', color: 'bg-blue-500' },
+            { id: 3, doctor: 'Dr. Rivera', specialty: 'Physio', time: '4:15 PM', color: 'bg-indigo-500' },
+        ].map((apt) => (
+            <div key={apt.id} className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4 transition-transform hover:scale-[1.02]">
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-sm font-black text-slate-400">
+                    {apt.time.split(' ')[0]}
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-1">Alex Morgan</h2>
-                    <p className="text-slate-500">Premium Member since 2023</p>
+                    <h3 className="font-bold text-slate-900 leading-tight">{apt.doctor}</h3>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">{apt.specialty}</p>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Email</label>
-                    <input type="email" defaultValue="alex.morgan@email.com" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        ))}
+        <button className="w-full py-4 rounded-2xl bg-black text-white font-bold text-sm shadow-xl active:scale-95 transition-transform">
+            Book New Visit
+        </button>
+    </div>
+)
+
+const CommunityView = () => (
+    <div className="space-y-6">
+        <h2 className="text-xl font-bold text-slate-900">Challenges</h2>
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-[2rem] text-white overflow-hidden relative">
+            <div className="relative z-10">
+                <div className="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 className="font-bold text-lg mb-1">Early Birds</h3>
+                        <p className="text-white/70 text-xs">Full week streak!</p>
+                    </div>
+                    <div className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-medium">Active</div>
                 </div>
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Phone</label>
-                    <input type="tel" defaultValue="+1 (555) 123-4567" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+                <div className="flex -space-x-3 mb-4">
+                    {[1, 2, 3, 4].map(i => (
+                        <div key={i} className="w-8 h-8 rounded-full bg-white/20 border-2 border-indigo-500" />
+                    ))}
+                    <div className="w-8 h-8 rounded-full bg-slate-900 text-[10px] flex items-center justify-center border-2 border-indigo-500">+42</div>
                 </div>
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Age</label>
-                    <input type="number" defaultValue="32" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500" />
-                </div>
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Blood Type</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                        <option>A+</option>
-                        <option>A-</option>
-                        <option>B+</option>
-                        <option>O+</option>
-                    </select>
+                <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
+                    <div className="bg-white w-3/4 h-full" />
                 </div>
             </div>
-            <div className="mt-8 pt-6 border-t border-slate-100">
-                <button className="px-6 py-3 bg-teal-500 text-white rounded-lg font-bold hover:bg-teal-600 transition-colors">
-                    Save Changes
-                </button>
-            </div>
+            <TrendingUp className="absolute right-[-20px] bottom-[-20px] w-32 h-32 text-white/10 rotate-12" />
+        </div>
+
+        <div className="space-y-4">
+            <h3 className="font-bold text-slate-900 text-sm">Leaderboard</h3>
+            {[
+                { name: 'Sarah J.', score: '98%', rank: 1 },
+                { name: 'Mike T.', score: '95%', rank: 2 },
+                { name: 'You', score: '92%', rank: 3 },
+            ].map((user) => (
+                <div key={user.rank} className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-100">
+                    <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${user.rank === 1 ? 'bg-yellow-100 text-yellow-600' : 'bg-slate-100 text-slate-500'}`}>#{user.rank}</div>
+                        <span className="font-bold text-slate-800 text-sm">{user.name}</span>
+                    </div>
+                    <span className="font-mono font-bold text-slate-900">{user.score}</span>
+                </div>
+            ))}
         </div>
     </div>
 )
 
 const SettingsView = () => (
-    <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl border border-slate-100 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6">Preferences</h2>
-            <div className="space-y-6">
-                <div className="flex items-center justify-between p-4 rounded-lg bg-slate-50">
-                    <div>
-                        <p className="font-bold text-slate-900">Email Notifications</p>
-                        <p className="text-sm text-slate-500">Receive health updates via email</p>
-                    </div>
-                    <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-teal-500 focus:ring-teal-500" />
+    <div className="space-y-6">
+        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm text-center">
+            <div className="w-20 h-20 mx-auto rounded-full bg-slate-100 mb-4 overflow-hidden relative">
+                <img src="https://i.pravatar.cc/150?u=a" alt="User" className="w-full h-full object-cover" />
+            </div>
+            <h2 className="text-lg font-black text-slate-900">Alex Morgan</h2>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-6">Premium Member</p>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-slate-50 p-3 rounded-xl">
+                    <div className="text-xs text-slate-400 uppercase font-bold text-left mb-1">Height</div>
+                    <div className="text-sm font-black text-slate-900 text-left">182 cm</div>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-lg bg-slate-50">
-                    <div>
-                        <p className="font-bold text-slate-900">Push Notifications</p>
-                        <p className="text-sm text-slate-500">Get alerts for important health events</p>
-                    </div>
-                    <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-teal-500 focus:ring-teal-500" />
-                </div>
-                <div className="flex items-center justify-between p-4 rounded-lg bg-slate-50">
-                    <div>
-                        <p className="font-bold text-slate-900">Data Sharing</p>
-                        <p className="text-sm text-slate-500">Share health data with healthcare providers</p>
-                    </div>
-                    <input type="checkbox" className="w-5 h-5 rounded border-slate-300 text-teal-500 focus:ring-teal-500" />
+                <div className="bg-slate-50 p-3 rounded-xl">
+                    <div className="text-xs text-slate-400 uppercase font-bold text-left mb-1">Weight</div>
+                    <div className="text-sm font-black text-slate-900 text-left">75 kg</div>
                 </div>
             </div>
+        </div>
+
+        <div className="space-y-3">
+            {['Notifications', 'Privacy', 'Devices', 'Support'].map(item => (
+                <button key={item} className="w-full bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                    {item}
+                    <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center">→</div>
+                </button>
+            ))}
         </div>
     </div>
 )
 
 const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
-    <button onClick={onClick} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${active ? 'bg-teal-50 text-teal-700' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}>
-        <Icon className="w-5 h-5" />
-        {label}
+    <button onClick={onClick} className="flex flex-col items-center gap-1 p-2 w-14 group relative">
+        {active && <motion.div layoutId="nav-bg" className="absolute -top-3 w-8 h-1 bg-rose-500 rounded-full" />}
+        <div className={`transition-all duration-300 ${active ? 'text-rose-600 -translate-y-1' : 'text-slate-300 group-hover:text-slate-400'}`}>
+            <Icon className={`w-6 h-6 ${active ? 'fill-current' : ''}`} strokeWidth={active ? 2.5 : 2} />
+        </div>
+        <span className={`text-[9px] font-bold tracking-tight ${active ? 'text-rose-600' : 'text-transparent group-hover:text-slate-300'} transition-colors`}>
+            {label}
+        </span>
     </button>
 )

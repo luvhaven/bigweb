@@ -14,6 +14,8 @@ export interface NavigationItem {
     sort_order: number;
     icon?: string;
     description?: string;
+    status?: string;
+    metadata?: any;
     children?: NavigationItem[];
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User, SupabaseClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
@@ -26,6 +26,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [profile, setProfile] = useState<Profile | null>(null)
     const [loading, setLoading] = useState(true)
     const router = useRouter()
+
+    const loadProfile = useCallback(async (currentUser: User) => {
+        try {
+            const { data, error } = await supabase
+                .from('admin_users')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single()
+
+            if (data) {
+                setProfile(data)
+            } else {
+                console.warn('No admin profile found for user:', currentUser.id)
+                // Fallback or handle missing profile
+                setProfile(null)
+            }
+        } catch (e) {
+            console.error('Error loading profile:', e)
+        }
+    }, [supabase])
 
     useEffect(() => {
         const initializeAuth = async () => {
@@ -63,27 +83,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return () => {
             subscription.unsubscribe()
         }
-    }, [supabase, router])
+    }, [supabase, router, loadProfile])
 
-    const loadProfile = async (currentUser: User) => {
-        try {
-            const { data, error } = await supabase
-                .from('admin_users')
-                .select('*')
-                .eq('id', currentUser.id)
-                .single()
 
-            if (data) {
-                setProfile(data)
-            } else {
-                console.warn('No admin profile found for user:', currentUser.id)
-                // Fallback or handle missing profile
-                setProfile(null)
-            }
-        } catch (e) {
-            console.error('Error loading profile:', e)
-        }
-    }
 
     const signIn = async (email: string, password: string) => {
         const { error } = await supabase.auth.signInWithPassword({ email, password })

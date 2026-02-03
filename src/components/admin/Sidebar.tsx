@@ -22,18 +22,20 @@ import {
     LogOut,
     ChevronLeft,
     ChevronRight,
-    Bell
+    Bell,
+    Zap
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import BrandLogo from '@/components/branding/BrandLogo'
+import { useGlobalContent } from '@/context/GlobalContentContext'
 
 const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
     { icon: FileText, label: 'Services', href: '/admin/services' },
     { icon: FolderKanban, label: 'Portfolio', href: '/admin/portfolio' },
     { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
-    { icon: Star, label: 'Growth Packages', href: '/admin/growth' }, // New
+    { icon: Zap, label: 'Offers', href: '/admin/offers' },
     { icon: Image, label: 'Media & Videos', href: '/admin/media' }, // New name
     { icon: Users, label: 'Clients', href: '/admin/clients' },
     { icon: BookOpen, label: 'Blog', href: '/admin/blog' },
@@ -47,6 +49,7 @@ export default function AdminSidebar() {
     const { profile, signOut } = useAuth()
     const [collapsed, setCollapsed] = useState(false)
     const [mobileOpen, setMobileOpen] = useState(false)
+    const { settings } = useGlobalContent()
 
     const handleSignOut = async () => {
         await signOut()
@@ -85,7 +88,7 @@ export default function AdminSidebar() {
                             className="fixed inset-y-0 left-0 w-72 bg-card border-r border-border z-50 lg:hidden flex flex-col"
                         >
                             <div className="p-6 flex items-center justify-between border-b border-border">
-                                <BrandLogo />
+                                <BrandLogo logoUrl={settings?.logo_url} />
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -145,7 +148,7 @@ export default function AdminSidebar() {
                     }`}
             >
                 <div className={`p-6 border-b border-border flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
-                    {!collapsed && <BrandLogo />}
+                    {!collapsed && <BrandLogo logoUrl={settings?.logo_url} />}
                     {collapsed && (
                         <div className="w-8 h-8 rounded-lg bg-primary/20" />
                     )}

@@ -7,7 +7,8 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { MouseReveal, RevealPatterns } from '@/components/ui/MouseReveal'
-import { useRef, useState } from 'react'
+import { useRef, useState, useMemo } from 'react'
+import { cn } from '@/lib/utils'
 
 interface HeroPremiumProps {
     title: string
@@ -24,8 +25,103 @@ interface HeroPremiumProps {
     children?: React.ReactNode
 }
 
+// Fixed color mapping to prevent Tailwind purging
+const colorVariants = {
+    blue: {
+        text: "text-blue-400",
+        border: "border-blue-500/30",
+        bg: "bg-blue-500/5",
+        bgSolid: "bg-blue-600",
+        bgHover: "hover:bg-blue-500",
+        shadow: "shadow-blue-500/20",
+        gradient: "from-blue-400 via-cyan-400 to-blue-600",
+        orb: "bg-blue-500/10"
+    },
+    purple: {
+        text: "text-purple-400",
+        border: "border-purple-500/30",
+        bg: "bg-purple-500/5",
+        bgSolid: "bg-purple-600",
+        bgHover: "hover:bg-purple-500",
+        shadow: "shadow-purple-500/20",
+        gradient: "from-purple-400 via-pink-400 to-purple-600",
+        orb: "bg-purple-500/10"
+    },
+    orange: {
+        text: "text-orange-400",
+        border: "border-orange-500/30",
+        bg: "bg-orange-500/5",
+        bgSolid: "bg-orange-600",
+        bgHover: "hover:bg-orange-500",
+        shadow: "shadow-orange-500/20",
+        gradient: "from-orange-400 via-amber-400 to-orange-600",
+        orb: "bg-orange-500/10"
+    },
+    emerald: {
+        text: "text-emerald-400",
+        border: "border-emerald-500/30",
+        bg: "bg-emerald-500/5",
+        bgSolid: "bg-emerald-600",
+        bgHover: "hover:bg-emerald-500",
+        shadow: "shadow-emerald-500/20",
+        gradient: "from-emerald-400 via-green-400 to-emerald-600",
+        orb: "bg-emerald-500/10"
+    },
+    cyan: {
+        text: "text-cyan-400",
+        border: "border-cyan-500/30",
+        bg: "bg-cyan-500/5",
+        bgSolid: "bg-cyan-600",
+        bgHover: "hover:bg-cyan-500",
+        shadow: "shadow-cyan-500/20",
+        gradient: "from-cyan-400 via-teal-400 to-cyan-600",
+        orb: "bg-cyan-500/10"
+    },
+    indigo: {
+        text: "text-indigo-400",
+        border: "border-indigo-500/30",
+        bg: "bg-indigo-500/5",
+        bgSolid: "bg-indigo-600",
+        bgHover: "hover:bg-indigo-500",
+        shadow: "shadow-indigo-500/20",
+        gradient: "from-indigo-400 via-blue-400 to-indigo-600",
+        orb: "bg-indigo-500/10"
+    },
+    green: {
+        text: "text-green-400",
+        border: "border-green-500/30",
+        bg: "bg-green-500/5",
+        bgSolid: "bg-green-600",
+        bgHover: "hover:bg-green-500",
+        shadow: "shadow-green-500/20",
+        gradient: "from-green-400 via-emerald-400 to-green-600",
+        orb: "bg-green-500/10"
+    },
+    violet: {
+        text: "text-violet-400",
+        border: "border-violet-500/30",
+        bg: "bg-violet-500/5",
+        bgSolid: "bg-violet-600",
+        bgHover: "hover:bg-violet-500",
+        shadow: "shadow-violet-500/20",
+        gradient: "from-violet-400 via-purple-400 to-violet-600",
+        orb: "bg-violet-500/10"
+    },
+    yellow: {
+        text: "text-yellow-400",
+        border: "border-yellow-500/30",
+        bg: "bg-yellow-500/5",
+        bgSolid: "bg-yellow-600",
+        bgHover: "hover:bg-yellow-500",
+        shadow: "shadow-yellow-500/20",
+        gradient: "from-yellow-400 via-orange-400 to-yellow-600",
+        orb: "bg-yellow-500/10"
+    }
+}
+
 // Floating Orbs Component
-function FloatingOrbs({ themeColor }: { themeColor: string }) {
+function FloatingOrbs({ themeColor }: { themeColor: keyof typeof colorVariants }) {
+    const orbColor = colorVariants[themeColor].orb
     const orbs = [
         { size: 300, duration: 20, delay: 0, x: '10%', y: '20%' },
         { size: 400, duration: 25, delay: 5, x: '80%', y: '60%' },
@@ -37,7 +133,7 @@ function FloatingOrbs({ themeColor }: { themeColor: string }) {
             {orbs.map((orb, i) => (
                 <motion.div
                     key={i}
-                    className={`absolute rounded-full bg-${themeColor}-500/10 blur-3xl`}
+                    className={cn("absolute rounded-full blur-3xl opacity-30", orbColor)}
                     style={{
                         width: orb.size,
                         height: orb.size,
@@ -45,9 +141,9 @@ function FloatingOrbs({ themeColor }: { themeColor: string }) {
                         top: orb.y,
                     }}
                     animate={{
-                        x: [0, 100, -50, 0],
-                        y: [0, -100, 50, 0],
-                        scale: [1, 1.2, 0.8, 1],
+                        x: [0, 80, -40, 0],
+                        y: [0, -80, 40, 0],
+                        scale: [1, 1.1, 0.9, 1],
                     }}
                     transition={{
                         duration: orb.duration,
@@ -86,7 +182,7 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
     }
 
     return (
-        <Link href={href}>
+        <Link href={href} className={className}>
             <motion.div
                 ref={ref}
                 style={{ x: springX, y: springY }}
@@ -116,241 +212,123 @@ export default function HeroPremium({
 }: HeroPremiumProps) {
     const SelectedPattern = RevealPatterns[pattern] || RevealPatterns.Grid
     const [isHoveringCTA, setIsHoveringCTA] = useState(false)
-
-    // Animated gradient for highlight text
-    const gradientColors = {
-        blue: 'from-blue-400 via-cyan-400 to-blue-600',
-        purple: 'from-purple-400 via-pink-400 to-purple-600',
-        green: 'from-green-400 via-emerald-400 to-green-600',
-        orange: 'from-orange-400 via-amber-400 to-orange-600',
-        cyan: 'from-cyan-400 via-teal-400 to-cyan-600',
-        emerald: 'from-emerald-400 via-green-400 to-emerald-600',
-        indigo: 'from-indigo-400 via-blue-400 to-indigo-600',
-        violet: 'from-violet-400 via-purple-400 to-violet-600',
-        yellow: 'from-yellow-400 via-orange-400 to-yellow-600',
-    }
+    const cv = useMemo(() => colorVariants[themeColor] || colorVariants.blue, [themeColor])
 
     return (
-        <section className="relative w-full h-[calc(100vh-80px)] min-h-[600px] flex items-center justify-center overflow-hidden bg-background pt-20 pb-12">
-
+        <section className="relative w-full min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden bg-background">
             {/* 1. Background Layer */}
-            <motion.div
-                className="absolute inset-0 z-0 pointer-events-none select-none"
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-            >
-                {backgroundImage && (
-                    <>
-                        <Image
-                            src={backgroundImage}
-                            alt="Background"
-                            fill
-                            className="object-cover opacity-20"
-                            priority
-                            quality={90}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
-                    </>
-                )}
-
+            <div className="absolute inset-0 z-0">
                 {!backgroundImage && (
-                    <div className="absolute inset-0 bg-grid-white/[0.02]" />
+                    <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05]" />
                 )}
-
-                {/* Floating Orbs */}
+                {backgroundImage && (
+                    <Image
+                        src={backgroundImage}
+                        alt="Background"
+                        fill
+                        className="object-cover opacity-10"
+                        priority
+                    />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
                 <FloatingOrbs themeColor={themeColor} />
-            </motion.div>
-
-            {/* 2. Enhanced MouseReveal Layer */}
-            <div className="absolute inset-0 z-10 pointer-events-none">
-                <MouseReveal
-                    revealContent={<SelectedPattern />}
-                    revealSize={450}
-                    className="w-full h-full opacity-80"
-                >
-                    <div className="w-full h-full" />
-                </MouseReveal>
             </div>
+
+            {/* 2. Simplified Glow Layer */}
+            <div className="absolute inset-0 z-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(255,107,0,0.05),transparent_70%)]" />
 
             {/* 3. Content Layer */}
             <div className="relative z-20 container mx-auto px-6 text-center">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="max-w-4xl mx-auto"
                 >
-                    {/* Badge with Bounce */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{
-                            delay: 0.2,
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 10
-                        }}
-                        className="flex justify-center mb-8"
-                    >
-                        <Badge variant="outline" className={`px-4 py-1.5 text-sm uppercase tracking-widest border-${themeColor}-500/30 text-${themeColor}-400 bg-${themeColor}-500/5 backdrop-blur-md hover:scale-105 transition-transform cursor-default`}>
-                            <motion.div
-                                animate={{ rotate: [0, 10, -10, 0] }}
-                                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                            >
-                                <Sparkles className="w-3 h-3 mr-2 fill-current" />
-                            </motion.div>
+                    {/* Badge */}
+                    <div className="flex justify-center mb-10">
+                        <Badge variant="outline" className={cn(
+                            "px-5 py-2 text-xs uppercase tracking-widest backdrop-blur-md transition-all duration-500",
+                            cv.border,
+                            cv.text,
+                            cv.bg
+                        )}>
+                            <Sparkles className="w-3 h-3 mr-2 fill-current animate-pulse" />
                             {badgeText}
                         </Badge>
-                    </motion.div>
+                    </div>
 
-                    {/* Headline with Stagger */}
-                    <motion.h1
-                        className="text-5xl md:text-7xl font-bold tracking-tight mb-8"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                    >
-                        <motion.span
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.4 }}
-                        >
-                            {title}
-                        </motion.span>
-                        {' '}
-                        <br className="hidden md:block" />
-                        <motion.span
-                            className={`relative inline-block font-black bg-gradient-to-r ${gradientColors[themeColor]} bg-clip-text text-transparent`}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.5 }}
-                        >
-                            <motion.span
-                                animate={{
-                                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                                }}
-                                transition={{
-                                    duration: 5,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                }}
-                                style={{ backgroundSize: '200% 200%' }}
-                            >
-                                {highlight}
-                            </motion.span>
+                    {/* Headline */}
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[0.9] uppercase text-white">
+                        {title} <br className="hidden md:block" />
+                        <span className={cn(
+                            "bg-gradient-to-r bg-clip-text text-transparent inline-block animate-gradient",
+                            cv.gradient
+                        )}>
+                            {highlight}
+                        </span>
+                    </h1>
 
-                            {/* Animated Underline */}
-                            <svg className="absolute w-full h-3 -bottom-2 left-0 text-current opacity-30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                <motion.path
-                                    d="M0 5 Q 50 10 100 5"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    fill="none"
-                                    initial={{ pathLength: 0, opacity: 0 }}
-                                    animate={{ pathLength: 1, opacity: 0.3 }}
-                                    transition={{ duration: 1.5, delay: 0.6, ease: "easeInOut" }}
-                                />
-                            </svg>
-                        </motion.span>
-                    </motion.h1>
-
-                    {/* Description with Word Reveal */}
-                    <motion.p
-                        className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.7 }}
-                    >
+                    {/* Description */}
+                    <p className="text-lg md:text-2xl text-muted-foreground mb-14 max-w-2xl mx-auto leading-relaxed font-medium">
                         {description}
-                    </motion.p>
+                    </p>
 
-                    {/* CTAs with Magnetic Effect */}
-                    <motion.div
-                        className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <MagneticButton href={ctaLink} className="inline-block">
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                        <MagneticButton href={ctaLink}>
                             <Button
-                                size="lg"
-                                className={`h-14 px-8 text-lg rounded-full bg-${themeColor}-600 hover:bg-${themeColor}-500 text-white shadow-[0_0_30px_-10px_var(--${themeColor}-500)] transition-all transform hover:scale-105 relative overflow-hidden group`}
+                                size="xl"
+                                className={cn(
+                                    "h-16 px-10 text-lg rounded-2xl text-white shadow-2xl transition-all group relative overflow-hidden",
+                                    cv.bgSolid,
+                                    cv.bgHover,
+                                    cv.shadow
+                                )}
                                 onMouseEnter={() => setIsHoveringCTA(true)}
                                 onMouseLeave={() => setIsHoveringCTA(false)}
                             >
                                 <span className="relative z-10 flex items-center">
                                     {ctaText}
-                                    <motion.div
-                                        animate={{ x: isHoveringCTA ? 5 : 0 }}
-                                        transition={{ type: "spring", stiffness: 300 }}
-                                    >
-                                        <ArrowRight className="ml-2 w-5 h-5" />
-                                    </motion.div>
+                                    <ArrowRight className={cn(
+                                        "ml-3 w-5 h-5 transition-transform duration-300",
+                                        isHoveringCTA ? "translate-x-1.5" : ""
+                                    )} />
                                 </span>
-
-                                {/* Glow Pulse */}
-                                <motion.div
-                                    className={`absolute inset-0 bg-${themeColor}-400`}
-                                    animate={{
-                                        opacity: [0, 0.3, 0],
-                                        scale: [1, 1.05, 1],
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: "easeInOut"
-                                    }}
-                                />
                             </Button>
                         </MagneticButton>
 
                         <Link href={secondaryCtaLink}>
                             <Button
-                                variant="ghost"
-                                size="lg"
-                                className="h-14 px-8 text-lg rounded-full hover:bg-white/5 border border-white/10 hover:border-white/20 transition-all hover:scale-105"
+                                variant="outline"
+                                size="xl"
+                                className="h-16 px-10 text-lg rounded-2xl border-white/10 hover:bg-white/5 transition-all"
                             >
                                 {secondaryCtaText}
                             </Button>
                         </Link>
-                    </motion.div>
+                    </div>
 
                     {/* Additional Children */}
                     {children && (
-                        <motion.div
-                            className="mt-12"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.9 }}
-                        >
+                        <div className="mt-16">
                             {children}
-                        </motion.div>
+                        </div>
                     )}
                 </motion.div>
             </div>
 
-            {/* Enhanced Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 1 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-none"
-            >
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-20">
                 <motion.div
-                    className={`w-[1px] h-16 bg-gradient-to-b from-transparent via-${themeColor}-500/50 to-transparent`}
+                    className="w-px h-20 bg-gradient-to-b from-transparent via-orange-500 to-transparent"
                     animate={{
-                        scaleY: [1, 1.2, 1],
-                        opacity: [0.3, 0.6, 0.3],
+                        scaleY: [1, 1.3, 1],
+                        opacity: [0.3, 0.7, 0.3],
                     }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
                 />
-            </motion.div>
+            </div>
         </section>
     )
 }

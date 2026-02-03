@@ -13,7 +13,9 @@ export default function RippleEffect() {
     const [ripples, setRipples] = useState<Ripple[]>([])
 
     useEffect(() => {
+        let isMounted = true
         const handleClick = (e: MouseEvent) => {
+            if (!isMounted) return
             const newRipple: Ripple = {
                 x: e.clientX,
                 y: e.clientY,
@@ -24,12 +26,17 @@ export default function RippleEffect() {
 
             // Remove ripple after animation
             setTimeout(() => {
-                setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+                if (isMounted) {
+                    setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+                }
             }, 800)
         }
 
         document.addEventListener('click', handleClick)
-        return () => document.removeEventListener('click', handleClick)
+        return () => {
+            isMounted = false
+            document.removeEventListener('click', handleClick)
+        }
     }, [])
 
     return (

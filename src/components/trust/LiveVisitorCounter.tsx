@@ -23,15 +23,20 @@ export default function LiveVisitorCounter() {
     })
 
     useEffect(() => {
+        let isMounted = true
         // Simulate live fluctuation
         const interval = setInterval(() => {
+            if (!isMounted) return
             setCount(prev => {
                 const change = Math.floor(Math.random() * 5) - 2 // -2 to +2
                 return Math.max(80, prev + change)
             })
         }, 5000)
 
-        return () => clearInterval(interval)
+        return () => {
+            isMounted = false
+            clearInterval(interval)
+        }
     }, [])
 
     return (

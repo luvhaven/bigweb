@@ -20,9 +20,10 @@ interface GenericAdminTableProps {
     title: string
     columns: Column[]
     defaultSort?: string
+    excludeSlugs?: string[]
 }
 
-export default function GenericAdminTable({ tableName, title, columns, defaultSort = 'created_at' }: GenericAdminTableProps) {
+export default function GenericAdminTable({ tableName, title, columns, defaultSort = 'created_at', excludeSlugs = [] }: GenericAdminTableProps) {
     const supabase = createClient()
     const [data, setData] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
@@ -41,7 +42,13 @@ export default function GenericAdminTable({ tableName, title, columns, defaultSo
             console.error('Fetch error:', error)
             toast.error('Failed to load data')
         }
-        if (rows) setData(rows)
+        if (rows) {
+            // Apply exclusion filter
+            const filteredRows = excludeSlugs.length > 0
+                ? rows.filter(row => !excludeSlugs.includes(row.slug))
+                : rows
+            setData(filteredRows)
+        }
         setLoading(false)
     }
 

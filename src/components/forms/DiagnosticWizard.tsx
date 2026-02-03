@@ -6,9 +6,10 @@ import { ArrowRight, CheckCircle2, Globe, Mail, Loader2, AlertCircle } from 'luc
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
-export default function DiagnosticWizard() {
+export default function AuditWizard() {
     const [step, setStep] = useState(1)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
@@ -22,9 +23,16 @@ export default function DiagnosticWizard() {
     })
 
     const handleNext = () => {
-        if (step === 1 && !formData.website_url) {
-            setError('Please enter your website URL')
-            return
+        if (step === 1) {
+            const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+            if (!formData.website_url) {
+                setError('Please enter your website URL')
+                return
+            }
+            if (!urlPattern.test(formData.website_url)) {
+                setError('Please enter a valid website address (e.g., https://example.com)')
+                return
+            }
         }
         if (step === 2 && !formData.pain_point) {
             setError('Please select a primary challenge')
@@ -36,8 +44,18 @@ export default function DiagnosticWizard() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!formData.email || !formData.name) {
-            setError('Please complete all fields')
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if (!formData.name) {
+            setError('Please enter your name')
+            return
+        }
+        if (!formData.email) {
+            setError('Please enter your email')
+            return
+        }
+        if (!emailPattern.test(formData.email)) {
+            setError('Please enter a valid work email address')
             return
         }
 
@@ -48,7 +66,7 @@ export default function DiagnosticWizard() {
             const { data, error: dbError } = await supabase
                 .from('cms_leads')
                 .insert({
-                    type: 'diagnostic',
+                    type: 'audit',
                     name: formData.name,
                     email: formData.email,
                     website_url: formData.website_url,
@@ -88,7 +106,7 @@ export default function DiagnosticWizard() {
                 </div>
                 <h2 className="text-3xl font-bold mb-4 gradient-text">Request Received</h2>
                 <p className="text-muted-foreground mb-8 text-lg">
-                    Our engineers have queued <strong className="text-foreground">{formData.website_url}</strong> for analysis.
+                    Our team has queued <strong className="text-foreground">{formData.website_url}</strong> for analysis.
                     You will receive your video breakdown via email within 48 hours.
                 </p>
                 <Button onClick={() => window.location.reload()} variant="outline" className="border-accent/20 hover:bg-accent/5">
@@ -143,7 +161,7 @@ export default function DiagnosticWizard() {
                                         autoFocus
                                     />
                                 </div>
-                                <p className="text-sm text-muted-foreground">The URL we will analyze for conversion friction.</p>
+                                <p className="text-sm text-muted-foreground">The URL we will analyze for conversion bottlenecks.</p>
                             </div>
                             <Button type="button" onClick={handleNext} className="w-full h-12 text-lg bg-accent hover:bg-accent-dark shadow-lg shadow-accent/20">
                                 Next Step <ArrowRight className="w-5 h-5 ml-2" />
@@ -234,7 +252,7 @@ export default function DiagnosticWizard() {
                                             Submitting...
                                         </>
                                     ) : (
-                                        "Request Diagnostic"
+                                        "Get My Audit"
                                     )}
                                 </Button>
                             </div>

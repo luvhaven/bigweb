@@ -4,11 +4,19 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
+import { clientsAPI } from '@/lib/api/clients'
+
 const defaultClients = [
-    { name: 'Vortex Systems', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'Aether Analytics', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'Orbit Global', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
-    { name: 'Sky Pulse', logo_url: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop&q=80' },
+    { name: 'Google', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
+    { name: 'Microsoft', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo.svg' },
+    { name: 'Nike', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg' },
+    { name: 'Amazon', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' },
+    { name: 'Airbnb', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg' },
+    { name: 'Meta', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg' },
+    { name: 'Netflix', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+    { name: 'Salesforce', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg' },
+    { name: 'Apple', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' },
+    { name: 'Adobe', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Corporate_Logo.svg' },
 ]
 
 export default function ClientMarquee() {
@@ -17,10 +25,10 @@ export default function ClientMarquee() {
     useEffect(() => {
         const loadClients = async () => {
             try {
-                // Dynamically import to avoid circular dependencies if any
-                const { clientsAPI } = await import('@/lib/api/clients')
                 const data = await clientsAPI.getActive()
-                if (data && data.length > 0) setClients(data)
+                if (data && data.length > 0) {
+                    setClients([...data, ...defaultClients])
+                }
             } catch (e) {
                 console.error("Failed to load clients", e)
             }
@@ -28,35 +36,40 @@ export default function ClientMarquee() {
         loadClients()
     }, [])
 
-    // Ensure we have enough items for seamless loop
-    const displayClients = clients.length < 5 ? [...clients, ...clients, ...clients] : [...clients, ...clients]
+    const displayClients = [...clients, ...clients, ...clients]
 
     return (
-        <div className="w-full py-12 overflow-hidden bg-background/50 backdrop-blur-sm border-y border-white/5">
-            <div className="container mx-auto px-4 mb-8">
-                <p className="text-center text-sm text-muted-foreground uppercase tracking-widest">Trusted by Industry Leaders</p>
-            </div>
-            <div className="relative flex">
-                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+        <div className="w-full py-20 overflow-hidden bg-black border-y border-zinc-900 relative">
+            {/* Edge Fades */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
+            <div className="container mx-auto px-6 mb-12 relative z-20">
+                <div className="flex items-center gap-4">
+                    <div className="h-px flex-1 bg-zinc-900" />
+                    <span className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em]">Integrated_Network_Nodes</span>
+                    <div className="h-px flex-1 bg-zinc-900" />
+                </div>
+            </div>
+
+            <div className="relative flex whitespace-nowrap overflow-hidden">
                 <motion.div
-                    className="flex gap-16 items-center whitespace-nowrap"
-                    animate={{ x: ["0%", "-50%"] }}
+                    className="flex gap-24 items-center"
+                    animate={{ x: ["0%", "-33.33%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: 35,
+                        duration: 40,
                         ease: "linear",
                         repeatType: "loop"
                     }}
                 >
                     {displayClients.map((client, i) => (
-                        <div key={i} className="relative h-12 grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100 cursor-pointer flex items-center justify-center min-w-[120px]">
-                            {client.logo_url && client.logo_url.startsWith('http') ? (
-                                <img src={client.logo_url} alt={client.name} className="h-full object-contain max-w-[150px]" />
-                            ) : (
-                                <div className="text-xl font-bold text-white/40 hover:text-white transition-colors">{client.name}</div>
-                            )}
+                        <div key={i} className="flex-shrink-0 grayscale opacity-20 hover:opacity-100 transition-all duration-500 cursor-crosshair group flex items-center justify-center">
+                            <img
+                                src={client.logo_url}
+                                alt={client.name}
+                                className="h-8 w-auto object-contain brightness-[10] contrast-[1.2] group-hover:scale-105 transition-transform"
+                            />
                         </div>
                     ))}
                 </motion.div>

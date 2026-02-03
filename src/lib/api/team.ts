@@ -1,4 +1,5 @@
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 export interface TeamMember {
     id?: string

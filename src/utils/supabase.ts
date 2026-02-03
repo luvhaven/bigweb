@@ -1,10 +1,16 @@
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+/**
+ * @deprecated Use createClient from @/lib/supabase/client or @/lib/supabase/server instead.
+ * This file is being phased out to ensure consistent auth and SSR support.
+ */
+export const getSupabaseClient = () => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-    console.error('Missing Supabase environment variables');
-}
+    if (!url || !key) {
+        throw new Error('Supabase environment variables are missing.');
+    }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+    return createBrowserClient(url, key);
+};

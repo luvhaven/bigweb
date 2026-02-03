@@ -5,6 +5,8 @@ export interface Message {
     role: 'user' | 'assistant' | 'system'
     content: string
     createdAt?: Date
+    sources?: { title: string, uri: string }[]
+    metadata?: any
 }
 
 export interface UseChatOptions {
@@ -29,7 +31,7 @@ export interface UseChatHelpers {
 
 /**
  * Custom useChat hook for streaming AI responses
- * Compatible with OpenAI streaming API
+ * Compatible with Gemini/OpenAI streaming formats
  */
 export function useChat(options: UseChatOptions): UseChatHelpers {
     const { api, body = {}, onResponse, onFinish, onError } = options
@@ -44,7 +46,7 @@ export function useChat(options: UseChatOptions): UseChatHelpers {
     }, [])
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
-        e.preventDefault()
+        if (e) e.preventDefault()
 
         if (!input.trim() || isLoading) return
 
@@ -101,6 +103,8 @@ export function useChat(options: UseChatOptions): UseChatHelpers {
                 role: 'assistant',
                 content: '',
                 createdAt: new Date(),
+                sources: [],
+                metadata: {}
             }
 
             // Add empty assistant message
@@ -113,32 +117,49 @@ export function useChat(options: UseChatOptions): UseChatHelpers {
 
                 if (value) {
                     const chunk = decoder.decode(value, { stream: true })
-
-                    // Parse SSE format (data: {...})
                     const lines = chunk.split('\n')
+
                     for (const line of lines) {
                         if (line.startsWith('data: ')) {
-                            const data = line.slice(6)
-                            if (data === '[DONE]') continue
+                            const dataStr = line.slice(6).trim()
+                            if (dataStr === '[DONE]') continue
+                            if (!dataStr) continue
 
                             try {
-                                const parsed = JSON.parse(data)
-                                const content = parsed.choices?.[0]?.delta?.content || parsed.content || ''
+                                const parsed = JSON.parse(dataStr)
 
+                                // Handle Sources
+                                if (parsed.sources) {
+                                    assistantMessage.sources = [...(assistantMessage.sources || []), ...parsed.sources]
+                                        .filter((v, i, a) => a.findIndex(t => t.uri === v.uri) === i)
+                                }
+
+                                // Handle Function Calls / Form data
+                                if (parsed.functionCall) {
+                                    assistantMessage.metadata = {
+                                        ...assistantMessage.metadata,
+                                        functionCall: parsed.functionCall,
+                                        booking: parsed.functionCall.args
+                                    }
+                                }
+
+                                // Handle Text
+                                const content = parsed.choices?.[0]?.delta?.content || parsed.content || parsed.text || ''
                                 if (content) {
                                     assistantMessage.content += content
-
-                                    // Update message in real-time
-                                    setMessages(prev => {
-                                        const newMessages = [...prev]
-                                        newMessages[newMessages.length - 1] = { ...assistantMessage }
-                                        return newMessages
-                                    })
                                 }
+
+                                // Update message state
+                                setMessages(prev => {
+                                    const newMessages = [...prev]
+                                    newMessages[newMessages.length - 1] = { ...assistantMessage }
+                                    return newMessages
+                                })
+
                             } catch (e) {
-                                // If not JSON, treat as plain text
-                                if (data.trim()) {
-                                    assistantMessage.content += data
+                                // Fallback for raw text
+                                if (dataStr) {
+                                    assistantMessage.content += dataStr
                                     setMessages(prev => {
                                         const newMessages = [...prev]
                                         newMessages[newMessages.length - 1] = { ...assistantMessage }
@@ -146,9 +167,6 @@ export function useChat(options: UseChatOptions): UseChatHelpers {
                                     })
                                 }
                             }
-                        } else {
-                            // Log unhandled lines for debugging
-                            console.log('Stream Line:', line)
                         }
                     }
                 }

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Code, Shield, Users, Zap, Bot, Search, ShoppingCart, Smartphone } from 'lucide-react'
+import { ArrowRight, Code, Shield, Users, Zap, Bot, Search, ShoppingCart, Smartphone, BarChart3, Brain } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface RelatedServicesProps {
@@ -14,43 +14,64 @@ const allServices = [
         name: "Staff Augmentation",
         path: "/services/staff-augmentation",
         icon: Users,
-        description: "Scale your team instantly with elite engineers.",
+        description: "Scale your team instantly with elite engineering squads.",
         color: "from-blue-600 to-indigo-600"
     },
     {
-        name: "Website Maintenance",
+        name: "Platform Maintenance",
         path: "/services/maintenance",
         icon: Shield,
-        description: "24/7 security, updates, and performance monitoring.",
-        color: "from-green-600 to-emerald-600"
+        description: "Industrial security, updates, and operational hardening.",
+        color: "from-slate-600 to-zinc-600"
     },
     {
         name: "GAIO (AI Optimization)",
         path: "/services/gaio",
         icon: Bot,
-        description: "Optimize for the AI search era (ChatGPT, Gemini).",
+        description: "Master the AI search era (ChatGPT, Gemini, Claude).",
         color: "from-purple-600 to-pink-600"
     },
     {
-        name: "Web Development",
+        name: "Web Engineering",
         path: "/services/web-development",
         icon: Code,
-        description: "Award-winning custom websites and web apps.",
+        description: "High-performance custom stacks and SaaS platforms.",
         color: "from-orange-500 to-red-500"
     },
     {
         name: "E-Commerce",
         path: "/services/ecommerce",
         icon: ShoppingCart,
-        description: "High-converting online stores and marketplaces.",
+        description: "High-converting storefronts and data-driven shopping.",
         color: "from-cyan-500 to-blue-500"
     },
     {
-        name: "Mobile Apps",
+        name: "Mobile Ecosystems",
         path: "/services/mobile-apps",
         icon: Smartphone,
-        description: "Native iOS and Android applications.",
+        description: "Native iOS and Android dominance strategies.",
         color: "from-pink-500 to-rose-500"
+    },
+    {
+        name: "Data Analytics",
+        path: "/services/analytics",
+        icon: BarChart3,
+        description: "Turn raw data into forensic business clarity.",
+        color: "from-blue-500 to-cyan-500"
+    },
+    {
+        name: "AI Strategy",
+        path: "/services/ai-consulting",
+        icon: Brain,
+        description: "Expert advisory for enterprise AI transformation.",
+        color: "from-indigo-600 to-purple-600"
+    },
+    {
+        name: "CRO & Performance",
+        path: "/services/conversion-optimization",
+        icon: Zap,
+        description: "Surgical optimization for maximum revenue yield.",
+        color: "from-orange-600 to-yellow-600"
     }
 ]
 

@@ -36,8 +36,15 @@ export function useAnalytics() {
                         },
                     }),
                 });
-            } catch (err) {
-                console.error('Failed to track pageview', err);
+            } catch (err: any) {
+                // Silently handle fetch errors (likely ad-blockers or connection issues)
+                if (process.env.NODE_ENV === 'development') {
+                    console.debug('Analytics pageview tracking suppressed:', {
+                        message: err.message,
+                        url: '/api/analytics/track',
+                        error: err
+                    });
+                }
             }
         };
 
@@ -61,7 +68,9 @@ export function useAnalytics() {
                 }),
             });
         } catch (err) {
-            console.error('Failed to track event', err);
+            if (process.env.NODE_ENV === 'development') {
+                console.debug('Analytics event tracking suppressed:', err);
+            }
         }
     };
 
