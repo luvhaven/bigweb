@@ -76,11 +76,11 @@ export default function ProblemSolution() {
                         <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">Common_Vector_Failures_v1</span>
                     </motion.div>
 
-                    <h2 className="text-6xl md:text-[8rem] font-black mb-10 tracking-tighter uppercase italic leading-[0.85] text-white">
+                    <h2 className="text-6xl md:text-[9rem] font-black mb-10 tracking-tighter-extreme uppercase italic leading-[0.85] text-white">
                         Is Your Site <br /><span className="text-zinc-800">Bleeding?</span>
                     </h2>
 
-                    <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-4xl">
+                    <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tighter-extreme max-w-4xl">
                         Your platform should be a <span className="text-white italic">Strategic_Asset</span>. If it's not, we'll find the point of failure.
                     </p>
                 </div>
@@ -186,7 +186,7 @@ export default function ProblemSolution() {
                                                 <div className="flex items-start justify-between">
                                                     <div className="space-y-4">
                                                         <div className="text-[9px] font-bold text-orange-600 uppercase tracking-widest">Audit_MetaData</div>
-                                                        <h4 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter leading-none">
+                                                        <h4 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter-extreme leading-none">
                                                             {problems.find(p => p.id === scannedProblem)?.leakType} <br />
                                                             <span className="text-zinc-800 font-bold not-italic">DETECTED_</span>
                                                         </h4>
@@ -332,11 +332,11 @@ export default function ProblemSolution() {
                             <FlaskConical className="w-4 h-4" /> The_Conversion_Lab_Proprietary
                         </motion.div>
 
-                        <h2 className="text-5xl md:text-[6rem] font-black leading-[0.85] tracking-tighter uppercase italic text-white">
+                        <h2 className="text-5xl md:text-[6.5rem] font-black leading-[0.85] tracking-tighter-extreme uppercase italic text-white">
                             Absolute <br /><span className="text-zinc-800">Engineering.</span>
                         </h2>
 
-                        <p className="text-xl md:text-2xl text-zinc-500 font-medium leading-[1.1] max-w-2xl">
+                        <p className="text-xl md:text-2xl text-zinc-500 font-medium leading-[1.1] tracking-tighter-extreme max-w-2xl">
                             Treating your digital environment as a <span className="text-white italic underline underline-offset-8 decoration-zinc-800">Strategic_Asset</span>. Deployed for measurable capital extraction.
                         </p>
 

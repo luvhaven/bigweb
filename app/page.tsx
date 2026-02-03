@@ -101,7 +101,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-[10px] font-mono font-bold text-orange-500 mb-8 uppercase tracking-[0.4em]">Project_Initialization_Protocol</div>
 
-          <h2 className="text-5xl md:text-8xl font-black mb-10 italic tracking-tighter uppercase leading-[0.85]">
+          <h2 className="text-5xl md:text-9xl font-black mb-10 italic tracking-tighter-extreme uppercase leading-[0.85]">
             Plug the <br /><span className="text-zinc-800">Leak.</span>
           </h2>
 

@@ -8,6 +8,7 @@ import ElitePortfolio from '@/components/ElitePortfolio'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ArrowRight, Activity, Search, Target, TrendingUp, Lock } from 'lucide-react'
+import { ChromeShimmer } from '@/components/ui/ChromeShimmer'
 
 export default function CaseStudiesPage() {
     // In a real app, projects would be passed from a server component or fetched via API
@@ -20,6 +21,9 @@ export default function CaseStudiesPage() {
             {/* Hero Section */}
             <section className="relative pt-48 pb-20 overflow-hidden bg-gradient-mesh">
                 <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:40px_40px]" />
+                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <ChromeShimmer />
+                </div>
                 <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none" />
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
@@ -41,7 +45,7 @@ export default function CaseStudiesPage() {
                             </span>
                         </motion.div>
 
-                        <h1 className="text-6xl md:text-[9rem] font-black tracking-tighter mb-10 leading-[0.85] uppercase italic font-sans">
+                        <h1 className="text-6xl md:text-[11.5rem] font-black tracking-tighter-clinical mb-10 leading-[0.85] uppercase italic font-sans">
                             The<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-zinc-700">Evidence.</span>
                         </h1>

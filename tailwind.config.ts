@@ -23,9 +23,14 @@ export default {
         '3xl': '1920px',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        heading: ['var(--font-heading)', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
+      },
+      letterSpacing: {
+        'tighter-extreme': '-0.05em',
+        'tighter-epic': '-0.075em',
+        'tighter-clinical': '-0.1em',
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],
@@ -204,6 +209,8 @@ export default {
         "gradient-shift": "gradient-shift 8s ease infinite",
         "tilt": "tilt 10s infinite linear",
         "blob": "blob 7s infinite",
+        "reveal": "fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1)",
+        "reveal-slow": "fade-in 2s cubic-bezier(0.22, 1, 0.36, 1)",
       },
     },
   },
