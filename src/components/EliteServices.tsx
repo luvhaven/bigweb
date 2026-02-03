@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { PhysicsReveal } from "@/components/ui/PhysicsReveal";
 
 const services = [
   {
@@ -45,74 +46,121 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
   return (
     <motion.div
       ref={ref}
-      style={{ opacity }}
-      initial={{ y: 60 }}
-      whileInView={{ y: 0 }}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group hover-lift"
+      className="group h-full"
     >
-      <div className="relative overflow-hidden cursor-pointer glass rounded-2xl gradient-border">
-        {/* Image */}
-        <motion.div
-          className="aspect-[4/5] relative overflow-hidden bg-secondary"
-          style={{ y }}
-        >
-          <motion.div
-            className="w-full h-full"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.6 }}
-          >
-            <img
-              src={service.image}
-              alt={service.title}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
+      <PhysicsReveal
+        className="h-full bg-black border-l border-zinc-900"
+        revealSize={300}
+        dampening={20}
+        cover={
+          <div className="relative h-full flex flex-col bg-black hover:bg-zinc-950 transition-colors duration-500">
+            {/* Top Border Indicator */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-zinc-900 group-hover:bg-orange-600 transition-colors duration-500" />
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent opacity-90" />
+            {/* Number & Tech Header */}
+            <div className="flex justify-between items-start p-8 border-b border-zinc-900">
+              <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-zinc-700 to-zinc-900 font-mono tracking-tighter">
+                {service.number}
+              </span>
+              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest group-hover:text-orange-600 transition-colors">
+                SYS_MOD_{service.number}
+              </span>
+            </div>
 
-          {/* Number */}
-          <div className="absolute top-8 left-8 text-white/40 text-6xl font-bold font-mono">
-            {service.number}
+            {/* Content */}
+            <div className="p-8 md:p-12 flex-1 flex flex-col justify-between relative overflow-hidden">
+              {/* Background Grid */}
+              <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.05]" />
+
+              <div className="relative z-10 mb-20">
+                <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
+                  {service.title}
+                </h3>
+                <p className="text-sm font-mono text-zinc-500 uppercase tracking-wide leading-relaxed max-w-sm">
+                  // {service.description}
+                </p>
+              </div>
+
+              {/* Bottom Tech */}
+              <div className="relative z-10 flex justify-between items-end border-t border-zinc-900 pt-8">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className={`w-1 h-3 ${i < 3 ? 'bg-orange-600' : 'bg-zinc-800'}`} />
+                  ))}
+                </div>
+
+                <div className="p-3 bg-zinc-900 text-zinc-500 md:group-hover:bg-orange-600 md:group-hover:text-white transition-colors duration-300">
+                  <ArrowUpRight className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      >
+        {/* REVEALED CONTENT (Tech Blueprint Mode) */}
+        <div className="relative h-full flex flex-col bg-zinc-950">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:20px_20px] opacity-[0.15] border-l border-orange-600/30" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.5)]" />
+
+          {/* Header */}
+          <div className="flex justify-between items-start p-8 border-b border-orange-900/30 relative z-10">
+            <span className="text-4xl font-black text-orange-600 font-mono tracking-tighter mix-blend-screen">
+              {service.number}
+            </span>
+            <span className="px-2 py-1 bg-orange-600/20 text-orange-500 text-[10px] font-mono font-bold uppercase tracking-widest border border-orange-600/30">
+              ACTIVE_NODE
+            </span>
           </div>
 
-          {/* Hover Arrow */}
-          <motion.div
-            className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            animate={{ x: [0, 4, 0], y: [0, -4, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <ArrowUpRight className="w-8 h-8 text-accent" />
-          </motion.div>
-        </motion.div>
+          {/* Body */}
+          <div className="p-8 md:p-12 flex-1 flex flex-col justify-between relative z-10">
+            <div className="mb-20">
+              <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter mb-6 text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
+                {service.title}
+              </h3>
+              <div className="space-y-2">
+                <div className="h-2 w-full bg-orange-600/20 rounded-full overflow-hidden">
+                  <div className="h-full bg-orange-600 w-2/3 animate-progress" />
+                </div>
+                <div className="flex justify-between text-[9px] font-mono text-orange-400 uppercase">
+                  <span>Capacity</span>
+                  <span>98%</span>
+                </div>
+              </div>
+            </div>
 
-        {/* Content */}
-        <div className="p-8 relative z-10">
-          <h3 className="text-3xl font-bold tracking-tight mb-4 group-hover:text-accent transition-colors duration-300 reveal-text">
-            {service.title}
-          </h3>
-          <p className="text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors duration-300">
-            {service.description}
-          </p>
+            {/* Bottom Tech */}
+            <div className="flex justify-between items-end border-t border-orange-900/30 pt-8">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="w-1 h-3 bg-orange-500 shadow-[0_0_5px_rgba(249,115,22,0.8)] animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                ))}
+              </div>
+              <div className="p-3 bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.4)]">
+                <ArrowUpRight className="w-5 h-5" />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </PhysicsReveal>
     </motion.div>
   );
 };
 
 const EliteServices = () => {
   return (
-    <section className="py-32 bg-background">
+    <section className="py-20 md:py-40 bg-black border-b border-zinc-900">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="mb-20">
+        <div className="mb-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -120,18 +168,20 @@ const EliteServices = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <p className="text-sm uppercase tracking-widest text-accent mb-4">What We Master</p>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              Our Expertise
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
+              <span className="w-2 h-2 bg-orange-600 animate-pulse" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                Core_Capabilities_v2
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-6xl lg:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-white">
+              Tactical <br /> <span className="text-zinc-800">Deployment.</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Comprehensive digital solutions tailored to your business needs
-            </p>
           </motion.div>
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-px bg-zinc-900 border border-zinc-900">
           {services.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}

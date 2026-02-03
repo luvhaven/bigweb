@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion'
-import { ArrowUpRight, Filter, Loader2 } from 'lucide-react'
+import { ArrowUpRight, Filter, Loader2, GitBranch, Binary } from 'lucide-react'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -10,45 +10,99 @@ import { Button } from '@/components/ui/button'
 import HoverCard3D from '@/components/ui/HoverCard3D'
 import { useTouchDevice } from '@/hooks/useTouchDevice'
 import { projectsAPI } from '@/lib/api/projects'
+import { PhysicsReveal } from '@/components/ui/PhysicsReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
 // Fallback mock data for when database is not set up
+// Fallback mock data for when database is not set up
 const MOCK_PROJECTS = [
   {
-    id: 'nexus-flow-saas',
-    slug: 'nexus-flow',
-    title: 'Nexus Flow: The 127% SaaS Funnel Re-Engineering',
-    offer: 'Revenue Website System',
+    id: 'velocity-engine',
+    slug: 'velocity-engine',
+    title: 'Velocity Engine: Fintech Infrastructure',
+    category: 'Fintech',
+    description: 'Re-engineered the core transaction flow for sub-second settlement. Reduced friction nodes by 64%.',
+    results: '64% Higher Completion',
+    image_url: '/images/projects/vortex-pay.png',
+    image: '/images/projects/vortex-pay.png',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'saas-conversion-core',
+    slug: 'saas-conversion-core',
+    title: 'SaaS Conversion Core',
     category: 'SaaS',
-    description: 'A complete architectural rebuild of a multi-tenant analytics platform. Eliminated cognitive friction in the pricing matrix and streamlined path-to-upgrade.',
-    results: '+127% Conversion Lift',
+    description: 'A psychological pricing architecture designed to anchor high-value plans and reduce decision fatigue.',
+    results: '+127% Enterprise Upgrades',
     image_url: '/images/projects/nexus-flow.png',
     image: '/images/projects/nexus-flow.png',
     created_at: new Date().toISOString()
   },
   {
-    id: 'aura-wear-ecommerce',
-    slug: 'aura-wear',
-    title: 'Aura Wear Global: Surgical Checkout Recovery',
-    offer: 'Fix Sprint',
+    id: 'checkout-recovery-sys',
+    slug: 'checkout-recovery-sys',
+    title: 'Checkout Recovery System',
     category: 'E-commerce',
-    description: 'Transforming a high-abandonment mobile checkout into a high-trust conversion engine. Reduced friction points by 60% through surgical UI optimization.',
-    results: '40% Revenue Recovery',
+    description: 'Automated retention loops and trust-injection UI that captures 40% of abandoned high-ticket carts.',
+    results: '$4.2M Revenue Recovered',
     image_url: '/images/projects/aura-wear.png',
     image: '/images/projects/aura-wear.png',
     created_at: new Date().toISOString()
   },
   {
-    id: 'vanguard-capital-leads',
-    slug: 'vanguard-capital',
-    title: 'Vanguard Capital: 3.5x Authority Lead-Gen System',
-    offer: 'Conversion Diagnostic',
+    id: 'logistics-command',
+    slug: 'logistics-command',
+    title: 'Logistics Command Interface',
+    category: 'Logistics',
+    description: 'Real-time telemetry dashboard for global supply chains. Reduced support ticket volume by 3x.',
+    results: '3x Efficiency Gain',
+    image_url: '/images/projects/antro-logistics.png',
+    image: '/images/projects/antro-logistics.png',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'trust-signal-platform',
+    slug: 'trust-signal-platform',
+    title: 'Institutional Trust Platform',
     category: 'Finance',
-    description: 'Building institutional trust through strategic typography and intent-based lead captures. Identified and fixed critical messaging-to-market gaps.',
-    results: '350% Quality Lead Growth',
+    description: 'High-authority digital presence for asset management. Positioned to capture institutional liquidity.',
+    results: '3.5x Lead Quality',
     image_url: '/images/projects/vanguard-capital.png',
     image: '/images/projects/vanguard-capital.png',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'data-viz-suite',
+    slug: 'data-viz-suite',
+    title: 'Predictive Data Suite',
+    category: 'AI / Data',
+    description: 'Turning raw data lakes into executive-level actionable intelligence dashboards.',
+    results: '400% Pipeline Growth',
+    image_url: '/images/projects/aether-insights.png',
+    image: '/images/projects/aether-insights.png',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'luxury-scale-arch',
+    slug: 'luxury-scale-arch',
+    title: 'Luxury Scale Architecture',
+    category: 'Luxury Retail',
+    description: 'Immersive, visually-dominant commerce experience that scaled a boutique brand to 8-figures.',
+    results: 'Scaled to $10M ARR',
+    image_url: '/images/projects/elevate-commerce.png',
+    image: '/images/projects/elevate-commerce.png',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'infra-sales-accelerator',
+    slug: 'infra-sales-accelerator',
+    title: 'Infra Sales Accelerator',
+    category: 'Cloud / Infra',
+    description: 'Simplified complex cloud topology into digestible value propositions for non-technical buyers.',
+    results: '-60% Sales Cycle Time',
+    image_url: '/images/projects/sky-pulse.png',
+    image: '/images/projects/sky-pulse.png',
     created_at: new Date().toISOString()
   }
 ]
@@ -109,31 +163,78 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
           rotateY: rotateY,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative h-[500px] rounded-2xl overflow-hidden glass border-0 cursor-pointer shadow-luxury transition-all duration-500 group-hover:shadow-[0_0_50px_-10px_rgba(var(--accent),0.4)]"
+        className="relative h-[600px] bg-black border border-zinc-900 overflow-hidden cursor-crosshair group transition-all duration-500 hover:border-orange-500/50"
       >
         <Link href={`/case-studies/${project.slug || project.id}`}>
-          {/* Image Container */}
+          {/* Image Container with Physics Reveal */}
           <div className="absolute inset-0 overflow-hidden">
-            {/* Image Overlay Gradient - Subtle by default to show image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-100 group-hover:from-black/90 group-hover:via-black/20 transition-all duration-500" />
+            <PhysicsReveal
+              className="w-full h-full"
+              revealSize={300}
+              dampening={30}
+              cover={
+                <div className="relative w-full h-full">
+                  {/* Image Overlay Gradient - Subtle by default to show image */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-100 group-hover:from-black/90 group-hover:via-black/20 transition-all duration-500" />
 
-            {project.image_url || project.image || project.hero_image_url ? (
-              <img
-                src={project.image_url || project.image || project.hero_image_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200'}
-                alt={project.name || project.title || 'Case Study'}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                loading="eager"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200';
-                }}
-              />
-            ) : (
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200"
-                alt="Architecture Visualization"
-                className="w-full h-full object-cover grayscale opacity-30"
-              />
-            )}
+                  {(() => {
+                    const imageSource = project.image_url || project.image || project.hero_image_url ||
+                      (typeof project.images === 'string' && project.images.startsWith('[') ? JSON.parse(project.images)[0] : project.images);
+
+                    if (imageSource) {
+                      return (
+                        <img
+                          src={imageSource}
+                          alt={project.name || project.title || 'Case Study'}
+                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                          loading="eager"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200';
+                          }}
+                        />
+                      )
+                    }
+                    return (
+                      <img
+                        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200"
+                        alt="Architecture Visualization"
+                        className="w-full h-full object-cover grayscale opacity-30"
+                      />
+                    )
+                  })()}
+                </div>
+              }
+            >
+              {/* REVEALED CONTENT (Thermal/Data View) */}
+              <div className="relative w-full h-full bg-black">
+                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2] z-20 pointer-events-none mix-blend-overlay" />
+                <div className="absolute inset-0 bg-green-500/10 mix-blend-color-dodge z-20 pointer-events-none" />
+
+                {(() => {
+                  const imageSource = project.image_url || project.image || project.hero_image_url ||
+                    (typeof project.images === 'string' && project.images.startsWith('[') ? JSON.parse(project.images)[0] : project.images);
+
+                  if (imageSource) {
+                    return (
+                      <img
+                        src={imageSource}
+                        alt="Thermal View"
+                        className="w-full h-full object-cover contrast-[1.5] brightness-[1.2] grayscale invert filter sepia-[.5] hue-rotate-[90deg]"
+                      />
+                    )
+                  }
+                  return null;
+                })()}
+
+                {/* Data Overlays */}
+                <div className="absolute top-4 left-4 z-30 font-mono text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30">
+                  RAW_DATA_STREAM
+                </div>
+                <div className="absolute bottom-4 right-4 z-30 font-mono text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30 animate-pulse">
+                  ENCRYPTED
+                </div>
+              </div>
+            </PhysicsReveal>
           </div>
 
           {/* Content */}
@@ -141,12 +242,12 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
             <div className="relative z-30 flex flex-col">
               {/* Mandatory Info (Always Visible) */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md border border-accent/20">
-                  {project.category}
+                <span className="inline-block px-3 py-1 border border-orange-500/30 bg-orange-600/10 text-orange-500 text-[9px] font-mono font-bold uppercase tracking-[0.2em] backdrop-blur-md">
+                  / Sector_{project.category}
                 </span>
               </div>
 
-              <h3 className="text-3xl font-black text-white mb-2 group-hover:text-accent transition-colors duration-300 tracking-tighter uppercase leading-[0.9]">
+              <h3 className="text-3xl font-black text-white mb-2 group-hover:text-orange-500 transition-colors duration-300 tracking-tighter uppercase leading-[0.9] italic">
                 {project.title}
               </h3>
 
@@ -156,32 +257,27 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
                 whileHover={{ opacity: 1, height: "auto" }}
                 className="overflow-hidden"
               >
-                <p className="text-gray-300 mb-6 group-hover:text-white transition-colors duration-300 line-clamp-2 text-sm leading-relaxed mt-2">
-                  {project.description}
+                <p className="text-gray-300 mb-6 group-hover:text-white transition-colors duration-300 line-clamp-2 text-sm leading-relaxed mt-2 font-mono">
+                    // {project.description}
                 </p>
 
                 {project.results && (
-                  <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
-                    <div className="text-[10px] text-accent uppercase font-black tracking-[0.3em] mb-1">Impact Result</div>
-                    <div className="text-xl font-black text-white">{project.results}</div>
+                  <div className="mb-6 p-4 bg-zinc-950 border border-zinc-900 transition-colors group-hover:border-zinc-800">
+                    <div className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.3em] mb-1">Impact_Result</div>
+                    <div className="text-2xl font-black text-white italic tracking-tighter">{project.results}</div>
                   </div>
                 )}
 
                 <div className="flex items-center gap-2 text-white font-black uppercase text-[10px] tracking-[0.2em] group/btn">
                   <span className="relative overflow-hidden">
-                    Open Case Study
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300" />
+                    VIEW ARCHIVE / 0{index + 1}
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300" />
                   </span>
-                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-accent" />
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-orange-500" />
                 </div>
               </motion.div>
             </div>
           </div>
-
-          {/* Hover Border Glow - REMOVED as per user request for "coming out" feel */}
-          {/* <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-            <div className="absolute inset-0 rounded-2xl border-2 border-accent/50 shadow-glow" />
-          </div> */}
         </Link>
       </motion.div>
     </motion.div>
@@ -191,98 +287,76 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
 // Main Component
 interface ElitePortfolioProps {
   title?: string
+  showViewAll?: boolean
+  initialProjects?: any[]
+  initialCategories?: string[]
 }
 
-const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
-  // Initialize with MOCK_DATA to prevent "Empty" flash or failure
+const ElitePortfolio = ({
+  title = "Results & Revenue Generated",
+  showViewAll = false,
+  initialProjects = [],
+  initialCategories = ['All']
+}: ElitePortfolioProps) => {
   const [activeCategory, setActiveCategory] = useState('All')
-  const [visibleProjects, setVisibleProjects] = useState<any[]>(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE))
-  const [allProjects, setAllProjects] = useState<any[]>(MOCK_PROJECTS)
-  const [categories, setCategories] = useState<string[]>(['All', 'SaaS', 'E-commerce', 'Finance', 'Fintech', 'AI'])
+  const [visibleProjects, setVisibleProjects] = useState<any[]>(initialProjects.slice(0, PROJECTS_PER_PAGE))
+  const [allProjects, setAllProjects] = useState<any[]>(initialProjects)
+  const [categories, setCategories] = useState<string[]>(initialCategories)
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const isTouch = useTouchDevice()
 
-  // Load projects from database (Enhancement, not dependency)
+  // Sync with props if they change
   useEffect(() => {
-    loadProjects()
-  }, [])
-
-  const loadProjects = async () => {
-    try {
-      const data = await projectsAPI.getAll()
-
-      if (data && data.length > 0) {
-        // Map dynamic data to hyperrealistic local assets if slugs or titles match
-        const mappedData = data.map((p: any) => {
-          const searchStr = `${p.slug || ''} ${p.title || ''} ${p.name || ''} ${p.category || ''} ${p.client || ''}`.toLowerCase();
-          let img = '';
-
-          if (searchStr.includes('vanguard') || searchStr.includes('capital') || searchStr.includes('lead-gen') || searchStr.includes('finance')) {
-            img = '/images/projects/vanguard-capital.png';
-          } else if (searchStr.includes('nexus') || searchStr.includes('saas') || searchStr.includes('flow')) {
-            img = '/images/projects/nexus-flow.png';
-          } else if (searchStr.includes('aura') || searchStr.includes('ecommerce') || searchStr.includes('wear') || searchStr.includes('orbit')) {
-            img = '/images/projects/aura-wear.png';
-          }
-
-          // New Hyperrealistic Name Mapping for Alpha/Beta/Gamma etc.
-          const title = (p.title || p.name || '').toLowerCase();
-          let newTitle = p.title || p.name;
-          let newSlug = p.slug || p.id;
-
-          if (title.includes('alpha') || title.includes('vortex') || title.includes('nexus') || title.includes('saas')) {
-            newTitle = title.includes('vortex') ? "Vortex Pay: The Fintech Funnel Re-Engineering" : "Nexus Flow: The 127% SaaS Funnel Re-Engineering";
-            newSlug = 'nexus-flow';
-          } else if (title.includes('beta') || title.includes('orbit') || title.includes('aura') || title.includes('ecommerce')) {
-            newTitle = title.includes('orbit') ? "Orbit Market: Surgical Checkout Recovery" : "Aura Wear Global: Surgical Checkout Recovery";
-            newSlug = 'aura-wear';
-          } else if (title.includes('gamma') || title.includes('aether') || title.includes('insights')) {
-            newTitle = "Aether Insights: AI Revenue Engine";
-            // If we don't have a specific slug for Aether, we can fallback or add one later
-          } else if (title.includes('delta') || title.includes('sky') || title.includes('vanguard') || title.includes('lead-gen') || title.includes('finance')) {
-            newTitle = title.includes('sky') ? "Sky Pulse: Cloud Infrastructure Scale" : "Vanguard Capital: 3.5x Authority Lead-Gen System";
-            newSlug = 'vanguard-capital';
-          } else if (title.includes('epsilon') || title.includes('nexus logistics')) {
-            newTitle = "Nexus Logistics: Fulfillment Conversion Fix";
-          } else if (title.includes('zeta') || title.includes('prism')) {
-            newTitle = "Prism Identity: Authority Branding Loop";
-          }
-
-          if (img || newSlug !== (p.slug || p.id)) {
-            return {
-              ...p,
-              title: newTitle,
-              slug: newSlug,
-              image_url: img || p.image_url,
-              image: img || p.image,
-              hero_image_url: img || p.hero_image_url,
-              thumbnail_url: img || p.thumbnail_url
-            };
-          }
-          return { ...p, title: newTitle };
-        });
-
-        setAllProjects(mappedData)
-        setVisibleProjects(mappedData.slice(0, PROJECTS_PER_PAGE))
-
-        // Extract unique categories from projects
-        const uniqueCategories = ['All', ...new Set(mappedData
-          .map((p: any) => {
-            if (p.tags && Array.isArray(p.tags) && p.tags.length > 0) return p.tags
-            return p.category
-          })
-          .flat()
-          .filter(Boolean))] as string[]
-
-        setCategories(uniqueCategories)
-      }
-    } catch (error) {
-      console.warn('Database fetch failed, keeping mock data:', error)
-    } finally {
-      setIsLoading(false)
+    if (initialProjects && initialProjects.length > 0) {
+      // Direct comparison to avoid loop if parent re-renders with same data
+      setAllProjects(prev => (JSON.stringify(prev) === JSON.stringify(initialProjects) ? prev : initialProjects))
+      setVisibleProjects(prev => {
+        const sliced = initialProjects.slice(0, PROJECTS_PER_PAGE)
+        return JSON.stringify(prev) === JSON.stringify(sliced) ? prev : sliced
+      })
     }
-  }
+    if (initialCategories && initialCategories.length > 1) { // Only sync if we have more than just 'All'
+      setCategories(prev => (JSON.stringify(prev) === JSON.stringify(initialCategories) ? prev : initialCategories))
+    }
+  }, [initialProjects, initialCategories])
+
+  // Fetch from DB if no initial projects provided
+  useEffect(() => {
+    const fetchDBProjects = async () => {
+      // Only fetch if we don't have projects and none were passed in
+      if (initialProjects.length === 0 && allProjects.length === 0) {
+        setIsLoading(true);
+        try {
+          // Priority: Database
+          const dbProjects = await projectsAPI.getAll();
+
+          if (dbProjects && dbProjects.length > 0) {
+            setAllProjects(dbProjects);
+            setVisibleProjects(dbProjects.slice(0, PROJECTS_PER_PAGE));
+
+            // Dynamically generate categories from DB projects
+            const dbCategories = ['All', ...new Set(dbProjects.map((p: any) => p.category || 'Case Study'))];
+            setCategories(dbCategories as string[]);
+          } else {
+            // Fallback: Mock Data if DB is empty or fails
+            console.log('[ElitePortfolio] No database entries found, falling back to mock systems.');
+            setAllProjects(MOCK_PROJECTS);
+            setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE));
+          }
+        } catch (err) {
+          console.error('[ElitePortfolio] Critical Fetch Failure:', err);
+          // Safety Fallback
+          setAllProjects(MOCK_PROJECTS);
+          setVisibleProjects(MOCK_PROJECTS.slice(0, PROJECTS_PER_PAGE));
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchDBProjects();
+  }, [initialProjects]); // Run once or when initialProjects changes to empty
   // Filter logic based on category
   const filteredProjects = activeCategory === 'All'
     ? allProjects
@@ -310,27 +384,36 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
   }
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="evidence" className="py-24 bg-black relative overflow-hidden border-t border-zinc-900">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-12 border-l-4 border-orange-600 pl-12">
+          <div className="max-w-5xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10"
+            >
+              <GitBranch className="w-4 h-4" /> Execution_Logs_v8
+            </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-4"
+              className="text-6xl md:text-[8rem] font-black mb-10 tracking-tighter uppercase italic leading-[0.75] text-white"
             >
-              {title}
+              The <br /><span className="text-zinc-800">Archive.</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-muted-foreground text-lg max-w-xl"
+              className="text-zinc-500 text-2xl md:text-4xl max-w-4xl font-medium leading-[1.1] tracking-tight"
             >
-              A showcase of our most ambitious projects, pushing the boundaries of design and technology.
+              Clinical execution logs. We deploy engines that have generated over <span className="text-white italic underline decoration-orange-600 underline-offset-8">$50M+</span> for our clients.
             </motion.p>
           </div>
 
@@ -339,22 +422,18 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex flex-wrap gap-2"
+            className="flex flex-wrap gap-1"
           >
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`magnetic-wrap group relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 overflow-hidden ${activeCategory === category
-                  ? 'bg-accent text-white shadow-glow'
-                  : 'bg-accent/5 text-muted-foreground hover:bg-accent/10 hover:text-foreground'
+                className={`px-8 py-3 text-[10px] font-mono font-black uppercase tracking-[0.4em] transition-all duration-500 ${activeCategory === category
+                  ? 'bg-orange-600 text-white'
+                  : 'bg-zinc-950 text-zinc-600 hover:text-zinc-300 hover:bg-zinc-900 border border-zinc-900'
                   }`}
               >
-                <span className="relative z-10">{category}</span>
-                {activeCategory !== category && (
-                  <div className="absolute inset-0 bg-accent/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                )}
-                <div className="magnetic-area absolute inset-[-50%]" />
+                {category}
               </button>
             ))}
           </motion.div>
@@ -381,23 +460,31 @@ const ElitePortfolio = ({ title = "Selected Works" }: ElitePortfolioProps) => {
             <Button
               onClick={loadMore}
               disabled={isLoading}
-              variant="outline"
-              size="lg"
-              className="rounded-full px-8 border-accent/20 hover:border-accent hover:bg-accent/5"
+              className="bg-zinc-950 border border-zinc-900 text-white font-black text-sm uppercase tracking-[0.4em] px-12 h-20 rounded-none hover:bg-white hover:text-black transition-all duration-300"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Loading...
+                  <Loader2 className="mr-4 h-4 w-4 animate-spin" />
+                  PROCESSING...
                 </>
               ) : (
-                'Load More Projects'
+                'INITIALIZE_DATA_PULL'
               )}
             </Button>
           </div>
         )}
+        {showViewAll && (
+          <div className="mt-20 flex justify-center">
+            <Link href="/case-studies">
+              <Button className="bg-orange-600 hover:bg-orange-500 text-white font-black text-sm px-12 h-24 rounded-none uppercase tracking-[0.5em] transition-all duration-300">
+                OPEN_FULL_LABORATORY_ARCHIVE
+                <ArrowUpRight className="ml-4 w-6 h-6" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
-    </section>
+    </section >
   )
 }
 export default ElitePortfolio
