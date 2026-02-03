@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Save, ArrowLeft, Star } from 'lucide-react'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { saveTestimonial } from '@/actions/testimonials'
 import Link from 'next/link'
 
 interface TestimonialFormProps {
@@ -61,18 +62,12 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
                 thumbnail_url: (formData as any).thumbnail_url
             }
 
-            if (isEditing) {
-                const { error } = await supabase
-                    .from('testimonials')
-                    .update(testimonialData)
-                    .eq('id', initialData.id)
-                if (error) throw error
-            } else {
-                const { error } = await supabase
-                    .from('testimonials')
-                    .insert([testimonialData])
-                if (error) throw error
-            }
+            const result = await saveTestimonial({
+                ...testimonialData,
+                id: isEditing ? initialData.id : undefined
+            })
+
+            if (!result.success) throw new Error(result.error)
 
             router.push('/admin/testimonials')
             router.refresh()

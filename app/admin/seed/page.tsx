@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
-import { Loader2, CheckCircle, AlertCircle, Database } from 'lucide-react'
+import { Loader2, CheckCircle, Database, Users, Star, FolderKanban, Zap } from 'lucide-react'
 import { toast } from 'sonner'
 import { caseStudies } from '@/lib/case-study-data'
 
@@ -15,194 +15,259 @@ export default function AdminSeedPage() {
     const addLog = (msg: string) => setLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`])
 
     const seedData = async () => {
-        if (!confirm('This will insert sample data. Continue?')) return
+        if (!confirm('This will seed EVERYTHING (Projects, Team, Testimonials, Offers). Continue?')) return
 
         setLoading(true)
         setLogs([])
-        addLog('Starting seed process...')
+        addLog('🚀 Initializing BigWeb Global Seed...')
 
         try {
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) throw new Error('No user found')
+            if (!user) throw new Error('No user found. Please login first.')
 
             const adminId = user.id
-            addLog(`Seeding for Admin ID: ${adminId}`)
+            addLog(`✅ Authenticated as Admin: ${user.email}`)
 
-            // 1. Ensure Admin Profile Exists
-            const { error: profileError } = await supabase
-                .from('admin_users')
-                .upsert({
-                    id: adminId,
-                    email: user.email,
-                    role: 'super_admin',
-                    name: 'Admin User',
-                    is_active: true
-                })
-
-            if (profileError) addLog(`Warning creating profile: ${profileError.message}`)
-            else addLog('Admin profile verified.')
-
-            // 2. Services
-            const services = [
+            // 1. SEED TEAM MEMBERS
+            addLog('👥 Seeding Team Members...')
+            const team = [
                 {
-                    title: 'Enterprise Web Development',
-                    slug: 'web-development',
-                    tagline: 'Websites That Rank #1 & Convert Like Crazy',
-                    description: 'Get found on Google\'s first page and convert that traffic into customers.',
-                    features: ['Next.js 15', 'Sub-1s Load Times', 'Technical SEO', 'Conversion Optimization'],
-                    results: '3x faster sites, top 3 Google rankings',
-                    category: 'Development',
-                    status: 'active',
-                    created_by: adminId
+                    name: 'Alex Rivera',
+                    role: 'CEO & Technical Director',
+                    department: 'Leadership',
+                    bio: '15+ years in full-stack development and AI architecture. Former Tech Lead at Google.',
+                    avatar_url: '/team/alex-rivera.jpg',
+                    is_leadership: true,
+                    is_active: true,
+                    sort_order: 1
                 },
                 {
-                    title: 'UI/UX Design',
-                    slug: 'ui-ux-design',
-                    tagline: 'Interfaces That Turn Browsers Into Buyers',
-                    description: 'Double your conversion rate with UX that sells.',
-                    features: ['Conversion-Focused', 'A/B Testing', 'Mobile-First'],
-                    results: 'Average 200% conversion increase',
-                    category: 'Design',
-                    status: 'active',
-                    created_by: adminId
+                    name: 'Sarah Chen',
+                    role: 'Chief Design Officer',
+                    department: 'Design',
+                    bio: 'Award-winning UI/UX strategist with a decade of experience crafting premium digital experiences.',
+                    avatar_url: '/team/sarah-chen.jpg',
+                    is_leadership: true,
+                    is_active: true,
+                    sort_order: 2
+                },
+                {
+                    name: 'Julian Reed',
+                    role: 'UI/UX Architect',
+                    department: 'Design',
+                    bio: 'Specialist in high-conversion interface architecture and behavioral design.',
+                    avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800',
+                    is_leadership: false,
+                    is_active: true,
+                    sort_order: 3
+                },
+                {
+                    name: 'Daniel Oriazowan',
+                    role: 'Lead Conversion Engineer',
+                    department: 'Development',
+                    bio: 'Expert in Next.js performance and revenue-generating funnel re-engineering.',
+                    avatar_url: '/images/team/daniel.jpg',
+                    is_leadership: true,
+                    is_active: true,
+                    sort_order: 0
                 }
             ]
 
-            for (const service of services) {
-                const { error } = await supabase.from('services').upsert(service, { onConflict: 'slug' })
-                if (error) addLog(`Error seeding service ${service.title}: ${error.message}`)
-                else addLog(`Seeded Service: ${service.title}`)
+            for (const member of team) {
+                const { error } = await supabase.from('cms_team_members').upsert(member, { onConflict: 'name' })
+                if (error) addLog(`❌ Team Error (${member.name}): ${error.message} (Code: ${error.code})`)
+                else addLog(`✨ Team Seeding: ${member.name}`)
             }
 
-            // 3. Clients
-            const clients = [
-                { company_name: 'TechCorp', contact_name: 'Sarah Johnson', email: 'sarah@techcorp.com', status: 'active', user_id: adminId },
-                { company_name: 'Innovate Inc', contact_name: 'Mike Thomas', email: 'mike@innovate.com', status: 'active', user_id: adminId },
-                { company_name: 'NeoBank Corp', contact_name: 'Alex Rivera', email: 'alex@neobank.com', status: 'active', user_id: adminId }
+            // 2. SEED TESTIMONIALS
+            addLog('💬 Seeding Testimonials...')
+            const testimonials = [
+                {
+                    client_name: 'Sarah Johnson',
+                    client_role: 'CEO',
+                    client_company: 'Karat Financial',
+                    quote: "BIGWEB transformed our digital presence completely. Their attention to detail and creative approach exceeded our expectations. Our revenue increased by 40% in the first quarter post-launch.",
+                    rating: 5,
+                    is_featured: true,
+                    avatar_url: 'https://i.pravatar.cc/150?u=sarah'
+                },
+                {
+                    client_name: 'Michael Chen',
+                    client_role: 'VP of Marketing',
+                    client_company: 'Stellar',
+                    quote: "Working with BIGWEB was a game-changer. They delivered a stunning website (Vortex Pay) that perfectly captures our brand essence and converted visitors at a 64% higher rate.",
+                    rating: 5,
+                    is_featured: true,
+                    avatar_url: 'https://i.pravatar.cc/150?u=michael'
+                },
+                {
+                    client_name: 'Emily Rodriguez',
+                    client_role: 'Product Director',
+                    client_company: 'Innovate',
+                    quote: "The team's expertise in modern web technologies and design thinking is unmatched. They don't just build websites; they build revenue systems.",
+                    rating: 5,
+                    is_featured: false,
+                    avatar_url: 'https://i.pravatar.cc/150?u=emily'
+                }
             ]
 
-            const clientMap: Record<string, string> = {}
-
-            for (const client of clients) {
-                const { data, error } = await supabase
-                    .from('clients')
-                    .upsert(client, { onConflict: 'company_name' })
-                    .select('id, company_name')
-                    .single()
-
-                if (error) {
-                    // Try selecting if upsert failed (e.g. slight mismatch or RLS)
-                    const { data: existing } = await supabase.from('clients').select('id').eq('company_name', client.company_name).single()
-                    if (existing) clientMap[client.company_name] = existing.id
-                    addLog(`Client ${client.company_name} processed/exists.`)
-                } else if (data) {
-                    clientMap[data.company_name] = data.id
-                    addLog(`Seeded Client: ${client.company_name}`)
-                }
+            for (const t of testimonials) {
+                const { error } = await supabase.from('cms_testimonials').upsert(t, { onConflict: 'client_name' })
+                if (error) addLog(`❌ Testimonial Error (${t.client_name}): ${error.message} (Code: ${error.code})`)
+                else addLog(`✨ Testimonial Seeded: ${t.client_name}`)
             }
 
-            // 4. Portfolio Projects (from case-study-data.ts)
-            // Need to map caseStudies to DB schema
+            // 3. SEED GROWTH PACKAGES (OFFERS)
+            addLog('🏷️ Seeding Growth Offers...')
+            const offers = [
+                {
+                    title: 'The Revenue Website System',
+                    slug: 'revenue-system',
+                    description: 'Hand-coded Next.js ecosystem designed to rank #1 and drive massive conversion.',
+                    price_display: '$1,997',
+                    features: ['Next.js 15 Engine', 'AI Sales Agent', 'Enterprise SEO', 'Conversion Architecture'],
+                    cta_text: 'Get Started',
+                    cta_link: '/contact',
+                    is_featured: true,
+                    is_active: true,
+                    sort_order: 1
+                },
+                {
+                    title: 'AI Customer Boost',
+                    slug: 'ai-boost',
+                    description: 'Interactive AI Sales Agents integrated into your current site to qualify leads 24/7.',
+                    price_display: 'Custom',
+                    features: ['Custom Knowledge Base', '24/7 Availability', 'Lead Scoring', 'CRM Sync'],
+                    cta_text: 'Learn More',
+                    cta_link: '/services/ai-integration',
+                    is_featured: false,
+                    is_active: true,
+                    sort_order: 2
+                },
+                {
+                    title: 'GAIO Suite',
+                    slug: 'gaio',
+                    description: 'Optimization for ChatGPT, Gemini, and Perplexity to ensure your brand is the top answer.',
+                    price_display: '$2,497/mo',
+                    features: ['Semantic Optimization', 'LLM Relationship Mapping', 'Content Authority', 'Voice Search SEO'],
+                    cta_text: 'Explore GAIO',
+                    cta_link: '/services/gaio',
+                    is_featured: true,
+                    is_active: true,
+                    sort_order: 0
+                }
+            ]
+
+            for (const offer of offers) {
+                const { error } = await supabase.from('cms_growth_packages').upsert(offer, { onConflict: 'slug' })
+                if (error) addLog(`❌ Offer Error (${offer.title}): ${error.message} (Code: ${error.code})`)
+                else addLog(`✨ Offer Seeded: ${offer.title}`)
+            }
+
+            // 4. SEED PROJECTS
+            addLog('💼 Seeding Portfolio Projects...')
             for (const study of caseStudies) {
-                // Find or create client
-                let clientId = clientMap[study.client]
-                if (!clientId) {
-                    // Create client on fly if not exists
-                    const { data: newClient } = await supabase.from('clients').insert({
-                        company_name: study.client,
-                        contact_name: 'Unknown',
-                        user_id: adminId,
-                        status: 'active'
-                    }).select('id').single()
-                    if (newClient) clientId = newClient.id
+                const project = {
+                    title: study.title,
+                    slug: study.slug,
+                    client_name: study.client,
+                    challenge: study.challenge,
+                    solution: study.solution,
+                    results: Array.isArray(study.results) ? study.results.join(', ') : study.results,
+                    cover_image_url: study.image,
+                    is_published: true,
+                    is_featured: true,
+                    category: study.offer || 'Web Development',
+                    tech_stack: study.technologies
                 }
 
-                if (clientId) {
-                    const project = {
-                        title: study.title, // Schema uses 'title' or 'name'? checking migration 006 it said 'name', need to verify schema. 
-                        // Migration 006: INSERT INTO projects (name, ...)
-                        // BUT Admin Page (Portfolio) uses select('title'...)
-                        // I suspect the table is 'portfolio_projects' or 'projects'.
-                        // Page says: from('portfolio_projects').select('title'...)
-                        // Migration 006 says: INSERT INTO projects ...
-                        // This implies a mismatch or rename.
-                        // I will assume 'portfolio_projects' is the correct table for the Admin CMS as verified in Step 3.
-                        // The columns in Page were: title, client_name, category...
-                        // Wait, Page select: `select('id, title, client_name, category...`)`
-                        // Does `portfolio_projects` have `client_id` or `client_name` column?
-                        // Page select doesn't join clients. It selects `client_name`.
-                        // So I should insert `client_name` string directly.
-
-                        client_name: study.client,
-                        category: 'Development', // default
-                        is_published: true,
-                        is_featured: true,
-                        completion_date: study.date ? new Date(study.date).toISOString() : new Date().toISOString(),
-                        views_count: Math.floor(Math.random() * 1000),
-                        image_url: study.image
-                    }
-
-                    const { error } = await supabase.from('portfolio_projects').upsert(project, { onConflict: 'title' }) // forcing upsert might fail if no unique constraint on title.
-                    // Actually let's just insert if not exists.
-
-                    if (error) {
-                        // Try 'name' instead of 'title' if 'title' fails? No, Page confirmed 'title'.
-                        addLog(`Error seeding project ${study.title}: ${error.message}`)
-                    } else {
-                        addLog(`Seeded Project: ${study.title}`)
-                    }
-                }
+                const { error } = await supabase.from('cms_projects').upsert(project, { onConflict: 'slug' })
+                if (error) addLog(`❌ Project Error (${study.title}): ${error.message} (Code: ${error.code})`)
+                else addLog(`✨ Project Seeded: ${study.title}`)
             }
 
-            addLog('Seed complete!')
-            toast.success('Database seeded successfully')
+            addLog('🏆 GLOBAL SEED COMPLETE')
+            toast.success('BigWeb Database fully synchronized')
 
         } catch (err: any) {
-            addLog(`CRITICAL ERROR: ${err.message}`)
-            toast.error('Seed user failed')
+            addLog(`🛑 CRITICAL SEED FAILURE: ${err.message}`)
+            toast.error('Global seed failed')
         } finally {
             setLoading(false)
         }
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-8 space-y-8">
+        <div className="max-w-3xl mx-auto p-12 space-y-12 font-sans selection:bg-emerald-500/30">
             <div className="space-y-4">
-                <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+                <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 mb-8">
                     <Database className="w-8 h-8 text-emerald-500" />
-                    Database Seeder
-                </h1>
-                <p className="text-zinc-400">
-                    Inject frontend data into the Admin Database.
+                </div>
+                <h1 className="text-4xl font-black text-white tracking-tighter">BigWeb Backend Synchronization</h1>
+                <p className="text-zinc-400 text-lg">
+                    This tool synchronizes all "hardcoded" frontend data into the persistent Supabase backend.
+                    This enables full CRUD functionality via the Admin Console.
                 </p>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+            <div className="bg-zinc-900/50 border border-white/5 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-2xl">
+                <div className="grid md:grid-cols-2 gap-8 mb-10">
+                    <div className="space-y-4">
+                        <h3 className="text-sm font-black text-white/40 uppercase tracking-widest">Data Targets</h3>
+                        <ul className="space-y-2">
+                            <li className="flex items-center gap-2 text-zinc-300">
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                                <span className="text-sm font-bold uppercase tracking-widest">cms_team_members</span>
+                            </li>
+                            <li className="flex items-center gap-2 text-zinc-300">
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                                <span className="text-sm font-bold uppercase tracking-widest">cms_testimonials</span>
+                            </li>
+                            <li className="flex items-center gap-2 text-zinc-300">
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                                <span className="text-sm font-bold uppercase tracking-widest">cms_growth_packages</span>
+                            </li>
+                            <li className="flex items-center gap-2 text-zinc-300">
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                                <span className="text-sm font-bold uppercase tracking-widest">cms_projects</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl flex flex-col justify-center">
+                        <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Sync Protocol</p>
+                        <p className="text-sm text-zinc-500 leading-relaxed italic">"OnConflict Upsert" ensures no duplicate data is created while updating existing records with the latest frontend definitions.</p>
+                    </div>
+                </div>
+
                 <Button
                     onClick={seedData}
                     disabled={loading}
-                    className="w-full h-12 text-lg font-medium bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+                    className="w-full h-16 text-xs font-black uppercase tracking-[0.4em] bg-white text-black hover:bg-emerald-500 hover:text-white transition-all rounded-2xl border-0 shadow-[0_0_50px_rgba(255,255,255,0.05)]"
                 >
                     {loading ? (
-                        <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                            Seeding...
-                        </>
+                        <div className="flex items-center gap-3">
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            Synchronizing Neural Map...
+                        </div>
                     ) : (
-                        <>
-                            <CheckCircle className="mr-2 h-5 w-5" />
-                            Seed All Data
-                        </>
+                        "Initialize Global Synchronization"
                     )}
                 </Button>
 
                 {logs.length > 0 && (
-                    <div className="mt-6 p-4 bg-black/50 rounded-lg border border-zinc-800 font-mono text-sm h-64 overflow-y-auto">
-                        {logs.map((log, i) => (
-                            <div key={i} className="mb-1 text-zinc-300 border-b border-zinc-900/50 pb-1 last:border-0">
-                                {log}
-                            </div>
-                        ))}
+                    <div className="mt-10">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">System_Logs</span>
+                            <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Core_Active</span>
+                        </div>
+                        <div className="p-6 bg-black/40 rounded-3xl border border-white/5 font-mono text-[11px] h-80 overflow-y-auto space-y-2 custom-scrollbar">
+                            {logs.map((log, i) => (
+                                <div key={i} className={`pb-2 border-b border-white/[0.02] last:border-0 ${log.includes('❌') ? 'text-red-400' : log.includes('✅') ? 'text-emerald-400' : 'text-zinc-400'}`}>
+                                    <span className="opacity-30 mr-3">{log.split(': ')[0]}</span>
+                                    {log.split(': ')[1]}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

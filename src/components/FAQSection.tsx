@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Minus, HelpCircle } from 'lucide-react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 
 interface FAQ {
     id: string
@@ -59,44 +60,46 @@ export default function FAQSection({ category = 'general', title = 'Everything Y
     if (!isLoading && faqs.length === 0) return null
 
     return (
-        <section className="py-24 bg-card relative overflow-hidden">
+        <section className="py-40 bg-black relative border-t border-zinc-900">
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px] pointer-events-none" />
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.02] pointer-events-none" />
 
-            <div className="container mx-auto px-6 max-w-4xl relative z-10">
-                <div className="text-center mb-16">
-                    <span className="inline-flex items-center justify-center p-2 rounded-lg bg-accent/10 text-accent mb-4">
-                        <HelpCircle className="w-6 h-6" />
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">{title}</h2>
-                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        We believe in radical transparency. Here are honest answers to the questions most agencies dodge.
+            <div className="container mx-auto px-6 max-w-5xl relative z-10">
+                <div className="text-left mb-32 border-l-4 border-orange-600 pl-12 relative overflow-hidden">
+                    <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
+                        Clinical_Queries_v2.0
+                    </div>
+                    <h2 className="text-6xl md:text-[11rem] font-black italic tracking-tighter uppercase mb-12 leading-[0.75] text-white">
+                        Common <br /><span className="text-zinc-800">Inquiries.</span>
+                    </h2>
+                    <p className="text-zinc-500 text-2xl md:text-5xl font-medium leading-none tracking-tight max-w-5xl">
+                        Technical responses to the infrastructure questions most agencies deflect. <span className="text-white italic underline underline-offset-8 decoration-orange-600">Pure_Transparency</span>.
                     </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-px bg-zinc-900 border border-zinc-900">
                     {isLoading ? (
                         [1, 2, 3, 4].map(i => (
-                            <div key={i} className="h-20 bg-secondary/30 rounded-2xl animate-pulse" />
+                            <div key={i} className="h-24 bg-black animate-pulse border-b border-zinc-900" />
                         ))
                     ) : (
                         faqs.map((faq, index) => (
-                            <motion.div
+                            <div
                                 key={faq.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                className={`border rounded-2xl transition-all duration-300 ${activeIndex === faq.id ? 'bg-secondary/20 border-accent/30' : 'bg-background hover:bg-secondary/10 border-white/5'}`}
+                                className={`transition-all duration-500 border-b border-zinc-900 ${activeIndex === faq.id ? 'bg-zinc-950' : 'bg-black hover:bg-zinc-950'}`}
                             >
                                 <button
                                     onClick={() => toggleAccordion(faq.id)}
-                                    className="w-full flex items-center justify-between p-6 text-left"
+                                    className="w-full flex items-center justify-between p-12 text-left group"
                                 >
-                                    <span className={`text-lg font-bold pr-8 transition-colors ${activeIndex === faq.id ? 'text-accent' : 'text-foreground'}`}>
-                                        {faq.question}
-                                    </span>
-                                    <span className={`p-2 rounded-full border transition-all ${activeIndex === faq.id ? 'bg-accent border-accent text-white rotate-180' : 'bg-transparent border-white/10 text-muted-foreground'}`}>
-                                        {activeIndex === faq.id ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                                    <div className="flex items-center gap-12">
+                                        <span className="text-[11px] font-mono font-bold text-zinc-800 group-hover:text-orange-600 transition-colors uppercase tracking-[0.4em]">LOG_0{index + 1}</span>
+                                        <h3 className={`text-2xl font-black uppercase italic tracking-tighter transition-all ${activeIndex === faq.id ? 'text-orange-600' : 'text-white'}`}>
+                                            {faq.question}
+                                        </h3>
+                                    </div>
+                                    <span className={`transition-transform duration-500 ${activeIndex === faq.id ? 'rotate-180 text-orange-600' : 'text-zinc-700'}`}>
+                                        {activeIndex === faq.id ? <Minus className="w-8 h-8" /> : <Plus className="w-8 h-8" />}
                                     </span>
                                 </button>
                                 <AnimatePresence>
@@ -105,16 +108,16 @@ export default function FAQSection({ category = 'general', title = 'Everything Y
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="p-6 pt-0 text-muted-foreground leading-relaxed border-t border-dashed border-white/5">
+                                            <div className="px-12 pb-16 pl-[168px] text-zinc-500 text-xl font-medium leading-[1.1] tracking-tight max-w-4xl border-t border-zinc-950 pt-10">
                                                 {faq.answer}
                                             </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                            </motion.div>
+                            </div>
                         ))
                     )}
                 </div>

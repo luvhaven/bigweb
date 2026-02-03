@@ -1,28 +1,23 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="pulse-gradient" x1="0" y1="256" x2="512" y2="256" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="50%" stop-color="#3B82F6" />
-      <stop offset="100%" stop-color="#8B5CF6" />
-    </linearGradient>
     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feGaussianBlur stdDeviation="15" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
   
   <!-- Modern Circular Container -->
-  <circle cx="256" cy="256" r="240" stroke="url(#pulse-gradient)" stroke-width="12" stroke-opacity="0.2" fill="none" />
+  <circle cx="256" cy="256" r="240" stroke="#FF4D00" stroke-width="12" stroke-opacity="0.2" fill="none" />
   
   <!-- The Digital Pulse Wave -->
   <path d="M76 256 H146 L176 166 L236 346 L296 106 L336 256 H436" 
-        stroke="url(#pulse-gradient)" 
+        stroke="#FF4D00" 
         stroke-width="24" 
         stroke-linecap="round" 
         stroke-linejoin="round" 
         filter="url(#glow)" />
         
   <!-- Tech Accents -->
-  <circle cx="296" cy="106" r="8" fill="#8B5CF6" />
-  <circle cx="236" cy="346" r="8" fill="#3B82F6" />
+  <circle cx="296" cy="106" r="8" fill="#FF4D00" />
+  <circle cx="236" cy="346" r="8" fill="#FF4D00" />
 </svg>

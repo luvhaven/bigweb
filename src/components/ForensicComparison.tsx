@@ -10,21 +10,21 @@ const COMPARISONS = [
         id: 'hero',
         title: 'The Hero Section',
         before: {
-            label: 'The "Artist" Approach',
-            description: 'Vague messaging, massive unoptimized image, hidden CTA below the fold.',
+            label: 'Design-Only Approach',
+            description: 'Vague messaging, massive unoptimized images, and hidden calls-to-action.',
             elements: [
-                { type: 'image', label: 'Abstract 4K Background', problem: 'Slows down load by 2s' },
-                { type: 'title', label: 'We Build Dreams', problem: 'Vague, non-specific' },
-                { type: 'button', label: 'Learn More', problem: 'No urgency, weak intent' }
+                { type: 'image', label: 'Unoptimized Visuals', problem: 'Slows down load by 2s' },
+                { type: 'title', label: 'Generic Headlines', problem: 'No clear value' },
+                { type: 'button', label: 'Weak CTAs', problem: 'No urgency' }
             ]
         },
         after: {
-            label: 'The "Engineer" Approach',
-            description: 'Surgical headline, performance-optimized visual, clear intent-based CTA.',
+            label: 'Performance Approach',
+            description: 'Clear value proposition, optimized assets, and intent-driven action.',
             elements: [
-                { type: 'image', label: 'Contextual Product Visual', solution: '100kb WebP, clears intent' },
-                { type: 'title', label: 'Scale Your SaaS by 25%', solution: 'Clear value proposition' },
-                { type: 'button', label: 'Start 14-Day Free Trial', solution: 'Direct, low-friction action' }
+                { type: 'image', label: 'Optimized Imagery', solution: 'Fast-load WebP format' },
+                { type: 'title', label: 'Direct Value-Add', solution: 'Clear benefits mentioned' },
+                { type: 'button', label: 'High-Intent CTA', solution: 'Focused on next steps' }
             ]
         },
         metric: '+142% Click-Through Rate'
@@ -59,42 +59,45 @@ export default function ForensicComparison() {
     const current = COMPARISONS[activeTab]
 
     return (
-        <section className="py-24 bg-secondary/5 overflow-hidden">
+        <section className="py-40 bg-black overflow-hidden border-b border-zinc-900 border-t">
             <div className="container mx-auto px-6">
-                <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
+                <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
                     <div className="max-w-2xl">
-                        <h2 className="text-sm md:text-base uppercase tracking-[0.3em] text-accent font-bold mb-4">
-                            Forensic Re-Engineering
-                        </h2>
-                        <p className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-tight">
+                        <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
+                            <Brain className="w-4 h-4 text-orange-600" />
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                                Forensic_Analysis_Lab
+                            </span>
+                        </div>
+                        <p className="text-5xl md:text-[5rem] font-black tracking-tighter uppercase italic leading-[0.8] text-white">
                             Before & After: <br />
-                            <span className="text-accent">The Lab results.</span>
+                            <span className="text-zinc-800">The Delta.</span>
                         </p>
                     </div>
 
-                    <div className="flex bg-card border border-border rounded-full p-1 shadow-inner">
+                    <div className="flex bg-zinc-950 border border-zinc-900 p-1">
                         <button
                             onClick={() => setView('before')}
                             className={cn(
-                                "px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all",
-                                view === 'before' ? "bg-red-500/10 text-red-500" : "text-muted-foreground hover:text-foreground"
+                                "px-8 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all",
+                                view === 'before' ? "bg-red-950/20 text-red-600 border border-red-900/30" : "text-zinc-600 hover:text-white"
                             )}
                         >
-                            The Problem
+                            Vector_Failure
                         </button>
                         <button
                             onClick={() => setView('after')}
                             className={cn(
-                                "px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all",
-                                view === 'after' ? "bg-accent/10 text-accent" : "text-muted-foreground hover:text-foreground"
+                                "px-8 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all",
+                                view === 'after' ? "bg-emerald-950/20 text-emerald-500 border border-emerald-900/30" : "text-zinc-600 hover:text-white"
                             )}
                         >
-                            The Solution
+                            Vector_Optimized
                         </button>
                     </div>
                 </div>
 
-                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                <div className="grid lg:grid-cols-12 gap-16 items-start">
                     {/* Navigation */}
                     <div className="lg:col-span-4 space-y-4">
                         {COMPARISONS.map((comp, idx) => (
@@ -102,56 +105,59 @@ export default function ForensicComparison() {
                                 key={comp.id}
                                 onClick={() => setActiveTab(idx)}
                                 className={cn(
-                                    "w-full text-left p-6 rounded-2xl border transition-all duration-300 group",
+                                    "w-full text-left p-8 border-l-4 transition-all duration-300 group bg-zinc-950",
                                     activeTab === idx
-                                        ? "bg-background border-accent shadow-glow"
-                                        : "bg-transparent border-border/50 hover:border-accent/30"
+                                        ? "bg-zinc-900 border-orange-600"
+                                        : "bg-black border-zinc-900 hover:bg-zinc-900"
                                 )}
                             >
                                 <div className="flex items-center justify-between mb-2">
                                     <span className={cn(
-                                        "font-bold text-lg",
-                                        activeTab === idx ? "text-foreground" : "text-muted-foreground"
+                                        "font-bold text-lg uppercase tracking-wider",
+                                        activeTab === idx ? "text-white" : "text-zinc-600 group-hover:text-zinc-400"
                                     )}>
                                         {comp.title}
                                     </span>
                                     <ArrowRight className={cn(
                                         "w-5 h-5 transition-transform",
-                                        activeTab === idx ? "text-accent translate-x-0" : "text-muted-foreground -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
+                                        activeTab === idx ? "text-orange-600 translate-x-0" : "text-zinc-700 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
                                     )} />
                                 </div>
-                                <div className="text-sm text-accent font-black tracking-widest uppercase">
+                                <div className="text-[10px] text-orange-600 font-mono font-bold tracking-widest uppercase">
                                     {comp.metric}
                                 </div>
                             </button>
                         ))}
 
-                        <div className="p-6 rounded-2xl bg-accent/5 border border-accent/20 mt-8">
-                            <h4 className="font-bold text-sm mb-2 flex items-center gap-2">
-                                <Brain className="w-4 h-4 text-accent" />
-                                Engineering Logic
+                        <div className="p-8 bg-zinc-950 border border-zinc-900 mt-8">
+                            <h4 className="font-mono font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <Zap className="w-3 h-3 text-orange-600" />
+                                Engineering_Logic_v1
                             </h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
-                                Most agencies design to "look pretty". We design to "solve friction".
-                                In the Lab, beauty is an accidental byproduct of efficiency.
+                            <p className="text-xs text-zinc-400 leading-relaxed font-mono">
+                                // We design for quantifiable capital extraction. <br />
+                                // Every element is subjected to rigorous A/B stress testing.
                             </p>
                         </div>
                     </div>
 
                     {/* Interactive Showcase */}
                     <div className="lg:col-span-8">
-                        <div className="relative aspect-[16/10] bg-card border border-border rounded-3xl overflow-hidden shadow-2xl">
+                        <div className="relative aspect-[16/10] bg-black border border-zinc-900 overflow-hidden shadow-2xl group">
                             {/* Browser UI Mockup */}
-                            <div className="absolute top-0 left-0 right-0 h-10 bg-muted/30 border-b border-border flex items-center px-4 gap-2 z-20">
-                                <div className="flex gap-1.5">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+                            <div className="absolute top-0 left-0 right-0 h-12 bg-zinc-950 border-b border-zinc-900 flex items-center px-6 gap-4 z-20">
+                                <div className="flex gap-2">
+                                    <div className="w-2 h-2 bg-zinc-800" />
+                                    <div className="w-2 h-2 bg-zinc-800" />
+                                    <div className="w-2 h-2 bg-zinc-800" />
                                 </div>
-                                <div className="flex-1 bg-background/50 h-5 rounded-md mx-4" />
+                                <div className="flex-1 bg-black border border-zinc-900 h-6 mx-4 flex items-center px-4">
+                                    <span className="text-[8px] font-mono text-zinc-700">LOCALHOST:3000 // SYSTEM_VIEW</span>
+                                </div>
                             </div>
 
-                            <div className="absolute inset-0 pt-10">
+                            <div className="absolute inset-0 pt-12 bg-zinc-950/50">
+                                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.03] pointer-events-none" />
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={view + activeTab}
@@ -159,22 +165,22 @@ export default function ForensicComparison() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 1.02 }}
                                         transition={{ duration: 0.4 }}
-                                        className="h-full p-8"
+                                        className="h-full p-12"
                                     >
-                                        <div className="mb-6">
+                                        <div className="mb-10">
                                             <div className={cn(
-                                                "inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4",
-                                                view === 'before' ? "bg-red-500/10 text-red-500" : "bg-accent/10 text-accent"
+                                                "inline-flex items-center gap-2 px-4 py-1.5 border mb-6",
+                                                view === 'before' ? "bg-red-950/10 text-red-600 border-red-900/30" : "bg-emerald-950/10 text-emerald-500 border-emerald-900/30"
                                             )}>
                                                 {view === 'before' ? <AlertCircle className="w-3 h-3" /> : <CheckCircle2 className="w-3 h-3" />}
-                                                {current[view].label}
+                                                <span className="text-[9px] font-mono font-bold uppercase tracking-widest">{current[view].label}</span>
                                             </div>
-                                            <p className="text-lg font-medium text-foreground max-w-xl">
-                                                {current[view].description}
+                                            <p className="text-xl font-medium text-zinc-300 max-w-xl font-mono leading-relaxed">
+                                                "{current[view].description}"
                                             </p>
                                         </div>
 
-                                        <div className="grid gap-4 mt-8">
+                                        <div className="space-y-4">
                                             {current[view].elements.map((el, i) => (
                                                 <motion.div
                                                     key={i}
@@ -182,29 +188,29 @@ export default function ForensicComparison() {
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: i * 0.1 }}
                                                     className={cn(
-                                                        "p-5 rounded-xl border flex items-center justify-between group",
-                                                        view === 'before' ? "bg-red-500/5 border-red-500/20" : "bg-emerald-500/5 border-emerald-500/20"
+                                                        "p-6 border flex items-center justify-between group bg-black hover:bg-zinc-900/50 transition-all",
+                                                        view === 'before' ? "border-red-900/20" : "border-emerald-900/20"
                                                     )}
                                                 >
-                                                    <div className="flex items-center gap-4">
+                                                    <div className="flex items-center gap-6">
                                                         <div className={cn(
-                                                            "w-10 h-10 rounded-lg flex items-center justify-center",
-                                                            view === 'before' ? "bg-red-500/10 text-red-500" : "bg-emerald-500/10 text-emerald-500"
+                                                            "w-12 h-12 flex items-center justify-center border",
+                                                            view === 'before' ? "bg-red-950/10 text-red-600 border-red-900/30" : "bg-emerald-950/10 text-emerald-500 border-emerald-900/30"
                                                         )}>
                                                             <Layout className="w-5 h-5" />
                                                         </div>
                                                         <div>
-                                                            <div className="font-bold text-sm uppercase tracking-tight">{el.label}</div>
-                                                            <div className="text-xs text-muted-foreground">
-                                                                {view === 'before' ? `Problem: ${el.problem}` : `Engineered: ${el.solution}`}
+                                                            <div className="font-bold text-xs text-white uppercase tracking-widest mb-1">{el.label}</div>
+                                                            <div className="text-[10px] font-mono text-zinc-500 uppercase">
+                                                                {view === 'before' ? `// FAIL_STATE: ${el.problem}` : `// OPTIMIZED: ${el.solution}`}
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className={cn(
-                                                        "px-2 py-1 rounded text-[8px] font-black uppercase",
-                                                        view === 'before' ? "text-red-400 border border-red-400/30" : "text-emerald-400 border border-emerald-400/30"
+                                                        "px-3 py-1 text-[8px] font-mono font-bold uppercase tracking-widest border",
+                                                        view === 'before' ? "text-red-600 border-red-900/30 bg-red-950/10" : "text-emerald-500 border-emerald-900/30 bg-emerald-950/10"
                                                     )}>
-                                                        {view === 'before' ? 'Detected' : 'Solved'}
+                                                        {view === 'before' ? 'DETECTED' : 'RESOLVED'}
                                                     </div>
                                                 </motion.div>
                                             ))}
@@ -212,9 +218,6 @@ export default function ForensicComparison() {
                                     </motion.div>
                                 </AnimatePresence>
                             </div>
-
-                            {/* Decorative Grid */}
-                            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20 pointer-events-none" />
                         </div>
                     </div>
                 </div>

@@ -31,21 +31,18 @@ export async function generateMetadata() {
   return {
     metadataBase: new URL('https://bigwebdigital.com'),
     title: {
-      default: settings?.site_name ? `${settings.site_name} - Award - Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
-      template: settings?.site_name ? `% s | ${settings.site_name} ` : '%s | BIGWEB Digital',
+      default: settings?.site_name ? `${settings.site_name} - Award-Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
+      template: settings?.site_name ? `%s | ${settings.site_name}` : '%s | BIGWEB Digital',
     },
     description: settings?.site_description || 'Transform your digital presence with BIGWEB Digital. Expert web development, UI/UX design, mobile apps, AI automation, and SEO services.',
     icons: {
       icon: [
-        { url: '/logo.svg', type: 'image/svg+xml' },
+        { url: '/logo_pulse.svg' },
       ],
-      apple: '/logo.svg',
+      apple: '/logo_pulse.svg',
     },
-    // ... preserve other static metadata if needed or move here
   }
 }
-
-
 
 export default async function RootLayout({
   children,
@@ -76,16 +73,15 @@ if (typeof window !== 'undefined') {
         />
 
         <GlobalContentProvider {...globalContent}>
+          <div className="cinematic-grain" />
           <ClientLayoutEnhancements />
           <Providers>
-            <ErrorBoundary>
-              <Suspense fallback={null}>
-                <AnalyticsAdvanced />
-              </Suspense>
-              <div id="main-content" className="page-transition">
-                {children}
-              </div>
-            </ErrorBoundary>
+            <Suspense fallback={null}>
+              <AnalyticsAdvanced />
+            </Suspense>
+            <div id="main-content" className="page-transition">
+              {children}
+            </div>
           </Providers>
         </GlobalContentProvider>
       </body>

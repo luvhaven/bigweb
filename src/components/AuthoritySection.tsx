@@ -72,7 +72,7 @@ export default function AuthoritySection() {
                             <div className="flex items-center gap-4 mb-2">
                                 <div className="text-4xl font-bold text-accent">100+</div>
                                 <div className="text-sm font-semibold leading-tight">
-                                    Conversion <br /> Diagnostics
+                                    Conversion <br /> Audits
                                 </div>
                             </div>
                             <p className="text-xs text-muted-foreground">

@@ -69,17 +69,9 @@ function Counter({ value, suffix, prefix = '' }: { value: number, suffix: string
 
 export default function EliteStatistics() {
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
-      {/* Premium background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" />
-
-      {/* Gradient mesh */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px] animate-float-sophisticated" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/15 rounded-full blur-[120px]"
-          style={{ animationDelay: '2s' }}
-        />
-      </div>
+    <section className="py-32 relative overflow-hidden bg-black border-t border-b border-zinc-900">
+      {/* Grid Background */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
@@ -88,87 +80,58 @@ export default function EliteStatistics() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-24"
         >
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 mb-6">
-            <Award className="w-5 h-5 text-accent" />
-            <span className="text-accent text-sm font-medium uppercase tracking-wider">
-              Proven Excellence
+          <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
+            <Award className="w-5 h-5 text-orange-600" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+              Operational_Yield_v2
             </span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-luxury">
-            The Numbers Speak for{' '}
-            <span className="gradient-text-luxury">Themselves</span>
+          <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-10">
+            Performance <br />
+            <span className="text-zinc-800">Metrics.</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            Trusted by industry leaders and innovative startups worldwide
+          <p className="text-xl text-zinc-500 font-medium max-w-2xl mx-auto uppercase tracking-wide">
+            Quantifiable capital extraction across global vectors.
           </p>
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
           {stats.map((stat, index) => {
             const Icon = stat.icon
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{
                   duration: 0.6,
                   delay: index * 0.1,
-                  type: 'spring',
-                  stiffness: 100
                 }}
-                className="relative group"
+                className="relative group h-full"
               >
                 {/* Card */}
-                <div className="glass-card h-full flex flex-col items-center text-center p-8 relative overflow-hidden hover:border-accent/30 transition-all duration-500">
-                  {/* Animated background gradient */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0`}
-                    whileHover={{ opacity: 0.08 }}
-                    transition={{ duration: 0.4 }}
-                  />
+                <div className="bg-black border-l border-zinc-900 h-full flex flex-col items-center text-center p-12 relative overflow-hidden group-hover:bg-zinc-950 transition-all duration-500">
+                  {/* Top Border Indicator */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-zinc-900 group-hover:bg-orange-600 transition-colors duration-500" />
 
                   {/* Icon */}
-                  <motion.div
-                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-6 relative`}
-                    whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.15 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Icon className="w-8 h-8 text-white" />
-
-                    {/* Glow effect */}
-                    <motion.div
-                      className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.color} blur-xl opacity-40`}
-                      whileHover={{ opacity: 0.7, scale: 1.2 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.div>
+                  <div className="mb-8 p-4 bg-zinc-950 border border-zinc-900 flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-zinc-600 group-hover:text-orange-600 transition-colors duration-300" />
+                  </div>
 
                   {/* Counter */}
-                  <div className={`text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`}>
+                  <div className="text-5xl md:text-7xl font-black mb-4 text-white italic tracking-tighter">
                     <Counter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                   </div>
 
                   {/* Label */}
-                  <p className="text-sm md:text-base text-muted-foreground font-medium">
+                  <p className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-[0.3em] group-hover:text-zinc-400 transition-colors">
                     {stat.label}
                   </p>
-
-                  {/* Shine effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
-                    animate={{ x: ['-200%', '200%'] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 5,
-                      ease: 'easeInOut'
-                    }}
-                  />
                 </div>
               </motion.div>
             )
@@ -177,16 +140,15 @@ export default function EliteStatistics() {
 
         {/* Bottom accent */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 text-center"
+          className="mt-20 text-center"
         >
-          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-            <div className="w-12 h-px bg-gradient-to-r from-transparent to-accent/50" />
-            <span>Updated in real-time</span>
-            <div className="w-12 h-px bg-gradient-to-l from-transparent to-accent/50" />
+          <div className="inline-flex items-center gap-4 text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">
+            <span className="w-2 h-2 bg-emerald-500 animate-pulse" />
+            <span>Telemetry_Stream: ACTIVE</span>
           </div>
         </motion.div>
       </div>

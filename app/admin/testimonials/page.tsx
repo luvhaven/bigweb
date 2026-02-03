@@ -9,8 +9,9 @@ import { toast } from 'sonner'
 
 interface Testimonial {
     id: string
-    author_name: string
-    author_company: string | null
+    client_name: string
+    client_company: string | null
+    client_role: string | null
     rating: number
     is_featured: boolean
 }
@@ -26,12 +27,19 @@ export default function TestimonialsPage() {
         queryKey: ['admin', 'testimonials'],
         queryFn: async () => {
             const { data, error } = await supabase
-                .from('cms_testimonials')
-                .select('id, author_name, author_company, rating, is_featured')
-                .order('is_featured', { ascending: false })
+                .from('testimonials')
+                .select('id, name, company, role, rating, featured')
+                .order('featured', { ascending: false })
 
             if (error) throw error
-            return data as Testimonial[]
+            return (data as any[]).map(t => ({
+                id: t.id,
+                client_name: t.name,
+                client_company: t.company,
+                client_role: t.role,
+                rating: t.rating,
+                is_featured: t.featured
+            })) as any[]
         }
     })
 
@@ -39,7 +47,7 @@ export default function TestimonialsPage() {
     const deleteMutation = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase
-                .from('cms_testimonials')
+                .from('testimonials')
                 .delete()
                 .eq('id', id)
             if (error) throw error
@@ -61,8 +69,8 @@ export default function TestimonialsPage() {
     }
 
     const filteredTestimonials = testimonials.filter(t =>
-        t.author_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (t.author_company || '').toLowerCase().includes(searchTerm.toLowerCase())
+        t.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (t.client_company || '').toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     return (
@@ -125,8 +133,8 @@ export default function TestimonialsPage() {
                                 filteredTestimonials.map((t) => (
                                     <tr key={t.id} className="hover:bg-zinc-800/30 transition-colors">
                                         <td className="px-6 py-4">
-                                            <div className="font-medium text-white">{t.author_name}</div>
-                                            <div className="text-xs text-zinc-500">{t.author_company || '—'}</div>
+                                            <div className="font-medium text-white">{t.client_name}</div>
+                                            <div className="text-xs text-zinc-500">{t.client_role} @ {t.client_company || '—'}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-1">

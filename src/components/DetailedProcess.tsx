@@ -5,39 +5,39 @@ import { Microscope, Target, Cpu, TrendingUp, CheckCircle2 } from 'lucide-react'
 
 const steps = [
     {
-        title: "Forensic Audit & Diagnosis",
-        subtitle: "The Science of Discovery",
-        description: "We don't guess. We use heatmaps, session recordings, and custom analytics to identify exactly where your revenue is leaking. We look at load speeds, device-specific friction, and psychological messaging gaps.",
+        title: "Conversion Audit & Strategy",
+        subtitle: "The Discovery Phase",
+        description: "We don't guess. We perform a detailed audit of your tracking, user behavior, and site performance. We perform a deep analysis to find where your revenue is leaking.",
         icon: Microscope,
-        metrics: ["Data Integrity Check", "User Behavior Heatmapping", "Funnel Drop-off Analysis"],
-        color: "bg-blue-500",
+        metrics: ["Behavioral Data Review", "User Journey Mapping", "Funnel Drop-off Analysis"],
+        color: "bg-cyan-500",
         id: "01"
     },
     {
-        title: "Strategic Bottleneck Isolation",
-        subtitle: "The Anatomy of Friction",
-        description: "Once we have the data, we isolate the technical and psychological bottlenecks. Is it a confusing CTA? A friction-heavy form? We prioritize fixes based on potential ROI and implementation speed.",
+        title: "User Psychology & Experience",
+        subtitle: "The Strategy Phase",
+        description: "We design a conversion strategy based on how users actually think and behave. We eliminate friction and create clear paths that drive visitors to take action.",
         icon: Target,
-        metrics: ["Friction Scoring", "Conversion Roadmap", "Priority Matrix"],
-        color: "bg-orange-500",
+        metrics: ["Reduced User Friction", "Decision Path Mapping", "Experience Review"],
+        color: "bg-purple-500",
         id: "02"
     },
     {
-        title: "Precision Rebuilding",
-        subtitle: "Engineered Outcomes",
-        description: "This is where the 'Art' of traditional design is replaced by the 'Science' of Conversion Engineering. We rewrite copy based on intent, redesign interfaces based on cognitive load, and optimize code for split-second performance.",
+        title: "Expert Design & Development",
+        subtitle: "The Build Phase",
+        description: "We build your high-performance frontend using modern, reliable frameworks. Every line of code is optimized for instant load times and search engine visibility.",
         icon: Cpu,
-        metrics: ["Intent-Based Copy", "Cognitive Load Reduction", "Speed Optimization"],
-        color: "bg-accent",
+        metrics: ["Modern Frameworks", "Speed Optimization", "Clean Code Standards"],
+        color: "bg-blue-500",
         id: "03"
     },
     {
-        title: "Infinite Optimization",
-        subtitle: "The Growth Compounder",
-        description: "Launch is the starting line, not the finish. We continuously A/B test variations, monitor live results, and iterate based on real performance data to ensure your conversion rate keeps climbing.",
+        title: "Continuous Growth & Scaling",
+        subtitle: "The Optimization Phase",
+        description: "Launch is only the beginning. We perform constant testing and data-driven updates to ensure your results grow and improve over time.",
         icon: TrendingUp,
-        metrics: ["A/B Testing Cycles", "Real-Time Monitoring", "Monthly Value reporting"],
-        color: "bg-green-500",
+        metrics: ["Ongoing Testing", "Growth Planning", "Performance Tracking"],
+        color: "bg-orange-500",
         id: "04"
     }
 ]

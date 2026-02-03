@@ -14,12 +14,12 @@ import { toast } from 'sonner'
 interface Project {
     id: string
     title: string
+    slug: string
     client_name: string
     category: string
     is_published: boolean
     is_featured: boolean
-    completion_date: string | null
-    views_count: number
+    created_at: string
 }
 
 export default function PortfolioPage() {
@@ -33,11 +33,17 @@ export default function PortfolioPage() {
         queryFn: async () => {
             const { data, error } = await supabase
                 .from('portfolio_projects')
-                .select('id, title, client_name, category, is_published, is_featured, completion_date, views_count')
+                .select('id, title, slug, client, category, featured, created_at')
                 .order('created_at', { ascending: false })
 
             if (error) throw error
-            return data as Project[]
+
+            // Filter out protected case studies (only deletable from backend)
+            return (data as any[]).map(p => ({
+                ...p,
+                client_name: p.client, // Map new col name to expected property
+                is_published: true // Database table doesn't have is_published currently, default to true
+            })).filter(p => !['vortex-pay', 'antro-logistics'].includes(p.slug))
         }
     })
 
@@ -101,21 +107,18 @@ export default function PortfolioPage() {
             )
         },
         {
-            header: 'Stats',
+            header: 'Slug',
             cell: (project) => (
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        {project.views_count}
-                    </div>
-                </div>
+                <code className="text-[10px] bg-secondary px-1.5 py-0.5 rounded text-zinc-400">
+                    {project.slug}
+                </code>
             )
         },
         {
             header: 'Date',
             cell: (project) => (
                 <span className="text-muted-foreground text-sm">
-                    {project.completion_date ? format(new Date(project.completion_date), 'MMM yyyy') : 'Ongoing'}
+                    {format(new Date(project.created_at), 'MMM dd, yyyy')}
                 </span>
             )
         }

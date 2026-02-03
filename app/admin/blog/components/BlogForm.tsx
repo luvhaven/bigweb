@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Save, ArrowLeft, Image as ImageIcon, Calendar } from 'lucide-react'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { savePost } from '@/actions/blog'
 import Link from 'next/link'
 
 interface BlogFormProps {
@@ -78,18 +79,12 @@ export default function BlogForm({ initialData, isEditing = false }: BlogFormPro
                 featured_image: null // Explicitly set to null to satisfy schema
             }
 
-            if (isEditing) {
-                const { error } = await supabase
-                    .from('blog_posts')
-                    .update(postData as any)
-                    .eq('id', initialData.id)
-                if (error) throw error
-            } else {
-                const { error } = await supabase
-                    .from('blog_posts')
-                    .insert([postData as any])
-                if (error) throw error
-            }
+            const result = await savePost({
+                ...postData,
+                id: isEditing ? initialData.id : undefined
+            })
+
+            if (!result.success) throw new Error(result.error)
 
             router.push('/admin/blog')
             router.refresh()

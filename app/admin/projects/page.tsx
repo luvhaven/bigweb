@@ -15,6 +15,7 @@ export default function AdminProjectsPage() {
             <GenericAdminTable
                 tableName="cms_projects"
                 title="Case Studies"
+                excludeSlugs={['vortex-pay', 'antro-logistics']}
                 columns={[
                     { key: 'title', label: 'Project Title', type: 'text' },
                     { key: 'slug', label: 'Slug', type: 'text' },

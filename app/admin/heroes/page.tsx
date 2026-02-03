@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Pencil, Trash2, Save, X, GripVertical } from 'lucide-react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'

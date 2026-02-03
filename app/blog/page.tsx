@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Hash, Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 import ConversionNavigation from '@/components/ConversionNavigation'
 import Footer from '@/components/Footer'
 import { Input } from '@/components/ui/input'
@@ -84,16 +85,16 @@ export default function BlogListingPage() {
       <ConversionNavigation />
 
       {/* Header */}
-      <section className="pt-32 pb-16 relative overflow-hidden">
+      <section className="pt-24 pb-12 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold mb-4"
           >
             The Conversion <span className="text-accent">Knowledge Base</span>
           </motion.h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mb-12">
+          <p className="text-lg text-muted-foreground max-w-2xl mb-8">
             Insights, protocols, and experiments from the lab. We share what works so you can stop guessing.
           </p>
 

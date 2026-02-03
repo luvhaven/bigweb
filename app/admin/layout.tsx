@@ -10,8 +10,6 @@ import {
     LayoutDashboard,
     Navigation,
     Image as ImageIcon,
-    Briefcase,
-    FolderKanban,
     Users,
     MessageSquare,
     Settings,
@@ -19,24 +17,31 @@ import {
     LogOut,
     Search,
     Bell,
-    Moon,
-    Sun,
     Menu,
     FileText,
-    BarChart3
+    BarChart3,
+    Zap,
+    Cpu,
+    Globe,
+    Lock,
+    Layers
 } from 'lucide-react'
+import BrandLogo from '@/components/branding/BrandLogo'
+import { useGlobalContent } from '@/context/GlobalContentContext'
 
 // Sidebar Menu Configuration
 const menuItems = [
-    { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { label: 'Overview', href: '/admin', icon: LayoutDashboard },
     { label: 'Navigation', href: '/admin/navigation', icon: Navigation },
-    { label: 'Heroes', href: '/admin/heroes', icon: ImageIcon },
-    { label: 'Services', href: '/admin/services', icon: Briefcase },
-    { label: 'Projects', href: '/admin/projects', icon: FolderKanban },
+    { label: 'Capabilities', href: '/admin/capabilities-new', icon: Cpu },
+    { label: 'Engagements', href: '/admin/engagements-new', icon: Zap },
+    { label: 'Process', href: '/admin/process-new', icon: Search },
+    { label: 'Page Sections', href: '/admin/sections', icon: Layers },
+    { label: 'SEO Metadata', href: '/admin/seo-new', icon: Globe },
+    { label: 'System Flags', href: '/admin/flags-new', icon: Lock },
     { label: 'Team', href: '/admin/team', icon: Users },
     { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
-    { label: 'Leads', href: '/admin/leads', icon: FileText },
-    { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+    { label: 'Leads & CRM', href: '/admin/leads', icon: FileText },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
 ]
 
@@ -56,6 +61,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     const pathname = usePathname()
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const [commandOpen, setCommandOpen] = useState(false)
+    const { settings } = useGlobalContent()
     const searchInputRef = useRef<HTMLInputElement>(null)
 
     // Skip layout for login/debug pages
@@ -101,7 +107,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     if (loading) {
         return (
             <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500" />
             </div>
         )
     }
@@ -121,22 +127,11 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                 className="fixed left-0 top-0 h-full bg-zinc-900/95 backdrop-blur-xl border-r border-white/10 z-40 flex flex-col"
             >
                 {/* Logo */}
-                <div className="p-6 flex items-center gap-3 border-b border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shrink-0">
-                        <span className="text-white font-bold text-lg">B</span>
-                    </div>
-                    <AnimatePresence>
-                        {sidebarOpen && (
-                            <motion.span
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -10 }}
-                                className="text-white font-bold text-xl"
-                            >
-                                BigWeb CMS
-                            </motion.span>
-                        )}
-                    </AnimatePresence>
+                <div className="p-6 border-b border-white/10">
+                    <BrandLogo
+                        variant={sidebarOpen ? "full" : "symbol"}
+                        logoUrl={settings?.logo_url}
+                    />
                 </div>
 
                 {/* Navigation */}
@@ -149,7 +144,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    ? 'bg-orange-500/20 text-orange-500'
                                     : 'text-zinc-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
@@ -218,7 +213,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                         <div className="flex items-center gap-3">
                             <button className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition-colors relative">
                                 <Bell className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full" />
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full" />
                             </button>
 
                             {/* User Avatar */}

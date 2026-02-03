@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { PhysicsReveal } from "@/components/ui/PhysicsReveal";
 
 const steps = [
   {
@@ -56,14 +57,12 @@ const ProcessStep = ({ step, index }: { step: typeof steps[0], index: number }) 
   });
 
   const isEven = index % 2 === 0;
-  const x = useTransform(scrollYProgress, [0, 1], [isEven ? -50 : 50, isEven ? 50 : -50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const x = useTransform(scrollYProgress, [0, 1], [isEven ? -20 : 20, isEven ? 20 : -20]);
 
   return (
     <motion.div
       ref={ref}
-      style={isMounted ? { opacity } : {}}
-      className={`grid md:grid-cols-2 gap-16 items-center mb-32 last:mb-0 ${isEven ? '' : 'md:flex-row-reverse'}`}
+      className={`grid md:grid-cols-2 gap-0 border-t border-zinc-900 last:border-b ${isEven ? '' : 'md:flex-row-reverse'}`}
     >
       {/* Content */}
       <motion.div
@@ -71,15 +70,21 @@ const ProcessStep = ({ step, index }: { step: typeof steps[0], index: number }) 
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className={isEven ? 'order-1' : 'order-2'}
+        className={`p-12 md:p-16 flex flex-col justify-center bg-black ${isEven ? 'order-1 border-r border-zinc-900' : 'order-2 md:order-2 border-l border-zinc-900'} relative overflow-hidden group`}
       >
-        <div className="text-8xl font-bold text-accent/20 mb-4">
-          {step.number}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.03] pointer-events-none" />
+
+        <div className="flex items-center gap-4 mb-8">
+          <span className="text-[10px] bg-zinc-950 border border-zinc-900 text-orange-600 px-3 py-1 font-mono font-bold uppercase tracking-widest">
+            PHASE_0{index + 1}
+          </span>
+          <div className="h-[1px] flex-1 bg-zinc-900" />
         </div>
-        <h3 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+
+        <h3 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter mb-6">
           {step.title}
         </h3>
-        <p className="text-xl text-muted-foreground leading-relaxed">
+        <p className="text-lg text-zinc-500 font-mono leading-relaxed max-w-md">
           {step.description}
         </p>
       </motion.div>
@@ -87,17 +92,54 @@ const ProcessStep = ({ step, index }: { step: typeof steps[0], index: number }) 
       {/* Image */}
       <motion.div
         style={{ x }}
-        className={isEven ? 'order-2' : 'order-1'}
+        className={`bg-zinc-950 relative overflow-hidden h-[400px] md:h-auto ${isEven ? 'order-2' : 'order-1'} border-zinc-900 ${isEven ? '' : 'border-r'}`}
       >
-        <div className="aspect-[4/3] relative overflow-hidden group">
-          <motion.img
-            src={step.image}
-            alt={step.title}
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.6 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <PhysicsReveal
+          className="w-full h-full"
+          revealSize={250}
+          cover={
+            <div className="relative w-full h-full">
+              <img
+                src={step.image}
+                alt={step.title}
+                className="w-full h-full object-cover grayscale opacity-50"
+              />
+              <div className="absolute inset-0 bg-black/50" />
+              <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px] opacity-[0.1]" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 border border-zinc-500/30 rounded-full flex items-center justify-center">
+                  <div className="w-1 h-1 bg-zinc-500" />
+                </div>
+              </div>
+            </div>
+          }
+        >
+          <div className="relative w-full h-full">
+            <img
+              src={step.image}
+              alt={step.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-orange-600/10 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_2px,3px_100%] pointer-events-none" />
+          </div>
+        </PhysicsReveal>
+
+        <div className="absolute inset-0 z-10 p-8 flex flex-col justify-between pointer-events-none">
+          <div className="flex justify-between">
+            <div className="w-2 h-2 border border-zinc-500" />
+            <div className="w-2 h-2 border border-zinc-500" />
+          </div>
+          <div className="flex justify-between">
+            <div className="w-2 h-2 border border-zinc-500" />
+            <div className="w-2 h-2 border border-zinc-500" />
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 right-0 bg-black border-t border-l border-zinc-900 p-4 z-20 pointer-events-none">
+          <span className="text-6xl font-black text-white/10 font-mono tracking-tighter">
+            {step.number}
+          </span>
         </div>
       </motion.div>
     </motion.div>
@@ -106,28 +148,30 @@ const ProcessStep = ({ step, index }: { step: typeof steps[0], index: number }) 
 
 const EliteProcess = () => {
   return (
-    <section className="py-32 bg-background">
+    <section className="py-40 bg-black border-b border-zinc-900">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="mb-20 max-w-4xl">
+        <div className="mb-24 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-sm uppercase tracking-widest text-accent mb-4">Our Approach</p>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              How We Work
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
+              <span className="w-2 h-2 bg-orange-600 animate-pulse" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                Operational_Framework_v4
+              </span>
+            </div>
+            <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-white">
+              System <br /> <span className="text-zinc-800">Architecture.</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              A proven process that delivers exceptional results, every time
-            </p>
           </motion.div>
         </div>
 
         {/* Steps */}
-        <div>
+        <div className="border border-zinc-900">
           {steps.map((step, index) => (
             <ProcessStep key={step.number} step={step} index={index} />
           ))}

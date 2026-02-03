@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 import { motion } from 'framer-motion'
 import { Plus, Trash2, Save, GripVertical, ChevronRight, ChevronDown, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'

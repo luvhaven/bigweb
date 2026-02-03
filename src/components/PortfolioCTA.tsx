@@ -19,100 +19,28 @@ export default function PortfolioCTA() {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8])
 
   return (
-    <section ref={containerRef} className="relative py-32 overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {/* Gradient Orbs */}
-        <motion.div
-          className="absolute top-20 left-10 w-96 h-96 rounded-full bg-accent/20 blur-[120px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-            x: [0, 50, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-accent/20 blur-[120px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5],
-            x: [0, -50, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-
-        {/* Floating Grid */}
-        <motion.div
-          className="absolute inset-0 opacity-10"
-          style={{ y }}
-        >
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(245, 85, 39, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(245, 85, 39, 0.3) 1px, transparent 1px)
-              `,
-              backgroundSize: '60px 60px',
-            }}
-          />
-        </motion.div>
-
-        {/* Animated Lines */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"
-            style={{
-              top: `${20 + i * 15}%`,
-              left: 0,
-              right: 0,
-            }}
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{
-              scaleX: [0, 1, 0],
-              opacity: [0, 0.5, 0],
-              x: ['-100%', '0%', '100%']
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.5,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+    <section ref={containerRef} className="relative py-48 overflow-hidden bg-black border-t border-zinc-900">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
 
       {/* Content */}
       <motion.div
         className="container mx-auto px-6 relative z-10"
         style={{ opacity, scale }}
       >
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex justify-center mb-8"
+            className="flex justify-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 backdrop-blur-sm">
-              <Sparkles className="w-5 h-5 text-accent" />
-              <span className="text-accent text-sm font-medium uppercase tracking-wider">
-                Let's Create Something Amazing
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 shadow-2xl">
+              <span className="w-2 h-2 bg-orange-600 animate-pulse" />
+              <span className="text-zinc-500 text-[10px] font-mono font-bold uppercase tracking-[0.4em]">
+                System_Ready_State
               </span>
             </div>
           </motion.div>
@@ -123,26 +51,11 @@ export default function PortfolioCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-8 leading-tight"
+            className="text-6xl md:text-[10rem] font-black text-center mb-16 leading-[0.8] italic tracking-tighter uppercase text-white"
           >
-            Ready to Transform
-            <br />
-            <span className="bg-gradient-to-r from-accent via-orange-500 to-orange-400 bg-clip-text text-transparent">
-              Your Digital Vision?
-            </span>
+            Deploy <br />
+            <span className="text-zinc-800">Your Vision.</span>
           </motion.h2>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-muted-foreground text-center max-w-3xl mx-auto mb-12 leading-relaxed"
-          >
-            Join hundreds of ambitious brands who've elevated their digital presence with our
-            award-winning solutions. Your project could be our next success story.
-          </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
@@ -150,19 +63,17 @@ export default function PortfolioCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col sm:flex-row gap-8 justify-center mb-24"
           >
             <Link href="/offers/diagnostic">
-              <Button size="lg" className="text-lg px-10 py-7 group shadow-2xl shadow-accent/20 bg-accent hover:bg-accent/90">
-                <Zap className="mr-2 w-5 h-5" />
-                Start Your Diagnostic
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              <Button size="lg" className="h-24 px-12 bg-orange-600 hover:bg-orange-500 text-white border-0 rounded-none text-sm font-black uppercase tracking-[0.4em] transition-all duration-300">
+                INITIATE_DIAGNOSTIC
+                <ArrowRight className="ml-4 w-5 h-5" />
               </Button>
             </Link>
             <Link href="/contact">
-              <Button size="lg" variant="outline" className="text-lg px-10 py-7 border-2">
-                <TrendingUp className="mr-2 w-5 h-5" />
-                Schedule a Call
+              <Button size="lg" variant="outline" className="h-24 px-12 bg-transparent border border-zinc-800 text-white hover:bg-white hover:text-black rounded-none text-sm font-black uppercase tracking-[0.4em] transition-all duration-300">
+                SCHEDULE_BRIEFING
               </Button>
             </Link>
           </motion.div>
@@ -173,89 +84,33 @@ export default function PortfolioCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 border-t border-zinc-900"
           >
             {[
-              { value: '500+', label: 'Projects Delivered' },
-              { value: '98%', label: 'Client Satisfaction' },
-              { value: '3.2x', label: 'Avg ROI Increase' },
-              { value: '24/7', label: 'Support Available' }
+              { value: '500+', label: 'Systems_Deployed' },
+              { value: '98%', label: 'Client_Retention' },
+              { value: '3.2x', label: 'Yield_Delta' },
+              { value: '24/7', label: 'Monitor_Status' }
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover:border-accent/50 transition-all"
+                className="text-center py-12 border-b border-r border-zinc-900 last:border-r-0"
               >
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-2">
+                <div className="text-4xl md:text-5xl font-black text-white italic tracking-tighter mb-4 group-hover:text-orange-600 transition-colors">
                   {stat.value}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em]">
                   {stat.label}
                 </div>
               </motion.div>
             ))}
           </motion.div>
-
-          {/* Trust Indicators */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="mt-16 text-center"
-          >
-            <p className="text-sm text-muted-foreground mb-6">
-              Trusted by industry leaders and innovative startups worldwide
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-50">
-              {['Stripe', 'Shopify', 'AWS', 'Vercel', 'Netlify'].map((brand, index) => (
-                <motion.div
-                  key={brand}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 0.5, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 1.3 + index * 0.1 }}
-                  whileHover={{ opacity: 1, scale: 1.1 }}
-                  className="text-2xl font-bold text-foreground/50 hover:text-foreground transition-all"
-                >
-                  {brand}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </motion.div>
-
-      {/* Bottom Wave Effect */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 overflow-hidden">
-        <svg
-          className="absolute bottom-0 w-full h-full"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <motion.path
-            d="M0,50 C150,80 350,0 600,50 C850,100 1050,20 1200,50 L1200,120 L0,120 Z"
-            fill="hsl(var(--background))"
-            initial={{ d: "M0,50 C150,80 350,0 600,50 C850,100 1050,20 1200,50 L1200,120 L0,120 Z" }}
-            animate={{
-              d: [
-                "M0,50 C150,80 350,0 600,50 C850,100 1050,20 1200,50 L1200,120 L0,120 Z",
-                "M0,70 C150,40 350,80 600,50 C850,20 1050,100 1200,50 L1200,120 L0,120 Z",
-                "M0,50 C150,80 350,0 600,50 C850,100 1050,20 1200,50 L1200,120 L0,120 Z"
-              ]
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </svg>
-      </div>
     </section>
   )
 }

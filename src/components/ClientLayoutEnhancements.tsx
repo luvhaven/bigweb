@@ -10,6 +10,7 @@ const RippleEffect = dynamic(() => import('@/components/effects/RippleEffect'), 
 // Interaction Components (Lazy Loaded)
 const StickyCTA = dynamic(() => import('@/components/conversion/StickyCTA'), { ssr: false })
 const LiveVisitorCounter = dynamic(() => import('@/components/trust/LiveVisitorCounter'), { ssr: false })
+const BackgroundTelemetry = dynamic(() => import('@/components/ui/BackgroundTelemetry'), { ssr: false })
 
 
 import { usePathname } from 'next/navigation'
@@ -26,6 +27,7 @@ export default function ClientLayoutEnhancements() {
             <CustomCursor />
             <ScrollProgressIndicator />
             <RippleEffect />
+            <BackgroundTelemetry />
 
             <LiveVisitorCounter />
         </>

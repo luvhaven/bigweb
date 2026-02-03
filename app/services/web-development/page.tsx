@@ -1,357 +1,376 @@
 'use client'
 
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import BentoGrid from '@/components/services/BentoGrid'
-import ProcessTimeline from '@/components/ProcessTimeline'
-import PricingCalculator from '@/components/PricingCalculator'
-import ComparisonTable from '@/components/ComparisonTable'
-import VideoTestimonials from '@/components/VideoTestimonials'
-import StickyCTABar from '@/components/mobile/StickyCTABar'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
-import { Code, Zap, Shield, Rocket, BarChart, Users, Globe, Layers, Star, TrendingUp, Award } from 'lucide-react'
 import { motion } from 'framer-motion'
+import {
+  TrendingUp,
+  DollarSign,
+  Zap,
+  Shield,
+  Users,
+  Target,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+  BarChart3,
+  Rocket,
+  Award,
+  Code,
+  Cpu,
+  Globe,
+  Server,
+  Activity
+} from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
-import serviceImage from '@/assets/service-web-dev.png'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import SkyPulseDemo from '@/components/demos/SkyPulseDemo'
 import RelatedServices from '@/components/services/RelatedServices'
-import WebDevTerminal from '@/components/services/WebDevTerminal'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const features = [
+// Product Branding
+const PRODUCT_NAME = "The Revenue Engine™"
+const PRODUCT_TAGLINE = "High-Velocity Monetization Architecture"
+
+// Outcome-focused benefits
+const outcomes = [
   {
-    title: 'Modern Tech Stack',
-    description: 'Built with Next.js 15, React 19, TypeScript, and Tailwind CSS. Lightning-fast performance with server components and edge runtime for maximum speed.',
-    icon: Code,
-    colSpan: 2 as const,
-    rowSpan: 2 as const,
-    bgImage: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=90'
+    title: "Monetization Velocity",
+    description: "We engineer platforms that don't just exist—they sell. Every interaction is architected to maximize customer lifetime value.",
+    icon: DollarSign,
+    metric: "347%",
+    metricLabel: "Average ROI"
   },
   {
-    title: 'Lightning Performance',
-    description: '95+ PageSpeed scores guaranteed. Optimized images, code splitting, and lazy loading for sub-second page loads.',
+    title: "Clinical Performance",
+    description: "Every millisecond counts. We deliver sub-2s load times across global nodes, ensuring zero conversion leakage due to latency.",
     icon: Zap,
-    colSpan: 1 as const
+    metric: "<2s",
+    metricLabel: "Node Latency"
   },
   {
-    title: 'Enterprise Security',
-    description: 'SSL encryption, DDoS protection, regular security audits, and 99.9% uptime SLA. Your data stays safe.',
-    icon: Shield,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Scalable Architecture',
-    description: 'Infrastructure built to grow with your business. From MVP to enterprise scale without rebuilding.',
-    icon: Rocket,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Analytics & Tracking',
-    description: 'Comprehensive analytics integration. Track user behavior, conversions, and optimize based on real data.',
-    icon: BarChart,
-    colSpan: 1 as const
-  },
-  {
-    title: 'User-Centered Design',
-    description: 'Interfaces designed for your users. Intuitive navigation, accessible, and conversion-optimized.',
-    icon: Users,
-    colSpan: 2 as const
+    title: "Industrial Uptime",
+    description: "Your business never sleeps. Our serverless architecture scales to infinite traffic with 99.99% forensic reliability.",
+    icon: Server,
+    metric: "99.99%",
+    metricLabel: "Uptime SLA"
   }
 ]
 
-const processSteps = [
-  {
-    number: '01',
-    title: 'Discovery & Strategy',
-    description: 'We start by deeply understanding your business goals, target audience, and competitive landscape. Through stakeholder interviews and market research, we define project scope, technical requirements, and success metrics. This phase ensures we build the right solution.',
-    tags: ['Business Analysis', 'Competitor Research', 'User Personas', 'Technical Roadmap']
-  },
-  {
-    number: '02',
-    title: 'Design & Prototyping',
-    description: 'Create stunning, conversion-focused designs with interactive prototypes. We develop wireframes, high-fidelity UI designs, and clickable prototypes to validate the user experience before writing any code. This includes complete design systems for consistency.',
-    tags: ['Wireframes', 'UI/UX Design', 'Interactive Prototypes', 'Design System']
-  },
-  {
-    number: '03',
-    title: 'Development & Integration',
-    description: 'Our developers write clean, scalable code using modern frameworks and best practices. We build responsive frontends, robust backends, integrate third-party APIs, and implement your CMS. Everything is version-controlled and documented.',
-    tags: ['Frontend Development', 'Backend APIs', 'CMS Integration', 'Third-party APIs']
-  },
-  {
-    number: '04',
-    title: 'Testing & Quality Assurance',
-    description: 'Rigorous testing across all devices, browsers, and performance metrics. We conduct cross-browser testing, performance optimization, security audits, and user acceptance testing to ensure everything works flawlessly.',
-    tags: ['Cross-browser Testing', 'Performance Testing', 'Security Audit', 'User Testing']
-  },
-  {
-    number: '05',
-    title: 'Launch & Ongoing Support',
-    description: 'Smooth deployment with zero downtime, followed by monitoring and optimization. We provide training documentation, ongoing maintenance, security updates, and technical support to keep your website running perfectly.',
-    tags: ['Deployment', 'Monitoring Setup', 'Analytics Integration', 'Maintenance']
-  }
+// Social proof metrics
+const socialProof = [
+  { value: "$47M+", label: "Capital Processed" },
+  { value: "2.8M+", label: "Visitors Converted" },
+  { value: "156%", label: "Conversion Lift" },
+  { value: "Elite", label: "Engine Status" }
 ]
 
-const faqs = [
+// Transformation roadmap
+const transformation = [
   {
-    question: 'How long does custom web development take?',
-    answer: 'Timeline depends on project complexity and scope. Simple marketing websites take 4-6 weeks from kickoff to launch. Medium-complexity web applications with custom features require 8-12 weeks. Large-scale enterprise platforms can take 16+ weeks. We provide detailed project timelines with milestones during the discovery phase and keep you updated with weekly progress reports.'
+    phase: "Phase 01",
+    title: "Conversion Audit",
+    outcome: "We surgically identify leakage points in your current funnel and map a blueprint for aggressive revenue capture.",
+    deliverables: ["Logic Leak Audit", "Revenue Mapping", "Stack Blueprint"]
   },
   {
-    question: 'What technologies do you use for web development?',
-    answer: 'We use modern, battle-tested technologies: Next.js and React for frontend, Node.js or Python for backend, PostgreSQL or MongoDB for databases, and host on Vercel, AWS, or Google Cloud. For CMS, we work with Sanity, Contentful, or Strapi. We choose the tech stack based on your specific needs, team capabilities, and scalability requirements.'
+    phase: "Phase 02",
+    title: "Platform Engineering",
+    outcome: "We deploy our proprietary 'Revenue Engine' primitives, building a sub-second, conversion-first infrastructure.",
+    deliverables: ["Engine Core Build", "API Orchestration", "Stress Testing"]
   },
   {
-    question: 'Do you build custom web applications or just websites?',
-    answer: 'We build both! We create everything from marketing websites and e-commerce stores to complex web applications like SaaS platforms, customer portals, booking systems, and enterprise tools. Our team has experience with real-time features, payment processing, complex workflows, and integrations with any third-party API or service.'
-  },
-  {
-    question: 'Will my website be mobile-responsive?',
-    answer: 'Absolutely! Every website we build is fully responsive and mobile-first. With over 60% of web traffic coming from mobile devices, we design and develop for mobile screens first, then scale up to tablets and desktops. We test on real devices (iPhone, Android, iPad) to ensure perfect display and functionality across all screen sizes.'
-  },
-  {
-    question: 'Can you redesign or modernize my existing website?',
-    answer: 'Yes! We specialize in website redesigns and migrations. We analyze your current site, preserve SEO value through proper redirects, improve user experience based on analytics data, and modernize the design and technology. We can migrate from any platform (WordPress, Wix, Squarespace, custom code) to a modern tech stack while maintaining all your content and improving performance.'
-  },
-  {
-    question: 'Do you offer ongoing maintenance and support?',
-    answer: 'Yes! We offer comprehensive maintenance packages including: security updates and patches, performance monitoring and optimization, content updates, bug fixes, feature enhancements, 24/7 uptime monitoring, and priority technical support. Packages start at $500/month and scale based on your needs.'
-  },
-  {
-    question: 'Can you integrate with my existing tools and systems?',
-    answer: 'Absolutely! We have extensive experience integrating websites with CRMs (Salesforce, HubSpot), payment gateways (Stripe, PayPal), marketing tools (Mailchimp, ActiveCampaign), analytics (Google Analytics, Mixpanel), and any REST or GraphQL API. If you have a custom system, we can build secure integrations using webhooks, OAuth, or direct API connections.'
-  },
-  {
-    question: 'What is your pricing for web development projects?',
-    answer: 'Pricing varies based on complexity, features, and timeline. Simple marketing websites start around $10,000. Medium-complexity applications range from $25,000-$75,000. Enterprise platforms start at $100,000+. We provide detailed estimates after understanding your requirements. Use our online estimator tool for an instant ballpark figure, or schedule a consultation for a detailed quote.'
+    phase: "Phase 03",
+    title: "Velocity Scale",
+    outcome: "The engine is live. We implement live telemetry and iterative optimization to compound your growth indefinitely.",
+    deliverables: ["Live Telemetry", "Recursive Growth", "Global Locking"]
   }
-]
-
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'Web Development', href: '/services/web-development' }
 ]
 
 export default function WebDevelopmentPage() {
   return (
-    <main className="min-h-screen bg-background selection:bg-blue-500/30">
-      {/* Structured Data */}
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-orange-500/30">
       <ServiceSchema
-        name="Web Development Services"
-        description="Custom web development services including websites, web applications, e-commerce, and SaaS platforms. Built with Next.js, React, and modern frameworks for maximum performance and scalability."
+        name={`${PRODUCT_NAME} - Elite Web Engineering by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Premium web development for businesses serious about dominating their market. Sub-2-second performance, 3X conversion rates, industrial-scale infrastructure.`}
         serviceType="Web Development"
-        ratingValue={4.9}
-        reviewCount={127}
-      />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
-
-      <Navigation />
-
-
-
-
-
-      <HeroPremium
-        title="Websites That Drive"
-        highlight="Real Results"
-        description="Lightning-fast, scalable applications built with cutting-edge technology stacks like Next.js and React. Custom web development that converts visitors into customers—fast, secure, and built to scale with your business."
-        badgeText="Web Development"
-        themeColor="blue"
-        backgroundImage={serviceImage}
-        pattern="Circuit"
+        ratingValue={5.0}
+        reviewCount={68}
       />
 
-      <div className="container mx-auto px-6 pt-4">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      <AdvancedNavigation />
 
-      {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-12 items-center"
-          >
-            <div>
-              <h2 className="text-4xl font-bold mb-6">Why Professional Web Development Matters</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                {/* GAIO: Quotable Definition Box */}
-                <blockquote className="llm-quotable border-l-4 border-blue-500 bg-blue-500/5 p-6 rounded-r-lg not-italic mb-8">
-                  <p className="text-xl font-medium text-foreground m-0">
-                    "Modern web development is the strategic engineering of high-performance, secure, and scalable digital ecosystems that serve as the primary growth engine for enterprise business."
-                  </p>
-                </blockquote>
-
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Your website is your digital storefront, working 24/7 to attract and convert customers. In today's competitive landscape,
-                  <strong> a poorly designed or slow website costs you business</strong>. Studies show that 53% of mobile users abandon sites
-                  that take longer than 3 seconds to load, and 88% won't return after a bad experience.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Professional web development isn't just about making things look good—it's about creating high-performance, secure, and
-                  scalable digital experiences that drive measurable ROI. Our team builds websites and web applications using cutting-edge
-                  technologies like Next.js, React, and TypeScript, ensuring your site is fast, maintainable, and future-proof.
-                </p>
-              </div>
-            </div>
-
-            {/* Signature Interaction: Live Code Terminal */}
-            <div className="hidden lg:block relative">
-              <div className="absolute -inset-4 bg-blue-500/20 rounded-full blur-3xl opacity-20 pointer-events-none" />
-              <WebDevTerminal />
-            </div>
-          </motion.div>
+      {/* Hero Section */}
+      <section className="relative min-h-[100svh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-gradient-mesh">
+        {/* Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
         </div>
-      </section>
 
-      <BentoGrid
-        title="Built for Performance & Scale"
-        subtitle="Modern web development with enterprise-grade infrastructure and best practices."
-        items={features}
-        themeColor="blue"
-      />
-
-      <ProcessTimeline />
-
-      {/* Pricing Calculator Section */}
-      <section className="py-24 px-6 bg-secondary/5">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Transparent Pricing</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Get an instant estimate for your project. No hidden fees, just clear value.
-            </p>
-          </motion.div>
-          <PricingCalculator />
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-[5%] right-[5%] w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute bottom-[5%] left-[5%] w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] animate-pulse-slow" />
         </div>
-      </section>
 
-      {/* Comparison Table Section */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-6xl">
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-5xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Choose Your Growth Plan</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Scalable packages designed to grow with your business.
-            </p>
-          </motion.div>
-          <ComparisonTable />
-        </div>
-      </section>
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-5 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-orange-500/20 shadow-[0_0_20px_rgba(234,88,12,0.1)] mb-8"
+            >
+              <Cpu className="w-4 h-4 text-orange-400" />
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-orange-400">
+                Engineering System: {PRODUCT_NAME}
+              </span>
+            </motion.div>
 
-      {/* Video Testimonials Section */}
-      <section className="py-32 px-6 bg-secondary/5">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">Client Success Stories</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Hear directly from the founders and leaders we've helped grow.
-            </p>
-          </motion.div>
-          <VideoTestimonials />
-        </div>
-      </section>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-4xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter uppercase leading-[0.85] italic"
+            >
+              The Revenue<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-600 to-red-600">
+                Engine™
+              </span>
+            </motion.h1>
 
-      {/* FAQ Section */}
-      <section className="py-32 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted-foreground">
-              Everything you need to know about our web development services
-            </p>
-          </motion.div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-base md:text-xl font-bold tracking-[0.4em] text-orange-500 uppercase italic mb-8"
+            >
+              {PRODUCT_TAGLINE}
+            </motion.p>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.details
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-blue-500/50 transition-colors"
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-tight mb-12 font-light"
+            >
+              We build <strong className="text-white font-black italic">industrial-scale platforms</strong> that convert traffic into capital with surgical precision.
+              <br />
+              <span className="text-white font-black underline decoration-orange-500 underline-offset-8">Latency is your quietest competitor.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
+            >
+              <Link
+                href="/contact?plan=revenue-system"
+                className="group relative px-10 py-5 rounded-xl bg-orange-600 text-white font-black uppercase tracking-widest text-sm hover:bg-orange-500 transition-all hover:scale-105 shadow-2xl shadow-orange-500/20"
               >
-                <summary className="p-6 cursor-pointer list-none font-bold text-lg flex items-center justify-between">
-                  <span>{faq.question}</span>
-                  <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <div className="px-6 pb-6 pt-0 text-muted-foreground">
-                  {faq.answer}
+                <span className="relative z-10 flex items-center gap-3">
+                  <Rocket className="w-5 h-5" />
+                  Start My Engine
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                href="#proof"
+                className="px-10 py-5 rounded-xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-sm hover:bg-white/10 transition-all font-bold"
+              >
+                Inspect Performance
+              </Link>
+            </motion.div>
+
+            {/* Engineering Telemetry */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
                 </div>
-              </motion.details>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Live Proof Section */}
+      <section id="proof" className="py-32 relative bg-[#080808]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-6"
+            >
+              <Activity className="w-4 h-4" /> Live Performance Node
+            </motion.div>
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 leading-none">
+              Clinical <span className="text-zinc-800">Uptime</span>
+            </h2>
+            <p className="text-xl text-zinc-500 max-w-2xl mx-auto uppercase font-bold tracking-widest">
+              Inspect the underlying telemetry of our globally distributed edge infrastructure.
+            </p>
+          </div>
+
+          <SkyPulseDemo />
+
+          <div className="mt-24 grid md:grid-cols-4 gap-6">
+            {[
+              { name: "Next.js", cat: "Monolith Core", desc: "RSC & Partial Prerendering" },
+              { name: "Edge Runtime", cat: "Global Delivery", desc: "0ms Cold Starts" },
+              { name: "Postgres Pro", cat: "Data Integrity", desc: "Forced Persistence" },
+              { name: "Stripe Connect", cat: "Capital Flow", desc: "Global Payment Mesh" }
+            ].map((tech, i) => (
+              <div key={i} className="bg-black border border-white/5 p-6 rounded-2xl hover:border-orange-500/20 transition-all group">
+                <div className="text-orange-500 font-black text-lg mb-2 group-hover:scale-105 transition-transform uppercase italic">{tech.name}</div>
+                <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">{tech.cat}</div>
+                <p className="text-[10px] text-zinc-600 font-medium">{tech.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-blue-500/5" />
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <Rocket className="w-16 h-16 mx-auto mb-6 text-blue-500" />
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Ready to Build Something Amazing?
+      {/* Outcome Benefits */}
+      <section className="py-32 relative overflow-hidden bg-[#050505]">
+        <div className="container mx-auto px-6 mb-24 text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+            The <span className="text-orange-500">Revenue</span> Method
+          </h2>
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
+            We don't build websites. We engineer <strong className="text-white italic">capital amplification systems</strong>.
+          </p>
+        </div>
+
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+            {outcomes.map((outcome, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-orange-500/30 transition-all duration-500"
+              >
+                <div className="p-5 rounded-2xl bg-orange-500/10 border border-orange-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <outcome.icon className="w-8 h-8 text-orange-500" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
+
+                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
+                  <div className="text-5xl font-black text-orange-500 italic tracking-tighter">{outcome.metric}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Transformation Process */}
+      <section id="process" className="py-40 relative bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
+              The <span className="text-orange-500">Engineering</span> Loop
             </h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Let's create a website that drives real business results. Get a free consultation and project estimate.
+            <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+              How we architect your digital dominance.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="h-16 px-10 text-xl rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-xl shadow-blue-500/20">
-                  Get Free Estimate
-                  <ArrowRight className="ml-2 w-6 h-6" />
-                </Button>
-              </Link>
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="h-16 px-10 text-xl rounded-full">
-                  View Our Work
-                </Button>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-orange-500/20 transition-all relative group"
+              >
+                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-orange-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                  Phase {i + 1}
+                </div>
+
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <div className="text-orange-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                  </div>
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {step.deliverables.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500/5 border border-orange-500/10">
+                        <CheckCircle2 className="w-4 h-4 text-orange-500" />
+                        <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-orange-600/5 blur-[120px]" />
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-10"
+              >
+                <Shield className="w-4 h-4" /> Industrial SLA Active
+              </motion.div>
+
+              <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                Start your <span className="text-orange-600">Takeover</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
+                Do not let ancient infrastructure cap your business potential.
+                <br />
+                <strong className="text-white italic">The Revenue Engine is primed.</strong>
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+              >
+                <Code className="w-8 h-8" />
+                Start My Engine
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <RelatedServices currentPath="/services/web-development" />
 
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'Web Development', url: '/services/web-development' }
+        ]}
+      />
+
       <Footer />
-      <StickyCTABar />
     </main>
   )
 }

@@ -36,7 +36,7 @@ export default function CustomCursor() {
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX)
             cursorY.set(e.clientY)
-            if (!isVisible) setIsVisible(true)
+            setIsVisible(true)
         }
 
         const handleMouseDown = () => setIsActive(true)
@@ -65,6 +65,8 @@ export default function CustomCursor() {
         const attachListeners = () => {
             const elements = document.querySelectorAll(interactiveSelectors)
             elements.forEach(el => {
+                el.removeEventListener('mouseenter', handleHoverStart as any)
+                el.removeEventListener('mouseleave', handleHoverEnd)
                 el.addEventListener('mouseenter', handleHoverStart as any)
                 el.addEventListener('mouseleave', handleHoverEnd)
             })
@@ -84,21 +86,21 @@ export default function CustomCursor() {
             window.removeEventListener('mouseup', handleMouseUp)
             observer.disconnect()
         }
-    }, [cursorX, cursorY, isVisible, isMounted])
+    }, [isMounted, cursorX, cursorY]) // Removed isVisible to prevent re-attachment loop
 
     if (!isMounted) return null
 
     return (
-        <div className={cn("fixed inset-0 pointer-events-none z-[9999]", !isVisible && "hidden")}>
-            {/* Main Dot */}
+        <div className={cn("fixed inset-0 pointer-events-none z-[10000]", !isVisible && "hidden")}>
+            {/* Main Precision Dot */}
             <motion.div
-                className="fixed top-0 left-0 w-2 h-2 rounded-full bg-accent z-20"
+                className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#FF4D00] z-20"
                 style={{
                     x: dotX,
                     y: dotY,
                     translateX: '-50%',
                     translateY: '-50%',
-                    boxShadow: '0 0 15px rgba(255,107,53,0.8)'
+                    boxShadow: '0 0 10px rgba(255,107,53,0.4)'
                 }}
                 animate={{
                     scale: isHovering ? 0 : 1,
@@ -106,9 +108,9 @@ export default function CustomCursor() {
                 }}
             />
 
-            {/* Trailing Outer Ring */}
+            {/* Premium Trailing Ring */}
             <motion.div
-                className="fixed top-0 left-0 border border-accent rounded-full z-10 box-border"
+                className="fixed top-0 left-0 border border-[#FF4D00] rounded-full z-10 box-border"
                 style={{
                     x: ringX,
                     y: ringY,
@@ -116,14 +118,14 @@ export default function CustomCursor() {
                     translateY: '-50%',
                 }}
                 animate={{
-                    width: isHovering ? 80 : 30,
-                    height: isHovering ? 80 : 30,
-                    backgroundColor: isHovering ? "rgba(255,107,53,0.05)" : "transparent",
-                    borderColor: isHovering ? "rgba(255,107,53, 0.8)" : "rgba(255,107,53, 0.3)",
-                    borderWidth: isHovering ? 2 : 1,
-                    scale: isActive ? 0.9 : 1
+                    width: isHovering ? 64 : 24,
+                    height: isHovering ? 64 : 24,
+                    backgroundColor: isHovering ? "rgba(255,77,0,0.08)" : "transparent",
+                    borderColor: isHovering ? "rgba(255,77,0, 0.9)" : "rgba(255,77,0, 0.4)",
+                    borderWidth: isHovering ? 1.5 : 1,
+                    scale: isActive ? 0.85 : 1
                 }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.5 }}
             >
                 {/* Text Label inside ring */}
                 <AnimatePresence>
@@ -132,7 +134,8 @@ export default function CustomCursor() {
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
-                            className="absolute inset-0 flex items-center justify-center text-[10px] font-black tracking-[0.2em] text-accent uppercase"
+                            className="absolute inset-0 flex items-center justify-center text-[8px] font-black tracking-[0.25em] text-[#FF4D00] uppercase"
+                            style={{ textShadow: '0 0 10px rgba(255,77,0,0.2)' }}
                         >
                             {hoverText}
                         </motion.span>
@@ -140,9 +143,9 @@ export default function CustomCursor() {
                 </AnimatePresence>
             </motion.div>
 
-            {/* Interaction Glow */}
+            {/* Interaction Aura */}
             <motion.div
-                className="fixed top-0 left-0 w-[150px] h-[150px] bg-accent/10 rounded-full blur-[40px] -z-10"
+                className="fixed top-0 left-0 w-[120px] h-[120px] bg-[#FF4D00]/5 rounded-full blur-[30px] -z-10"
                 style={{
                     x: ringX,
                     y: ringY,
@@ -150,9 +153,10 @@ export default function CustomCursor() {
                     translateY: '-50%',
                 }}
                 animate={{
-                    opacity: isHovering ? 0.3 : 0,
-                    scale: isHovering ? 1.5 : 1
+                    opacity: isHovering ? 0.4 : 0,
+                    scale: isHovering ? 1.2 : 0.8
                 }}
+                transition={{ duration: 0.4 }}
             />
         </div>
     )

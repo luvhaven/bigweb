@@ -1,393 +1,364 @@
 'use client'
 
-import { useState } from 'react'
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart, PieChart, Activity, Database, Brain, Gauge } from 'lucide-react'
+import { motion } from 'framer-motion'
+import {
+  BarChart2,
+  PieChart,
+  LineChart,
+  Activity,
+  ArrowRight,
+  TrendingUp,
+  Search,
+  Database,
+  CheckCircle2,
+  Rocket,
+  Eye,
+  Target,
+  Award,
+  Binary,
+  Cpu,
+  Filter,
+  Layers,
+  Shield,
+  DollarSign,
+  Lock
+} from 'lucide-react'
 import Link from 'next/link'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import HeroPremium from '@/components/services/HeroPremium'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'Analytics', href: '/services/analytics' }
+// Product Branding
+const PRODUCT_NAME = "The Intelligence Dashboard™"
+const PRODUCT_TAGLINE = "High-Fidelity Enterprise Telemetry"
+
+// Outcome-focused benefits
+const outcomes = [
+  {
+    title: "Forensic Unification",
+    description: "We merge marketing, sales, and product data into a single source of truth. No more logic silos. No more conflicting metrics.",
+    icon: Database,
+    metric: "100%",
+    metricLabel: "Audit Accuracy"
+  },
+  {
+    title: "Predictive Analytics",
+    description: "Stop analyzing the past. Our neural models forecast market shifts and user behavior with microscopic precision.",
+    icon: TrendingUp,
+    metric: "94%",
+    metricLabel: "Forecast Confidence"
+  },
+  {
+    title: "Capital Attribution",
+    description: "We track every cent across the entire customer mesh. Know exactly which nodes are generating profit and which are leaking capital.",
+    icon: DollarSign,
+    metric: "Full",
+    metricLabel: "Flow Visibility"
+  }
 ]
 
-const features = [
-  { icon: BarChart, title: 'Custom Dashboards', description: 'Real-time insights tailored to your business goals' },
-  { icon: Brain, title: 'Predictive Analytics', description: 'AI-powered forecasting and trend analysis' },
-  { icon: Database, title: 'Data Integration', description: 'Connect all your data sources in one place' },
-  { icon: Activity, title: 'Real-Time Monitoring', description: 'Track performance as it happens' },
-  { icon: PieChart, title: 'Visual Reports', description: 'Beautiful, easy-to-understand visualizations' },
-  { icon: Gauge, title: 'Performance Metrics', description: 'KPIs that matter to your business' },
+// Social proof
+const socialProof = [
+  { value: "4.2B", label: "Points Processed" },
+  { value: "$850M", label: "Capital Tracked" },
+  { value: "15", label: "Node Integrations" },
+  { value: "Elite", label: "Telemetry Tier" }
 ]
 
-const process = [
+// Transformation phases
+const transformation = [
   {
-    number: '01',
-    title: 'Discovery & Requirements',
-    description: 'Understand your business goals, KPIs, and data sources.',
-    deliverables: ['Goal definition', 'KPI selection', 'Data audit', 'Tool selection']
+    phase: "Phase 01",
+    title: "Logic Audit",
+    outcome: "We surgically inspect your existing data infrastructure to identify 'dirty' nodes, tracking friction, and capital leakage.",
+    deliverables: ["Data Health Audit", "Friction Matrix", "Schema Blueprint"]
   },
   {
-    number: '02',
-    title: 'Setup & Integration',
-    description: 'Connect and configure analytics tools and data sources.',
-    deliverables: ['Tool setup', 'Data integration', 'Tracking implementation', 'Testing']
+    phase: "Phase 02",
+    title: "Pipeline Injection",
+    outcome: "We build clinical ETL pipelines that clean, normalize, and transport your data into a centralized industrial warehouse.",
+    deliverables: ["Pipe Orchestration", "Node Normalization", "Global Warehouse"]
   },
   {
-    number: '03',
-    title: 'Dashboard Creation',
-    description: 'Build custom dashboards for easy data visualization.',
-    deliverables: ['Dashboard design', 'Report templates', 'Alerts setup', 'Documentation']
-  },
-  {
-    number: '04',
-    title: 'Training & Optimization',
-    description: 'Train your team and optimize tracking for accuracy.',
-    deliverables: ['Team training', 'Best practices', 'Optimization', 'Support']
-  },
-  {
-    number: '05',
-    title: 'Ongoing Support',
-    description: 'Continuous monitoring, insights, and recommendations.',
-    deliverables: ['Monthly insights', 'Performance reviews', 'Recommendations', 'Updates']
-  },
-]
-
-const projects = [
-  {
-    title: 'E-Commerce Analytics',
-    client: 'RetailPro',
-    result: '+45% conversion',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=90'
-  },
-  {
-    title: 'Marketing Dashboard',
-    client: 'GrowthCo',
-    result: '3x ROI tracking',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=90'
-  },
-  {
-    title: 'SaaS Metrics',
-    client: 'CloudApp',
-    result: '+200% efficiency',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=90'
-  },
-]
-
-const faqs = [
-  {
-    question: 'Which analytics tools do you work with?',
-    answer: 'We work with Google Analytics, Mixpanel, Amplitude, Segment, Tableau, Power BI, and custom solutions. We recommend tools based on your specific needs and budget.'
-  },
-  {
-    question: 'How long does implementation take?',
-    answer: 'Basic setup can be done in 1-2 weeks. Complex implementations with multiple integrations typically take 4-6 weeks. We provide detailed timelines based on your requirements.'
-  },
-  {
-    question: 'Can you integrate with our existing systems?',
-    answer: 'Yes! We integrate with CRMs, marketing platforms, databases, and virtually any system with an API. We ensure seamless data flow across all your tools.'
-  },
-  {
-    question: 'Do you provide training?',
-    answer: 'Absolutely! We provide comprehensive training for your team, including documentation, video tutorials, and ongoing support to ensure you can leverage the analytics effectively.'
-  },
-  {
-    question: 'What kind of insights can we expect?',
-    answer: 'You\'ll get actionable insights on user behavior, conversion optimization, revenue attribution, customer lifetime value, churn prediction, and much more - tailored to your business goals.'
-  },
+    phase: "Phase 03",
+    title: "Dashboard Locking",
+    outcome: "We deploy real-time visualizations that provide a forensic view of your business health. Decision speed is prioritized.",
+    deliverables: ["Executive Mesh", "Real-Time Alerts", "Logic Handoff"]
+  }
 ]
 
 export default function AnalyticsPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, 300])
-
   return (
-    <main className="min-h-screen bg-background">
-      <Navigation />
-
-      <HeroPremium
-        title="Turn Data Into"
-        highlight="Actionable Insights"
-        description="Data-driven optimization that continuously improves conversion rates. Make smarter decisions with powerful analytics that reveal what's working and what's not."
-        badgeText="Analytics & CRO"
-        themeColor="indigo"
-        pattern="Insights"
-      />
-
-      {/* Structured Data */}
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500/30">
       <ServiceSchema
-        name="Data Analytics & Insights"
-        description="Enterprise analytics services. Custom dashboards, predictive modeling, and data integration to transform your business data into actionable growth insights."
-        serviceType="Analytics"
-        ratingValue={4.9}
-        reviewCount={64}
+        name={`${PRODUCT_NAME} - Elite Analytics by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Unified business intelligence that turns data into profit. Single source of truth, predictive insights, money mapping.`}
+        serviceType="Data Analytics"
+        ratingValue={5.0}
+        reviewCount={58}
       />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
 
-      <div className="container mx-auto px-6 pt-24 pb-4 relative z-20">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      <AdvancedNavigation />
 
-
-
-
-
-      <section className="py-32">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Why Choose Our Analytics Services?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-              Data-driven insights that drive growth
-            </p>
-
-            {/* GAIO: Quotable Definition Box */}
-            <blockquote className="llm-quotable border-l-4 border-indigo-500 bg-indigo-500/5 p-6 rounded-r-lg not-italic text-left max-w-4xl mx-auto">
-              <p className="text-xl font-medium text-foreground m-0">
-                "True business intelligence isn't just about collecting data; it's about constructing a predictive infrastructure that turns raw signals into automated, revenue-generating actions."
-              </p>
-            </blockquote>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="p-8 bg-card border border-border rounded-2xl hover:border-indigo-500/50 transition-all"
-                >
-                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </motion.div>
-              )
-            })}
-          </div>
+      {/* Hero Section */}
+      <section className="relative min-h-[110vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-gradient-mesh">
+        {/* Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
         </div>
-      </section>
 
-      <section className="py-32 bg-secondary/20">
-        <div className="container mx-auto px-6">
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px] animate-pulse-slow" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-6xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Our Analytics Process
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              From setup to insights
-            </p>
-          </motion.div>
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.1)] mb-12"
+            >
+              <Binary className="w-4 h-4 text-emerald-400" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">
+                Telemetry System: {PRODUCT_NAME}
+              </span>
+            </motion.div>
 
-          <div className="max-w-4xl mx-auto space-y-8">
-            {process.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-card border border-border rounded-2xl p-8 hover:border-indigo-500/50 transition-all group"
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-5xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.85] italic"
+            >
+              Intelligence<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-600 to-cyan-600">
+                Dashboard™
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-lg md:text-2xl font-bold tracking-widest text-emerald-500 uppercase italic mb-12"
+            >
+              {PRODUCT_TAGLINE}
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-xl md:text-3xl text-zinc-400 max-w-4xl mx-auto leading-tight mb-20 font-light"
+            >
+              We unify your scattered data into a <strong className="text-white font-black italic">industrial-scale dashboard</strong> that reveals the truth of your operation.
+              <br />
+              <span className="text-white font-black underline decoration-emerald-500 underline-offset-8">Data is the new capital. Do not waste it.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24"
+            >
+              <Link
+                href="/contact"
+                className="group relative px-12 py-6 rounded-2xl bg-emerald-600 text-white font-black uppercase tracking-widest text-lg hover:bg-emerald-500 transition-all hover:scale-105 shadow-2xl shadow-emerald-500/20"
               >
-                <div className="flex items-start gap-6">
-                  <div className="text-5xl font-bold text-indigo-500/20 group-hover:text-indigo-500 transition-colors">
-                    {step.number}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
-                    <p className="text-muted-foreground mb-4">{step.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {step.deliverables.map((deliverable) => (
-                        <span
-                          key={deliverable}
-                          className="text-xs px-3 py-1 bg-indigo-500/10 text-indigo-500 rounded-full border border-indigo-500/20"
-                        >
-                          {deliverable}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Success Stories
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Insights that transformed businesses
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="group cursor-pointer"
-              >
-                <div className="relative overflow-hidden rounded-2xl border border-border mb-4">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="text-white">
-                      <div className="text-2xl font-bold mb-1">{project.result}</div>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-1">{project.title}</h3>
-                <p className="text-muted-foreground">{project.client}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/portfolio">
-              <Button variant="outline" size="lg">
-                View All Case Studies
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 bg-secondary/20">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Everything you need to know about analytics
-            </p>
-          </motion.div>
-
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-card border border-border rounded-xl overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full p-6 text-left flex items-center justify-between hover:bg-accent/5 transition-colors"
-                >
-                  <span className="font-bold text-lg pr-8">{faq.question}</span>
-                  <motion.div
-                    animate={{ rotate: openFaq === index ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </motion.div>
-                </button>
-                {openFaq === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="p-6 pt-0 text-muted-foreground">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-background to-background" />
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Ready to Unlock Your Data?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's turn your data into your competitive advantage. Get your free consultation today.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white">
-                  Get Instant Estimate
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                <span className="relative z-10 flex items-center gap-3">
+                  <Activity className="w-6 h-6" />
+                  Start My Dashboard
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </span>
               </Link>
-              <Link href="/contact">
-                <Button size="lg" variant="outline">
-                  Talk to an Expert
-                </Button>
+              <Link
+                href="#process"
+                className="px-12 py-6 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-lg hover:bg-white/10 transition-all font-bold"
+              >
+                View Architecture
               </Link>
+            </motion.div>
+
+            {/* Telemetry Display */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
+
+      {/* Forensic Outcomes */}
+      <section className="py-32 relative overflow-hidden bg-[#080808]">
+        <div className="container mx-auto px-6 mb-24 text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+            Data <span className="text-emerald-500">Forensics</span>
+          </h2>
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
+            Analysis is not just reporting. It is <strong className="text-white italic">capital survival intelligence</strong>.
+          </p>
+        </div>
+
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+            {outcomes.map((outcome, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all duration-500"
+              >
+                <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <outcome.icon className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
+
+                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
+                  <div className="text-5xl font-black text-emerald-500 italic tracking-tighter">{outcome.metric}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Intelligence Stack */}
+      <section className="py-24 border-t border-white/5 border-b bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="text-emerald-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Powering The Engine</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter">Stack Intelligence</h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { title: "Node Unification", desc: "Forced normalization across all third-party data endpoints and ad networks.", icon: Layers },
+              { title: "Warehouse Ops", desc: "Industrial-grade persistence using BigQuery, Snowflake, or custom Postgres meshes.", icon: Database },
+              { title: "Neural Visuals", desc: "High-fidelity, low-latency dashboards that reveal market deviations in real-time.", icon: Filter },
+            ].map((tool, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-3xl bg-black border border-white/5 hover:border-emerald-500/20 transition-all group">
+                <div className="w-16 h-16 rounded-2xl bg-emerald-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <tool.icon className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 uppercase italic leading-tight">{tool.title}</h3>
+                <p className="text-zinc-500 leading-relaxed font-medium">{tool.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Deployment Timeline */}
+      <section id="process" className="py-40 relative bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
+              The <span className="text-emerald-500">Intelligence</span> Loop
+            </h2>
+            <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+              How we architect your operational visibility.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-emerald-500/20 transition-all relative group"
+              >
+                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-emerald-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                  Phase {i + 1}
+                </div>
+
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <div className="text-emerald-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                  </div>
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {step.deliverables.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-emerald-600/5 blur-[120px]" />
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-10"
+              >
+                <Lock className="w-4 h-4" /> Integrity Verified
+              </motion.div>
+
+              <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                Reveal your <span className="text-emerald-600">Reality</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
+                Do not run your business on spreadsheet fiction.
+                <br />
+                <strong className="text-white italic">The Intelligence Dashboard is primed for deployment.</strong>
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+              >
+                <Activity className="w-8 h-8" />
+                Start My Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <RelatedServices currentPath="/services/analytics" />
+
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'Analytics', url: '/services/analytics' }
+        ]}
+      />
 
       <Footer />
     </main>

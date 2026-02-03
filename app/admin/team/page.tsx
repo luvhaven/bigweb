@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 import { Button } from '@/components/ui/button'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
@@ -27,7 +28,7 @@ export default function TeamAdminPage() {
     const loadMembers = async () => {
         setLoading(true)
         const { data } = await supabase
-            .from('cms_team')
+            .from('cms_team_members')
             .select('*')
             .order('sort_order', { ascending: true })
 
@@ -37,7 +38,7 @@ export default function TeamAdminPage() {
 
     const handleDelete = async (id: string) => {
         if (!confirm('Delete this team member?')) return
-        await supabase.from('cms_team').delete().eq('id', id)
+        await supabase.from('cms_team_members').delete().eq('id', id)
         loadMembers()
     }
 

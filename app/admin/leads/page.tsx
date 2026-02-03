@@ -14,6 +14,8 @@ interface Lead {
     message: string | null
     status: string
     created_at: string
+    website_url?: string
+    pain_point?: string
 }
 export default function LeadsPage() {
     const supabase = createClient()
@@ -27,16 +29,22 @@ export default function LeadsPage() {
 
     async function fetchLeads() {
         const { data } = await supabase
-            .from('cms_leads')
+            .from('contact_submissions')
             .select('*')
-            .order('created_at', { ascending: false })
+            .order('submittedAt', { ascending: false })
 
-        setLeads(data || [])
+        // Map column names if they differ
+        const mappedLeads = (data || []).map((l: any) => ({
+            ...l,
+            created_at: l.submittedAt, // Map internal name
+            type: l.subject || 'Inquiry' // Map subject to type for UI
+        }))
+        setLeads(mappedLeads)
         setLoading(false)
     }
 
     async function updateStatus(id: string, status: string) {
-        await supabase.from('cms_leads').update({ status }).eq('id', id)
+        await supabase.from('contact_submissions').update({ status }).eq('id', id)
         fetchLeads()
     }
 
@@ -51,9 +59,9 @@ export default function LeadsPage() {
     }
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 text-white">
             <div>
-                <h1 className="text-3xl font-bold text-white">Leads</h1>
+                <h1 className="text-3xl font-bold">Leads</h1>
                 <p className="text-zinc-400 mt-1">View and manage contact form submissions</p>
             </div>
 
@@ -105,13 +113,28 @@ export default function LeadsPage() {
                                     {lead.message && (
                                         <p className="text-zinc-400 text-sm mt-3 line-clamp-2">{lead.message}</p>
                                     )}
+                                    {lead.website_url && (
+                                        <div className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 w-fit">
+                                            <span className="text-[10px] font-black text-zinc-500 uppercase">Website:</span>
+                                            <a href={lead.website_url} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:underline flex items-center gap-1">
+                                                {lead.website_url}
+                                                <ExternalLink className="w-3 h-3" />
+                                            </a>
+                                        </div>
+                                    )}
                                     <div className="flex items-center gap-3 mt-3">
                                         <span className="text-xs text-zinc-500">
                                             {new Date(lead.created_at).toLocaleDateString()}
                                         </span>
-                                        <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 capitalize">
+                                        <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${lead.type === 'diagnostic' ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
+                                            }`}>
                                             {lead.type}
                                         </span>
+                                        {lead.pain_point && (
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 italic">
+                                                • {lead.pain_point}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
 

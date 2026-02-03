@@ -1,374 +1,362 @@
 'use client'
 
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import BentoGrid from '@/components/services/BentoGrid'
-import ProcessTimeline from '@/components/services/ProcessTimeline'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
-import { Brain, Zap, TrendingUp, Bot, BarChart, Sparkles, Cog, Target } from 'lucide-react'
 import { motion } from 'framer-motion'
+import {
+  Brain,
+  Lightbulb,
+  Compass,
+  ArrowRight,
+  TrendingUp,
+  Shield,
+  Award,
+  CheckCircle2,
+  Rocket,
+  GitBranch,
+  Network,
+  Cpu,
+  Target,
+  Activity,
+  Lock,
+  Eye,
+  Zap,
+  Key
+} from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
-import NeuralNetworkNode from '@/components/services/NeuralNetworkNode'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const features = [
+// Product Branding
+const PRODUCT_NAME = "The Neural Strategy™"
+const PRODUCT_TAGLINE = "High-Fidelity AI Orchestration"
+
+// Outcome-focused benefits
+const outcomes = [
   {
-    title: 'AI Strategy & Consulting',
-    description: 'Identify high-impact AI opportunities in your business. We assess your processes, data, and goals to create a roadmap for AI transformation that delivers ROI.',
-    icon: Brain,
-    colSpan: 2 as const,
-    rowSpan: 2 as const,
-    bgImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=90'
+    title: "Forensic Roadmap",
+    description: "We surgically identify AI opportunities within your business DNA, providing a clinical path to implementation with zero guesswork.",
+    icon: Compass,
+    metric: "100%",
+    metricLabel: "Clarity Index"
   },
   {
-    title: 'Process Automation',
-    description: 'Automate repetitive tasks, reduce manual work by 80%, and let your team focus on high-value activities.',
-    icon: Zap,
-    colSpan: 1 as const
+    title: "Tactical Implementation",
+    description: "We oversee the full neural rollout, ensuring high-fidelity adoption and permanent competitive advantages in your sector.",
+    icon: Target,
+    metric: "Elite",
+    metricLabel: "Strategy"
   },
   {
-    title: 'AI Chatbots & Assistants',
-    description: '24/7 customer support with intelligent chatbots that understand context and learn from interactions.',
-    icon: Bot,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Predictive Analytics',
-    description: 'Forecast trends, customer behavior, and business outcomes with machine learning models.',
-    icon: BarChart,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Custom AI Models',
-    description: 'Fine-tuned machine learning models trained on your data for specific business needs.',
-    icon: Sparkles,
-    colSpan: 1 as const
-  },
-  {
-    title: 'AI Integration',
-    description: 'Seamlessly integrate AI into your existing systems, workflows, and applications.',
-    icon: Cog,
-    colSpan: 2 as const
+    title: "Capital Amplification",
+    description: "AI is not an expense—it is a revenue engine. We unlock entirely new capital channels through specialized model orchestration.",
+    icon: Key,
+    metric: "$180M+",
+    metricLabel: "Value Unlocked"
   }
 ]
 
-const processSteps = [
-  {
-    number: '01',
-    title: 'AI Opportunity Assessment',
-    description: 'We analyze your business processes, identify bottlenecks, and discover high-impact opportunities for AI automation. Through workshops with your team, we map current workflows and quantify potential time and cost savings from AI implementation.',
-    tags: ['Process Analysis', 'ROI Modeling', 'Use Case Discovery', 'Stakeholder Workshops']
-  },
-  {
-    number: '02',
-    title: 'AI Strategy & Roadmap',
-    description: 'Create a phased AI implementation roadmap aligned with your business goals. We prioritize projects by ROI, complexity, and strategic value. Includes technology recommendations, budget planning, and success metrics.',
-    tags: ['Strategy Development', 'Technology Selection', 'Budget Planning', 'KPI Definition']
-  },
-  {
-    number: '03',
-    title: 'Proof of Concept',
-    description: 'Build and test AI solutions on a small scale to validate feasibility and ROI before full deployment. This de-risks investment and provides concrete data to secure stakeholder buy-in.',
-    tags: ['POC Development', 'Testing & Validation', 'Performance Metrics', 'Stakeholder Demo']
-  },
-  {
-    number: '04',
-    title: 'AI Implementation',
-    description: 'Full-scale development and deployment of AI solutions. We build custom models, integrate with existing systems, train your team, and ensure smooth adoption. Includes comprehensive testing and quality assurance.',
-    tags: ['Model Development', 'System Integration', 'Team Training', 'Quality Assurance']
-  },
-  {
-    number: '05',
-    title: 'Optimization & Scale',
-    description: 'Continuous monitoring, model retraining, and performance optimization. As your data grows and business evolves, we refine AI models to maintain accuracy and expand to new use cases.',
-    tags: ['Performance Monitoring', 'Model Retraining', 'Scaling', 'Continuous Improvement']
-  }
+// Social proof
+const socialProof = [
+  { value: "54", label: "Enterprises Calibrated" },
+  { value: "4.9/5", label: "Protocol Rating" },
+  { value: "85%", label: "Adoption Velocity" },
+  { value: "Elite", label: "Strategy Tier" }
 ]
 
-const faqs = [
+// Transformation phases
+const transformation = [
   {
-    question: 'What types of business problems can AI solve?',
-    answer: 'AI excels at automating repetitive tasks, analyzing large datasets, making predictions, and understanding natural language. Common use cases include: customer service automation (chatbots), document processing, email classification, demand forecasting, personalized recommendations, fraud detection, lead scoring, content generation, and visual quality inspection. If you have a task that requires pattern recognition or involves processing large amounts of data, AI can likely help.'
+    phase: "Phase 01",
+    title: "Neural Mapping",
+    outcome: "We surgically analyze your operational flow to identify logic leakage and high-yield AI integration nodes.",
+    deliverables: ["Neural Radar", "ROI Blueprint", "Risk Lockdown"]
   },
   {
-    question: 'Do I need a data scientist on my team to use AI?',
-    answer: 'No! We handle all the technical complexity for you. We build, train, deploy, and maintain AI models, integrate them into your workflows, and provide user-friendly interfaces for your team. You get the benefits of AI without hiring expensive data science teams. We also provide training and documentation so your team can use and monitor AI systems confidently.'
+    phase: "Phase 02",
+    title: "Validation Loop",
+    outcome: "We build high-fidelity rapid prototypes to verify intent and prove capital viability before global deployment.",
+    deliverables: ["POC Method", "Stress Testing", "Logic Validation"]
   },
   {
-    question: 'How much data do I need to train AI models?',
-    answer: 'It depends on the use case. For many applications, modern AI techniques like transfer learning and few-shot learning require minimal data (sometimes as few as 100-500 examples). We can also use pre-trained models (GPT-4, Claude, custom fine-tuned models) that already understand language and can be adapted to your specific needs with limited data. During our assessment, we evaluate your data quality and quantity and recommend the best approach.'
-  },
-  {
-    question: 'Can AI integrate with our existing software and systems?',
-    answer: 'Yes! We specialize in AI integrations with existing systems. Whether you use Salesforce, Microsoft 365, custom databases, or legacy software, we can connect AI capabilities through APIs, webhooks, or custom connectors. AI can augment your current workflows without requiring complete system overhauls. Common integrations include CRMs, ERPs, help desk software, email systems, and document management platforms.'
-  },
-  {
-    question: 'How long does it take to implement AI solutions?',
-    answer: 'Timeline varies by complexity. Simple automation projects (chatbots, email classification) can be deployed in 6-8 weeks. Medium complexity projects (predictive analytics, custom NLP) take 12-16 weeks. Complex, custom machine learning projects require 20+ weeks. We start with quick wins (2-4 week POCs) to demonstrate value before committing to larger implementations. Most clients see ROI within 6 months.'
-  },
-  {
-    question: 'What is the ROI of AI automation?',
-    answer: 'Our clients typically see 40-60% reduction in time spent on automated tasks, translating to significant cost savings. For example: automating customer support reduces ticket resolution time by 70%, document processing automation saves 20+ hours per week, and predictive analytics improves forecasting accuracy by 25-40%. We provide detailed ROI projections during the strategy phase and track actual savings post-implementation.'
-  },
-  {
-    question: 'Is AI secure? What about data privacy?',
-    answer: 'Security and privacy are paramount. We implement enterprise-grade security: data encryption at rest and in transit, secure access controls, audit logs, and compliance with GDPR, CCPA, and industry-specific regulations (HIPAA for healthcare). We can deploy AI on your private cloud or on-premise for sensitive data. All AI models are trained on your data in secure, isolated environments, and we never share your data with third parties.'
-  },
-  {
-    question: 'What are the costs for AI consulting and implementation?',
-    answer: 'AI consulting starts at $5,000 for initial assessments and strategy development. POC projects range from $15,000-$40,000 depending on complexity. Full implementation projects range from $50,000-$200,000+ for enterprise solutions. Ongoing optimization and support packages start at $2,500/month. We provide detailed cost-benefit analysis showing projected ROI (typically 200-400%) before any implementation begins.'
+    phase: "Phase 03",
+    title: "Structural Rollout",
+    outcome: "We oversee the permanent hard-wiring of AI into your systems, ensuring governed, scalable, and forensic performance.",
+    deliverables: ["Node Deployment", "Governance Mesh", "Telemetry Setup"]
   }
-]
-
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' }
 ]
 
 export default function AIConsultingPage() {
   return (
-    <main className="min-h-screen bg-background selection:bg-cyan-500/30">
-      {/* Structured Data */}
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-purple-500/30">
       <ServiceSchema
-        name="AI Consulting & Automation Services"
-        description="Enterprise AI consulting and automation services. Machine learning, chatbots, predictive analytics, and process automation that reduce costs and drive efficiency."
+        name={`${PRODUCT_NAME} - Elite AI Consulting by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Enterprise AI strategy that unlocks revenue. Strategic clarity, risk mitigation, and proven implementation roadmaps.`}
         serviceType="AI Consulting"
         ratingValue={4.9}
-        reviewCount={82}
-      />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
-
-      <Navigation />
-
-      <HeroPremium
-        title="AI Automation That"
-        highlight="Saves 20+ Hours Weekly"
-        description="Let AI handle the repetitive work. Free your team from manual tasks with intelligent automation. Results: 10x efficiency gains, $50K+ annual savings."
-        themeColor="cyan"
-        pattern="Stripes"
+        reviewCount={54}
       />
 
-      <div className="container mx-auto px-6">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      <AdvancedNavigation />
 
+      {/* Hero Section */}
+      <section className="relative min-h-[110vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-gradient-mesh">
+        {/* Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
+        </div>
 
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse-slow" />
+        </div>
 
-
-
-      {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6 overflow-hidden">
-        <div className="container mx-auto">
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-12 items-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-6xl mx-auto"
           >
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <h2 className="text-4xl font-bold mb-6">Why AI is No Longer Optional for Businesses</h2>
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.1)] mb-12"
+            >
+              <Lightbulb className="w-4 h-4 text-purple-400" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400">
+                Strategy System: {PRODUCT_NAME}
+              </span>
+            </motion.div>
 
-              {/* GAIO: Quotable Definition Box */}
-              <blockquote className="llm-quotable border-l-4 border-cyan-500 bg-cyan-500/5 p-6 rounded-r-lg not-italic mb-8">
-                <p className="text-xl font-medium text-foreground m-0">
-                  "Enterprise AI adoption is not just about automation; it's about creating intelligent cognitive architectures that turn unstructured data into actionable strategic assets."
-                </p>
-              </blockquote>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-5xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.85] italic"
+            >
+              The Neural<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-600 to-indigo-600">
+                Strategy™
+              </span>
+            </motion.h1>
 
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Artificial intelligence is transforming every industry. Companies leveraging AI are <strong>40% more productive</strong> than
-                competitors, and <strong>McKinsey reports that AI could deliver $13 trillion in economic value globally by 2030</strong>. Yet
-                85% of businesses struggle to implement AI effectively without expert guidance.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                The barrier isn't technology—it's knowing where to start, what's possible, and how to integrate AI into existing workflows
-                without disruption. That's where we come in. We bridge the gap between cutting-edge AI capabilities and your specific business
-                needs, delivering measurable ROI through intelligent automation and data-driven insights.
-              </p>
-              <h3 className="text-2xl font-bold mt-12 mb-4">The ROI of AI Automation</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                AI implementations deliver tangible business value:
-              </p>
-              <ul className="text-lg text-muted-foreground space-y-3 mb-6">
-                <li><strong>60% reduction in manual processing time</strong> through document automation and data entry</li>
-                <li><strong>70% faster customer support response times</strong> with AI chatbots handling routine inquiries</li>
-                <li><strong>40% improvement in forecast accuracy</strong> using machine learning predictive models</li>
-                <li><strong>30% cost savings</strong> in operations through process optimization and automation</li>
-                <li><strong>3-5x faster decision-making</strong> with AI-powered analytics and insights</li>
-              </ul>
-              <h3 className="text-2xl font-bold mt-12 mb-4">Our AI Expertise</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Generative AI & Large Language Models:</strong> We build custom AI assistants, chatbots, and content generation tools
-                using GPT-4, Claude, and custom fine-tuned models. Perfect for customer service, knowledge management, and content creation.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Machine Learning & Predictive Analytics:</strong> Custom ML models for forecasting, classification, and anomaly detection.
-                We've built models for demand prediction, customer churn, fraud detection, and quality control.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Computer Vision:</strong> Image classification, object detection, and visual quality inspection. Applications include
-                manufacturing QA, medical imaging analysis, and retail inventory management.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Process Automation:</strong> AI-powered RPA that goes beyond simple scripts. Intelligent document processing, email
-                classification, data extraction, and workflow automation that learns and improves over time.
-              </p>
-            </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-lg md:text-2xl font-bold tracking-widest text-purple-500 uppercase italic mb-12"
+            >
+              {PRODUCT_TAGLINE}
+            </motion.p>
 
-            {/* Signature Interaction: Neural Network Node */}
-            <div className="hidden lg:block relative pl-12 -mt-12">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-              <NeuralNetworkNode />
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-xl md:text-3xl text-zinc-400 max-w-4xl mx-auto leading-tight mb-20 font-light"
+            >
+              We bridge the gap between <strong className="text-white font-black italic">neural potential</strong> and <strong className="text-white font-black italic">industrial profit</strong>.
+              <br />
+              <span className="text-white font-black underline decoration-purple-500 underline-offset-8">Consultation is over. Implementation has begun.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24"
+            >
+              <Link
+                href="/contact"
+                className="group relative px-12 py-6 rounded-2xl bg-purple-600 text-white font-black uppercase tracking-widest text-lg hover:bg-purple-500 transition-all hover:scale-105 shadow-2xl shadow-purple-500/20"
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  <Brain className="w-6 h-6" />
+                  Start My Strategy
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                href="#process"
+                className="px-12 py-6 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-lg hover:bg-white/10 transition-all font-bold"
+              >
+                View Roadmap
+              </Link>
+            </motion.div>
+
+            {/* Strategy Telemetry */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <BentoGrid
-        title="Comprehensive AI Solutions"
-        subtitle="From strategy to implementation, we deliver AI that drives real business outcomes."
-        items={features}
-        themeColor="cyan"
-      />
+      {/* Strategic Outcomes */}
+      <section className="py-32 relative overflow-hidden bg-[#080808]">
+        <div className="container mx-auto px-6 mb-24 text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+            Neural <span className="text-purple-500">Forensics</span>
+          </h2>
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
+            Transformation is not accidental. It is <strong className="text-white italic">surgically architected</strong>.
+          </p>
+        </div>
 
-      <ProcessTimeline
-        steps={processSteps}
-        themeColor="cyan"
-      />
-
-      {/* AI Success Stories */}
-      <section className="py-32 px-6 bg-secondary/5">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">AI Transformations</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Real businesses, measurable results from AI implementation
-            </p>
-          </motion.div>
-
+        <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                stat: '-70%',
-                metric: 'Support Tickets',
-                company: 'SaaS Company',
-                description: 'AI chatbot handles 70% of support inquiries, saving 40 hours/week'
-              },
-              {
-                stat: '+45%',
-                metric: 'Forecast Accuracy',
-                company: 'Retail Chain',
-                description: 'ML-powered demand forecasting reduced inventory costs by $2M annually'
-              },
-              {
-                stat: '20hrs/wk',
-                metric: 'Time Saved',
-                company: 'Legal Firm',
-                description: 'AI document processing automated contract review and data extraction'
-              }
-            ].map((item, index) => (
+            {outcomes.map((outcome, i) => (
               <motion.div
-                key={index}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-8 bg-card border border-border rounded-3xl hover:border-cyan-500/50 transition-colors"
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-purple-500/30 transition-all duration-500"
               >
-                <div className="text-5xl font-bold text-cyan-500 mb-2">{item.stat}</div>
-                <div className="text-xl font-semibold mb-1">{item.metric}</div>
-                <div className="text-sm text-cyan-500 mb-4">{item.company}</div>
-                <p className="text-muted-foreground">{item.description}</p>
+                <div className="p-5 rounded-2xl bg-purple-500/10 border border-purple-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <outcome.icon className="w-8 h-8 text-purple-500" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
+
+                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
+                  <div className="text-5xl font-black text-purple-500 italic tracking-tighter">{outcome.metric}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-32 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted-foreground">
-              Everything you need to know about AI consulting and automation
-            </p>
-          </motion.div>
+      {/* Strategy Stack */}
+      <section className="py-24 border-t border-white/5 border-b bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="text-purple-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Powering The Strategy</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter">Market Intelligence</h2>
+          </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.details
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-cyan-500/50 transition-colors"
-              >
-                <summary className="p-6 cursor-pointer list-none font-bold text-lg flex items-center justify-between">
-                  <span>{faq.question}</span>
-                  <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <div className="px-6 pb-6 pt-0 text-muted-foreground">
-                  {faq.answer}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { title: "Neural Radar", desc: "Clinical identification of competitive threats and technical logic gaps.", icon: Eye },
+              { title: "Governance Mesh", desc: "Forced ethical and technical standards for industrial AI deployment.", icon: Lock },
+              { title: "Logic Primitives", desc: "Hard-wired strategic frameworks designed specifically for Large Language systems.", icon: Zap },
+            ].map((tool, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-3xl bg-black border border-white/5 hover:border-purple-500/20 transition-all group">
+                <div className="w-16 h-16 rounded-2xl bg-purple-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <tool.icon className="w-8 h-8 text-purple-500" />
                 </div>
-              </motion.details>
+                <h3 className="text-xl font-bold text-white mb-2 uppercase italic">{tool.title}</h3>
+                <p className="text-zinc-500 leading-relaxed font-medium">{tool.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-cyan-500/5" />
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <Brain className="w-16 h-16 mx-auto mb-6 text-cyan-500" />
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Ready to Harness AI?
+      {/* Deployment Timeline */}
+      <section id="process" className="py-40 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
+              The <span className="text-purple-500">Neural</span> Loop
             </h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Discover how AI can transform your business. Get a free AI opportunity assessment.
+            <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+              How we architect your digital transformation.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="h-16 px-10 text-xl rounded-full bg-cyan-500 hover:bg-cyan-600 text-white shadow-xl shadow-cyan-500/20">
-                  Get Free AI Assessment
-                  <ArrowRight className="ml-2 w-6 h-6" />
-                </Button>
-              </Link>
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="h-16 px-10 text-xl rounded-full">
-                  View AI Projects
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-purple-500/20 transition-all relative group"
+              >
+                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-purple-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                  Phase {i + 1}
+                </div>
+
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <div className="text-purple-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                  </div>
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {step.deliverables.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/5 border border-purple-500/10">
+                        <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                        <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-purple-600/5 blur-[120px]" />
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-black uppercase tracking-widest mb-10"
+              >
+                <Rocket className="w-4 h-4" /> Vision Locked
+              </motion.div>
+
+              <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                Define your <span className="text-purple-600">Dominance</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
+                Do not settle for AI participation. Engage the strategy that winners use.
+                <br />
+                <strong className="text-white italic">The Neural Strategy is ready to start.</strong>
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+              >
+                <Compass className="w-8 h-8" />
+                Start Strategy
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <RelatedServices currentPath="/services/ai-consulting" />
+
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'AI Consulting', url: '/services/ai-consulting' }
+        ]}
+      />
 
       <Footer />
     </main>

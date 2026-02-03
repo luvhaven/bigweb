@@ -1,366 +1,376 @@
 'use client'
 
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import BentoGrid from '@/components/services/BentoGrid'
-import ProcessTimeline from '@/components/services/ProcessTimeline'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
-import { ShoppingCart, CreditCard, TrendingUp, Shield, Zap, Users, Package, BarChart } from 'lucide-react'
 import { motion } from 'framer-motion'
+import {
+  ShoppingCart,
+  Zap,
+  DollarSign,
+  TrendingUp,
+  Users,
+  Check,
+  ArrowRight,
+  CreditCard,
+  Package,
+  BarChart,
+  Sparkles,
+  Award,
+  CheckCircle2,
+  Rocket,
+  Activity,
+  Shield,
+  Lock,
+  Eye,
+  Globe
+} from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
 import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
+import LuxuryFashionDemo from '@/components/demos/LuxuryFashionDemo'
 
-const features = [
+// Product Branding
+const PRODUCT_NAME = "The Transaction Machine™"
+const PRODUCT_TAGLINE = "High-Fidelity Capital Flow"
+
+// Outcome-focused benefits
+const outcomes = [
   {
-    title: 'Seamless Checkout Experience',
-    description: 'Optimized checkout flows that reduce cart abandonment by 40%. One-click checkout, guest checkout, and saved payment methods for maximum conversions.',
+    title: "Clinical Checkout",
+    description: "We surgically eliminate checkout friction. Every millisecond of delay is a node of lost capital. Our machines convert with zero hesitation.",
     icon: ShoppingCart,
-    colSpan: 2 as const,
-    rowSpan: 2 as const,
-    bgImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=90'
+    metric: "+275%",
+    metricLabel: "Conversion Lift"
   },
   {
-    title: 'Secure Payments',
-    description: 'PCI-compliant payment processing with Stripe, PayPal, and more. SSL encryption and fraud detection.',
-    icon: CreditCard,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Inventory Management',
-    description: 'Real-time stock tracking, low-stock alerts, and automated reordering.',
+    title: "Inventory Forensics",
+    description: "Real-time global synchronization across all commerce channels. We ensure 100% data integrity between physical stock and digital storefronts.",
     icon: Package,
-    colSpan: 1 as const
+    metric: "100%",
+    metricLabel: "Sync Integrity"
   },
   {
-    title: 'Marketing Tools',
-    description: 'Built-in SEO, email marketing integration, abandoned cart recovery, and discount codes.',
-    icon: TrendingUp,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Analytics Dashboard',
-    description: 'Track sales, customers, and product performance with powerful analytics.',
-    icon: BarChart,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Customer Accounts',
-    description: 'User profiles, order history, wishlists, and personalized recommendations.',
-    icon: Users,
-    colSpan: 2 as const
+    title: "Capital Velocity",
+    description: "Industrial-grade payment orchestration. Sub-2-second transaction speed even during global traffic surges. Fast stores generate more capital.",
+    icon: Zap,
+    metric: "<2s",
+    metricLabel: "Flow Speed"
   }
 ]
 
-const processSteps = [
-  {
-    number: '01',
-    title: 'E-Commerce Strategy',
-    description: 'Define your product catalog, pricing strategy, target audience, and competitive positioning. We analyze your market, identify opportunities, and create a comprehensive e-commerce roadmap that aligns with your business goals.',
-    tags: ['Market Research', 'Product Strategy', 'Competitor Analysis', 'Business Planning']
-  },
-  {
-    number: '02',
-    title: 'UX Design & Prototyping',
-    description: 'Design conversion-optimized product pages, checkout flows, and navigation. We create wireframes and prototypes focused on reducing friction and maximizing sales. Every element is designed to guide users toward purchase.',
-    tags: ['UX Design', 'Product Pages', 'Checkout Flow', 'Mobile Design']
-  },
-  {
-    number: '03',
-    title: 'Platform Development',
-    description: 'Build your e-commerce store using Shopify, custom Next.js, or headless commerce solutions. We integrate payment gateways, shipping providers, inventory management, and marketing tools. Everything is mobile-responsive and lightning-fast.',
-    tags: ['Shopify/Custom Build', 'Payment Integration', 'Shipping Setup', 'API Integration']
-  },
-  {
-    number: '04',
-    title: 'Product Upload & Testing',
-    description: 'Migrate or upload your products with optimized descriptions, images, and SEO metadata. Comprehensive testing across devices and payment methods ensures everything works perfectly before launch.',
-    tags: ['Product Migration', 'SEO Optimization', 'Quality Testing', 'Payment Testing']
-  },
-  {
-    number: '05',
-    title: 'Launch & Growth',
-    description: 'Successful launch with marketing support, analytics setup, and conversion tracking. Post-launch, we optimize based on data, run A/B tests, implement abandoned cart recovery, and help you scale revenue.',
-    tags: ['Launch Support', 'Marketing Setup', 'Conversion Optimization', 'Ongoing Growth']
-  }
+// Social proof
+const socialProof = [
+  { value: "$18M+", label: "Capital Flow" },
+  { value: "847K+", label: "Validated Sales" },
+  { value: "68%", label: "Recovery Index" },
+  { value: "Elite", label: "Commerce Tier" }
 ]
 
-const faqs = [
+// Transformation phases
+const transformation = [
   {
-    question: 'Should I use Shopify or build a custom e-commerce site?',
-    answer: 'Shopify is excellent for most businesses—it\'s fast to launch (4-6 weeks), cost-effective, and includes payment processing, hosting, and security. Perfect if you need to launch quickly and have under 10,000 SKUs. Custom e-commerce (built with Next.js + Stripe/Shopify headless) is better when you need unique features, complex integrations, or highly custom user experiences. We recommend Shopify for 70% of projects due to lower cost and faster time-to-market.'
+    phase: "Phase 01",
+    title: "Revenue Forensics",
+    outcome: "We surgically audit your entire funnel to identify logic leaks, friction nodes, and missed upsell opportunities.",
+    deliverables: ["Funnel Audit", "Friction Matrix", "Revenue Blueprint"]
   },
   {
-    question: 'How long does it take to build an e-commerce website?',
-    answer: 'Shopify stores take 4-8 weeks from kickoff to launch for standard setups, or 10-16 weeks for complex customizations and integrations. Custom-built e-commerce platforms require 12-24 weeks depending on features like subscription billing, multi-vendor marketplaces, or custom integrations. We provide detailed timelines with milestones after understanding your product catalog and requirements.'
+    phase: "Phase 02",
+    title: "Conversion Injection",
+    outcome: "We engineer a high-fidelity storefront using our proprietary 'Machine' primitives—optimized for maximum order value.",
+    deliverables: ["Checkout Logic", "Smart Upsells", "Fidelity UX"]
   },
   {
-    question: 'Can you migrate my existing store to a new platform?',
-    answer: 'Yes! We specialize in e-commerce migrations from WooCommerce, Magento, BigCommerce, or custom platforms to Shopify or headless commerce. We migrate all products, customers, orders, and historical data while preserving SEO value through proper redirects. We also improve the design and conversion rate during migration. Typical migrations take 6-12 weeks depending on data volume.'
-  },
-  {
-    question: 'What payment methods can I accept?',
-    answer: 'We integrate all major payment providers: Stripe (credit/debit cards, Apple Pay, Google Pay), PayPal, Square, Authorize.net, and local payment methods (Klarna, Afterpay for BNPL, Alipay for China, etc.). For Shopify, Shopify Payments is included. We also support subscription billing, partial payments, and multi-currency for international sales.'
-  },
-  {
-    question: 'How do you optimize for mobile commerce?',
-    answer: 'With 70% of e-commerce traffic coming from mobile, we design mobile-first. This includes: thumb-friendly navigation, simplified checkout (as few steps as possible), mobile-optimized images, Apple Pay/Google Pay integration, and fast load times (under 2 seconds). We test on real devices (iPhone and Android) to ensure perfect experience across all screen sizes.'
-  },
-  {
-    question: 'Can you help with SEO and digital marketing?',
-    answer: 'Yes! E-commerce SEO is built-in: optimized product titles and descriptions, schema markup for rich snippets, fast page speeds, mobile optimization, and clean URL structure. We also integrate marketing tools: email marketing (Klaviyo, Mailchimp), abandoned cart recovery, SMS marketing, social media pixels (Facebook, TikTok), and Google Analytics. We can also provide ongoing SEO and marketing services post-launch.'
-  },
-  {
-    question: 'How do you handle inventory and order management?',
-    answer: 'We set up comprehensive inventory management: real-time stock tracking across multiple locations, low-stock alerts, automatic order fulfillment workflows, shipping label generation, and integration with fulfillment services (ShipStation, ShipBob). For Shopify, this is built-in. For custom stores, we integrate with enterprise systems like NetSuite or custom warehouse management systems.'
-  },
-  {
-    question: 'What are the costs for e-commerce development?',
-    answer: 'Shopify stores start at $15,000 for basic setup with theme customization, or $30,000-$60,000 for heavily customized stores with unique features. Custom e-commerce platforms start at $75,000 for mid-complexity sites, or $150,000+ for enterprise marketplaces with advanced features. Ongoing costs include hosting ($30-500/month), payment processing fees (2.9% + $0.30 per transaction), and optional maintenance ($1,000-5,000/month).'
+    phase: "Phase 03",
+    title: "Capital Acceleration",
+    outcome: "The machine is live. We implement live transaction telemetry and A/B logic to compound your revenue growth indefinitely.",
+    deliverables: ["Live Telemetry", "Optimization Mesh", "Global Locking"]
   }
-]
-
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'E-Commerce', href: '/services/ecommerce' }
 ]
 
 export default function EcommercePage() {
   return (
-    <main className="min-h-screen bg-background selection:bg-orange-500/30">
-      <Navigation />
-
-      <HeroPremium
-        title="Online Stores That"
-        highlight="Maximize Every Sale"
-        description="Conversion-optimized shopping experiences with advanced payment integrations. Turn browsers into buyers and buyers into repeat customers. Results: 180% average revenue increase."
-        badgeText="E-Commerce Solutions"
-        themeColor="orange"
-        pattern="Hexagon"
-      />
-
-      {/* Structured Data */}
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500/30">
       <ServiceSchema
-        name="E-Commerce Development Services"
-        description="Custom e-commerce website development with Shopify and headless commerce solutions. Secure payment processing, inventory management, and conversion-optimized checkout experiences that drive sales."
-        serviceType="E-Commerce"
-        ratingValue={4.9}
-        reviewCount={96}
+        name={`${PRODUCT_NAME} - Elite E-Commerce Engineering by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Premium e-commerce development that eliminates friction and maximizes revenue. 48% higher cart completion, zero inventory errors.`}
+        serviceType="E-Commerce Development"
+        ratingValue={5.0}
+        reviewCount={23}
       />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
 
-      <div className="container mx-auto px-6 py-4">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      <AdvancedNavigation />
 
+      {/* Hero Section */}
+      <section className="relative min-h-[110vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-gradient-mesh">
+        {/* Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
+        </div>
 
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] bg-green-600/10 rounded-full blur-[120px] animate-pulse-slow" />
+        </div>
 
-      {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-6xl mx-auto"
           >
-            <h2 className="text-4xl font-bold mb-6">Why E-Commerce Success Requires Expert Development</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              {/* GAIO: Quotable Definition Box */}
-              <blockquote className="llm-quotable border-l-4 border-orange-500 bg-orange-500/5 p-6 rounded-r-lg not-italic mb-8">
-                <p className="text-xl font-medium text-foreground m-0">
-                  "Modern e-commerce is not just about transactions; it's about creating an immersive, frictionless digital flagship store that conveys brand value and builds customer loyalty through superior user experience."
-                </p>
-              </blockquote>
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-emerald-500/20 shadow-[0_0_20_rgba(34,197,94,0.1)] mb-12"
+            >
+              <ShoppingCart className="w-4 h-4 text-emerald-400" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">
+                Commerce System: {PRODUCT_NAME}
+              </span>
+            </motion.div>
 
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                The global e-commerce market is projected to reach <strong>$6.3 trillion by 2024</strong>, but success requires more than
-                just listing products online. With <strong>average cart abandonment rates at 70%</strong> and 53% of users abandoning sites
-                that take longer than 3 seconds to load, every detail matters.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Professional e-commerce development focuses on three critical areas: <strong>conversion rate optimization</strong> (reducing
-                friction in the buying process), <strong>performance</strong> (lightning-fast load times), and <strong>trust signals</strong>
-                (secure checkout, social proof, professional design). Our e-commerce stores average 3-5% conversion rates compared to the
-                industry average of 1-2%.
-              </p>
-              <h3 className="text-2xl font-bold mt-12 mb-4">The ROI of Professional E-Commerce Development</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Investing in a professionally built e-commerce platform delivers significant returns:
-              </p>
-              <ul className="text-lg text-muted-foreground space-y-3 mb-6">
-                <li><strong>275% average increase in conversions</strong> through optimized checkout and product pages</li>
-                <li><strong>40% reduction in cart abandonment</strong> with streamlined, mobile-friendly checkout</li>
-                <li><strong>60% increase in average order value</strong> using upsells, cross-sells, and product bundling</li>
-                <li><strong>95+ PageSpeed scores</strong> improve SEO and reduce bounce rates dramatically</li>
-                <li><strong>30% reduction in support tickets</strong> with intuitive UX and self-service features</li>
-              </ul>
-              <h3 className="text-2xl font-bold mt-12 mb-4">Our E-Commerce Development Expertise</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Shopify Development:</strong> We're Shopify experts, building custom themes, integrating apps, and creating unique
-                shopping experiences. Shopify handles hosting, security, and PCI compliance, allowing you to focus on growing sales. Perfect
-                for businesses of all sizes—from startups to enterprises processing millions in revenue.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>Headless Commerce:</strong> For brands requiring custom experiences, we build headless e-commerce using Shopify's
-                Storefront API, Commerce.js, or Stripe. This architecture provides maximum flexibility for unique user experiences while
-                leveraging proven e-commerce backends.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                <strong>B2B E-Commerce:</strong> Custom wholesale portals with tiered pricing, bulk ordering, quote requests, and custom catalogs
-                per customer. Integrate with your ERP and accounting systems for seamless order management.
-              </p>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-5xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.85] italic"
+            >
+              The Transaction<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-600 to-green-600">
+                Machine™
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-lg md:text-2xl font-bold tracking-widest text-emerald-500 uppercase italic mb-12"
+            >
+              {PRODUCT_TAGLINE}
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-xl md:text-3xl text-zinc-400 max-w-4xl mx-auto leading-tight mb-20 font-light"
+            >
+              We engineer <strong className="text-white font-black italic">frictionless commerce engines</strong> that turn global traffic into permanent capital.
+              <br />
+              <span className="text-white font-black underline decoration-emerald-500 underline-offset-8">Browsing is temporary. Transactions are absolute.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24"
+            >
+              <Link
+                href="/contact"
+                className="group relative px-12 py-6 rounded-2xl bg-emerald-600 text-white font-black uppercase tracking-widest text-lg hover:bg-emerald-500 transition-all hover:scale-105 shadow-2xl shadow-emerald-500/20"
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  <DollarSign className="w-6 h-6" />
+                  Launch Machine
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                href="#proof"
+                className="px-12 py-6 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-lg hover:bg-white/10 transition-all font-bold"
+              >
+                Inspect Interface
+              </Link>
+            </motion.div>
+
+            {/* Commerce Telemetry */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <BentoGrid
-        title="Everything You Need to Sell Online"
-        subtitle="Comprehensive e-commerce features that drive conversions and revenue growth."
-        items={features}
-        themeColor="orange"
-      />
-
-      <ProcessTimeline
-        steps={processSteps}
-        themeColor="orange"
-      />
-
-      {/* E-Commerce Success Stories */}
-      <section className="py-32 px-6 bg-secondary/5">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">Stores Driving Real Revenue</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              From $0 to millions in sales with optimized e-commerce
+      {/* Live Experience Section */}
+      <section id="proof" className="py-32 relative bg-[#080808]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6"
+            >
+              <Activity className="w-4 h-4" /> Live Transaction Node
+            </motion.div>
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 leading-none">
+              Frictionless <span className="text-zinc-800">Flow</span>
+            </h2>
+            <p className="text-xl text-zinc-500 max-w-2xl mx-auto uppercase font-bold tracking-widest">
+              Every millisecond of delay is a node of lost capital. We engineer for zero hesitation.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <LuxuryFashionDemo />
+
+          <div className="mt-24 grid md:grid-cols-4 gap-6">
             {[
-              {
-                stat: '+275%',
-                metric: 'Conversion Rate',
-                company: 'Fashion Retailer',
-                description: 'Shopify migration and checkout optimization tripled conversion rate'
-              },
-              {
-                stat: '$2M+',
-                metric: 'Revenue in Year 1',
-                company: 'Beauty Brand',
-                description: 'New DTC brand reached 7 figures within 12 months of launch'
-              },
-              {
-                stat: '-60%',
-                metric: 'Cart Abandonment',
-                company: 'Home Goods Store',
-                description: 'Streamlined checkout and trust signals dramatically reduced abandonment'
-              }
-            ].map((item, index) => (
+              { name: "One-Click Ops", cat: "Checkout Logic", desc: "0-Friction Flow" },
+              { name: "Stripe Connect", cat: "Capital Bridge", desc: "Global Settlement" },
+              { name: "Redis Sync", cat: "Inventory Logic", desc: "100% Data Integrity" },
+              { name: "PCI Vaults", cat: "Security Framework", desc: "Encrypted Transactions" }
+            ].map((tech, i) => (
+              <div key={i} className="bg-black border border-white/5 p-6 rounded-2xl hover:border-emerald-500/20 transition-all group">
+                <div className="text-emerald-500 font-black text-lg mb-2 group-hover:scale-105 transition-transform uppercase italic">{tech.name}</div>
+                <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">{tech.cat}</div>
+                <p className="text-[10px] text-zinc-600 font-medium">{tech.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Outcome Grid */}
+      <section className="py-32 relative overflow-hidden bg-[#050505]">
+        <div className="container mx-auto px-6 mb-24 text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+            The <span className="text-emerald-500">Machine</span> Mesh
+          </h2>
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
+            E-commerce is not a website. It is a <strong className="text-white italic">capital conversion engine</strong>.
+          </p>
+        </div>
+
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+            {outcomes.map((outcome, i) => (
               <motion.div
-                key={index}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-8 bg-card border border-border rounded-3xl hover:border-orange-500/50 transition-colors"
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all duration-500"
               >
-                <div className="text-5xl font-bold text-orange-500 mb-2">{item.stat}</div>
-                <div className="text-xl font-semibold mb-1">{item.metric}</div>
-                <div className="text-sm text-orange-500 mb-4">{item.company}</div>
-                <p className="text-muted-foreground">{item.description}</p>
+                <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <outcome.icon className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
+
+                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
+                  <div className="text-5xl font-black text-emerald-500 italic tracking-tighter">{outcome.metric}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-32 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted-foreground">
-              Everything you need to know about e-commerce development
+      {/* Deployment Timeline */}
+      <section id="process" className="py-40 relative bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
+              The <span className="text-emerald-500">Transaction</span> Loop
+            </h2>
+            <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+              How we architect your digital revenue.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.details
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-orange-500/50 transition-colors"
+          <div className="max-w-4xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-emerald-500/20 transition-all relative group"
               >
-                <summary className="p-6 cursor-pointer list-none font-bold text-lg flex items-center justify-between">
-                  <span>{faq.question}</span>
-                  <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <div className="px-6 pb-6 pt-0 text-muted-foreground">
-                  {faq.answer}
+                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-emerald-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                  Phase {i + 1}
                 </div>
-              </motion.details>
+
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <div className="text-emerald-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                  </div>
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {step.deliverables.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-orange-500/5" />
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <ShoppingCart className="w-16 h-16 mx-auto mb-6 text-orange-500" />
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Ready to Sell More Online?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Launch a high-converting e-commerce store that drives revenue. Get your free consultation and estimate.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="h-16 px-10 text-xl rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-xl shadow-orange-500/20">
-                  Get Free Estimate
-                  <ArrowRight className="ml-2 w-6 h-6" />
-                </Button>
-              </Link>
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="h-16 px-10 text-xl rounded-full">
-                  View E-Commerce Work
-                </Button>
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-emerald-600/5 blur-[120px]" />
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-10"
+              >
+                <Lock className="w-4 h-4" /> Revenue Locked
+              </motion.div>
+
+              <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                Occupy the <span className="text-emerald-600">Checkout</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
+                Do not settle for cart abandonment.
+                <br />
+                <strong className="text-white italic">The Transaction Machine is ready for deployment.</strong>
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+              >
+                <ShoppingCart className="w-8 h-8" />
+                Start My Machine
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <RelatedServices currentPath="/services/ecommerce" />
+
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'E-Commerce', url: '/services/ecommerce' }
+        ]}
+      />
 
       <Footer />
     </main>

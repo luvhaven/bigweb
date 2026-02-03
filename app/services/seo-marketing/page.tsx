@@ -1,407 +1,672 @@
 'use client'
 
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import BentoGrid from '@/components/services/BentoGrid'
-import ProcessTimeline from '@/components/services/ProcessTimeline'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
-import { Search, TrendingUp, Link as LinkIcon, BarChart, Target, Globe, FileText, Zap, Bot } from 'lucide-react'
 import { motion } from 'framer-motion'
+import {
+    Megaphone,
+    Globe,
+    Radio,
+    Eye,
+    ArrowRight,
+    Target,
+    Users,
+    Award,
+    CheckCircle2,
+    Rocket,
+    Zap,
+    Layout,
+    Share2
+} from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
-import SEORankClimber from '@/components/services/SEORankClimber'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const features = [
+// Product Branding
+const PRODUCT_NAME = "The Visibility Engine™"
+const PRODUCT_TAGLINE = "Be Everywhere Your Customers Look"
+
+// Outcome-focused benefits
+const outcomes = [
     {
-        title: 'Technical SEO Excellence',
-        description: 'Site speed optimization, Core Web Vitals, mobile-first indexing, structured data, and crawlability improvements. We fix technical issues that block Google from ranking you.',
-        icon: Zap,
-        colSpan: 2 as const,
-        rowSpan: 2 as const,
-        bgImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=90'
+        title: "Brand Omnipresence",
+        description: "We don't just target search terms. We target the entire customer journey, ensuring your brand appears at every touchpoint.",
+        icon: Eye,
+        metric: "100%",
+        metricLabel: "Search Coverage"
     },
     {
-        title: 'Keyword Research',
-        description: 'Data-driven keyword strategy targeting high-intent searches that drive conversions, not just traffic.',
-        icon: Search,
-        colSpan: 1 as const
+        title: "Authority PR",
+        description: "We secure placements in tier-1 industry publications that position you as the thought leader, not just another vendor.",
+        icon: Megaphone,
+        metric: "Tier 1",
+        metricLabel: "Media Placements"
     },
     {
-        title: 'Content Optimization',
-        description: 'SEO-optimized content that ranks and converts. We balance search algorithms with human readability.',
-        icon: FileText,
-        colSpan: 1 as const
-    },
-    {
-        title: 'Link Building',
-        description: 'White-hat backlink acquisition from high-authority sites. Quality over quantity for sustainable rankings.',
-        icon: LinkIcon,
-        colSpan: 1 as const
-    },
-    {
-        title: 'Local SEO',
-        description: 'Dominate local search with Google Business Profile optimization and local citation building.',
-        icon: Globe,
-        colSpan: 1 as const
-    },
-    {
-        title: 'Analytics & Reporting',
-        description: 'Track rankings, traffic, conversions, and ROI with comprehensive monthly reports and dashboards.',
-        icon: BarChart,
-        colSpan: 2 as const
+        title: "Multi-Channel Synergy",
+        description: "Your SEO content doesn't just sit there. We repurpose and amplify it across social, email, and video channels.",
+        icon: Share2,
+        metric: "4X",
+        metricLabel: "Content Reach"
     }
 ]
 
-const processSteps = [
-    {
-        number: '01',
-        title: 'SEO Audit & Analysis',
-        description: 'Comprehensive technical SEO audit identifying issues blocking your rankings. We analyze site speed, mobile usability, indexation, schema markup, and on-page SEO. Includes competitor analysis and keyword gap research to find opportunities.',
-        tags: ['Technical Audit', 'Competitor Analysis', 'Keyword Research', 'Performance Review']
-    },
-    {
-        number: '02',
-        title: 'Strategy Development',
-        description: 'Create a custom SEO roadmap with prioritized actions based on impact and effort. Includes keyword targeting strategy, content calendar, technical fixes, and link building plan. All aligned with your business goals and conversion metrics.',
-        tags: ['SEO Strategy', 'Keyword Mapping', 'Content Planning', 'Goal Setting']
-    },
-    {
-        number: '03',
-        title: 'On-Page Optimization',
-        description: 'Optimize existing pages and create new SEO-optimized content. We improve title tags, meta descriptions, headers, internal linking, and content quality. Every page is optimized for target keywords while maintaining readability and user experience.',
-        tags: ['Content Optimization', 'Meta Tags', 'Internal Linking', 'Schema Markup']
-    },
-    {
-        number: '04',
-        title: 'Technical Implementation',
-        description: 'Fix technical SEO issues: improve site speed, implement structured data, optimize for Core Web Vitals, fix crawl errors, and ensure mobile-friendliness. We work with your dev team or handle implementation ourselves.',
-        tags: ['Speed Optimization', 'Structured Data', 'Mobile Optimization', 'Technical Fixes']
-    },
-    {
-        number: '05',
-        title: 'Link Building & Growth',
-        description: 'Build high-quality backlinks through digital PR, guest posting, content partnerships, and outreach. Continuous monitoring, ranking tracking, and optimization based on data. Monthly reporting on progress and ROI.',
-        tags: ['Link Acquisition', 'Digital PR', 'Ranking Monitoring', 'Monthly Reporting']
-    }
+// Social proof
+const socialProof = [
+    { value: "65M+", label: "Impressions Generated" },
+    { value: "450+", label: "PR Features" },
+    { value: "3X", label: "Brand Search Vol" },
+    { value: "89%", label: "Market Share Won" }
 ]
 
-const faqs = [
+// Transformation phases
+const transformation = [
     {
-        question: 'How long does it take to see SEO results?',
-        answer: 'SEO is a long-term investment. You\'ll typically see initial improvements in 3-4 months (technical fixes and quick wins), significant ranking gains in 6-9 months, and full ROI in 12-18 months. However, some competitive keywords can take 18-24 months to rank on page 1. The timeline depends on your industry competitiveness, current site authority, and budget. We provide realistic timelines during the audit phase and show progress with monthly ranking reports.'
+        phase: "Month 1",
+        title: "Visibility Mapping",
+        outcome: "We identify exactly where your customers spend time and what questions they ask before buying.",
+        deliverables: ["Touchpoint map", "Content calendar", "PR strategy"]
     },
     {
-        question: 'What is the difference between SEO and paid search (PPC)?',
-        answer: 'SEO (organic search) builds long-term visibility through ranking your website naturally in search results—you don\'t pay per click. It takes time but delivers sustainable traffic with better ROI long-term. PPC (Google Ads) provides immediate visibility but stops when you stop paying. We recommend a balanced approach: use PPC for immediate results while building SEO for long-term cost-effective traffic. SEO typically has 5-10x better ROI than PPC over 2+ years.'
+        phase: "Month 2-4",
+        title: "Content Amplification",
+        outcome: "We deploy high-impact content and amplify it through digital PR, social channels, and strategic syndication.",
+        deliverables: ["Press releases", "Guest posts", "Social assets"]
     },
     {
-        question: 'Do you guarantee #1 rankings on Google?',
-        answer: 'No ethical SEO agency can guarantee #1 rankings—Google\'s algorithm has 200+ ranking factors and changes constantly. However, we guarantee measurable progress: improved rankings for target keywords, increased organic traffic, and better visibility in search results. Our average client sees: 150% traffic increase in year 1, 5-10 page-1 rankings within 12 months, and 3x ROI. We provide detailed reporting to track progress toward your SEO goals.'
-    },
-    {
-        question: 'Can you help with local SEO for my business?',
-        answer: 'Yes! Local SEO is one of our specialties. We optimize your Google Business Profile, build local citations (Yelp, Yellow Pages, etc.), generate reviews, create location-specific content, and implement local schema markup. We also optimize for "near me" searches and ensure NAP (Name, Address, Phone) consistency across the web. Perfect for restaurants, retail stores, service businesses, and multi-location companies.'
-    },
-    {
-        question: 'What is technical SEO and why does it matter?',
-        answer: 'Technical SEO ensures search engines can crawl, index, and understand your website. It includes: site speed optimization (Core Web Vitals), mobile-friendliness, SSL security, XML sitemaps, robots.txt, structured data (schema markup), fixing crawl errors, and canonical URLs. Without solid technical SEO, even great content won\'t rank well. We fix technical issues first before content optimization—it\'s the foundation of successful SEO.'
-    },
-    {
-        question: 'How do you build backlinks without violating Google guidelines?',
-        answer: 'We use only white-hat link building strategies: creating linkable assets (original research, infographics, tools), digital PR and journalist outreach (HARO, press releases), guest posting on relevant industry sites, broken link building, and content partnerships. We NEVER buy links, use link farms, or employ black-hat tactics. Every link is from a real, relevant website with editorial control. Quality and relevance matter more than quantity.'
-    },
-    {
-        question: 'Do you offer content writing services?',
-        answer: 'Yes! Our SEO packages include content optimization and creation. We write SEO-optimized blog posts, landing pages, product descriptions, and cornerstone content. Our writers understand both search algorithms and user intent—content ranks well AND converts. We conduct keyword research, create content briefs, write drafts, and optimize with proper headers, meta tags, and internal links. Content packages start at $500/post.'
-    },
-    {
-        question: 'What are your SEO service pricing and packages?',
-        answer: 'SEO pricing depends on industry competitiveness and scope. Small business SEO starts at $2,000/month (local SEO, 5-10 pages). Mid-market SEO ranges from $4,000-$8,000/month (national SEO, content creation, link building). Enterprise SEO starts at $10,000/month (large sites, competitive industries, multiple locations). We also offer project-based SEO audits ($2,500-$5,000) and one-time technical SEO fixes. All packages include monthly reporting and quarterly strategy reviews.'
+        phase: "Month 5+",
+        title: "Brand Ubiquity",
+        outcome: "Your brand becomes unavoidable. Customers see you in search, social media, and industry news.",
+        deliverables: ["Trend jacking", "Thought leadership", "Brand protection"]
     }
-]
-
-const breadcrumbItems = [
-    { label: 'Services', href: '/services' },
-    { label: 'SEO & Marketing', href: '/services/seo-marketing' }
 ]
 
 export default function SEOMarketingPage() {
     return (
-        <main className="min-h-screen bg-background selection:bg-emerald-500/30">
-            {/* Structured Data */}
+        <main className="min-h-screen" style={{ backgroundColor: '#0A0A0A', color: '#FFFFFF' }}>
             <ServiceSchema
-                name="SEO & Digital Marketing Services"
-                description="Professional SEO services and digital marketing that drive organic traffic and first-page Google rankings. Technical SEO, content optimization, link building, and local SEO expertise."
-                serviceType="SEO Marketing"
-                ratingValue={4.9}
-                reviewCount={128}
-            />
-            <FAQSchema faqs={faqs} />
-            <BreadcrumbSchema items={[
-                { name: 'Home', url: 'https://bigwebdigital.com' },
-                ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-            ]} />
-
-            <Navigation />
-
-            <HeroPremium
-                title="SEO That Gets You"
-                highlight="Found on Google"
-                description="Rank #1 for keywords that matter. Drive organic traffic, leads, and revenue with data-driven SEO."
-                themeColor="emerald"
-                pattern="Data"
+                name={`${PRODUCT_NAME} - Elite SEO Marketing by BIGWEB`}
+                description={`${PRODUCT_TAGLINE}. Omnipresent brand authority across all channels. 100% search coverage, Tier 1 PR placements, multi-channel synergy.`}
+                serviceType="Digital Marketing"
+                ratingValue={5.0}
+                reviewCount={38}
             />
 
-            <div className="container mx-auto px-6">
-                <Breadcrumbs items={breadcrumbItems} />
-            </div>
+            <AdvancedNavigation />
 
-
-
-            {/* GAIO Cross-Sell */}
-            <section className="container mx-auto px-6 py-4">
-                <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                            <Bot className="w-6 h-6 text-purple-400" />
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-bold text-white">Looking for AI Search Optimization?</h3>
-                            <p className="text-sm text-muted-foreground">Optimize your brand for ChatGPT, Gemini, and Perplexity.</p>
-                        </div>
-                    </div>
-                    <Link href="/services/gaio">
-                        <Button variant="outline" className="border-purple-500/50 hover:bg-purple-500/10 text-purple-400">
-                            Explore GAIO Services <ArrowRight className="ml-2 w-4 h-4" />
-                        </Button>
-                    </Link>
+            {/* Hero Section */}
+            <section
+                className="relative flex items-center justify-center overflow-hidden"
+                style={{
+                    minHeight: '100vh',
+                    paddingTop: '10rem',
+                    paddingBottom: '6rem',
+                    backgroundColor: '#0A0A0A'
+                }}
+            >
+                {/* Background Effects */}
+                <div className="absolute inset-0" style={{ opacity: 0.03 }}>
+                    <div className="absolute inset-0 bg-[url('/grid.svg')]" />
                 </div>
-            </section>
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 0%, rgba(217,70,239,0.12), transparent 60%)'
+                    }}
+                />
 
+                {/* Floating orbs */}
+                <div
+                    className="absolute rounded-full blur-3xl"
+                    style={{
+                        top: '15%',
+                        left: '10%',
+                        width: '30rem',
+                        height: '30rem',
+                        backgroundColor: 'rgba(217,70,239,0.08)',
+                        animation: 'float 20s ease-in-out infinite'
+                    }}
+                />
+                <div
+                    className="absolute rounded-full blur-3xl"
+                    style={{
+                        bottom: '10%',
+                        right: '10%',
+                        width: '25rem',
+                        height: '25rem',
+                        backgroundColor: 'rgba(192,38,211,0.06)',
+                        animation: 'float 25s ease-in-out infinite reverse'
+                    }}
+                />
 
-
-            {/* Extended Content Section for SEO */}
-            <section className="py-24 px-6 overflow-hidden">
-                <div className="container mx-auto">
+                {/* Content */}
+                <div className="relative container mx-auto px-6 text-center" style={{ zIndex: 10 }}>
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="grid lg:grid-cols-2 gap-12 items-center"
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                        className="max-w-6xl mx-auto"
                     >
-                        <div className="prose prose-lg dark:prose-invert max-w-none">
-                            <h2 className="text-4xl font-bold mb-6">Why SEO is the Most Cost-Effective Marketing Channel</h2>
+                        {/* Product Badge */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2, duration: 0.6 }}
+                            className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md mb-10"
+                            style={{
+                                backgroundColor: 'rgba(255,255,255,0.03)',
+                                border: '1px solid rgba(217,70,239,0.2)',
+                                boxShadow: '0 8px 32px rgba(217,70,239,0.1)'
+                            }}
+                        >
+                            <Award className="w-5 h-5" style={{ color: '#D946EF' }} />
+                            <span style={{
+                                color: '#D946EF',
+                                fontSize: '0.8125rem',
+                                fontWeight: '700',
+                                letterSpacing: '0.15em',
+                                textTransform: 'uppercase'
+                            }}>
+                                Introducing {PRODUCT_NAME}
+                            </span>
+                        </motion.div>
 
-                            {/* GAIO: Quotable Definition Box */}
-                            <blockquote className="llm-quotable border-l-4 border-emerald-500 bg-emerald-500/5 p-6 rounded-r-lg not-italic mb-8">
-                                <p className="text-xl font-medium text-foreground m-0">
-                                    "SEO is no longer just about ranking for keywords; it's about owning the semantic entities related to your brand and becoming the authoritative source that AI and users trust."
-                                </p>
-                            </blockquote>
+                        {/* Product Headline */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.8 }}
+                            className="font-black tracking-tight mb-6"
+                            style={{
+                                fontSize: 'clamp(2.75rem, 8vw, 6.5rem)',
+                                lineHeight: '0.95',
+                                color: '#FFFFFF',
+                                letterSpacing: '-0.02em'
+                            }}
+                        >
+                            The Visibility<br />
+                            <span
+                                style={{
+                                    background: 'linear-gradient(135deg, #E879F9 0%, #D946EF 50%, #C026D3 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text'
+                                }}
+                            >
+                                Engine™
+                            </span>
+                        </motion.h1>
 
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                <strong>93% of online experiences begin with a search engine</strong>, and <strong>75% of users never scroll past the first page
-                                    of search results</strong>. If your website isn't ranking on page 1 for relevant keywords, you're invisible to potential customers
-                                actively searching for your products or services.
-                            </p>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                SEO delivers the highest ROI of any digital marketing channel. While PPC stops working when you stop paying, SEO builds
-                                sustainable organic traffic that compounds over time. <strong>Organic search drives 53% of all website traffic</strong> and has
-                                a <strong>14.6% close rate compared to 1.7% for outbound leads</strong>. The long-term cost per acquisition is 5-10x lower than
-                                paid advertising.
-                            </p>
-                            <h3 className="text-2xl font-bold mt-12 mb-4">The Business Impact of Professional SEO</h3>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                Our SEO services deliver measurable results:
-                            </p>
-                            <ul className="text-lg text-muted-foreground space-y-3 mb-6">
-                                <li><strong>150% average increase in organic traffic</strong> within the first 12 months</li>
-                                <li><strong>5-10 page-1 rankings</strong> for target keywords by month 9-12</li>
-                                <li><strong>300% increase in qualified leads</strong> from organic search</li>
-                                <li><strong>60% reduction in customer acquisition cost</strong> compared to paid channels</li>
-                                <li><strong>3-5x ROI</strong> in year 2 as organic rankings compound</li>
-                            </ul>
-                            <h3 className="text-2xl font-bold mt-12 mb-4">Our Comprehensive SEO Approach</h3>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                <strong>Technical SEO:</strong> We fix the foundation—site speed, mobile optimization, Core Web Vitals, structured data, and
-                                crawlability. Google can't rank what it can't understand. We ensure your site meets all technical requirements for maximum
-                                visibility.
-                            </p>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                <strong>On-Page SEO:</strong> Every page is optimized for target keywords with compelling titles, meta descriptions, headers,
-                                and content that ranks and converts. We balance search algorithms with user experience—content that reads naturally while
-                                targeting high-value keywords.
-                            </p>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                <strong>Link Building:</strong> High-quality backlinks from authoritative sites signal trust to Google. We build links through
-                                digital PR, content partnerships, and strategic outreach—never black-hat tactics that risk penalties.
-                            </p>
-                            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                <strong>Local SEO:</strong> Dominate local search with optimized Google Business Profile, local citations, reviews, and
-                                location-specific content. Perfect for businesses serving specific geographic areas.
-                            </p>
-                        </div>
+                        {/* Product Tagline */}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4, duration: 0.8 }}
+                            className="mx-auto mb-10"
+                            style={{
+                                fontSize: 'clamp(1.25rem, 2.5vw, 1.875rem)',
+                                color: '#D946EF',
+                                maxWidth: '48rem',
+                                fontWeight: '600',
+                                fontStyle: 'italic'
+                            }}
+                        >
+                            "{PRODUCT_TAGLINE}"
+                        </motion.p>
 
-                        {/* Signature Interaction: Rank Climber */}
-                        <div className="hidden lg:block relative pl-12">
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
-                            <div className="relative z-10">
-                                <div className="text-center mb-8">
-                                    <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-500 px-4 py-1.5 rounded-full text-sm font-medium border border-emerald-500/20 mb-4">
-                                        <TrendingUp className="w-4 h-4" />
-                                        <span>Ranking Simulator</span>
+                        {/* Value Proposition */}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            className="mx-auto leading-relaxed mb-16"
+                            style={{
+                                fontSize: 'clamp(1.125rem, 2.2vw, 1.5rem)',
+                                color: '#D4D4D8',
+                                maxWidth: '52rem',
+                                fontWeight: '400',
+                                lineHeight: '1.6'
+                            }}
+                        >
+                            We engineer <strong style={{ color: '#FFFFFF', fontWeight: '600' }}>total brand ubiquity</strong> that makes you the obvious choice.
+                            Every search. Every platform. Every customer touchpoint.
+                            <br />
+                            <span style={{ color: '#FFFFFF', fontWeight: '600' }}>Be impossible to ignore.</span>
+                        </motion.p>
+
+                        {/* Social Proof */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7, duration: 0.8 }}
+                            className="flex flex-wrap justify-center gap-12 mb-16"
+                        >
+                            {socialProof.map((stat, i) => (
+                                <div key={i} className="text-center">
+                                    <div
+                                        className="font-black mb-2"
+                                        style={{
+                                            fontSize: '2.5rem',
+                                            background: 'linear-gradient(135deg, #E879F9, #D946EF)',
+                                            WebkitBackgroundClip: 'text',
+                                            WebkitTextFillColor: 'transparent',
+                                            backgroundClip: 'text'
+                                        }}
+                                    >
+                                        {stat.value}
                                     </div>
-                                    <h3 className="text-2xl font-bold">Watch Your Rankings Climb</h3>
-                                    <p className="text-muted-foreground mt-2">Where your business belongs.</p>
+                                    <div
+                                        style={{
+                                            fontSize: '0.8125rem',
+                                            color: '#A1A1AA',
+                                            fontWeight: '600',
+                                            letterSpacing: '0.05em',
+                                            textTransform: 'uppercase'
+                                        }}
+                                    >
+                                        {stat.label}
+                                    </div>
                                 </div>
-                                <SEORankClimber />
+                            ))}
+                        </motion.div>
+
+                        {/* CTAs */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.9, duration: 0.8 }}
+                            className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-12"
+                        >
+                            <Link
+                                href="/contact"
+                                className="group inline-flex items-center gap-3 px-12 rounded-2xl font-bold transition-all hover:scale-[1.02] relative overflow-hidden"
+                                style={{
+                                    height: '4.5rem',
+                                    fontSize: '1.125rem',
+                                    backgroundColor: '#D946EF',
+                                    color: '#FFFFFF',
+                                    boxShadow: '0 20px 60px -15px rgba(217,70,239,0.5), 0 0 0 1px rgba(217,70,239,0.1)',
+                                    letterSpacing: '0.01em'
+                                }}
+                            >
+                                <div
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(232,121,249,0.3), transparent)'
+                                    }}
+                                />
+                                <span className="relative z-10 flex items-center gap-3">
+                                    <Rocket className="w-5 h-5" />
+                                    Get Seen Everywhere
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            </Link>
+                            <Link
+                                href="#strategy"
+                                className="inline-flex items-center gap-3 px-10 rounded-2xl font-bold transition-all hover:bg-white/5 hover:border-fuchsia-500/30"
+                                style={{
+                                    height: '4.5rem',
+                                    fontSize: '1.0625rem',
+                                    border: '1.5px solid rgba(255,255,255,0.1)',
+                                    color: '#FFFFFF',
+                                    letterSpacing: '0.01em'
+                                }}
+                            >
+                                <Eye className="w-5 h-5" />
+                                View Strategy
+                            </Link>
+                        </motion.div>
+
+                        {/* Trust Indicators */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.1, duration: 0.8 }}
+                            className="flex flex-wrap justify-center gap-8 items-center"
+                            style={{ opacity: 0.5 }}
+                        >
+                            <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                                <CheckCircle2 className="w-4 h-4" style={{ color: '#D946EF' }} />
+                                Tier 1 PR Networks
                             </div>
-                        </div>
+                            <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                                <CheckCircle2 className="w-4 h-4" style={{ color: '#D946EF' }} />
+                                Multi-Channel
+                            </div>
+                            <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                                <CheckCircle2 className="w-4 h-4" style={{ color: '#D946EF' }} />
+                                Reputation Management
+                            </div>
+                        </motion.div>
                     </motion.div>
                 </div>
+
+                {/* Scroll Indicator */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.3 }}
+                    transition={{ delay: 1.5, duration: 1 }}
+                    className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+                    style={{ zIndex: 10 }}
+                >
+                    <motion.div
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2"
+                        style={{ borderColor: 'rgba(217,70,239,0.3)' }}
+                    >
+                        <div
+                            className="w-1.5 h-1.5 rounded-full"
+                            style={{ backgroundColor: '#D946EF' }}
+                        />
+                    </motion.div>
+                </motion.div>
             </section>
 
-            <BentoGrid
-                title="Complete SEO Services"
-                subtitle="Everything you need to rank #1 on Google and drive sustainable organic growth."
-                items={features}
-                themeColor="emerald"
-            />
-
-            <ProcessTimeline
-                steps={processSteps}
-                themeColor="emerald"
-            />
-
-            {/* SEO Success Stories */}
-            <section className="py-32 px-6 bg-secondary/5">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
+            {/* Outcomes Grid */}
+            <section className="py-32 relative">
+                <div className="container mx-auto px-6 text-center mb-24">
+                    <h2
+                        className="font-black mb-6 uppercase tracking-tight"
+                        style={{
+                            fontSize: 'clamp(2rem, 5vw, 3.75rem)',
+                            color: '#FFFFFF'
+                        }}
                     >
-                        <h2 className="text-4xl md:text-6xl font-bold mb-6">SEO Success Stories</h2>
-                        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                            Real rankings, real traffic, real revenue growth
-                        </p>
-                    </motion.div>
+                        Be <span style={{ color: '#D946EF' }}>Everywhere</span>
+                    </h2>
+                    <p
+                        className="mx-auto"
+                        style={{
+                            fontSize: '1.25rem',
+                            color: '#A1A1AA',
+                            maxWidth: '42rem'
+                        }}
+                    >
+                        Don't just launch a website. Launch a <strong style={{ color: '#FFFFFF' }}>digital takeover</strong>.
+                    </p>
+                </div>
 
+                <div className="container mx-auto px-6">
                     <div className="grid md:grid-cols-3 gap-8">
-                        {[
-                            {
-                                stat: '+425%',
-                                metric: 'Organic Traffic',
-                                company: 'SaaS Startup',
-                                description: '12-month SEO campaign increased organic traffic from 5K to 26K monthly visitors'
-                            },
-                            {
-                                stat: '15+',
-                                metric: 'Page 1 Rankings',
-                                company: 'E-Commerce',
-                                description: 'Achieved first-page rankings for 15 high-intent product keywords in 10 months'
-                            },
-                            {
-                                stat: '$500K+',
-                                metric: 'Revenue from Organic',
-                                company: 'B2B Services',
-                                description: 'SEO-driven traffic generated over $500K in new business within 18 months'
-                            }
-                        ].map((item, index) => (
+                        {outcomes.map((outcome, i) => (
                             <motion.div
-                                key={index}
+                                key={i}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="p-8 bg-card border border-border rounded-3xl hover:border-emerald-500/50 transition-colors"
+                                transition={{ delay: i * 0.1 }}
+                                whileHover={{ y: -10 }}
+                                className="p-10 rounded-[2.5rem] transition-all group overflow-hidden relative"
+                                style={{
+                                    backgroundColor: 'rgba(255,255,255,0.03)',
+                                    border: '2px solid rgba(255,255,255,0.05)'
+                                }}
                             >
-                                <div className="text-5xl font-bold text-emerald-500 mb-2">{item.stat}</div>
-                                <div className="text-xl font-semibold mb-1">{item.metric}</div>
-                                <div className="text-sm text-emerald-500 mb-4">{item.company}</div>
-                                <p className="text-muted-foreground">{item.description}</p>
+                                <div
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    style={{
+                                        background: 'linear-gradient(to bottom right, rgba(217,70,239,0.1), transparent)'
+                                    }}
+                                />
+                                <div className="relative" style={{ zIndex: 10 }}>
+                                    <div
+                                        className="w-20 h-20 rounded-3xl flex items-center justify-center mb-8 transition-all duration-500"
+                                        style={{
+                                            backgroundColor: 'rgba(217,70,239,0.1)',
+                                            border: '2px solid rgba(217,70,239,0.2)'
+                                        }}
+                                    >
+                                        <outcome.icon className="w-10 h-10" style={{ color: '#D946EF' }} />
+                                    </div>
+                                    <h3
+                                        className="font-black mb-4 uppercase tracking-tight"
+                                        style={{
+                                            fontSize: '1.75rem',
+                                            color: '#FFFFFF'
+                                        }}
+                                    >
+                                        {outcome.title}
+                                    </h3>
+                                    <p
+                                        className="mb-8 leading-relaxed"
+                                        style={{
+                                            fontSize: '1.125rem',
+                                            color: '#D4D4D8'
+                                        }}
+                                    >
+                                        {outcome.description}
+                                    </p>
+
+                                    <div className="pt-8 flex flex-col gap-2" style={{ borderTop: '2px solid rgba(255,255,255,0.05)' }}>
+                                        <div
+                                            className="font-black tracking-tight"
+                                            style={{
+                                                fontSize: '3rem',
+                                                color: '#D946EF'
+                                            }}
+                                        >
+                                            {outcome.metric}
+                                        </div>
+                                        <div
+                                            className="font-bold uppercase"
+                                            style={{
+                                                fontSize: '0.875rem',
+                                                color: 'rgba(255,255,255,0.5)',
+                                                letterSpacing: '0.1em'
+                                            }}
+                                        >
+                                            {outcome.metricLabel}
+                                        </div>
+                                    </div>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section className="py-32 px-6">
-                <div className="container mx-auto max-w-4xl">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-                        <p className="text-xl text-muted-foreground">
-                            Everything you need to know about SEO and digital marketing
+            {/* Transformation Timeline */}
+            <section id="strategy" className="py-40 relative" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-20">
+                        <h2
+                            className="font-black uppercase leading-none mb-6"
+                            style={{
+                                fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                                color: '#FFFFFF'
+                            }}
+                        >
+                            The <span style={{ color: '#D946EF' }}>Ubiquity</span> Strategy
+                        </h2>
+                        <p
+                            className="leading-relaxed mx-auto"
+                            style={{
+                                fontSize: '1.25rem',
+                                color: '#A1A1AA',
+                                maxWidth: '42rem'
+                            }}
+                        >
+                            From mapping to amplification to total dominance—here's how we make you unavoidable.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <div className="space-y-4">
-                        {faqs.map((faq, index) => (
-                            <motion.details
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                    <div className="max-w-5xl mx-auto space-y-12">
+                        {transformation.map((step, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.05 }}
-                                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-emerald-500/50 transition-colors"
+                                transition={{ delay: i * 0.2 }}
+                                className="relative"
                             >
-                                <summary className="p-6 cursor-pointer list-none font-bold text-lg flex items-center justify-between">
-                                    <span>{faq.question}</span>
-                                    <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </summary>
-                                <div className="px-6 pb-6 pt-0 text-muted-foreground">
-                                    {faq.answer}
+                                {i < transformation.length - 1 && (
+                                    <div
+                                        className="absolute left-8 top-24 w-1 h-full"
+                                        style={{
+                                            background: 'linear-gradient(to bottom, rgba(217,70,239,0.5), rgba(217,70,239,0.1))'
+                                        }}
+                                    />
+                                )}
+
+                                <div
+                                    className="flex gap-8 p-10 rounded-[3rem] transition-all hover:scale-[1.02]"
+                                    style={{
+                                        backgroundColor: 'rgba(255,255,255,0.03)',
+                                        border: '2px solid rgba(255,255,255,0.1)'
+                                    }}
+                                >
+                                    <div className="flex-shrink-0">
+                                        <div
+                                            className="w-16 h-16 rounded-2xl flex items-center justify-center font-black"
+                                            style={{
+                                                backgroundColor: '#D946EF',
+                                                color: '#FFFFFF',
+                                                fontSize: '1.5rem'
+                                            }}
+                                        >
+                                            {i + 1}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1">
+                                        <div
+                                            className="font-bold uppercase mb-2"
+                                            style={{
+                                                color: '#D946EF',
+                                                letterSpacing: '0.1em',
+                                                fontSize: '0.875rem'
+                                            }}
+                                        >
+                                            {step.phase}
+                                        </div>
+                                        <h3
+                                            className="font-black mb-4 uppercase tracking-tight"
+                                            style={{
+                                                fontSize: '2rem',
+                                                color: '#FFFFFF'
+                                            }}
+                                        >
+                                            {step.title}
+                                        </h3>
+                                        <p
+                                            className="mb-6 leading-relaxed"
+                                            style={{
+                                                fontSize: '1.25rem',
+                                                color: '#D4D4D8'
+                                            }}
+                                        >
+                                            {step.outcome}
+                                        </p>
+                                        <div className="flex flex-wrap gap-3">
+                                            {step.deliverables.map((item, j) => (
+                                                <div
+                                                    key={j}
+                                                    className="flex items-center gap-2 px-4 py-2 rounded-xl"
+                                                    style={{
+                                                        backgroundColor: 'rgba(217,70,239,0.1)',
+                                                        border: '1px solid rgba(217,70,239,0.2)'
+                                                    }}
+                                                >
+                                                    <CheckCircle2 className="w-4 h-4" style={{ color: '#D946EF' }} />
+                                                    <span style={{ fontSize: '0.875rem', color: '#D4D4D8', fontWeight: '600' }}>
+                                                        {item}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
-                            </motion.details>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-32 px-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-emerald-500/5" />
-                <div className="container mx-auto max-w-4xl text-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+            {/* Final CTA */}
+            <section className="py-40 relative overflow-hidden">
+                <div className="absolute inset-0 blur-[150px]" style={{ backgroundColor: 'rgba(217,70,239,0.2)' }} />
+                <div className="container mx-auto px-6 relative" style={{ zIndex: 10 }}>
+                    <div
+                        className="max-w-5xl mx-auto rounded-[3.5rem] p-12 md:p-24 text-center overflow-hidden relative shadow-2xl"
+                        style={{
+                            backgroundColor: 'rgba(255,255,255,0.03)',
+                            border: '2px solid rgba(255,255,255,0.1)'
+                        }}
                     >
-                        <TrendingUp className="w-16 h-16 mx-auto mb-6 text-emerald-500" />
-                        <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-                            Ready to Rank #1 on Google?
-                        </h2>
-                        <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-                            Get a free SEO audit and discover opportunities to outrank your competitors.
-                        </p>
-                        <div className="flex flex-wrap gap-4 justify-center">
-                            <Link href="/audit">
-                                <Button size="lg" className="h-16 px-10 text-xl rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-500/20">
-                                    Get Free SEO Audit
-                                    <ArrowRight className="ml-2 w-6 h-6" />
-                                </Button>
-                            </Link>
-                            <Link href="/contact">
-                                <Button size="lg" variant="outline" className="h-16 px-10 text-xl rounded-full">
-                                    Talk to SEO Expert
-                                </Button>
-                            </Link>
+                        <div className="absolute inset-0 bg-[url('/grid.svg')]" style={{ opacity: 0.05 }} />
+                        <div className="relative" style={{ zIndex: 10 }}>
+                            <h2
+                                className="font-black mb-8 uppercase"
+                                style={{
+                                    fontSize: 'clamp(2.5rem, 7vw, 5.5rem)',
+                                    lineHeight: '1',
+                                    color: '#FFFFFF'
+                                }}
+                            >
+                                Ready to Be <span style={{ color: '#D946EF' }}>Everyone's Choice?</span>
+                            </h2>
+                            <p
+                                className="mx-auto mb-16 leading-relaxed"
+                                style={{
+                                    fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
+                                    color: '#D4D4D8',
+                                    maxWidth: '42rem',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                Join 38+ brands that are now household names.
+                                <strong style={{ color: '#FFFFFF' }}> Your visibility engine awaits.</strong>
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-10">
+                                <Link
+                                    href="/contact"
+                                    className="px-12 rounded-2xl font-black shadow-2xl transition-all hover:scale-105 group"
+                                    style={{
+                                        height: '5rem',
+                                        fontSize: '1.5rem',
+                                        backgroundColor: '#D946EF',
+                                        color: '#FFFFFF',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '0.75rem',
+                                        boxShadow: '0 20px 60px -15px rgba(217,70,239,0.5)'
+                                    }}
+                                >
+                                    <Eye className="w-7 h-7" />
+                                    Get Seen Now
+                                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                                </Link>
+                            </div>
+                            <div className="flex flex-wrap justify-center gap-8 items-center" style={{ opacity: 0.7 }}>
+                                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                                    <CheckCircle2 className="w-5 h-5" style={{ color: '#D946EF' }} />
+                                    Omnipresence
+                                </div>
+                                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                                    <CheckCircle2 className="w-5 h-5" style={{ color: '#D946EF' }} />
+                                    Tier 1 Authority
+                                </div>
+                                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                                    <CheckCircle2 className="w-5 h-5" style={{ color: '#D946EF' }} />
+                                    Massive Reach
+                                </div>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </section>
+
+            <RelatedServices currentPath="/services/seo-marketing" />
+
+            <BreadcrumbSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'Services', url: '/services' },
+                    { name: 'SEO Marketing', url: '/services/seo-marketing' }
+                ]}
+            />
 
             <Footer />
         </main>

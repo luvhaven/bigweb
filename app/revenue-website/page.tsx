@@ -527,7 +527,7 @@ export default function RevenueWebsitePage() {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {[
-                            { name: "Next.js 14", desc: "The React Framework for Web", icon: "N" },
+                            { name: "Next.js", desc: "The React Framework for Web", icon: "N" },
                             { name: "VS Vercel", desc: "Global Edge Network Hosting", icon: "▲" },
                             { name: "TypeScript", desc: "Type-Safe Commercial Code", icon: "TS" },
                             { name: "Supabase", desc: "Scalable Realtime Database", icon: "S" },

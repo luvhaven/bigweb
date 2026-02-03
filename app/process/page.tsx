@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import ConversionNavigation from '@/components/ConversionNavigation'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
 import ConversionProcess from '@/components/ConversionProcess'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -14,7 +14,7 @@ import DetailedProcess from '@/components/DetailedProcess'
 export default function ProcessPage() {
     return (
         <main className="min-h-screen bg-background">
-            <ConversionNavigation />
+            <AdvancedNavigation />
 
             {/* Hero Section */}
             <section className="relative pt-40 pb-20 overflow-hidden border-b border-border/50">
@@ -33,7 +33,7 @@ export default function ProcessPage() {
                             <span className="text-accent">OUTCOMES.</span>
                         </h1>
                         <p className="relative text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium">
-                            We've replaced creative guesswork with a high-fidelity protocol. A repeatable, data-backed system designed to isolate and eliminate revenue bottlenecks.
+                            We've replaced creative guesswork with a high-fidelity methodology. A repeatable, data-backed system designed to isolate and eliminate revenue bottlenecks.
                         </p>
                     </motion.div>
                 </div>
@@ -47,12 +47,12 @@ export default function ProcessPage() {
                 <div className="container mx-auto px-6 text-center">
                     <h2 className="text-4xl md:text-6xl font-bold mb-8">Ready to Engineer Your Growth?</h2>
                     <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-                        Don't leave your conversions to chance. Let's apply The Protocol to your business.
+                        Don't leave your conversions to chance. Let's apply our proven system to your business.
                     </p>
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <Button size="lg" className="bg-accent hover:bg-accent/90 h-16 px-10 text-xl font-bold shadow-xl shadow-accent/20" asChild>
                             <Link href="/offers/diagnostic">
-                                Start With A Diagnostic
+                                Start With An Audit
                                 <ArrowRight className="w-5 h-5 ml-2" />
                             </Link>
                         </Button>

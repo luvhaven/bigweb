@@ -11,35 +11,30 @@ interface EliteSectionDividerProps {
 
 export default function EliteSectionDivider({ variant = 'wave', flip = false, intensity = 'medium' }: EliteSectionDividerProps) {
   const ref = useRef<HTMLDivElement>(null)
-  
-  const intensityMap = {
-    subtle: 0.05,
-    medium: 0.1,
-    bold: 0.2
-  }
 
   if (variant === 'particles') {
     return (
-      <div ref={ref} className="relative w-full h-16 overflow-hidden">
+      <div ref={ref} className="relative w-full h-16 overflow-hidden bg-black border-y border-zinc-900">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05]" />
         <div className="absolute inset-0 flex items-center justify-center">
-          {[...Array(30)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 rounded-full bg-accent/30"
+              className="absolute w-1 h-1 bg-orange-600/60"
               style={{
-                left: `${(i * 3.33)}%`,
+                left: `${(i * 5)}%`,
                 top: '50%',
               }}
               animate={{
-                y: [0, -40, 0],
-                opacity: [0.2, 1, 0.2],
-                scale: [1, 1.5, 1],
+                y: [0, -20, 0, 20, 0],
+                opacity: [0, 1, 0],
+                height: ['4px', '20px', '4px'],
               }}
               transition={{
-                duration: 3 + (i % 3),
+                duration: 2 + (i % 3),
                 repeat: Infinity,
                 delay: i * 0.1,
-                ease: 'easeInOut'
+                ease: 'linear'
               }}
             />
           ))}
@@ -50,40 +45,22 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
 
   if (variant === 'gradient-flow') {
     return (
-      <div ref={ref} className="relative w-full h-16 overflow-hidden">
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(90deg, 
-                transparent 0%, 
-                hsla(var(--accent-hsl), ${intensityMap[intensity]}) 25%,
-                hsla(var(--accent-hsl), ${intensityMap[intensity] * 1.5}) 50%,
-                hsla(var(--accent-hsl), ${intensityMap[intensity]}) 75%,
-                transparent 100%
-              )`
-            }}
-            animate={{
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-          />
-          <motion.div
-            className="absolute inset-0 backdrop-blur-3xl"
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            }}
-          />
+      <div ref={ref} className="relative w-full h-4 bg-zinc-950 border-t border-b border-zinc-900 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-600/20 to-transparent w-[50%]"
+          animate={{
+            x: ['-100%', '200%'],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+        />
+        <div className="absolute inset-0 flex items-center justify-between px-4">
+          {[...Array(10)].map((_, i) => (
+            <div key={i} className="w-[1px] h-full bg-zinc-900" />
+          ))}
         </div>
       </div>
     )
@@ -91,144 +68,92 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
 
   if (variant === 'mesh') {
     return (
-      <div ref={ref} className="relative w-full h-20 overflow-hidden">
-        <div className="absolute inset-0">
-          {/* Mesh grid */}
-          <div className="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-4 p-8">
-            {[...Array(36)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="bg-accent/5 rounded-lg backdrop-blur-sm"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ 
-                  opacity: [0.1, 0.3, 0.1],
-                  scale: [0.8, 1, 0.8],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 0.05,
-                  ease: 'easeInOut'
-                }}
-              />
-            ))}
-          </div>
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
+      <div ref={ref} className="relative w-full h-24 overflow-hidden bg-black border-y border-zinc-900">
+        {/* Grid lines */}
+        <div className="absolute inset-0 flex flex-col justify-between py-2">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="w-full h-[1px] bg-zinc-900" />
+          ))}
+        </div>
+        <div className="absolute inset-0 flex justify-between px-2">
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className="h-full w-[1px] bg-zinc-900" />
+          ))}
+        </div>
+
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full h-[1px] bg-orange-600/20" />
         </div>
       </div>
     )
   }
 
   if (variant === 'wave') {
+    // Industrial "Square Wave"
     return (
-      <div ref={ref} className={`relative w-full h-12 overflow-hidden ${flip ? 'rotate-180' : ''}`}>
-        <div>
-          <svg
-            className="absolute bottom-0 w-full h-full"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-          >
-            <motion.path
-              d="M0,50 C300,100 500,0 600,50 C700,100 900,0 1200,50 L1200,120 L0,120 Z"
-              fill="url(#waveGradient)"
-              initial={{ d: "M0,50 C300,100 500,0 600,50 C700,100 900,0 1200,50 L1200,120 L0,120 Z" }}
-              animate={{
-                d: [
-                  "M0,50 C300,100 500,0 600,50 C700,100 900,0 1200,50 L1200,120 L0,120 Z",
-                  "M0,70 C300,20 500,100 600,50 C700,0 900,100 1200,50 L1200,120 L0,120 Z",
-                  "M0,50 C300,100 500,0 600,50 C700,100 900,0 1200,50 L1200,120 L0,120 Z"
-                ]
-              }}
+      <div ref={ref} className={`relative w-full h-16 overflow-hidden bg-black ${flip ? 'rotate-180' : ''}`}>
+        <div className="absolute inset-x-0 bottom-0 h-12 flex items-end">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="flex-1 bg-zinc-900 border-r border-black"
+              initial={{ height: '10%' }}
+              animate={{ height: ['10%', '60%', '30%', '80%', '10%'] }}
               transition={{
-                duration: 12,
+                duration: 4,
                 repeat: Infinity,
-                ease: "easeInOut"
+                delay: i * 0.1,
+                ease: "step-end"
               }}
             />
-            <defs>
-              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.1" />
-                <stop offset="50%" stopColor="hsl(var(--accent))" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-          </svg>
+          ))}
         </div>
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-orange-600/50" />
       </div>
     )
   }
 
   if (variant === 'diagonal') {
     return (
-      <div className={`relative w-full h-12 overflow-hidden ${flip ? 'rotate-180' : ''}`}>
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-accent/5 via-accent/10 to-accent/5"
-          style={{
-            clipPath: 'polygon(0 0, 100% 50%, 100% 100%, 0 100%)'
-          }}
-          animate={{
-            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
+      <div className={`relative w-full h-12 overflow-hidden bg-black ${flip ? 'rotate-180' : ''}`}>
+        <div className="absolute inset-0 flex">
+          {[...Array(40)].map((_, i) => (
+            <div key={i} className="flex-1 border-r border-zinc-900 transform -skew-x-[45deg] origin-bottom" />
+          ))}
+        </div>
       </div>
     )
   }
 
   if (variant === 'curve') {
+    // Angular path
     return (
-      <div className={`relative w-full h-12 overflow-hidden ${flip ? 'rotate-180' : ''}`}>
-        <svg
-          className="absolute bottom-0 w-full h-full"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,0 Q600,120 1200,0 L1200,120 L0,120 Z"
-            fill="url(#curveGradient)"
-            opacity="0.6"
-          />
-          <path
-            d="M0,20 Q600,100 1200,20 L1200,120 L0,120 Z"
-            fill="url(#curveGradient2)"
-            opacity="0.4"
-          />
-          <defs>
-            <linearGradient id="curveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.05" />
-            </linearGradient>
-            <linearGradient id="curveGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.02" />
-            </linearGradient>
-          </defs>
+      <div className={`relative w-full h-12 overflow-hidden bg-black ${flip ? 'rotate-180' : ''}`}>
+        <svg className="absolute bottom-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+          <path d="M0 100 L 20 50 L 40 80 L 60 20 L 80 60 L 100 100 Z" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-zinc-800" />
+          <path d="M0 100 L 10 90 L 20 100 L 30 90 L 40 100 L 50 90 L 60 100 L 70 90 L 80 100 L 90 90 L 100 100 V 100 H 0 Z" fill="currentColor" className="text-zinc-950" />
         </svg>
+        <div className="absolute bottom-0 w-full h-[1px] bg-orange-600/30" />
       </div>
     )
   }
 
-  // dots variant
+  // dots variant -> Digital Bits
   return (
-    <div className="relative w-full h-12 flex items-center justify-center gap-2">
-      {[...Array(5)].map((_, i) => (
+    <div className="relative w-full h-12 flex items-center justify-center gap-4 bg-black border-y border-zinc-900">
+      {[...Array(8)].map((_, i) => (
         <motion.div
           key={i}
-          className="w-2 h-2 rounded-full bg-accent/30"
+          className="w-1 h-1 bg-zinc-800"
           animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 0.8, 0.3],
+            opacity: [0.2, 1, 0.2],
+            backgroundColor: ['#27272a', '#ea580c', '#27272a']
           }}
           transition={{
-            duration: 2,
+            duration: 1.5,
             repeat: Infinity,
-            delay: i * 0.2,
-            ease: "easeInOut"
+            delay: i * 0.1,
+            ease: "steps(2)"
           }}
         />
       ))}

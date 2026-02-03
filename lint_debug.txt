@@ -1,0 +1,308 @@
+﻿
+> bigweb-nextjs@1.0.0 lint
+> next lint
+
+node.exe : `next lint` is 
+deprecated and will be 
+removed in Next.js 16.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (`next  
+   lint` is ... in Next.j   
+ s 16.:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+For new projects, use 
+create-next-app to choose 
+your preferred linter.
+For existing projects, 
+migrate to the ESLint CLI:
+npx @next/codemod@canary 
+next-lint-to-eslint-cli .
+
+
+./app/admin/analytics/page.t
+sx
+74:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'supabase'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/contacts/[id]/pa
+ge.tsx
+19:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'loadMessage'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/leads/page.tsx
+28:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'fetchLeads'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/navigation/page.
+tsx
+30:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'fetchNavigation'. Either 
+include it or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/page.tsx
+50:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'fetchDashboardData'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/pages/[id]/page.
+tsx
+14:1  Warning: Prevent 
+Client Components from 
+being async functions. See: 
+https://nextjs.org/docs/mess
+ages/no-async-client-compone
+nt  @next/next/no-async-clie
+nt-component
+38:8  Warning: React Hook 
+useEffect has missing 
+dependencies: 'isNew' and 
+'loadPage'. Either include 
+them or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/pricing/[id]/Edi
+tPricingClient.tsx
+35:8  Warning: React Hook 
+useEffect has missing 
+dependencies: 'isNew' and 
+'loadTier'. Either include 
+them or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/services/[id]/Ed
+itServiceClient.tsx
+44:8  Warning: React Hook 
+useEffect has missing 
+dependencies: 'isNew' and 
+'loadService'. Either 
+include them or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/settings/page.ts
+x
+33:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'fetchSettings'. Either 
+include it or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/admin/team/[id]/EditTe
+amPageClient.tsx
+36:8  Warning: React Hook 
+useEffect has missing 
+dependencies: 'isNew' and 
+'loadMember'. Either 
+include them or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./app/contact/page.tsx
+106:19  Error: Do not use 
+an `<a>` element to 
+navigate to 
+`/case-studies/`. Use 
+`<Link />` from `next/link` 
+instead. See: https://nextjs
+.org/docs/messages/no-html-l
+ink-for-pages  @next/next/no
+-html-link-for-pages
+
+./app/services/[slug]/page.t
+sx
+23:5  Error: Use 
+"@ts-expect-error" instead 
+of "@ts-ignore", as 
+"@ts-ignore" will do 
+nothing if the following 
+line is error-free.  @typesc
+ript-eslint/ban-ts-comment
+
+./src/components/admin/Gener
+icAdminTable.tsx
+57:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'fetchData'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/admin/HeroS
+lidesManager.tsx
+36:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'loadSlides'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/CarouselCin
+ematic.tsx
+97:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'startTimer'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/CarouselTes
+timonials.tsx
+72:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'startTimer'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/CarouselTes
+timonialsBookfold.tsx
+74:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'startTimer'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/CursorGlow.
+tsx
+84:6  Warning: React Hook 
+useEffect has missing 
+dependencies: 'isTouch' and 
+'isVisible'. Either include 
+them or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/demos/Strat
+egyMatrixDemo.tsx
+42:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'nodes.length'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/EliteCTA.ts
+x
+70:18  Error: 'Button' is 
+not defined.  
+react/jsx-no-undef
+76:20  Error: 'Link' is not 
+defined.  react/jsx-no-undef
+85:18  Error: 'Button' is 
+not defined.  
+react/jsx-no-undef
+91:20  Error: 'Link' is not 
+defined.  react/jsx-no-undef
+
+./src/components/EliteHeroRe
+volution.tsx
+47:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'taglines.length'. Either 
+include it or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/ElitePortfo
+lio.tsx
+376:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'filteredProjects'. Either 
+include it or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/FeaturedWor
+kNext.tsx
+105:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'supabase'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/PremiumTest
+imonials.tsx
+174:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'paginate'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/components/ui/AmbientM
+usicPlayer.tsx
+76:26  Warning: The ref 
+value 'audioRef.current' 
+will likely have changed by 
+the time this effect 
+cleanup function runs. If 
+this ref points to a node 
+rendered by React, copy 
+'audioRef.current' to a 
+variable inside the effect, 
+and use that variable in 
+the cleanup function.  
+react-hooks/exhaustive-deps
+
+./src/components/VerticalSpl
+itHero.tsx
+129:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'slides.length'. Either 
+include it or remove the 
+dependency array.  
+react-hooks/exhaustive-deps
+
+./src/hooks/useAuth.tsx
+66:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'loadProfile'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+info  - Need to disable 
+some ESLint rules? Learn 
+more here: https://nextjs.or
+g/docs/app/api-reference/con
+fig/eslint#disabling-rules

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Loader2, Save, ArrowLeft, Plus, Trash2, GripVertical } from 'lucide-react'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { saveService } from '@/actions/services'
 import Link from 'next/link'
 
 interface ServiceFormProps {
@@ -55,18 +56,12 @@ export default function ServiceForm({ initialData, isEditing = false }: ServiceF
                 features: features.map(f => f.text).filter(t => t.trim() !== '')
             }
 
-            if (isEditing) {
-                const { error } = await supabase
-                    .from('services')
-                    .update(serviceData)
-                    .eq('id', initialData.id)
-                if (error) throw error
-            } else {
-                const { error } = await supabase
-                    .from('services')
-                    .insert([serviceData])
-                if (error) throw error
-            }
+            const result = await saveService({
+                ...serviceData,
+                id: isEditing ? initialData.id : undefined
+            })
+
+            if (!result.success) throw new Error(result.error)
 
             router.push('/admin/services')
             router.refresh()

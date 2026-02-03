@@ -1,4 +1,4 @@
-import { supabase } from '@/utils/supabase'
+import { getServiceBySlug } from '@/actions/services'
 import { notFound } from 'next/navigation'
 import Navigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
@@ -20,31 +20,23 @@ export const revalidate = 60
 
 // Dynamic Icon Helper
 const getIcon = (name: string) => {
-    // @ts-ignore
-    const Icon = LucideIcons[name]
+    const Icon = (LucideIcons as any)[name]
     return Icon || LucideIcons.Star
 }
 
 export default async function DynamicServicePage({ params }: { params: { slug: string } }) {
-    const { data: service } = await supabase
-        .from('cms_services')
-        .select('*')
-        .eq('slug', params.slug)
-        .eq('is_active', true)
-        .single()
+    const serviceData = await getServiceBySlug(params.slug)
 
-    if (!service) {
+    if (!serviceData || !serviceData.isActive) {
         notFound()
     }
 
+    const service = serviceData
+
     // Map features - simple string array or object array in new schema?
-    // CMS schema says: features JSONB DEFAULT '[]'::jsonb -- List of feature strings or objects
-    // Seed data uses strings mostly: ["Next.js", ...]. But BentoGrid likely expects objects.
-    // Let's normalize it.
-    const rawFeatures = service.features || []
+    const rawFeatures = typeof service.features === 'string' ? JSON.parse(service.features) : (service.features || [])
     const features = rawFeatures.map((f: any, i: number) => {
         if (typeof f === 'string') {
-            // Create default feature object for BentoGrid
             return {
                 title: f,
                 description: "",
@@ -56,8 +48,6 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
             icon: getIcon(f.icon)
         }
     })
-
-    const processSteps = service.process_steps || []
 
     // Breadcrumbs
     const breadcrumbItems = [

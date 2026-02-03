@@ -41,7 +41,7 @@ export default function ConversionProcess() {
         <section id="process" className="py-24 bg-background">
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">The Conversion Lab Protocol</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6">The Conversion Lab Method</h2>
                     <p className="text-xl text-muted-foreground">
                         We don't guess. We follow a strict, scientific process to turn traffic into revenue.
                     </p>
@@ -81,7 +81,7 @@ export default function ConversionProcess() {
                 <div className="mt-20 text-center">
                     <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 h-14 px-8 text-lg" asChild>
                         <Link href="/offers/diagnostic">
-                            Start Step 1: Diagnosis
+                            Start Step 1: Audit
                             <ArrowRight className="w-5 h-5 ml-2" />
                         </Link>
                     </Button>

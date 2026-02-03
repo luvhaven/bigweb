@@ -3,164 +3,142 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import { PhysicsReveal } from '@/components/ui/PhysicsReveal'
 import Link from 'next/link'
 
 export default function WhitePatternCTA() {
   return (
-    <section className="relative py-32 bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden">
-      {/* Topographic Pattern Background */}
-      <div className="absolute inset-0 opacity-[0.04]">
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="topographic" width="200" height="200" patternUnits="userSpaceOnUse">
-              {/* Concentric circles creating topographic effect */}
-              <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" strokeWidth="0.5" />
-            </pattern>
-            <pattern id="hexagons" width="50" height="43.4" patternUnits="userSpaceOnUse">
-              <path d="M25 0 L50 14.4 L50 28.9 L25 43.4 L0 28.9 L0 14.4 Z" fill="none" stroke="currentColor" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#topographic)" />
-        </svg>
-      </div>
-
-      {/* Hexagon Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100%" height="100%" fill="url(#hexagons)" />
-        </svg>
-      </div>
-
-      {/* Animated Gradient Orbs */}
-      <div className="absolute inset-0 overflow-hidden opacity-20">
-        <motion.div
-          className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-accent to-orange-400 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, -50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
+    <section className="relative py-48 bg-black overflow-hidden border-t border-b border-zinc-900">
+      {/* Grid Background */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
 
       {/* Content */}
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center"
+          <PhysicsReveal
+            className="w-full"
+            revealSize={400}
+            dampening={25}
+            cover={
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="text-center p-20 bg-black border border-zinc-900 overflow-hidden relative"
+              >
+                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] pointer-events-none" />
+
+                {/* Top Indicator */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10"
+                >
+                  <Sparkles className="w-4 h-4 text-orange-600" />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                    System_Expansion_Available
+                  </span>
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12"
+                >
+                  Deploy <br />
+                  <span className="text-zinc-800">New Logic.</span>
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="text-xl md:text-2xl text-zinc-500 mb-16 max-w-3xl mx-auto leading-relaxed font-mono"
+                >
+                  Join 500+ operational nodes. Initialize consultation to upgrade your digital infrastructure.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-wrap items-center justify-center gap-6"
+                >
+                  <Link href="/offers/diagnostic">
+                    <Button
+                      size="xl"
+                      className="h-20 px-12 bg-white text-black hover:bg-orange-600 hover:text-white border border-transparent hover:border-orange-600 text-xs font-black uppercase tracking-[0.3em] rounded-none shadow-none transition-all group"
+                    >
+                      Start_System_Audit
+                      <ArrowRight className="ml-4 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+
+                  <Link href="/contact">
+                    <Button
+                      size="xl"
+                      variant="outline"
+                      className="h-20 px-12 bg-black text-white border-zinc-800 hover:bg-zinc-900 text-xs font-black uppercase tracking-[0.3em] rounded-none transition-all"
+                    >
+                      Schedule_Uplink
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                {/* Trust indicators */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="mt-16 flex flex-wrap items-center justify-center gap-12 text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-widest"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-emerald-500" />
+                    <span>Zero_Cost_Consultation</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-emerald-500" />
+                    <span>No_Commitment_Required</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-emerald-500" />
+                    <span>Guarantee_Protocol_Active</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+            }
           >
-            {/* Sparkle badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-accent/10 to-orange-50/50 border-2 border-accent/20 rounded-full px-6 py-3 mb-8"
-            >
-              <Sparkles className="w-5 h-5 text-accent" />
-              <span className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
-                Limited Time Offer
-              </span>
-            </motion.div>
+            {/* REVEALED CONTENT (Neural Pattern) */}
+            <div className="text-center p-20 bg-zinc-950 border border-orange-600/30 overflow-hidden relative">
+              <div className="absolute inset-0 bg-orange-600/10 mix-blend-overlay" />
+              <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2]" />
 
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-6"
-            >
-              Ready to Transform Your
-              <span className="block bg-gradient-to-r from-accent via-orange-600 to-red-600 bg-clip-text text-transparent mt-2">
-                Digital Presence?
-              </span>
-            </motion.h2>
+              <div className="relative z-10">
+                <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
+                  <span className="text-orange-500">OPTIMIZE</span> <br />
+                  <span className="text-white">EVERY NODE.</span>
+                </h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed"
-            >
-              Join 500+ successful companies who have chosen excellence. Get a free consultation
-              and discover how we can help you achieve your goals.
-            </motion.p>
+                <div className="flex justify-center gap-4 mb-8">
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <div key={i} className="w-1 h-8 bg-orange-600/30 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                  ))}
+                </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap items-center justify-center gap-4"
-            >
-              <Link href="/offers/diagnostic">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-accent to-orange-600 hover:from-accent hover:to-orange-700 text-white text-lg px-8 py-6 shadow-2xl hover:shadow-accent/40 transition-all group"
-                >
-                  Start Your Diagnostic
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white text-lg px-8 py-6 transition-all"
-                >
-                  Schedule Call
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500"
-            >
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <span>Free Consultation</span>
+                <p className="text-orange-500 font-mono text-sm uppercase tracking-[0.5em] font-bold">Protocol_Override_Success</p>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <span>No Credit Card Required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <span>30-Day Money Back</span>
-              </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </PhysicsReveal>
         </div>
       </div>
-
-      {/* Decorative corner elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 border-t-4 border-l-4 border-gray-200 rounded-tl-3xl opacity-30" />
-      <div className="absolute bottom-10 right-10 w-20 h-20 border-b-4 border-r-4 border-gray-200 rounded-br-3xl opacity-30" />
     </section>
   )
 }

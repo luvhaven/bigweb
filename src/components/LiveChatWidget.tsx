@@ -127,18 +127,15 @@ export default function LiveChatWidget() {
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-accent to-orange-600 text-white shadow-[0_0_40px_-10px_rgba(255,107,53,0.5)] flex items-center justify-center relative overflow-hidden group hover:shadow-[0_8px_30px_rgba(255,107,53,0.6)] transition-all duration-300"
+                        className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950 border border-zinc-900 text-zinc-600 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all duration-300"
                     >
-                        <MessageCircle className="w-8 h-8" />
+                        <MessageCircle className="w-8 h-8 mb-1" />
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest">RELAY_v1</span>
                         {onlineAgents > 0 && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold shadow-sm">
-                                {onlineAgents}
-                            </span>
+                            <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                         )}
-                        <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-20 pointer-events-none" />
+                        <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </motion.button>
                 )}
             </AnimatePresence>
@@ -147,49 +144,44 @@ export default function LiveChatWidget() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 20, scale: 0.95, filter: 'blur(10px)' }}
+                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{
                             opacity: 1,
                             y: 0,
                             scale: 1,
-                            filter: 'blur(0px)',
                             height: isMinimized ? 'auto' : '650px'
                         }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95, filter: 'blur(10px)' }}
+                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         className={cn(
-                            "fixed bottom-6 right-6 z-50 w-[400px] bg-background/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col font-sans",
-                            isMinimized ? "rounded-b-none" : ""
+                            "fixed bottom-10 right-10 z-50 w-[400px] bg-black border border-zinc-900 shadow-2xl flex flex-col font-mono",
+                            isMinimized ? "" : ""
                         )}
                     >
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-accent to-orange-600 p-5 flex items-center justify-between relative overflow-hidden">
-                            <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />
-                            <div className="flex items-center gap-4 relative z-10">
-                                <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/10 shadow-inner">
-                                    <MessageCircle className="w-6 h-6 text-white" />
+                        <div className="bg-zinc-950 border-b border-zinc-900 p-6 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-black border border-zinc-900 flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-white text-lg tracking-tight">Support</h3>
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                                        <p className="text-xs text-white/90 font-medium">
-                                            {onlineAgents > 0 ? `${onlineAgents} agent${onlineAgents > 1 ? 's' : ''} online` : 'We\'ll reply instantly'}
-                                        </p>
-                                    </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-bold text-zinc-400 text-[10px] uppercase tracking-[0.2em]">Live_Relay_v1</h3>
+                                    <p className="text-[9px] text-zinc-600 uppercase tracking-widest">
+                                        {onlineAgents > 0 ? `Agents_Online:[${onlineAgents}]` : 'Auto_Response_Mode'}
+                                    </p>
                                 </div>
                             </div>
-                            <div className="flex gap-2 relative z-10">
+                            <div className="flex gap-2">
                                 <button
                                     onClick={() => setIsMinimized(!isMinimized)}
-                                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                    className="w-8 h-8 flex items-center justify-center bg-black border border-zinc-900 hover:bg-zinc-900 text-zinc-500 transition-colors"
                                 >
-                                    {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                                    {isMinimized ? <Maximize2 className="w-3 h-3" /> : <Minimize2 className="w-3 h-3" />}
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                    className="w-8 h-8 flex items-center justify-center bg-black border border-zinc-900 hover:bg-orange-600 hover:text-white hover:border-orange-600 text-zinc-500 transition-colors"
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-3 h-3" />
                                 </button>
                             </div>
                         </div>
@@ -197,28 +189,27 @@ export default function LiveChatWidget() {
                         {!isMinimized && (
                             <>
                                 {/* Messages */}
-                                <div className="flex-1 overflow-y-auto p-5 space-y-6 bg-gradient-to-b from-transparent to-black/5">
+                                <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-black">
                                     {chatMessages.map((msg, idx) => (
                                         <motion.div
                                             key={msg.id}
-                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            transition={{ delay: 0.1 }}
-                                            className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}
+                                            initial={{ opacity: 0, x: msg.sender === 'user' ? 20 : -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className={`flex gap-4 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}
                                         >
                                             {msg.sender === 'agent' && (
-                                                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0 border border-accent/20">
-                                                    <MessageCircle className="w-4 h-4 text-accent" />
+                                                <div className="w-8 h-8 bg-zinc-950 border border-zinc-900 flex items-center justify-center shrink-0">
+                                                    <span className="text-[8px] font-bold text-zinc-500">SYS</span>
                                                 </div>
                                             )}
                                             <div
-                                                className={`max-w-[75%] rounded-2xl px-5 py-3 shadow-sm ${msg.sender === 'user'
-                                                    ? 'bg-gradient-to-br from-accent to-accent-dark text-white rounded-tr-sm'
-                                                    : 'bg-secondary/50 border border-border/50 text-foreground rounded-tl-sm backdrop-blur-sm'
+                                                className={`max-w-[75%] p-4 border ${msg.sender === 'user'
+                                                    ? 'bg-zinc-950 border-zinc-900 text-zinc-300'
+                                                    : 'bg-black border-zinc-900 text-zinc-500'
                                                     }`}
                                             >
-                                                <p className="text-sm leading-relaxed">{msg.text}</p>
-                                                <p className={`text-[10px] mt-1.5 opacity-70 ${msg.sender === 'user' ? 'text-white' : 'text-muted-foreground'}`}>
+                                                <p className="text-[11px] leading-relaxed font-bold tracking-wide uppercase">{msg.text}</p>
+                                                <p className="text-[9px] mt-2 opacity-50 uppercase tracking-widest text-zinc-700">
                                                     {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </p>
                                             </div>
@@ -227,17 +218,17 @@ export default function LiveChatWidget() {
 
                                     {isTyping && (
                                         <motion.div
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="flex gap-3"
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="flex gap-4"
                                         >
-                                            <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0 border border-accent/20">
-                                                <MessageCircle className="w-4 h-4 text-accent" />
+                                            <div className="w-8 h-8 bg-zinc-950 border border-zinc-900 flex items-center justify-center shrink-0">
+                                                <span className="text-[8px] font-bold text-zinc-500">SYS</span>
                                             </div>
-                                            <div className="bg-secondary/50 border border-border/50 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1">
-                                                <span className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                                <span className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                                <span className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce" />
+                                            <div className="bg-black border border-zinc-900 p-4 flex items-center gap-1">
+                                                <span className="w-1 h-1 bg-orange-600 animate-pulse" />
+                                                <span className="w-1 h-1 bg-orange-600 animate-pulse delay-75" />
+                                                <span className="w-1 h-1 bg-orange-600 animate-pulse delay-150" />
                                             </div>
                                         </motion.div>
                                     )}
@@ -245,34 +236,39 @@ export default function LiveChatWidget() {
                                 </div>
 
                                 {/* Input */}
-                                <div className="p-4 bg-background/50 backdrop-blur-md border-t border-border">
+                                <div className="p-6 bg-zinc-950 border-t border-zinc-900">
                                     <form
                                         onSubmit={(e) => {
                                             e.preventDefault()
                                             handleSend()
                                         }}
-                                        className="relative flex items-center gap-2 bg-secondary/30 rounded-full border border-border/50 p-1 focus-within:border-accent/50 focus-within:bg-secondary/50 transition-all duration-300 shadow-inner"
+                                        className="relative flex items-center gap-2"
                                     >
-                                        <Input
-                                            value={message}
-                                            onChange={(e) => setMessage(e.target.value)}
-                                            placeholder="Type a message..."
-                                            className="flex-1 border-none bg-transparent shadow-none focus-visible:ring-0 h-10 px-4 text-base placeholder:text-muted-foreground/50"
-                                        />
+                                        <div className="flex-1 relative">
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-600 text-xs font-bold">{'>'}</span>
+                                            <Input
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                placeholder="ENTER_COMMAND..."
+                                                className="w-full bg-black border border-zinc-900 h-12 pl-8 pr-4 text-xs font-bold text-white placeholder:text-zinc-700 focus-visible:ring-0 focus-visible:border-orange-600 transition-colors uppercase tracking-widest rounded-none"
+                                            />
+                                        </div>
                                         <Button
                                             type="submit"
-                                            size="icon"
                                             disabled={!message.trim()}
-                                            className="rounded-full w-10 h-10 bg-accent hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-accent/25"
+                                            className="w-12 h-12 bg-white hover:bg-orange-600 text-black hover:text-white rounded-none border border-zinc-900 transition-all font-bold"
                                         >
                                             <Send className="w-4 h-4" />
                                         </Button>
                                     </form>
-                                    <div className="flex items-center justify-center gap-2 mt-3 opacity-60">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
-                                            Encrypted & Secure
-                                        </p>
+                                    <div className="flex items-center justify-between mt-4">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-1 h-1 rounded-full bg-emerald-500" />
+                                            <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-600 font-bold">
+                                                ENCRYPTED_V4
+                                            </p>
+                                        </div>
+                                        <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-700 font-bold">Try: /Help</p>
                                     </div>
                                 </div>
                             </>

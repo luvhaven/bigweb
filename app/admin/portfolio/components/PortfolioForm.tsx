@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { Loader2, Save, ArrowLeft, Plus, X, Image as ImageIcon } from 'lucide-react'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
+import { saveProject } from '@/actions/portfolio'
 import Link from 'next/link'
 
 interface PortfolioFormProps {
@@ -88,18 +89,12 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
                 views_count: 0
             }
 
-            if (isEditing) {
-                const { error } = await supabase
-                    .from('portfolio_projects')
-                    .update(projectData as any)
-                    .eq('id', initialData.id)
-                if (error) throw error
-            } else {
-                const { error } = await supabase
-                    .from('portfolio_projects')
-                    .insert([projectData as any])
-                if (error) throw error
-            }
+            const result = await saveProject({
+                ...projectData,
+                id: isEditing ? initialData.id : undefined
+            })
+
+            if (!result.success) throw new Error(result.error)
 
             router.push('/admin/portfolio')
             router.refresh()

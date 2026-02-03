@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const EliteCTA = () => {
   const ref = useRef(null);
@@ -21,24 +23,14 @@ const EliteCTA = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
 
   return (
-    <section ref={ref} className="py-32 relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background">
+    <section ref={ref} className="py-48 relative overflow-hidden bg-black border-t border-zinc-900 border-b">
       {/* Premium Background with Parallax */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0 bg-black"
         style={isMounted ? { scale } : {}}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/90 z-10" />
-        <motion.img
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=90"
-          alt="CTA Background"
-          className="w-full h-full object-cover"
-          initial={{ scale: 1.1 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-        />
-        {/* Gradient overlay mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-orange-500/10 z-10" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10" />
       </motion.div>
 
       <motion.div
@@ -52,53 +44,35 @@ const EliteCTA = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-sm uppercase tracking-widest text-accent mb-6">
-              Let's Work Together
-            </p>
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
+              Secure_The_Model
+            </div>
 
-            <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 leading-tight">
-              Stop Losing Money to Bad UX
+            <h2 className="text-6xl md:text-[9.5rem] font-black text-white tracking-tighter mb-16 leading-[0.75] uppercase italic">
+              Stop <span className="text-zinc-800">Bleeding.</span>
             </h2>
 
-            <p className="text-xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto">
-              Your website should be your best salesperson. Join Fortune 500 companies and fast-growing startups who trust us to <strong className="text-white">turn traffic into revenue.</strong>
+            <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-5xl mx-auto mb-20">
+              Your digital infrastructure is hemorrhaging capital. Deploy our <span className="text-white italic underline underline-offset-8 decoration-orange-600">Clinical_Diagnostic</span> to remediate today.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <motion.div className="magnetic-wrap" whileHover={{ scale: 1.05 }}>
-                <div className="magnetic-area"></div>
-                <motion.a
-                  href="/contact"
-                  className="group relative inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-accent via-accent-light to-accent text-white rounded-xl hover:shadow-2xl hover:shadow-accent/40 transition-all duration-500 text-sm uppercase tracking-widest font-semibold overflow-hidden hover-glow"
-                  whileTap={{ scale: 0.98 }}
+            <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+              <Link href="/offers/revenue-roadmap" className="w-full sm:w-auto">
+                <Button
+                  className="w-full sm:w-80 h-24 rounded-none bg-orange-600 text-white hover:bg-orange-500 font-black text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
                 >
-                  {/* Shimmer effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    animate={{ x: ['-200%', '200%'] }}
-                    transition={{ duration: 3, repeat: Infinity, repeatDelay: 1, ease: 'linear' }}
-                  />
-                  <span className="relative z-10">Get Free Growth Audit</span>
-                  <motion.div
-                    className="relative z-10"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.div>
-                </motion.a>
-              </motion.div>
+                  INITIALIZE_AUDIT_v1
+                  <ArrowRight className="ml-4 w-5 h-5" />
+                </Button>
+              </Link>
 
-              <motion.div className="magnetic-wrap" whileHover={{ scale: 1.05 }}>
-                <div className="magnetic-area"></div>
-                <motion.a
-                  href="/portfolio"
-                  className="inline-flex items-center justify-center px-12 py-6 rounded-xl glass-strong border-2 border-white/30 text-white hover:bg-white/10 hover:border-white hover:shadow-xl transition-all duration-500 text-sm uppercase tracking-widest font-semibold"
-                  whileTap={{ scale: 0.98 }}
+              <Link href="/case-studies" className="w-full sm:w-auto">
+                <Button
+                  className="w-full sm:w-80 h-24 rounded-none bg-zinc-950 text-white border border-zinc-900 hover:bg-white hover:text-black font-black text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
                 >
-                  See Our Results
-                </motion.a>
-              </motion.div>
+                  VIEW_LOGS
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>

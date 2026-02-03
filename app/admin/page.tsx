@@ -3,43 +3,44 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-    Users,
     FolderKanban,
-    MessageSquare,
-    FileText,
-    TrendingUp,
-    Eye,
     ArrowUpRight,
-    Calendar
+    Zap,
+    Target,
+    Activity,
+    ShieldCheck,
+    Cpu,
+    Search,
+    Globe,
+    Lock
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 interface DashboardStats {
-    totalProjects: number
-    totalServices: number
-    totalTestimonials: number
-    totalLeads: number
-    newLeadsToday: number
+    totalCapabilities: number
+    totalEngagements: number
+    totalPhases: number
+    totalFlags: number
+    totalMETAs: number
 }
 
 const statsConfig = [
-    { key: 'totalProjects', label: 'Projects', icon: FolderKanban, color: 'from-blue-500 to-cyan-500', href: '/admin/projects' },
-    { key: 'totalServices', label: 'Services', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', href: '/admin/services' },
-    { key: 'totalTestimonials', label: 'Testimonials', icon: MessageSquare, color: 'from-purple-500 to-pink-500', href: '/admin/testimonials' },
-    { key: 'totalLeads', label: 'Total Leads', icon: FileText, color: 'from-orange-500 to-red-500', href: '/admin/leads' },
+    { key: 'totalCapabilities', label: 'Service_Capabilities', icon: Cpu, color: 'from-blue-500 to-indigo-600', href: '/admin/capabilities-new' },
+    { key: 'totalEngagements', label: 'Commercial_Offers', icon: Zap, color: 'from-orange-500 to-red-600', href: '/admin/engagements-new' },
+    { key: 'totalPhases', label: 'Methodology_Steps', icon: Search, color: 'from-purple-600 to-pink-600', href: '/admin/process-new' },
+    { key: 'totalMETAs', label: 'SEO_Registries', icon: Globe, color: 'from-emerald-500 to-teal-600', href: '/admin/seo-new' },
 ]
 
 export default function AdminDashboard() {
     const supabase = createClient()
     const [stats, setStats] = useState<DashboardStats>({
-        totalProjects: 0,
-        totalServices: 0,
-        totalTestimonials: 0,
-        totalLeads: 0,
-        newLeadsToday: 0
+        totalCapabilities: 0,
+        totalEngagements: 0,
+        totalPhases: 0,
+        totalFlags: 0,
+        totalMETAs: 0
     })
-    const [recentLeads, setRecentLeads] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -48,31 +49,21 @@ export default function AdminDashboard() {
 
     async function fetchDashboardData() {
         try {
-            // Fetch counts
-            const [projectsRes, servicesRes, clientsRes, videosRes, leadsRes] = await Promise.all([
-                supabase.from('cms_projects').select('id', { count: 'exact', head: true }),
-                supabase.from('cms_services').select('id', { count: 'exact', head: true }),
-                supabase.from('cms_clients').select('id', { count: 'exact', head: true }),
-                supabase.from('cms_video_showroom').select('id', { count: 'exact', head: true }),
-                supabase.from('cms_leads').select('id', { count: 'exact', head: true }),
+            const [capRes, engRes, phaseRes, flagRes, metaRes] = await Promise.all([
+                supabase.from('capabilities').select('id', { count: 'exact', head: true }),
+                supabase.from('engagements').select('id', { count: 'exact', head: true }),
+                supabase.from('process_phases').select('id', { count: 'exact', head: true }),
+                supabase.from('feature_flags').select('id', { count: 'exact', head: true }),
+                supabase.from('page_metadata').select('id', { count: 'exact', head: true }),
             ])
 
-            // Fetch recent leads
-            const { data: leads } = await supabase
-                .from('cms_leads')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(5)
-
             setStats({
-                totalProjects: projectsRes.count || 0,
-                totalServices: servicesRes.count || 0,
-                totalTestimonials: clientsRes.count || 0, // Using clients count as a conceptual 'Trust' metric for now
-                totalLeads: leadsRes.count || 0,
-                newLeadsToday: 0
+                totalCapabilities: capRes.count || 0,
+                totalEngagements: engRes.count || 0,
+                totalPhases: phaseRes.count || 0,
+                totalFlags: flagRes.count || 0,
+                totalMETAs: metaRes.count || 0
             })
-
-            setRecentLeads(leads || [])
         } catch (error) {
             console.error('Error fetching dashboard data:', error)
         } finally {
@@ -82,42 +73,73 @@ export default function AdminDashboard() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 shadow-[0_0_20px_rgba(255,77,0,0.3)]" />
             </div>
         )
     }
 
     return (
-        <div className="space-y-8">
-            {/* Page Header */}
-            <div>
-                <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-                <p className="text-zinc-400 mt-1">Welcome back! Here's an overview of your CMS.</p>
-            </div>
+        <div className="space-y-12 pb-20 selection:bg-orange-500/30">
+            {/* Command Header */}
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+            >
+                <div>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full">
+                            <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest leading-none">Command_Shield_Active</span>
+                        </div>
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    </div>
+                    <h1 className="text-6xl font-black text-white tracking-tighter uppercase italic leading-[0.8]">
+                        Central_<span className="text-zinc-600">Nexus</span>
+                    </h1>
+                    <p className="text-zinc-500 mt-4 font-medium max-w-xl">
+                        Welcome back, Admin. All site management modules are synchronized. Deep-level data integration active.
+                    </p>
+                </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex gap-4">
+                    <div className="px-8 py-6 bg-zinc-900/40 rounded-[2.5rem] border border-white/5 backdrop-blur-xl flex flex-col items-center">
+                        <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">Logic_Flags</span>
+                        <span className="text-2xl font-black text-white italic leading-none">{stats.totalFlags}_Active</span>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Core Metrics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {statsConfig.map((stat, index) => (
                     <motion.div
                         key={stat.key}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
+                        transition={{ delay: index * 0.1, duration: 0.6 }}
                     >
                         <Link href={stat.href}>
-                            <div className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all group cursor-pointer">
-                                <div className="flex items-start justify-between">
-                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}>
-                                        <stat.icon className="w-6 h-6 text-white" />
+                            <div className="relative group overflow-hidden bg-zinc-900/30 border border-white/5 rounded-[2.5rem] p-8 hover:border-white/20 transition-all cursor-pointer h-full">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <div className="flex items-start justify-between relative z-10">
+                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-xl shadow-black/40`}>
+                                        <stat.icon className="w-7 h-7 text-white" />
                                     </div>
-                                    <ArrowUpRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                                    <div className="flex flex-col items-end">
+                                        <ArrowUpRight className="w-6 h-6 text-zinc-700 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                        <span className="text-[10px] font-black text-zinc-600 uppercase mt-1 tracking-tighter">Enter_Log</span>
+                                    </div>
                                 </div>
-                                <div className="mt-4">
-                                    <p className="text-4xl font-bold text-white">
-                                        {stats[stat.key as keyof DashboardStats]}
+
+                                <div className="mt-10 relative z-10">
+                                    <h3 className="text-5xl font-black text-white tracking-tighter italic">
+                                        {stats[stat.key as keyof DashboardStats].toString().padStart(2, '0')}
+                                    </h3>
+                                    <p className="text-zinc-500 font-black text-[10px] uppercase tracking-[0.3em] mt-2 pl-1 underline decoration-orange-500 underline-offset-8">
+                                        {stat.label}
                                     </p>
-                                    <p className="text-zinc-400 text-sm mt-1">{stat.label}</p>
                                 </div>
                             </div>
                         </Link>
@@ -125,97 +147,74 @@ export default function AdminDashboard() {
                 ))}
             </div>
 
-            {/* Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Recent Leads */}
+            {/* Management Hub */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                {/* Module Quick Access */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6"
-                >
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-semibold text-white">Recent Leads</h2>
-                        <Link href="/admin/leads" className="text-sm text-emerald-400 hover:text-emerald-300">
-                            View All →
-                        </Link>
-                    </div>
-
-                    {recentLeads.length === 0 ? (
-                        <div className="text-center py-8">
-                            <FileText className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
-                            <p className="text-zinc-500">No leads yet</p>
-                            <p className="text-zinc-600 text-sm">Leads from forms will appear here</p>
-                        </div>
-                    ) : (
-                        <div className="space-y-4">
-                            {recentLeads.map((lead) => (
-                                <div key={lead.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shrink-0">
-                                        <span className="text-white font-medium text-sm">
-                                            {lead.email?.charAt(0).toUpperCase() || '?'}
-                                        </span>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-white font-medium truncate">{lead.name || lead.email}</p>
-                                        <p className="text-zinc-500 text-sm truncate">{lead.type}</p>
-                                    </div>
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${lead.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
-                                        lead.status === 'contacted' ? 'bg-blue-500/20 text-blue-400' :
-                                            'bg-zinc-700 text-zinc-400'
-                                        }`}>
-                                        {lead.status}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </motion.div>
-
-                {/* Quick Actions */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="bg-zinc-900/50 border border-white/10 rounded-2xl p-6"
+                    className="lg:col-span-12 bg-zinc-900/40 border border-white/5 rounded-[3rem] p-10 overflow-hidden relative"
                 >
-                    <h2 className="text-lg font-semibold text-white mb-6">Quick Actions</h2>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Link href="/admin/heroes">
-                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
-                                <Eye className="w-8 h-8 text-blue-400 mb-3" />
-                                <p className="text-white font-medium">Edit Heroes</p>
-                                <p className="text-zinc-500 text-sm">Update page headers</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/admin/services">
-                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
-                                <TrendingUp className="w-8 h-8 text-emerald-400 mb-3" />
-                                <p className="text-white font-medium">Manage Services</p>
-                                <p className="text-zinc-500 text-sm">Add or edit offerings</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/admin/projects">
-                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
-                                <FolderKanban className="w-8 h-8 text-purple-400 mb-3" />
-                                <p className="text-white font-medium">Add Project</p>
-                                <p className="text-zinc-500 text-sm">Showcase your work</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/admin/testimonials">
-                            <div className="p-4 rounded-xl bg-zinc-800/50 border border-white/5 hover:border-white/20 transition-all group cursor-pointer">
-                                <MessageSquare className="w-8 h-8 text-pink-400 mb-3" />
-                                <p className="text-white font-medium">Testimonials</p>
-                                <p className="text-zinc-500 text-sm">Client feedback</p>
-                            </div>
-                        </Link>
+                    <div className="flex items-center justify-between mb-10 relative z-10">
+                        <div>
+                            <h2 className="text-2xl font-black text-white uppercase italic flex items-center gap-3">
+                                <Activity className="w-6 h-6 text-orange-500" />
+                                Operational_Matrix
+                            </h2>
+                            <p className="text-zinc-500 text-sm font-medium">Connect to specific system managers</p>
+                        </div>
                     </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 relative z-10">
+                        {[
+                            { label: 'Capabilities', desc: 'Manage service offerings', href: '/admin/capabilities-new', icon: Cpu, color: 'text-blue-500' },
+                            { label: 'Engagements', desc: 'Pricing and packages', href: '/admin/engagements-new', icon: Zap, color: 'text-orange-500' },
+                            { label: 'Process', desc: 'Methodology phases', href: '/admin/process-new', icon: Search, color: 'text-purple-500' },
+                            { label: 'Metadata', desc: 'SEO and social tags', href: '/admin/seo-new', icon: Globe, color: 'text-emerald-500' },
+                            { label: 'System_Flags', desc: 'Feature toggles', href: '/admin/flags-new', icon: Lock, color: 'text-red-500' },
+                        ].map((module, i) => (
+                            <Link key={i} href={module.href}>
+                                <div className="p-8 rounded-[2rem] bg-zinc-950 border border-white/5 hover:border-orange-500/30 hover:bg-zinc-950/80 transition-all group h-full flex flex-col items-center text-center">
+                                    <div className={`w-16 h-16 rounded-3xl bg-zinc-900 flex items-center justify-center border border-white/5 mb-6 group-hover:scale-110 transition-transform ${module.color}`}>
+                                        <module.icon className="w-8 h-8" />
+                                    </div>
+                                    <h3 className="text-white font-black text-sm uppercase tracking-widest mb-2">{module.label}</h3>
+                                    <p className="text-zinc-600 text-[10px] uppercase font-bold leading-relaxed">{module.desc}</p>
+                                    <div className="mt-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <ArrowUpRight className="w-5 h-5 text-orange-500" />
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[120px] -z-0" />
                 </motion.div>
             </div>
+
+            {/* System Status Banner */}
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="p-10 rounded-[3rem] bg-gradient-to-r from-zinc-950 to-zinc-900 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left"
+            >
+                <div>
+                    <div className="flex items-center gap-4 justify-center md:justify-start mb-4">
+                        <ShieldCheck className="w-8 h-8 text-emerald-500" />
+                        <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Production_Grade_Admin</h2>
+                    </div>
+                    <p className="text-zinc-500 font-medium max-w-xl">
+                        This environment is protected by Supabase RLS policies. All CRUD operations are authenticated.
+                    </p>
+                </div>
+                <div className="flex gap-4">
+                    <Link href="/" className="px-8 py-4 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-none hover:bg-orange-600 hover:text-white transition-all">
+                        View_Live_Site
+                    </Link>
+                </div>
+            </motion.div>
         </div>
     )
 }

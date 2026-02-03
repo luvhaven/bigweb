@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { 
-  Palette, Code, Search, Smartphone, ShoppingCart, BarChart, 
-  Zap, Shield, Globe, Rocket, Cpu, Cloud, Lock, TrendingUp 
+import {
+  Palette, Code, Search, Smartphone, ShoppingCart, BarChart,
+  Zap, Shield, Globe, Rocket, Cpu, Cloud, Lock, TrendingUp
 } from "lucide-react";
 
 const services = [
@@ -156,87 +156,58 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
       ref={ref}
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
-      transition={{ 
-        duration: 0.6, 
+      transition={{
+        duration: 0.6,
         delay: index * 0.08,
         ease: [0.25, 0.1, 0.25, 1]
       }}
       style={{ y, opacity }}
       className={getGridSpan()}
     >
-      <Card className="h-full group relative overflow-hidden bg-gradient-to-br from-card/50 to-card border border-border/50 hover:border-accent/50 transition-all duration-700 cursor-pointer backdrop-blur-xl">
-        {/* Gradient Background */}
-        <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}
-        />
+      <div className="h-full group relative overflow-hidden bg-black border border-zinc-900 transition-all duration-700 cursor-crosshair">
 
-        <div className={`p-8 h-full flex flex-col ${service.size === 'large' ? 'justify-between' : 'justify-start'}`}>
+
+        <div className={`p-10 h-full flex flex-col ${service.size === 'large' ? 'justify-between' : 'justify-start'}`}>
           {/* Icon & Badge */}
           <div className="space-y-6">
             <div className="flex items-start justify-between">
-              <motion.div
-                whileHover={{ rotate: 360, scale: 1.1 }}
-                transition={{ duration: 0.6 }}
-                className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-accent/20 transition-shadow duration-500`}
-              >
-                <service.icon className="w-8 h-8 text-white" />
-              </motion.div>
+              <div className="w-16 h-16 bg-zinc-950 border border-zinc-900 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 text-zinc-600">
+                <service.icon className="w-8 h-8" />
+              </div>
 
-              <Badge className="bg-accent/10 text-accent border-accent/30 text-xs font-bold px-3 py-1">
+              <div className="px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[9px] font-mono font-bold uppercase tracking-[0.4em]">
                 {service.metric}
-              </Badge>
+              </div>
             </div>
 
             {/* Title & Description */}
-            <div className="space-y-3">
-              <h3 className={`font-bold letter-spacing-wide group-hover:text-accent transition-colors duration-500 ${service.size === 'large' ? 'text-3xl' : 'text-2xl'}`}>
+            <div className="space-y-4">
+              <h4 className="text-[10px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em]">
+                CAPABILITY_0{index + 1}
+              </h4>
+              <h3 className={`font-black text-white hover:text-orange-600 transition-colors duration-500 uppercase tracking-tighter italic leading-none ${service.size === 'large' ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>
                 {service.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed text-sm">
+              <p className="text-zinc-500 text-lg font-medium leading-[1.1] tracking-tight">
                 {service.description}
               </p>
             </div>
 
             {/* Features List */}
-            <div className="space-y-2">
+            <div className="space-y-3 pt-4 border-t border-zinc-900">
               {service.features.map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                  transition={{ delay: index * 0.08 + i * 0.1 }}
-                  className="flex items-center gap-2 text-sm"
-                >
-                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${service.color}`} />
-                  <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                    {feature}
-                  </span>
-                </motion.div>
+                <div key={i} className="flex items-center gap-4 text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-800">
+                  <div className="w-2 h-2 bg-zinc-950 border border-zinc-900 group-hover:bg-orange-600 transition-colors" />
+                  {feature}
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Hover Indicator */}
-          <motion.div
-            className="mt-6 flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            initial={{ x: -10 }}
-            whileHover={{ x: 0 }}
-          >
-            <span className="text-sm font-semibold letter-spacing-wide">LEARN MORE</span>
-            <motion.div
-              animate={{ x: [0, 3, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              →
-            </motion.div>
-          </motion.div>
+
         </div>
 
-        {/* Glow Effect */}
-        <motion.div
-          className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 -z-10`}
-        />
-      </Card>
+      </div>
     </motion.div>
   );
 };
@@ -263,17 +234,17 @@ const ServicesGrid = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="max-w-6xl mb-40 border-l-4 border-orange-600 pl-12 relative overflow-hidden text-left"
         >
-          <Badge className="bg-accent/10 text-accent border-accent/30 px-6 py-2 text-sm uppercase letter-spacing-wider mb-6">
-            Our Expertise
-          </Badge>
-          
-          <h2 className="text-4xl md:text-6xl font-bold letter-spacing-wide max-w-4xl mx-auto mb-6">
-            Full-Stack Digital Excellence
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
+            Development_Arsenal_v1.0
+          </div>
+
+          <h2 className="text-6xl md:text-[11rem] font-black text-white tracking-tighter uppercase italic leading-[0.75] mb-16">
+            Clinical <br /><span className="text-zinc-800">Capability.</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            End-to-end solutions powered by cutting-edge technology and creative innovation
+          <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-5xl">
+            End-to-end solutions engineered for <span className="text-white italic underline underline-offset-8 decoration-orange-600">Pure_Performance</span>.
           </p>
         </motion.div>
 

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { PhysicsReveal } from "@/components/ui/PhysicsReveal";
 
 const testimonials = [
   {
@@ -53,10 +54,12 @@ const EliteTestimonials = () => {
   const activeTestimonial = testimonials[activeIndex];
 
   return (
-    <section ref={ref} className="py-32 bg-secondary/20 relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section ref={ref} className="py-40 bg-black relative overflow-hidden border-t border-b border-zinc-900">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03] pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="mb-20">
+        <div className="mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,93 +67,122 @@ const EliteTestimonials = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <p className="text-sm uppercase tracking-widest text-accent mb-4">Testimonials</p>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              Client Stories
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
+              <Quote className="w-4 h-4 text-orange-600" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                Client_Verification_Log
+              </span>
+            </div>
+            <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
+              Success <br />
+              <span className="text-zinc-800">Protocol.</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Hear from the companies we've helped transform
-            </p>
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left: Image */}
-          <motion.div
-            style={{ y }}
-            className="relative"
-          >
-            <div className="aspect-[3/4] relative overflow-hidden">
-              <motion.img
-                key={activeIndex}
-                src={activeTestimonial.image}
-                alt={activeTestimonial.author}
-                className="w-full h-full object-cover"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.6 }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="grid md:grid-cols-2 gap-16 items-start">
+          {/* Left: Image with Industrial Frame */}
+          <div className="relative pt-12 pl-12">
+            <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-orange-600 z-20" />
+            <div className="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-zinc-800 z-20" />
 
-              {/* Quote Icon Overlay */}
-              <div className="absolute top-8 left-8">
-                <Quote className="w-16 h-16 text-white/20" fill="currentColor" />
+            <motion.div
+              style={{ y }}
+              className="relative z-10 bg-zinc-900 aspect-[3/4] overflow-hidden border border-zinc-800"
+            >
+              <PhysicsReveal
+                className="w-full h-full"
+                revealSize={250}
+                cover={
+                  <div className="relative w-full h-full">
+                    <div className="absolute top-4 left-4 z-30 bg-black/80 backdrop-blur border border-zinc-800 px-4 py-2">
+                      <span className="font-mono text-[9px] text-white uppercase tracking-widest">
+                        ID: {activeTestimonial.author.split(' ')[0]}_0{activeIndex + 1}
+                      </span>
+                    </div>
+
+                    <motion.img
+                      key={activeIndex}
+                      src={activeTestimonial.image}
+                      alt={activeTestimonial.author}
+                      className="w-full h-full object-cover grayscale opacity-80"
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 0.8, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </div>
+                }
+              >
+                <div className="relative w-full h-full">
+                  <motion.img
+                    key={`reveal-${activeIndex}`}
+                    src={activeTestimonial.image}
+                    alt={`${activeTestimonial.author} Revealed`}
+                    className="w-full h-full object-cover contrast-125"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/10 mix-blend-color-dodge" />
+                  <div className="absolute top-4 right-4 z-30 font-mono text-[8px] text-orange-500 bg-black/50 px-2 py-1 border border-orange-500/30">
+                    IDENTITY_CONFIRMED
+                  </div>
+                </div>
+              </PhysicsReveal>
+
+              {/* Tech Overlays */}
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/80 to-transparent flex items-end p-8 pointer-events-none">
+                <div className="w-full h-[1px] bg-zinc-800 mb-4" />
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Right: Content */}
-          <div className="space-y-8">
+          <div className="space-y-12 pt-12 self-center">
             <motion.div
               key={`content-${activeIndex}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <blockquote className="text-2xl md:text-3xl font-light leading-relaxed mb-8 text-foreground">
+              <div className="flex items-start gap-4 mb-8">
+                <Quote className="w-8 h-8 text-orange-600 transform flip-x" />
+                <div className="h-[1px] flex-1 bg-zinc-900 mt-4" />
+              </div>
+
+              <blockquote className="text-3xl md:text-4xl font-black text-white uppercase leading-tight tracking-tight mb-10">
                 "{activeTestimonial.quote}"
               </blockquote>
 
-              <div className="space-y-2">
-                <div className="text-xl font-bold">
-                  {activeTestimonial.author}
+              <div className="flex items-center gap-6 border-t border-zinc-900 pt-8">
+                <div className="w-12 h-12 bg-zinc-950 border border-zinc-900 flex items-center justify-center text-zinc-700 font-black">
+                  0{activeIndex + 1}
                 </div>
-                <div className="text-sm text-muted-foreground uppercase tracking-wider">
-                  {activeTestimonial.role}, {activeTestimonial.company}
+                <div>
+                  <div className="text-xl font-bold text-white uppercase tracking-wide">
+                    {activeTestimonial.author}
+                  </div>
+                  <div className="text-xs text-orange-600 font-mono uppercase tracking-widest">
+                    {activeTestimonial.role} // {activeTestimonial.company}
+                  </div>
                 </div>
               </div>
             </motion.div>
 
             {/* Controls */}
-            <div className="flex items-center gap-4 pt-8">
+            <div className="flex items-center gap-px border border-zinc-900 w-fit">
               <button
                 onClick={handlePrev}
-                className="w-12 h-12 flex items-center justify-center border border-border hover:border-accent hover:text-accent transition-all duration-300 group"
+                className="w-16 h-16 flex items-center justify-center bg-black hover:bg-orange-600 hover:text-white text-zinc-500 transition-all duration-300 group border-r border-zinc-900"
                 aria-label="Previous testimonial"
               >
-                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
               </button>
-
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className={`h-1 transition-all duration-300 ${
-                      index === activeIndex ? 'w-12 bg-accent' : 'w-6 bg-border hover:bg-accent/50'
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
 
               <button
                 onClick={handleNext}
-                className="w-12 h-12 flex items-center justify-center border border-border hover:border-accent hover:text-accent transition-all duration-300 group"
+                className="w-16 h-16 flex items-center justify-center bg-black hover:bg-orange-600 hover:text-white text-zinc-500 transition-all duration-300 group"
                 aria-label="Next testimonial"
               >
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>

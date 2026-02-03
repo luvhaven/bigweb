@@ -2,7 +2,7 @@ import React from 'react'
 import { ArrowLeft, Clock, Calendar, Share2, Linkedin, Twitter } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { supabase } from '@/utils/supabase'
+import { createClient } from '@/lib/supabase/server'
 import ConversionNavigation from '@/components/ConversionNavigation'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+    const supabase = await createClient()
     const { data: post } = await supabase
         .from('cms_blog_posts')
         .select('*')
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+    const supabase = await createClient()
     const { data: post, error } = await supabase
         .from('cms_blog_posts')
         .select(`
@@ -51,14 +53,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <main className="min-h-screen bg-background selection:bg-accent/30">
             <ConversionNavigation />
 
-            <article className="pt-32 pb-24">
+            <article className="pt-24 pb-16">
                 {/* Header */}
                 <div className="container mx-auto px-6 max-w-4xl">
-                    <Link href="/blog" className="inline-flex items-center text-muted-foreground hover:text-accent mb-8 transition-colors">
+                    <Link href="/blog" className="inline-flex items-center text-muted-foreground hover:text-accent mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4 mr-2" /> Back to Knowledge Base
                     </Link>
 
-                    <div className="flex flex-wrap gap-4 items-center mb-6 text-sm text-muted-foreground">
+                    <div className="flex flex-wrap gap-4 items-center mb-4 text-xs text-muted-foreground">
                         <span className="px-3 py-1 rounded-full bg-accent/10 text-accent font-bold border border-accent/20">
                             {post.category?.name || 'Article'}
                         </span>
@@ -70,7 +72,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         </div>
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                         {post.title}
                     </h1>
 

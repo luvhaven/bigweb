@@ -2,158 +2,25 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Star, ChevronLeft, ChevronRight, Activity } from 'lucide-react'
 import { Button } from './ui/button'
-import { testimonialsAPI, type Testimonial } from '@/lib/api/testimonials'
 
-export default function PremiumTestimonials() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+interface PremiumTestimonialsProps {
+  initialTestimonials?: any[]
+}
+
+export default function PremiumTestimonials({ initialTestimonials = [] }: PremiumTestimonialsProps) {
+  const [testimonials, setTestimonials] = useState<any[]>(initialTestimonials)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(initialTestimonials.length === 0)
 
   useEffect(() => {
-    loadTestimonials()
-    const safetyTimer = setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-    return () => clearTimeout(safetyTimer)
-  }, [])
-
-  const loadTestimonials = async () => {
-    try {
-      const data = await testimonialsAPI.getFeatured()
-      if (data && data.length > 0) {
-        setTestimonials(data)
-      } else {
-        // Fallback to demo data if no testimonials in database
-        setTestimonials([
-          {
-            id: '1',
-            client_name: "Dr. Julianne Mercer",
-            client_role: "Marketing Director",
-            client_company: "Aether Analytics",
-            content: "The Conversion Diagnostic revealed issues we'd been blind to for years. Implementing their recommended fixes increased our trial signups by 127% essentially overnight.",
-            rating: 5,
-            client_image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&q=80",
-            result_metric: "+127% Trial Lift",
-            is_featured: true,
-            status: 'active',
-            order_index: 1,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: '2',
-            client_name: "Adrian Blackwell",
-            client_role: "Founder",
-            client_company: "Velocity Shop",
-            content: "The Fix Sprint is the best $1,000 we ever spent. They optimized our pricing page in 7 days and we saw a 40% increase in checkout completions the following week.",
-            rating: 5,
-            client_image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
-            result_metric: "40% Revenue Recovery",
-            is_featured: true,
-            status: 'active',
-            order_index: 2,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: '3',
-            client_name: "Catherine Ross",
-            client_role: "CEO",
-            client_company: "Sky Pulse",
-            content: "Our new Revenue Website System is a Ferrari. It's lightning fast, beautiful, and most importantly, it actually sells. 2% to 5% site-wide conversion rate jump.",
-            rating: 5,
-            client_image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&q=80",
-            result_metric: "250% ROI",
-            is_featured: true,
-            status: 'active',
-            order_index: 3,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-        ] as Testimonial[])
-      }
-    } catch (error) {
-      setLoading(false)
-      // Fallback to demo data if API fails
-      setTestimonials([
-        {
-          id: '1',
-          client_name: "Sarah Jenkins",
-          client_role: "Marketing Director",
-          client_company: "TechFlow Solutions",
-          content: "BIGWEB transformed our digital presence completely. Their attention to detail and innovative approach resulted in a 412% increase in conversions.",
-          rating: 5,
-          client_image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
-          result_metric: "+412% Conversions",
-          is_featured: true,
-          status: 'active',
-          order_index: 1,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: '2',
-          client_name: "Kwame Osei",
-          client_role: "Tech Founder",
-          client_company: "Innovate Africa",
-          content: "The scalability of the architecture they built allowed us to expand to three new countries in under six months. World-class engineering.",
-          rating: 5,
-          client_image: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=150&q=80",
-          result_metric: "3 New Markets",
-          is_featured: true,
-          status: 'active',
-          order_index: 2,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: '3',
-          client_name: "Lars Nielsen",
-          client_role: "Product Lead",
-          client_company: "Nordic Design Co.",
-          content: "Minimalist, efficient, and incredibly powerful. They understood our Scandinavian design ethos perfectly while delivering robust functionality.",
-          rating: 5,
-          client_image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80",
-          result_metric: "200% Efficiency",
-          is_featured: true,
-          status: 'active',
-          order_index: 3,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
-      ] as Testimonial[])
-    } finally {
+    if (initialTestimonials) {
+      setTestimonials(initialTestimonials)
       setLoading(false)
     }
-  }
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-      scale: 0.8
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-      scale: 1
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0,
-      scale: 0.8
-    })
-  }
-
-  const swipeConfidenceThreshold = 10000
-  const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity
-  }
+  }, [initialTestimonials])
 
   const paginate = (newDirection: number) => {
     setDirection(newDirection)
@@ -165,189 +32,90 @@ export default function PremiumTestimonials() {
     })
   }
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      paginate(1)
-    }, 8000)
-
-    return () => clearInterval(timer)
-  }, [currentIndex])
-
-  if (loading || testimonials.length === 0) {
-    return (
-      <section className="py-24 md:py-32 relative overflow-hidden bg-gradient-mesh texture-noise">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
-        </div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto" />
-            <p className="mt-4 text-muted-foreground">Loading testimonials...</p>
-          </div>
-        </div>
-      </section>
-    )
-  }
+  if (loading || testimonials.length === 0) return null
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden bg-gradient-mesh texture-noise">
-      {/* Premium background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
-      </div>
+    <section className="py-24 md:py-40 relative bg-black overflow-hidden border-t border-white/5">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.02]" />
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 mb-6">
-            <Star className="w-5 h-5 text-accent fill-accent" />
-            <span className="text-accent text-sm font-medium uppercase tracking-wider">
-              Real Results, Real Revenue
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-luxury">
-            Trusted by <span className="gradient-text-luxury">Industry Leaders</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            From 4x conversion increases to multi-million dollar revenue growth—see what happens when you choose the right partner
-          </p>
-        </motion.div>
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* Header Content */}
+          <div className="lg:col-span-4 space-y-8 border-l-4 border-orange-600 pl-12">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-4">
+              Clinical_Verdicts_v1.0
+            </div>
 
-        {/* Testimonial Carousel */}
-        <div className="max-w-5xl mx-auto relative">
-          <div className="relative h-[500px] md:h-[400px]">
-            <AnimatePresence initial={false} custom={direction}>
+            <h2 className="text-6xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.75] mb-8">
+              The <br /><span className="text-zinc-800">Verdicts.</span>
+            </h2>
+
+            <p className="text-zinc-500 text-2xl md:text-4xl font-medium leading-[1.1] tracking-tight max-w-sm">
+              Clinical execution logs from the world's most <span className="text-white italic underline underline-offset-8 decoration-orange-600">Aggressive_Growth</span> cohorts.
+            </p>
+
+            <div className="flex gap-px bg-zinc-900 pt-12">
+              <button
+                onClick={() => paginate(-1)}
+                className="w-20 h-20 flex items-center justify-center bg-zinc-950 border border-zinc-900 text-zinc-700 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all duration-300"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                onClick={() => paginate(1)}
+                className="w-20 h-20 flex items-center justify-center bg-zinc-950 border border-zinc-900 text-zinc-700 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all duration-300"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            </div>
+          </div>
+
+          {/* Testimonial Active Unit */}
+          <div className="lg:col-span-8 relative min-h-[400px] flex items-center">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentIndex}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 },
-                  scale: { duration: 0.2 }
-                }}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={1}
-                onDragEnd={(e, { offset, velocity }) => {
-                  const swipe = swipePower(offset.x, velocity.x)
-
-                  if (swipe < -swipeConfidenceThreshold) {
-                    paginate(1)
-                  } else if (swipe > swipeConfidenceThreshold) {
-                    paginate(-1)
-                  }
-                }}
-                className="absolute w-full"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5 }}
+                className="w-full"
               >
-                <div className="card-elite card-hover-premium p-8 md:p-12 relative overflow-hidden">
-                  {/* Quote icon with bounce animation */}
-                  <motion.div
-                    className="absolute top-8 right-8 opacity-10"
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
-                      delay: 0.2
-                    }}
-                  >
-                    <Quote className="w-32 h-32 text-accent" />
-                  </motion.div>
+                <div className="space-y-16">
+                  <div className="flex gap-2">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className={`w-12 h-1.5 ${i < (testimonials[currentIndex]?.rating || 5) ? 'bg-orange-600' : 'bg-zinc-900'}`} />
+                    ))}
+                  </div>
 
-                  <div className="relative z-10">
-                    {/* Rating */}
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(testimonials[currentIndex]?.rating || 5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-accent text-accent" />
-                      ))}
+                  <blockquote className="text-4xl md:text-7xl font-black text-white italic tracking-tighter leading-[0.9] uppercase max-w-6xl">
+                    "{testimonials[currentIndex]?.content}"
+                  </blockquote>
+
+                  <div className="flex flex-col md:flex-row items-start md:items-center gap-12 pt-16 border-l-4 border-zinc-900 pl-12 relative overflow-hidden">
+                    <div className="space-y-4">
+                      <div className="text-4xl font-black text-white italic tracking-tight uppercase leading-none">
+                        {testimonials[currentIndex]?.client_name}
+                      </div>
+                      <div className="text-[12px] font-mono font-black text-zinc-700 uppercase tracking-[0.5em]">
+                        {testimonials[currentIndex]?.client_role} <span className="text-zinc-800">//</span> {testimonials[currentIndex]?.client_company}
+                      </div>
                     </div>
 
-                    {/* Content */}
-                    <blockquote className="text-xl md:text-2xl font-medium mb-8 leading-relaxed text-balance">
-                      "{testimonials[currentIndex]?.content}"
-                    </blockquote>
-
-                    {/* Author */}
-                    <div className="flex items-center justify-between flex-wrap gap-6">
-                      <div className="flex items-center gap-4">
-                        <motion.img
-                          src={testimonials[currentIndex]?.client_image}
-                          alt={testimonials[currentIndex]?.client_name}
-                          className="w-16 h-16 rounded-full border-2 border-accent/30 shadow-lg"
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                        />
-                        <div>
-                          <div className="font-bold text-lg">{testimonials[currentIndex]?.client_name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {testimonials[currentIndex]?.client_role} at {testimonials[currentIndex]?.client_company}
-                          </div>
+                    {testimonials[currentIndex]?.result_metric && (
+                      <div className="md:ml-auto text-left md:text-right">
+                        <div className="text-6xl md:text-[8rem] font-black text-white italic tracking-tighter leading-none mb-4 group-hover:text-orange-600 transition-colors">
+                          {testimonials[currentIndex]?.result_metric}
+                        </div>
+                        <div className="text-[11px] font-mono font-bold text-zinc-800 uppercase tracking-[0.6em]">
+                          Delta_Performance_Yield
                         </div>
                       </div>
-
-                      {/* Result Badge */}
-                      {testimonials[currentIndex]?.result_metric && (
-                        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/20 to-orange-500/20 border border-accent/30">
-                          <span className="text-accent font-bold text-lg">
-                            {testimonials[currentIndex]?.result_metric}
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
-
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => paginate(-1)}
-              className="rounded-full w-12 h-12 hover:bg-accent/10 transition-elegant"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
-
-            {/* Indicators */}
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setDirection(index > currentIndex ? 1 : -1)
-                    setCurrentIndex(index)
-                  }}
-                  className={`transition-all duration-300 rounded-full ${index === currentIndex
-                    ? 'w-8 h-2 bg-accent'
-                    : 'w-2 h-2 bg-accent/30 hover:bg-accent/50'
-                    }`}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => paginate(1)}
-              className="rounded-full w-12 h-12 hover:bg-accent/10 transition-elegant"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </Button>
           </div>
         </div>
       </div>

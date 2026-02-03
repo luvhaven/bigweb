@@ -1,356 +1,362 @@
 'use client'
 
-import { Metadata } from 'next'
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import BentoGrid from '@/components/services/BentoGrid'
-import ProcessTimeline from '@/components/services/ProcessTimeline'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
-import { Palette, Eye, Users, Layers, Sparkles, Target, Smartphone, Layout, Zap, TrendingUp, Award } from 'lucide-react'
 import { motion } from 'framer-motion'
+import {
+  Palette,
+  Layout,
+  MousePointer2,
+  Smartphone,
+  ArrowRight,
+  Eye,
+  Zap,
+  Award,
+  CheckCircle2,
+  Rocket,
+  Layers,
+  Component,
+  Figma,
+  PenTool,
+  Monitor,
+  Smile
+} from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
-import { useEffect } from 'react'
-import serviceImage from '@/assets/service-ui-ux.png'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const features = [
+// Product Branding
+const PRODUCT_NAME = "The Experience Engine™"
+const PRODUCT_TAGLINE = "High-Fidelity Interaction Architecture"
+
+// Outcome-focused benefits
+const outcomes = [
   {
-    title: 'User Research & Strategy',
-    description: 'We dive deep into user behavior, psychology, and market data to build a solid foundation for design. Evidence-based decisions backed by real user insights.',
-    icon: Eye,
-    colSpan: 2 as const,
-    rowSpan: 2 as const,
-    bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=90'
+    title: "Visual Dominance",
+    description: "We craft elite brand identities that instantly signal market leadership. Your competition becomes background noise.",
+    icon: Award,
+    metric: "Premium",
+    metricLabel: "Perception"
   },
   {
-    title: 'Visual Design Excellence',
-    description: 'Stunning, pixel-perfect interfaces that capture your brand essence and captivate users. Every element crafted for maximum impact.',
-    icon: Palette,
-    colSpan: 1 as const
+    title: "Conversion-Led UX",
+    description: "Every pixel is engineered to guide the user towards high-value actions. Scientific precision meets artistic brilliance.",
+    icon: MousePointer2,
+    metric: "+85%",
+    metricLabel: "Click-Through"
   },
   {
-    title: 'Interaction Design',
-    description: 'Fluid animations and micro-interactions that make every click feel satisfying. Delight users at every touchpoint.',
-    icon: Sparkles,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Design Systems',
-    description: 'Scalable component libraries that ensure consistency and speed up development. Future-proof your design language.',
-    icon: Layers,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Mobile-First Approach',
-    description: 'Responsive designs that work flawlessly across all devices and screen sizes. 60% of users browse on mobile—we optimize for them.',
-    icon: Smartphone,
-    colSpan: 1 as const
-  },
-  {
-    title: 'Conversion Optimization',
-    description: 'Data-driven design decisions that turn visitors into loyal customers. Average 40% increase in conversion rates.',
-    icon: Target,
-    colSpan: 2 as const
+    title: "Atomic Scalability",
+    description: "We build living design systems that allow your brand to scale infinitely without losing visual integrity.",
+    icon: Component,
+    metric: "100%",
+    metricLabel: "Consistency"
   }
 ]
 
-const processSteps = [
+// Social proof
+const socialProof = [
+  { value: "11", label: "Design Awards" },
+  { value: "150+", label: "Brands Elevated" },
+  { value: "4.5X", label: "Engagement Lift" },
+  { value: "Elite", label: "Aesthetic Status" }
+]
+
+// Transformation phases
+const transformation = [
   {
-    number: '01',
-    title: 'Discovery & Empathy',
-    description: 'We start by understanding your business goals and your users\' deepest needs. Through interviews, data analysis, and competitive research, we uncover the insights that drive innovation. This phase includes stakeholder interviews, user surveys, analytics review, and market positioning analysis.',
-    tags: ['User Interviews', 'Market Analysis', 'Persona Building', 'Competitive Research']
+    phase: "Phase 01",
+    title: "Visual DNA Mapping",
+    outcome: "We surgically analyze your brand's core and map a visual strategy that aligns with your master business goals.",
+    deliverables: ["Color Psychology", "Typography Mesh", "Style Lockdown"]
   },
   {
-    number: '02',
-    title: 'Architecture & Flow',
-    description: 'Before pixel one, we map out the entire experience. We define user journeys, information architecture, and wireframes to ensure a logical, intuitive flow. This includes card sorting exercises, user flow mapping, lo-fi wireframes, and navigation structure planning.',
-    tags: ['User Flows', 'Sitemaps', 'Wireframing', 'IA Design']
+    phase: "Phase 02",
+    title: "High-Fidelity Interface",
+    outcome: "We craft breathtaking 100% custom interfaces with glassmorphism, micro-animations, and elite polish.",
+    deliverables: ["Figma Library", "Interaction Design", "Responsive Mesh"]
   },
   {
-    number: '03',
-    title: 'Visual Crafting',
-    description: 'This is where magic happens. We apply your brand identity to the wireframes, creating high-fidelity designs with stunning typography, color, and imagery. Every element is crafted with attention to detail, accessibility, and visual hierarchy in mind.',
-    tags: ['UI Design', 'Prototyping', 'Design Systems', 'Brand Integration']
-  },
-  {
-    number: '04',
-    title: 'Validation & Handoff',
-    description: 'We test our designs with real users to ensure usability. Once refined, we prepare detailed documentation for a seamless developer handoff. This includes usability testing sessions, A/B testing recommendations, design specs, and component documentation.',
-    tags: ['Usability Testing', 'Dev Specs', 'QA Support', 'Documentation']
+    phase: "Phase 03",
+    title: "System Handoff",
+    outcome: "The engine is complete. We deliver an atomic component library that ensures permanent design consistency.",
+    deliverables: ["Component Library", "UX Guidelines", "Asset Lockdown"]
   }
 ]
 
-const faqs = [
-  {
-    question: 'What is the difference between UI and UX design?',
-    answer: 'UX (User Experience) focuses on how the product works and feels - the overall experience, user journeys, and problem-solving. UI (User Interface) focuses on how the product looks - the visual design, colors, typography, and layout. Both are essential and work together. Think of UX as the blueprint and UI as the interior design.'
-  },
-  {
-    question: 'How long does a UI/UX design project take?',
-    answer: 'Timeline depends on project scope and complexity. Simple landing pages or small apps take 3-4 weeks, while complex enterprise applications can take 8-12 weeks or more. We provide detailed timelines with milestones after understanding your requirements during the discovery phase.'
-  },
-  {
-    question: 'Do you conduct user testing?',
-    answer: 'Absolutely! User testing is crucial to our process. We conduct moderated and unmoderated usability tests with real users (typically 5-8 participants per round) to validate designs and identify areas for improvement before development begins. This saves significant time and money by catching issues early.'
-  },
-  {
-    question: 'Can you redesign my existing product?',
-    answer: 'Yes! We specialize in product redesigns and have helped over 150+ companies transform their digital products. We start with a comprehensive UX audit to analyze your current design, identify pain points and opportunities, then create improved experiences that drive better results while maintaining user familiarity where it matters.'
-  },
-  {
-    question: 'Do you create design systems?',
-    answer: 'Yes! We create comprehensive design systems with reusable components, style guides, design tokens, and detailed documentation. This ensures consistency across your product, speeds up future development, and makes it easier to scale your team. We can work with tools like Figma, Sketch, or Storybook.'
-  },
-  {
-    question: 'What tools do you use for UI/UX design?',
-    answer: 'Our primary tools include Figma for design and prototyping, Miro for collaboration and workshops, Maze or UserTesting for usability testing, Hotjar for analytics, and Dovetail for research synthesis. We adapt our toolset based on your existing workflow and preferences.'
-  },
-  {
-    question: 'How do you measure the success of a design?',
-    answer: 'We measure success through both quantitative and qualitative metrics. Key metrics include: task completion rate, time on task, error rate, user satisfaction scores (SUS, NPS), conversion rates, and engagement metrics. We establish baseline metrics before redesign and track improvements post-launch.'
-  },
-  {
-    question: 'Do you work with our existing development team?',
-    answer: 'Yes! We work seamlessly with in-house or third-party development teams. We provide detailed design specs, component documentation, asset exports, and ongoing support during implementation. We can also conduct design QA reviews to ensure the final product matches our designs.'
-  }
-]
-
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'UI/UX Design', href: '/services/ui-ux-design' }
-]
-
-export default function UIUXDesignPage() {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [])
-
+export default function UIUXPage() {
   return (
-    <main className="min-h-screen bg-background selection:bg-green-500/30">
-      {/* Structured Data */}
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-rose-500/30">
       <ServiceSchema
-        name="UI/UX Design Services"
-        description="Professional UI/UX design services including user research, wireframing, prototyping, visual design, and usability testing. Transform your digital product with user-centered design."
-        serviceType="Design"
-        ratingValue={4.9}
-        reviewCount={115}
-      />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
-
-      <Navigation />
-
-
-
-
-
-      <HeroPremium
-        title="Designs That Users"
-        highlight="Fall in Love With"
-        description="Pixel-perfect interfaces that convert visitors into loyal customers through data-driven design psychology. We create beautiful, intuitive experiences that delight users and drive business results."
-        themeColor="green"
-        backgroundImage={serviceImage}
-        pattern="Creative"
+        name={`${PRODUCT_NAME} - Elite UI/UX Design by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Premium visual identities and conversion-led UX. Atomic design systems, high-fidelity interfaces, design awards winner.`}
+        serviceType="UI/UX Design"
+        ratingValue={5.0}
+        reviewCount={150}
       />
 
-      <div className="container mx-auto px-6 pt-4">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      <AdvancedNavigation />
 
-      {/* Extended Content Section for SEO */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+      {/* Hero Section */}
+      <section className="relative min-h-[100svh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-gradient-mesh">
+        {/* Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
+        </div>
+
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-rose-600/10 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[120px] animate-pulse-slow" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-5xl mx-auto"
           >
-            <h2 className="text-4xl font-bold mb-6">Why UI/UX Design Matters for Your Business</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              {/* GAIO: Quotable Definition Box */}
-              <blockquote className="llm-quotable border-l-4 border-green-500 bg-green-500/5 p-6 rounded-r-lg not-italic mb-8">
-                <p className="text-xl font-medium text-foreground m-0">
-                  "Great enterprise design is invisible. It removes friction, anticipates user intent, and transforms complex workflows into intuitive, linear processes that drive productivity."
-                </p>
-              </blockquote>
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-5 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-rose-500/20 shadow-[0_0_20px_rgba(244,63,94,0.1)] mb-8"
+            >
+              <PenTool className="w-4 h-4 text-rose-400" />
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-rose-400">
+                Creative System: {PRODUCT_NAME}
+              </span>
+            </motion.div>
 
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                In today's digital-first world, your website or app is often the first interaction customers have with your brand.
-                Studies show that <strong>88% of online users are less likely to return to a site after a bad experience</strong>,
-                and <strong>75% of users judge a company's credibility based on visual design alone</strong>.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Great UI/UX design isn't just about making things look pretty—it's about creating frictionless experiences that
-                guide users effortlessly toward their goals while achieving your business objectives. Our design process combines
-                deep user research, behavioral psychology, and conversion rate optimization principles to create interfaces that
-                not only look stunning but drive measurable business results.
-              </p>
-              <h3 className="text-2xl font-bold mt-12 mb-4">The ROI of Professional UI/UX Design</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Investing in professional UI/UX design delivers significant returns. Our clients typically see:
-              </p>
-              <ul className="text-lg text-muted-foreground space-y-3 mb-6">
-                <li><strong>40% increase in conversion rates</strong> through optimized user flows and CTAs</li>
-                <li><strong>50% reduction in support tickets</strong> with intuitive, self-service interfaces</li>
-                <li><strong>200% boost in user engagement</strong> with delightful micro-interactions</li>
-                <li><strong>3.2x ROI on average</strong> within the first year of implementation</li>
-              </ul>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Every dollar spent on UX brings <strong>$100 in return</strong> (ROI = 9,900%), according to Forrester Research.
-                This makes UI/UX design one of the highest-ROI investments you can make in your digital product.
-              </p>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-4xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter uppercase leading-[0.85] italic"
+            >
+              The Experience<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-rose-600 to-orange-600">
+                Engine™
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-base md:text-xl font-bold tracking-[0.4em] text-rose-500 uppercase italic mb-8"
+            >
+              {PRODUCT_TAGLINE}
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-tight mb-12 font-light"
+            >
+              We don't just design pages. We architect <strong className="text-white font-black italic">high-fidelity interactions</strong> that turn skeptics into brand advocates.
+              <br />
+              <span className="text-white font-black underline decoration-rose-500 underline-offset-8">Mediocrity is the silent killer.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
+            >
+              <Link
+                href="/contact"
+                className="group relative px-10 py-5 rounded-xl bg-rose-600 text-white font-black uppercase tracking-widest text-sm hover:bg-rose-500 transition-all hover:scale-105 shadow-2xl shadow-rose-500/20"
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  <Palette className="w-5 h-5" />
+                  Start My Design
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                href="#process"
+                className="px-10 py-5 rounded-xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-sm hover:bg-white/10 transition-all font-bold"
+              >
+                View Architecture
+              </Link>
+            </motion.div>
+
+            {/* Creative Telemetry */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <BentoGrid
-        title="Beyond Just Pretty Pixels"
-        subtitle="A comprehensive approach to digital product design that balances aesthetics with functionality."
-        items={features}
-        themeColor="green"
-      />
+      {/* Experience Outcomes */}
+      <section className="py-32 relative overflow-hidden bg-[#080808]">
+        <div className="container mx-auto px-6 mb-24 text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+            The <span className="text-rose-500">Outcome</span> Mesh
+          </h2>
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
+            Design is not decoration. It is the <strong className="text-white italic">conversion layer</strong> of your business.
+          </p>
+        </div>
 
-      <ProcessTimeline
-        steps={processSteps}
-        themeColor="green"
-      />
-
-      {/* Case Studies Section */}
-      <section className="py-32 px-6 bg-secondary/5">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">Real Results, Real Impact</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              See how we've transformed digital products for companies across industries
-            </p>
-          </motion.div>
-
+        <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                stat: '+250%',
-                metric: 'User Engagement',
-                company: 'FinTech SaaS',
-                description: 'Redesigned dashboard increased daily active users by 250% within 3 months'
-              },
-              {
-                stat: '4.9★',
-                metric: 'App Store Rating',
-                company: 'Mobile Banking App',
-                description: 'Improved from 3.2 to 4.9 stars after UX overhaul, now featured by Apple'
-              },
-              {
-                stat: '+180%',
-                metric: 'Course Completion',
-                company: 'E-Learning Platform',
-                description: 'Streamlined UX led to massive increase in student retention and satisfaction'
-              }
-            ].map((item, index) => (
+            {outcomes.map((outcome, i) => (
               <motion.div
-                key={index}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-8 bg-card border border-border rounded-3xl hover:border-green-500/50 transition-colors"
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-rose-500/30 transition-all duration-500"
               >
-                <div className="text-5xl font-bold text-green-500 mb-2">{item.stat}</div>
-                <div className="text-xl font-semibold mb-1">{item.metric}</div>
-                <div className="text-sm text-green-500 mb-4">{item.company}</div>
-                <p className="text-muted-foreground">{item.description}</p>
+                <div className="p-5 rounded-2xl bg-rose-500/10 border border-rose-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <outcome.icon className="w-8 h-8 text-rose-500" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
+
+                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
+                  <div className="text-5xl font-black text-rose-500 italic tracking-tighter">{outcome.metric}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section with Schema */}
-      <section className="py-32 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted-foreground">
-              Everything you need to know about our UI/UX design services
-            </p>
-          </motion.div>
+      {/* Design Architecture Tools */}
+      <section className="py-24 border-t border-white/5 border-b bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="text-rose-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Powering The Engine</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter">Stack Intelligence</h2>
+          </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.details
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-green-500/50 transition-colors"
-              >
-                <summary className="p-6 cursor-pointer list-none font-bold text-lg flex items-center justify-between">
-                  <span>{faq.question}</span>
-                  <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <div className="px-6 pb-6 pt-0 text-muted-foreground">
-                  {faq.answer}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { title: "Figma Mastery", desc: "Enterprise-grade real-time collaboration and atomic component libraries.", icon: Figma },
+              { title: "Motion Frameworks", desc: "Framer Motion & GSAP for physics-based sub-60fps fluid interactions.", icon: Zap },
+              { title: "Visual Validation", desc: "Microscopic heatmapping and A/B testing frameworks to verify intent.", icon: Eye },
+            ].map((tool, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-3xl bg-black border border-white/5 hover:border-rose-500/20 transition-all group">
+                <div className="w-16 h-16 rounded-2xl bg-rose-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <tool.icon className="w-8 h-8 text-rose-500" />
                 </div>
-              </motion.details>
+                <h3 className="text-xl font-bold text-white mb-2 uppercase italic">{tool.title}</h3>
+                <p className="text-zinc-500 leading-relaxed font-medium">{tool.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-green-500/5" />
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <Award className="w-16 h-16 mx-auto mb-6 text-green-500" />
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-              Ready to Transform Your Product?
+      {/* Deployment Timeline */}
+      <section id="process" className="py-40 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
+              The <span className="text-rose-500">Design</span> Loop
             </h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Let's build something that sets a new standard in your industry. Get a free UX audit and consultation.
+            <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+              How we architect your visual dominance.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/estimator">
-                <Button size="lg" className="h-16 px-10 text-xl rounded-full bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-500/20">
-                  Get Free UX Audit
-                  <ArrowRight className="ml-2 w-6 h-6" />
-                </Button>
-              </Link>
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="h-16 px-10 text-xl rounded-full">
-                  View Our Work
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-rose-500/20 transition-all relative group"
+              >
+                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-rose-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                  Phase {i + 1}
+                </div>
+
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <div className="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                  </div>
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {step.deliverables.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                        <CheckCircle2 className="w-4 h-4 text-rose-500" />
+                        <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-rose-600/5 blur-[120px]" />
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-widest mb-10"
+              >
+                <Eye className="w-4 h-4" /> Lab Inspection Ready
+              </motion.div>
+
+              <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                Start your <span className="text-rose-600">Ascension</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
+                Do not let mediocre design cap your revenue potential.
+                <br />
+                <strong className="text-white italic">The Experience Engine is primed.</strong>
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+              >
+                <Palette className="w-8 h-8" />
+                Begin Design
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <RelatedServices currentPath="/services/ui-ux-design" />
+
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'UI/UX Design', url: '/services/ui-ux-design' }
+        ]}
+      />
+
       <Footer />
-    </main>
+    </main >
   )
 }

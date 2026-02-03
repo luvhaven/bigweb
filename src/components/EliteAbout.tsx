@@ -3,9 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { gsap } from 'gsap';
+import { GitBranch, Binary, Globe, Activity, TrendingUp } from 'lucide-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { MouseReveal, RevealPatterns } from '@/components/ui/MouseReveal';
+import { PhysicsReveal } from '@/components/ui/PhysicsReveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -103,52 +105,51 @@ const EliteAbout = () => {
               transition={{ duration: 0.8 }}
               style={isMounted ? { y } : {}}
             >
-              <p className="text-sm uppercase tracking-widest text-accent mb-6">About Us</p>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10">
+                <GitBranch className="w-4 h-4" /> System_Identity_0xc1
+              </div>
 
-              <h2 ref={headingRef} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-8 leading-tight max-w-xl">
-                We Build Revenue Engines, Not Just Websites
+              <h2 ref={headingRef} className="text-6xl md:text-[8rem] font-black tracking-tighter mb-12 leading-[0.75] uppercase italic text-white">
+                Engineering <br /><span className="text-zinc-800">Revenue.</span>
               </h2>
 
-              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
+              <div className="space-y-6 text-2xl md:text-3xl text-zinc-500 font-medium leading-[1.1] max-w-2xl">
                 <p>
-                  <strong className="text-foreground">Every line of code. Every design decision. Every pixel.</strong> Engineered to convert visitors into customers and drive measurable business results. We're not your typical agency—we're your growth partner with skin in the game.
+                  <strong className="text-white italic underline underline-offset-8 decoration-zinc-800">Every line of code</strong>. Every design decision. Every pixel. Deployed to extract measurable yield.
                 </p>
 
                 <p>
-                  Since 2017, we've helped 250+ companies—from ambitious startups to Fortune 500 giants—dominate their markets. Using Next.js 15, React 19, and AI-powered optimization, we build experiences that don't just look amazing—they perform even better.
+                  Since 2017, we have engineered environments for cohorts ranging from <span className="text-white italic">Aggressive_Startups</span> to Fortune 500 giants.
                 </p>
 
                 <p>
-                  Our secret? We obsess over data, test relentlessly, and optimize continuously. <strong className="text-foreground">The result? Websites that generate over $50M in client revenue and counting.</strong>
+                  Clinical execution logs show <span className="text-white font-bold italic">$50M+ in realized revenue</span> for our partners. No fluff. Just engineering.
                 </p>
               </div>
 
               <motion.div
                 ref={statsRef}
-                className="mt-12 grid grid-cols-3 gap-8"
+                className="mt-16 grid grid-cols-3 gap-px bg-zinc-900 border border-zinc-900 overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <div>
-                  <div className="text-5xl font-bold text-accent mb-2">
-                    <span className="stat-number" data-target="8">8</span>+
+                {[
+                  { label: "OPERATIONAL_TIME", value: "8", suffix: "Y", icon: Activity },
+                  { label: "ACTIVE_NODES", value: "250", suffix: "+", icon: Globe },
+                  { label: "REVENUE_YIELD", value: "50", prefix: "$", suffix: "M+", icon: TrendingUp }
+                ].map((stat, i) => (
+                  <div key={i} className="bg-black p-8 group/stat">
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">{stat.label}</div>
+                      <stat.icon className="w-4 h-4 text-zinc-800 group-hover/stat:text-orange-600 transition-colors" />
+                    </div>
+                    <div className="text-4xl md:text-5xl font-black text-white italic tracking-tighter">
+                      {stat.prefix}<span className="stat-number" data-target={stat.value}>0</span>{stat.suffix}
+                    </div>
                   </div>
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider">Years</div>
-                </div>
-                <div>
-                  <div className="text-5xl font-bold text-accent mb-2">
-                    <span className="stat-number" data-target="250">250</span>+
-                  </div>
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider">Clients</div>
-                </div>
-                <div>
-                  <div className="text-5xl font-bold text-accent mb-2">
-                    $<span className="stat-number" data-target="50">50</span>M+
-                  </div>
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider">Revenue</div>
-                </div>
+                ))}
               </motion.div>
             </motion.div>
 
@@ -158,33 +159,46 @@ const EliteAbout = () => {
               className="relative"
               style={isMounted ? { y: imageY, scale } : {}}
             >
-              <div className="aspect-[3/4] relative overflow-hidden rounded-3xl">
-                <motion.img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=90"
-                  alt="Team"
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+              <div className="aspect-[3/4] relative overflow-hidden bg-zinc-950 border border-zinc-900 group">
+                <PhysicsReveal
+                  className="w-full h-full"
+                  revealSize={250}
+                  cover={
+                    <motion.img
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=90"
+                      alt="Team"
+                      className="w-full h-full object-cover grayscale opacity-50 contrast-125 transition-transform duration-700 group-hover:scale-105"
+                    />
+                  }
+                >
+                  <div className="relative w-full h-full">
+                    <motion.img
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=90"
+                      alt="Team Revealed"
+                      className="w-full h-full object-cover contrast-125 transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-orange-600/10 mix-blend-color-dodge pointer-events-none" />
+                    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2]" />
+                  </div>
+                </PhysicsReveal>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Floating Card */}
               <motion.div
-                className="absolute -bottom-8 -left-8 glass-strong rounded-2xl p-8 max-w-xs border border-white/20 hover:border-accent/40 transition-colors duration-300"
+                className="absolute -bottom-12 -left-12 bg-zinc-950 p-10 max-w-xs border border-zinc-900 hover:border-orange-600 transition-all duration-500 shadow-2xl z-20"
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5, type: 'spring' }}
-                whileHover={{ y: -4 }}
               >
-                <div className="text-4xl font-bold mb-2 bg-gradient-to-br from-accent to-accent-light bg-clip-text text-transparent">98%</div>
-                <div className="text-sm text-foreground/80">
-                  Client satisfaction rate across all projects
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 text-zinc-600 text-[8px] font-mono font-bold uppercase tracking-widest mb-6">
+                  <Binary className="w-3 h-3" /> Operational_Integrity
                 </div>
-                {/* Subtle glow */}
-                <div className="absolute inset-0 -z-10 bg-accent/10 blur-xl rounded-2xl" />
+                <div className="text-6xl font-black mb-4 text-white italic tracking-tighter leading-none">98%</div>
+                <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-widest leading-relaxed">
+                  Systemic stability and partner retention metrics.
+                </div>
               </motion.div>
             </motion.div>
           </div>

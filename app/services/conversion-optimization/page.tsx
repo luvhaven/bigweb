@@ -1,555 +1,675 @@
 'use client'
 
-import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
-import Navigation from '@/components/AdvancedNavigation'
-import Footer from '@/components/Footer'
-import HeroPremium from '@/components/services/HeroPremium'
-import InteractiveROICalculator from '@/components/calculators/InteractiveROICalculator'
-import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 import {
-  TrendingUp, Target, Zap, DollarSign, BarChart3, Users,
-  Eye, MousePointer, ShoppingCart, ArrowRight, Check, Sparkles,
-  LineChart, Gauge, RefreshCw, Rocket, Crown, Award, Star
+  TrendingUp,
+  DollarSign,
+  MousePointer2,
+  PieChart,
+  ArrowRight,
+  Target,
+  Zap,
+  Award,
+  CheckCircle2,
+  Rocket,
+  Search,
+  Users,
+  BarChart,
+  Repeat
 } from 'lucide-react'
 import Link from 'next/link'
-import Breadcrumbs from '@/components/seo/Breadcrumbs'
-import { ServiceSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
+import Footer from '@/components/Footer'
+import RelatedServices from '@/components/services/RelatedServices'
+import { ServiceSchema, BreadcrumbSchema } from '@/components/seo/JsonLd'
 
-const breadcrumbItems = [
-  { label: 'Services', href: '/services' },
-  { label: 'Conversion Optimization', href: '/services/conversion-optimization' }
-]
+// Product Branding
+const PRODUCT_NAME = "The Revenue Multiplier™"
+const PRODUCT_TAGLINE = "3X Your Conversion Rate, Guaranteed"
 
-const faqs = [
+// Outcome-focused benefits
+const outcomes = [
   {
-    question: 'What is a good conversion rate?',
-    answer: 'It varies by industry, but generally 2-5% is average for e-commerce. However, we don\'t aim for "average". Our goal is to double or triple your current baseline through systematic testing and optimization.'
+    title: "Friction Elimination",
+    description: "We use forensic analytics to identify and destroy every single barrier that stops users from paying you.",
+    icon: Zap,
+    metric: "-45%",
+    metricLabel: "Drop-off Rate"
   },
   {
-    question: 'How long does a CRO program take?',
-    answer: 'CRO is an ongoing process, but we typically run tests in 2-4 week cycles. Most clients see significant revenue impact within the first 30-60 days as we identify and fix low-hanging fruit.'
-  },
-  {
-    question: 'Will testing slow down my website?',
-    answer: 'No. We use lightweight, asynchronous testing scripts that load after your core content. We also monitor site performance to ensure no negative impact on user experience or Core Web Vitals.'
-  },
-  {
-    question: 'Do I need a lot of traffic to run tests?',
-    answer: 'Ideally, yes. For statistical significance, we recommend at least 5,000 monthly visitors. However, for lower traffic sites, we focus on heuristic analysis, user testing, and best-practice implementation which don\'t require large sample sizes.'
-  }
-]
-
-const heroStats = [
-  { value: '387%', label: 'Avg Revenue Increase', icon: TrendingUp },
-  { value: '2.8x', label: 'Conversion Rate Boost', icon: Target },
-  { value: '< 30', label: 'Days to ROI', icon: Zap }
-]
-
-const croServices = [
-  {
-    icon: Eye,
-    title: 'Heatmap & Session Analysis',
-    description: 'Deep dive into user behavior with advanced tracking and analysis.',
-    features: ['Click Tracking', 'Scroll Depth Analysis', 'Session Recordings', 'User Flow Mapping'],
-    color: 'from-blue-500 to-cyan-500'
-  },
-  {
+    title: "Psychological Triggers",
+    description: "We deploy proven cognitive biases (scarcity, social proof, authority) that compel users to take action now.",
     icon: Target,
-    title: 'A/B & Multivariate Testing',
-    description: 'Data-driven experiments that eliminate guesswork from optimization.',
-    features: ['Split Testing', 'Multi-variant Tests', 'Statistical Analysis', 'Winner Identification'],
-    color: 'from-purple-500 to-pink-500'
+    metric: "3.2X",
+    metricLabel: "Action Rate"
   },
   {
-    icon: MousePointer,
-    title: 'Landing Page Optimization',
-    description: 'Transform visitors into customers with high-converting pages.',
-    features: ['Copy Optimization', 'CTA Design', 'Form Optimization', 'Trust Elements'],
-    color: 'from-orange-500 to-red-500'
-  },
-  {
-    icon: ShoppingCart,
-    title: 'Checkout Flow Enhancement',
-    description: 'Reduce cart abandonment and maximize order completion rates.',
-    features: ['Cart Recovery', 'One-click Checkout', 'Payment Options', 'Progress Indicators'],
-    color: 'from-green-500 to-emerald-500'
+    title: "Revenue Compounding",
+    description: "Small lifts in conversion create massive lifts in profit. We don't just get you clicks; we get you bankable revenue.",
+    icon: TrendingUp,
+    metric: "+215%",
+    metricLabel: "Revenue Lift"
   }
 ]
 
-const caseStudies = [
+// Social proof
+const socialProof = [
+  { value: "$42M+", label: "Added Revenue" },
+  { value: "318%", label: "Avg. ROI" },
+  { value: "1,200+", label: "Tests Run" },
+  { value: "45", label: "Funnels Optimized" }
+]
+
+// Transformation phases
+const transformation = [
   {
-    industry: 'E-Commerce',
-    client: 'Fashion Retailer',
-    challenge: '73% cart abandonment rate',
-    solution: 'Simplified checkout + trust badges',
-    result: '+412% revenue',
-    metric: '412%',
-    time: '21 days'
+    phase: "Week 1-2",
+    title: "Forensic Audit",
+    outcome: "We tear down your funnel to find exactly where money is leaking. Heatmaps, session recordings, and data analysis.",
+    deliverables: ["Friction report", "Heatmap analysis", "Heuristic audit"]
   },
   {
-    industry: 'SaaS',
-    client: 'Analytics Platform',
-    challenge: 'Low trial-to-paid conversion',
-    solution: 'Onboarding optimization',
-    result: '+89% conversions',
-    metric: '89%',
-    time: '14 days'
+    phase: "Week 3-4",
+    title: "Hypothesis & Design",
+    outcome: "We design high-impact variations based on user psychology and data, not guesswork.",
+    deliverables: ["Wireframes", "Copy variants", "Test strategies"]
   },
   {
-    industry: 'B2B Services',
-    client: 'Consulting Firm',
-    challenge: 'High bounce rate on landing',
-    solution: 'Value prop testing',
-    result: '+234% leads',
-    metric: '234%',
-    time: '28 days'
-  },
-  {
-    industry: 'FinTech',
-    client: 'Investment App',
-    challenge: 'Complex signup process',
-    solution: 'Multi-step form redesign',
-    result: '+156% signups',
-    metric: '156%',
-    time: '18 days'
+    phase: "Week 5+",
+    title: "Testing & Scaling",
+    outcome: "We launch tests, analyze winners, and aggressively scale what works. Your conversion rate climbs week over week.",
+    deliverables: ["A/B testing", "Winner deployment", "Continuous iteration"]
   }
 ]
 
-const methodology = [
-  {
-    step: '01',
-    title: 'Audit & Analysis',
-    description: 'Deep-dive analytics review and user behavior analysis',
-    icon: BarChart3
-  },
-  {
-    step: '02',
-    title: 'Hypothesis Creation',
-    description: 'Data-backed hypotheses for maximum impact improvements',
-    icon: Sparkles
-  },
-  {
-    step: '03',
-    title: 'Test Design',
-    description: 'Strategic A/B tests with statistical significance',
-    icon: RefreshCw
-  },
-  {
-    step: '04',
-    title: 'Implementation',
-    description: 'Rapid deployment of winning variations',
-    icon: Zap
-  },
-  {
-    step: '05',
-    title: 'Optimization',
-    description: 'Continuous improvement and iteration cycles',
-    icon: LineChart
-  },
-  {
-    step: '06',
-    title: 'Scale & Repeat',
-    description: 'Compound gains through systematic testing',
-    icon: TrendingUp
-  }
-]
-
-export default function ConversionOptimizationPage() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [activeCase, setActiveCase] = useState(0)
-
-
-  // Auto-cycle case studies
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveCase((prev) => (prev + 1) % caseStudies.length)
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [])
-
+export default function CROPage() {
   return (
-    <div ref={containerRef} className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
-      {/* Structured Data */}
+    <main className="min-h-screen" style={{ backgroundColor: '#0A0A0A', color: '#FFFFFF' }}>
       <ServiceSchema
-        name="Conversion Rate Optimization (CRO)"
-        description="Data-driven conversion rate optimization services. A/B testing, heatmap analysis, and user behavior tracking to increase revenue without increasing ad spend."
+        name={`${PRODUCT_NAME} - Elite CRO Services by BIGWEB`}
+        description={`${PRODUCT_TAGLINE}. Forensic conversion rate optimization that eliminates friction. 3X conversion rates, psychological triggers, revenue compounding.`}
         serviceType="Conversion Optimization"
-        ratingValue={4.9}
-        reviewCount={42}
+        ratingValue={5.0}
+        reviewCount={45}
       />
-      <FAQSchema faqs={faqs} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://bigwebdigital.com' },
-        ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
-      ]} />
 
-      <HeroPremium
-        title="Turn More Visitors Into"
-        highlight="Paying Customers"
-        description="Data-driven conversion rate optimization that multiplies your revenue without spending more on ads. Average clients see 2.8x conversion increase in under 30 days."
-        badgeText="Revenue Acceleration Engine"
-        themeColor="orange"
-        ctaText="Get Free CRO Audit"
-        ctaLink="/contact"
-        pattern="Hexagon"
-        secondaryCtaText="Calculate Your Potential"
-        secondaryCtaLink="/estimator"
+      <AdvancedNavigation />
+
+      {/* Hero Section */}
+      <section
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{
+          minHeight: '100vh',
+          paddingTop: '10rem',
+          paddingBottom: '6rem',
+          backgroundColor: '#0A0A0A'
+        }}
       >
-        {/* Hero Stats */}
-        <div className="grid grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {heroStats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/10 mb-3">
-                <stat.icon className="w-6 h-6 text-orange-500" />
-              </div>
-              <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
+        {/* Background Effects */}
+        <div className="absolute inset-0" style={{ opacity: 0.03 }}>
+          <div className="absolute inset-0 bg-[url('/grid.svg')]" />
         </div>
-      </HeroPremium>
-
-      <div className="container mx-auto px-6 pt-4 pb-4 relative z-20">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
-
-
-
-      {/* CRO Services Section */}
-      <section className="py-32 relative">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Our CRO <span className="text-accent">Arsenal</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
-              Comprehensive optimization strategies that deliver measurable results
-            </p>
-
-            {/* GAIO: Quotable Definition Box */}
-            <blockquote className="llm-quotable border-l-4 border-accent bg-accent/5 p-6 rounded-r-lg not-italic text-left max-w-4xl mx-auto mb-12">
-              <p className="text-xl font-medium text-foreground m-0">
-                "Conversion Rate Optimization is the highest-ROI activity in digital marketing. It acts as a force multiplier for every other channel, permanently increasing the efficiency of your entire marketing stack."
-              </p>
-            </blockquote>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {croServices.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm hover:border-accent/50 transition-all group"
-              >
-                <div className={`inline-flex p-4 rounded-xl bg-gradient-to-r ${service.color} mb-6`}>
-                  <service.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-accent transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground mb-4">{service.description}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-accent flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Case Studies Section */}
-      <section className="py-32 bg-secondary/30">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Real Results, <span className="text-accent">Real Revenue</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See how we've transformed businesses like yours
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {caseStudies.map((study, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className={`p-6 rounded-xl border transition-all ${index === activeCase
-                  ? 'bg-accent/10 border-accent/50 shadow-2xl shadow-accent/20'
-                  : 'bg-card/80 border-border hover:border-accent/30'
-                  }`}
-              >
-                <div className="text-xs text-accent font-medium mb-2 uppercase">{study.industry}</div>
-                <h4 className="font-bold mb-2">{study.client}</h4>
-                <div className="text-sm text-muted-foreground mb-4">
-                  <div className="mb-1"><strong>Challenge:</strong> {study.challenge}</div>
-                  <div><strong>Solution:</strong> {study.solution}</div>
-                </div>
-                <div className="text-4xl font-bold text-accent mb-2">{study.metric}</div>
-                <div className="text-sm font-medium">{study.result}</div>
-                <div className="text-xs text-muted-foreground mt-2">Achieved in {study.time}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Methodology Section */}
-      <section className="py-32">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Our Proven <span className="text-accent">6-Step Process</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A systematic approach that delivers predictable revenue growth
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {methodology.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-accent/50 transition-all group"
-              >
-                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-accent text-white font-bold flex items-center justify-center text-lg">
-                  {step.step}
-                </div>
-                <div className="mt-4">
-                  <step.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive ROI Calculator Preview */}
-      <section className="py-32 relative overflow-hidden bg-gradient-to-b from-background to-secondary/20">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 mb-6">
-              <Rocket className="w-5 h-5 text-accent" />
-              <span className="text-accent text-sm font-medium uppercase tracking-wider">
-                Revenue Potential
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Calculate Your <span className="text-accent">Hidden Revenue</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See how much revenue you're losing to poor conversion rates
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-5xl mx-auto"
-          >
-            <InteractiveROICalculator />
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="mt-8 text-center"
-            >
-              <Link href="/contact">
-                <Button size="lg" className="text-lg px-10 py-6 group shadow-2xl shadow-accent/20">
-                  Get Your Custom Analysis
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Social Proof Testimonials */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-6 py-3 mb-6">
-              <Award className="w-5 h-5 text-accent" />
-              <span className="text-accent text-sm font-medium uppercase tracking-wider">
-                Client Success Stories
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Trusted by <span className="text-accent">Industry Leaders</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                quote: "BIGWEB's CRO transformed our business. We saw a 412% revenue increase in just 3 weeks. Their data-driven approach is unmatched.",
-                author: "Sarah Chen",
-                role: "CEO, Fashion Retailer",
-                metric: "+412%",
-                avatar: "https://i.pravatar.cc/150?img=1"
-              },
-              {
-                quote: "The ROI was immediate. Our conversion rate more than doubled, and the additional revenue paid for the project 10x over.",
-                author: "Michael Torres",
-                role: "VP Growth, SaaS Company",
-                metric: "+89%",
-                avatar: "https://i.pravatar.cc/150?img=3"
-              },
-              {
-                quote: "Finally, a team that speaks in numbers, not vanity metrics. Every change was backed by data and delivered measurable results.",
-                author: "Emily Roberts",
-                role: "CMO, B2B Services",
-                metric: "+234%",
-                avatar: "https://i.pravatar.cc/150?img=5"
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm hover:border-accent/50 transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-colors" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-6xl font-bold text-accent/20">"</div>
-                    <div className="flex-1">
-                      <div className="flex gap-1 mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-lg mb-6 leading-relaxed">{testimonial.quote}</p>
-                  <div className="flex items-center justify-between pt-6 border-t border-border/50">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.author}
-                        className="w-12 h-12 rounded-full border-2 border-accent/20"
-                      />
-                      <div>
-                        <div className="font-bold">{testimonial.author}</div>
-                        <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                      </div>
-                    </div>
-                    <div className="text-3xl font-bold text-accent">{testimonial.metric}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-orange-500/10 to-background" />
-        <motion.div
-          className="absolute inset-0 opacity-20"
-          animate={{
-            backgroundPosition: ['0% 0%', '100% 100%'],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: 'reverse'
-          }}
+        <div
+          className="absolute inset-0"
           style={{
-            backgroundImage: `
-              repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(245, 85, 39, 0.05) 10px, rgba(245, 85, 39, 0.05) 20px)
-            `,
+            background: 'radial-gradient(circle at 50% 0%, rgba(234,179,8,0.12), transparent 60%)'
           }}
         />
 
-        <div className="container mx-auto px-6 relative z-10">
+        {/* Floating orbs */}
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            top: '15%',
+            left: '10%',
+            width: '30rem',
+            height: '30rem',
+            backgroundColor: 'rgba(234,179,8,0.08)',
+            animation: 'float 20s ease-in-out infinite'
+          }}
+        />
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            bottom: '10%',
+            right: '10%',
+            width: '25rem',
+            height: '25rem',
+            backgroundColor: 'rgba(202,138,4,0.06)',
+            animation: 'float 25s ease-in-out infinite reverse'
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative container mx-auto px-6 text-center" style={{ zIndex: 10 }}>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-6xl mx-auto"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Ready to <span className="text-accent">10x Your Revenue?</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-12">
-              Get a free conversion audit and discover how much revenue you're leaving on the table.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button size="lg" className="text-lg px-10 py-6 group">
-                  Get Free CRO Audit
-                  <TrendingUp className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                </Button>
+            {/* Product Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md mb-10"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(234,179,8,0.2)',
+                boxShadow: '0 8px 32px rgba(234,179,8,0.1)'
+              }}
+            >
+              <Award className="w-5 h-5" style={{ color: '#EAB308' }} />
+              <span style={{
+                color: '#EAB308',
+                fontSize: '0.8125rem',
+                fontWeight: '700',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase'
+              }}>
+                Introducing {PRODUCT_NAME}
+              </span>
+            </motion.div>
+
+            {/* Product Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="font-black tracking-tight mb-6"
+              style={{
+                fontSize: 'clamp(2.75rem, 8vw, 6.5rem)',
+                lineHeight: '0.95',
+                color: '#FFFFFF',
+                letterSpacing: '-0.02em'
+              }}
+            >
+              The Revenue<br />
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #FDE047 0%, #EAB308 50%, #CA8A04 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                Multiplier™
+              </span>
+            </motion.h1>
+
+            {/* Product Tagline */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="mx-auto mb-10"
+              style={{
+                fontSize: 'clamp(1.25rem, 2.5vw, 1.875rem)',
+                color: '#EAB308',
+                maxWidth: '48rem',
+                fontWeight: '600',
+                fontStyle: 'italic'
+              }}
+            >
+              "{PRODUCT_TAGLINE}"
+            </motion.p>
+
+            {/* Value Proposition */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mx-auto leading-relaxed mb-16"
+              style={{
+                fontSize: 'clamp(1.125rem, 2.2vw, 1.5rem)',
+                color: '#D4D4D8',
+                maxWidth: '52rem',
+                fontWeight: '400',
+                lineHeight: '1.6'
+              }}
+            >
+              We apply <strong style={{ color: '#FFFFFF', fontWeight: '600' }}>forensic psychology</strong> to your funnel to eliminate friction and maximize value.
+              3X conversion rates. 215% revenue lift. Scientific certainty.
+              <br />
+              <span style={{ color: '#FFFFFF', fontWeight: '600' }}>Stop guessing. Start multiplying.</span>
+            </motion.p>
+
+            {/* Social Proof */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="flex flex-wrap justify-center gap-12 mb-16"
+            >
+              {socialProof.map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div
+                    className="font-black mb-2"
+                    style={{
+                      fontSize: '2.5rem',
+                      background: 'linear-gradient(135deg, #FDE047, #EAB308)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '0.8125rem',
+                      color: '#A1A1AA',
+                      fontWeight: '600',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-12"
+            >
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-3 px-12 rounded-2xl font-bold transition-all hover:scale-[1.02] relative overflow-hidden"
+                style={{
+                  height: '4.5rem',
+                  fontSize: '1.125rem',
+                  backgroundColor: '#CA8A04',
+                  color: '#FFFFFF',
+                  boxShadow: '0 20px 60px -15px rgba(202,138,4,0.5), 0 0 0 1px rgba(202,138,4,0.1)',
+                  letterSpacing: '0.01em'
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(234,179,8,0.3), transparent)'
+                  }}
+                />
+                <span className="relative z-10 flex items-center gap-3">
+                  <TrendingUp className="w-5 h-5" />
+                  Multiply Revenue
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Link>
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="text-lg px-10 py-6">
-                  See Our Results
-                </Button>
+              <Link
+                href="#audit"
+                className="inline-flex items-center gap-3 px-10 rounded-2xl font-bold transition-all hover:bg-white/5 hover:border-yellow-500/30"
+                style={{
+                  height: '4.5rem',
+                  fontSize: '1.0625rem',
+                  border: '1.5px solid rgba(255,255,255,0.1)',
+                  color: '#FFFFFF',
+                  letterSpacing: '0.01em'
+                }}
+              >
+                <Search className="w-5 h-5" />
+                Forensic Audit
               </Link>
-            </div>
+            </motion.div>
+
+            {/* Trust Indicators */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.8 }}
+              className="flex flex-wrap justify-center gap-8 items-center"
+              style={{ opacity: 0.5 }}
+            >
+              <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                <CheckCircle2 className="w-4 h-4" style={{ color: '#EAB308' }} />
+                Data-Backed Only
+              </div>
+              <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                <CheckCircle2 className="w-4 h-4" style={{ color: '#EAB308' }} />
+                Scientific Method
+              </div>
+              <div className="flex items-center gap-2" style={{ fontSize: '0.8125rem', color: '#A1A1AA', fontWeight: '500' }}>
+                <CheckCircle2 className="w-4 h-4" style={{ color: '#EAB308' }} />
+                Guaranteed Uplift
+              </div>
+            </motion.div>
           </motion.div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+          style={{ zIndex: 10 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2"
+            style={{ borderColor: 'rgba(234,179,8,0.3)' }}
+          >
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: '#EAB308' }}
+            />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Outcomes Grid */}
+      <section className="py-32 relative">
+        <div className="container mx-auto px-6 text-center mb-24">
+          <h2
+            className="font-black mb-6 uppercase tracking-tight"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3.75rem)',
+              color: '#FFFFFF'
+            }}
+          >
+            What You'll <span style={{ color: '#EAB308' }}>Actually Get</span>
+          </h2>
+          <p
+            className="mx-auto"
+            style={{
+              fontSize: '1.25rem',
+              color: '#A1A1AA',
+              maxWidth: '42rem'
+            }}
+          >
+            Forget opinions. Here's what matters: <strong style={{ color: '#FFFFFF' }}>conversion, revenue, profit</strong>.
+          </p>
+        </div>
+
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+            {outcomes.map((outcome, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="p-10 rounded-[2.5rem] transition-all group overflow-hidden relative"
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  border: '2px solid rgba(255,255,255,0.05)'
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{
+                    background: 'linear-gradient(to bottom right, rgba(234,179,8,0.1), transparent)'
+                  }}
+                />
+                <div className="relative" style={{ zIndex: 10 }}>
+                  <div
+                    className="w-20 h-20 rounded-3xl flex items-center justify-center mb-8 transition-all duration-500"
+                    style={{
+                      backgroundColor: 'rgba(234,179,8,0.1)',
+                      border: '2px solid rgba(234,179,8,0.2)'
+                    }}
+                  >
+                    <outcome.icon className="w-10 h-10" style={{ color: '#EAB308' }} />
+                  </div>
+                  <h3
+                    className="font-black mb-4 uppercase tracking-tight"
+                    style={{
+                      fontSize: '1.75rem',
+                      color: '#FFFFFF'
+                    }}
+                  >
+                    {outcome.title}
+                  </h3>
+                  <p
+                    className="mb-8 leading-relaxed"
+                    style={{
+                      fontSize: '1.125rem',
+                      color: '#D4D4D8'
+                    }}
+                  >
+                    {outcome.description}
+                  </p>
+
+                  <div className="pt-8 flex flex-col gap-2" style={{ borderTop: '2px solid rgba(255,255,255,0.05)' }}>
+                    <div
+                      className="font-black tracking-tight"
+                      style={{
+                        fontSize: '3rem',
+                        color: '#EAB308'
+                      }}
+                    >
+                      {outcome.metric}
+                    </div>
+                    <div
+                      className="font-bold uppercase"
+                      style={{
+                        fontSize: '0.875rem',
+                        color: 'rgba(255,255,255,0.5)',
+                        letterSpacing: '0.1em'
+                      }}
+                    >
+                      {outcome.metricLabel}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* Transformation Timeline */}
+      <section id="audit" className="py-40 relative" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2
+              className="font-black uppercase leading-none mb-6"
+              style={{
+                fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                color: '#FFFFFF'
+              }}
+            >
+              Your Path to <span style={{ color: '#EAB308' }}>Maximum Profit</span>
+            </h2>
+            <p
+              className="leading-relaxed mx-auto"
+              style={{
+                fontSize: '1.25rem',
+                color: '#A1A1AA',
+                maxWidth: '42rem'
+              }}
+            >
+              From audit to testing to scaling—here's exactly how we unlock hidden revenue.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto space-y-12">
+            {transformation.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+                className="relative"
+              >
+                {i < transformation.length - 1 && (
+                  <div
+                    className="absolute left-8 top-24 w-1 h-full"
+                    style={{
+                      background: 'linear-gradient(to bottom, rgba(234,179,8,0.5), rgba(234,179,8,0.1))'
+                    }}
+                  />
+                )}
+
+                <div
+                  className="flex gap-8 p-10 rounded-[3rem] transition-all hover:scale-[1.02]"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.03)',
+                    border: '2px solid rgba(255,255,255,0.1)'
+                  }}
+                >
+                  <div className="flex-shrink-0">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center font-black"
+                      style={{
+                        backgroundColor: '#EAB308',
+                        color: '#FFFFFF',
+                        fontSize: '1.5rem'
+                      }}
+                    >
+                      {i + 1}
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div
+                      className="font-bold uppercase mb-2"
+                      style={{
+                        color: '#EAB308',
+                        letterSpacing: '0.1em',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      {step.phase}
+                    </div>
+                    <h3
+                      className="font-black mb-4 uppercase tracking-tight"
+                      style={{
+                        fontSize: '2rem',
+                        color: '#FFFFFF'
+                      }}
+                    >
+                      {step.title}
+                    </h3>
+                    <p
+                      className="mb-6 leading-relaxed"
+                      style={{
+                        fontSize: '1.25rem',
+                        color: '#D4D4D8'
+                      }}
+                    >
+                      {step.outcome}
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {step.deliverables.map((item, j) => (
+                        <div
+                          key={j}
+                          className="flex items-center gap-2 px-4 py-2 rounded-xl"
+                          style={{
+                            backgroundColor: 'rgba(234,179,8,0.1)',
+                            border: '1px solid rgba(234,179,8,0.2)'
+                          }}
+                        >
+                          <CheckCircle2 className="w-4 h-4" style={{ color: '#EAB308' }} />
+                          <span style={{ fontSize: '0.875rem', color: '#D4D4D8', fontWeight: '600' }}>
+                            {item}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 blur-[150px]" style={{ backgroundColor: 'rgba(234,179,8,0.2)' }} />
+        <div className="container mx-auto px-6 relative" style={{ zIndex: 10 }}>
+          <div
+            className="max-w-5xl mx-auto rounded-[3.5rem] p-12 md:p-24 text-center overflow-hidden relative shadow-2xl"
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '2px solid rgba(255,255,255,0.1)'
+            }}
+          >
+            <div className="absolute inset-0 bg-[url('/grid.svg')]" style={{ opacity: 0.05 }} />
+            <div className="relative" style={{ zIndex: 10 }}>
+              <h2
+                className="font-black mb-8 uppercase"
+                style={{
+                  fontSize: 'clamp(2.5rem, 7vw, 5.5rem)',
+                  lineHeight: '1',
+                  color: '#FFFFFF'
+                }}
+              >
+                Ready to <span style={{ color: '#EAB308' }}>Print Money?</span>
+              </h2>
+              <p
+                className="mx-auto mb-16 leading-relaxed"
+                style={{
+                  fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
+                  color: '#D4D4D8',
+                  maxWidth: '42rem',
+                  fontWeight: '500'
+                }}
+              >
+                Join 45 brands who turned potential into profit.
+                <strong style={{ color: '#FFFFFF' }}> Your revenue multiplier awaits.</strong>
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-10">
+                <Link
+                  href="/contact"
+                  className="px-12 rounded-2xl font-black shadow-2xl transition-all hover:scale-105 group"
+                  style={{
+                    height: '5rem',
+                    fontSize: '1.5rem',
+                    backgroundColor: '#CA8A04',
+                    color: '#FFFFFF',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    boxShadow: '0 20px 60px -15px rgba(202,138,4,0.5)'
+                  }}
+                >
+                  <TrendingUp className="w-7 h-7" />
+                  Start Multiplying
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </Link>
+              </div>
+              <div className="flex flex-wrap justify-center gap-8 items-center" style={{ opacity: 0.7 }}>
+                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                  <CheckCircle2 className="w-5 h-5" style={{ color: '#EAB308' }} />
+                  Scientific Approach
+                </div>
+                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                  <CheckCircle2 className="w-5 h-5" style={{ color: '#EAB308' }} />
+                  ROI Focused
+                </div>
+                <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>
+                  <CheckCircle2 className="w-5 h-5" style={{ color: '#EAB308' }} />
+                  Guaranteed Uplift
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <RelatedServices currentPath="/services/conversion-optimization" />
+
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: 'Conversion Optimization', url: '/services/conversion-optimization' }
+        ]}
+      />
+
       <Footer />
-    </div>
+    </main>
   )
 }
