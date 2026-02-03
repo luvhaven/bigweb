@@ -12,9 +12,10 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-export default function ContactPage() {
+function ContactPageContent() {
   const searchParams = useSearchParams()
   const plan = searchParams.get('plan') || ''
+
   return (
     <main className="min-h-screen bg-[#050505] text-white selection:bg-orange-500/30">
       <AdvancedNavigation />
@@ -74,7 +75,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1">Electronic Data</p>
-                      <a href="mailto:hello@conversionlab.com" className="text-lg font-bold hover:text-orange-500 transition-colors">
+                      <a href="mailto:lab@bigweb.digital" className="text-lg font-bold hover:text-orange-500 transition-colors">
                         lab@bigweb.digital
                       </a>
                     </div>
@@ -191,5 +192,19 @@ export default function ContactPage() {
 
       <Footer />
     </main>
+  )
+}
+
+import { Suspense } from 'react'
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <ContactPageContent />
+    </Suspense>
   )
 }
