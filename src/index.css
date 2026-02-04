@@ -640,6 +640,65 @@ All colors MUST be HSL.
     transform: scale(1.05);
   }
 
+  /* Clinical Refraction Layer */
+  .glass-refractive {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-refractive::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(40px) saturate(2.5);
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.01));
+    z-index: -1;
+  }
+
+  .glass-refractive::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Clinical Shimmer Animation */
+  @keyframes shimmer-clinical {
+    0% {
+      transform: translateX(-150%) skewX(-25deg);
+    }
+
+    100% {
+      transform: translateX(150%) skewX(-25deg);
+    }
+  }
+
+  .animate-shimmer-clinical {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animate-shimmer-clinical::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent);
+    animation: shimmer-clinical 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    pointer-events: none;
+  }
+
   /* Shimmer Animation */
   @keyframes shimmer {
     0% {

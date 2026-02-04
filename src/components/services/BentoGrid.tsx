@@ -3,6 +3,7 @@
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 import { LucideIcon } from 'lucide-react'
 import { MouseEvent } from 'react'
+import TiltCard from '@/components/ui/TiltCard'
 
 interface BentoItem {
     title: string
@@ -31,72 +32,76 @@ function BentoCard({ item, themeColor, index }: { item: BentoItem, themeColor: s
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            onMouseMove={handleMouseMove}
+        <TiltCard
             className={`
-                group relative overflow-hidden rounded-3xl border border-white/10 bg-card/50 p-8
-                hover:border-white/20 transition-colors duration-500
                 ${item.colSpan === 2 ? 'md:col-span-2' : 'md:col-span-1'}
                 ${item.colSpan === 3 ? 'md:col-span-3' : ''}
                 ${item.rowSpan === 2 ? 'md:row-span-2' : ''}
+                h-full
             `}
+            intensity={10}
         >
-            {/* Spotlight Effect */}
             <motion.div
-                className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
-                style={{
-                    background: useMotionTemplate`
-                        radial-gradient(
-                            650px circle at ${mouseX}px ${mouseY}px,
-                            var(--${themeColor}-500-alpha-15),
-                            transparent 80%
-                        )
-                    `
-                }}
-            />
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                onMouseMove={handleMouseMove}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card/50 p-8 hover:border-white/20 transition-colors duration-500 h-full"
+            >
+                {/* Spotlight Effect */}
+                <motion.div
+                    className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                650px circle at ${mouseX}px ${mouseY}px,
+                                var(--${themeColor}-500-alpha-15),
+                                transparent 80%
+                            )
+                        `
+                    }}
+                />
 
-            {/* Background Gradient/Image */}
-            <div className={`
-                absolute inset-0 bg-gradient-to-br from-${themeColor}-500/5 via-transparent to-transparent
-                opacity-0 group-hover:opacity-100 transition-opacity duration-500
-            `} />
-
-            {item.bgImage && (
-                <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-                    <img src={item.bgImage} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-                </div>
-            )}
-
-            {/* Noise Texture */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
-                style={{ backgroundImage: 'url("/assets/noise.png")' }}
-            />
-
-            <div className="relative z-10 h-full flex flex-col justify-between">
+                {/* Background Gradient/Image */}
                 <div className={`
-                    w-12 h-12 rounded-2xl bg-${themeColor}-500/10 flex items-center justify-center
-                    group-hover:bg-${themeColor}-500 group-hover:text-white transition-all duration-300
-                    group-hover:scale-110 group-hover:rotate-3 shadow-[0_0_15px_-5px_transparent] 
-                    group-hover:shadow-[0_0_20px_-5px_var(--${themeColor}-500)]
-                `}>
-                    <item.icon className={`w-6 h-6 text-${themeColor}-500 group-hover:text-white transition-colors`} />
-                </div>
+                    absolute inset-0 bg-gradient-to-br from-${themeColor}-500/5 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                `} />
 
-                <div className="mt-8">
-                    <h3 className="text-2xl font-black mb-3 tracking-tighter-extreme uppercase group-hover:translate-x-2 transition-transform duration-500">
-                        {item.title}
-                    </h3>
-                    <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300 leading-tight font-medium text-sm">
-                        {item.description}
-                    </p>
+                {item.bgImage && (
+                    <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+                        <img src={item.bgImage} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+                    </div>
+                )}
+
+                {/* Noise Texture */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
+                    style={{ backgroundImage: 'url("/assets/noise.png")' }}
+                />
+
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div className={`
+                        w-12 h-12 rounded-2xl bg-${themeColor}-500/10 flex items-center justify-center
+                        group-hover:bg-${themeColor}-500 group-hover:text-white transition-all duration-300
+                        group-hover:scale-110 group-hover:rotate-3 shadow-[0_0_15px_-5px_transparent] 
+                        group-hover:shadow-[0_0_20px_-5px_var(--${themeColor}-500)]
+                    `}>
+                        <item.icon className={`w-6 h-6 text-${themeColor}-500 group-hover:text-white transition-colors`} />
+                    </div>
+
+                    <div className="mt-8">
+                        <h3 className="text-2xl font-black mb-3 tracking-tighter-extreme uppercase group-hover:translate-x-2 transition-transform duration-500">
+                            {item.title}
+                        </h3>
+                        <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300 leading-tight font-medium text-sm">
+                            {item.description}
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </TiltCard>
     )
 }
 

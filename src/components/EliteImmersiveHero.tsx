@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -26,18 +26,42 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
     const title = "REVENUE. ENGINEERED."
     const subtitle = "We replace creative guesswork with high-performance conversion systems."
 
+    const mouseX = useMotionValue(0)
+    const mouseY = useMotionValue(0)
+
+    const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
+    const springY = useSpring(mouseY, { stiffness: 50, damping: 20 })
+
+    const textX = useTransform(springX, [0, 1000], [20, -20])
+    const textY = useTransform(springY, [0, 1000], [20, -20])
+
+    const bgX = useTransform(springX, [0, 1000], [-30, 30])
+    const bgY = useTransform(springY, [0, 1000], [-30, 30])
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        mouseX.set(e.clientX)
+        mouseY.set(e.clientY)
+    }
+
     return (
-        <section className="relative h-[100svh] w-full overflow-hidden bg-black text-white border-b border-zinc-900 flex flex-col items-center justify-center">
+        <section
+            onMouseMove={handleMouseMove}
+            className="relative h-[100svh] w-full overflow-hidden bg-black text-white border-b border-zinc-900 flex flex-col items-center justify-center"
+        >
             {/* Background Dynamics */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
+            <motion.div
+                style={{ x: bgX, y: bgY }}
+                className="absolute inset-0 z-0 pointer-events-none"
+            >
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,77,0,0.03),_transparent_70%)]" />
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.02]" />
-            </div>
+            </motion.div>
 
             <div className="container mx-auto px-6 relative z-10 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
+                    style={{ x: textX, y: textY }}
                     transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                     className="max-w-5xl mx-auto"
                 >

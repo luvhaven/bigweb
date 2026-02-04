@@ -6,6 +6,7 @@ import { Microscope, PencilRuler, Code2, Rocket, ArrowRight, Zap, Target, Search
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import TiltCard from '@/components/ui/TiltCard'
 
 const steps = [
     {
@@ -82,13 +83,10 @@ export default function HowItWorksCards() {
                     {steps.map((step, index) => {
                         const Icon = step.icon
                         return (
-                            <motion.div
+                            <TiltCard
                                 key={index}
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.8 }}
                                 className="group relative bg-black p-16 overflow-hidden flex flex-col h-full hover:bg-zinc-950 transition-colors duration-500"
+                                intensity={8}
                             >
                                 {/* Header */}
                                 <div className="flex items-start justify-between mb-12 relative z-10">
@@ -129,7 +127,7 @@ export default function HowItWorksCards() {
 
                                 {/* Phantom Number */}
                                 <div className="absolute -right-8 -bottom-12 text-[15rem] font-black text-white/[0.01] italic select-none pointer-events-none group-hover:text-white/[0.02] transition-colors">{index + 1}</div>
-                            </motion.div>
+                            </TiltCard>
                         )
                     })}
                 </div>
