@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import RelatedServices from '@/components/services/RelatedServices'
+import TrustBadges from '@/components/trust/TrustBadges'
 
 // Revalidate every 60 seconds
 export const revalidate = 60
@@ -120,15 +121,17 @@ export default async function DynamicServicePage({ params }: { params: { slug: s
                 </div>
             )}
 
-            <section className="py-24 px-6 bg-secondary/5">
+            <section className="py-24 px-6 md:py-40 bg-zinc-950/30 border-t border-white/5">
                 <div className="container mx-auto max-w-6xl text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">Transparent Pricing</h2>
-                    <p className="text-xl text-muted-foreground mb-12">
-                        Contact us for a custom quote tailored to your specific needs.
+                    <h2 className="text-4xl md:text-[8rem] font-black mb-16 tracking-tighter-extreme uppercase italic text-white leading-[0.7]">Financial <br /><span className="text-zinc-800">Projection.</span></h2>
+                    <p className="text-xl md:text-3xl text-zinc-500 mb-20 font-black uppercase tracking-tighter-extreme">
+                        Tailored Initialization <span className="text-white">ROI_Delta_Projection_v1</span>
                     </p>
                     <PricingCalculator />
                 </div>
             </section>
+
+            <TrustBadges />
 
             {/* CTA Section */}
             <section className="py-48 px-6 relative overflow-hidden text-center bg-black">

@@ -66,12 +66,14 @@ All colors MUST be HSL.
       radial-gradient(at 0% 50%, hsl(45 100% 70% / 0.2) 0px, transparent 50%);
 
     /* Glass Morphism */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg-strong: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-border-strong: rgba(255, 255, 255, 0.15);
-    --glass-blur: 20px;
-    --glass-blur-strong: 40px;
+    --glass-blur: 40px;
+    --glass-blur-strong: 80px;
+    --glass-saturate: 2.5;
+    --glass-brightness: 0.8;
 
     /* Glow Effects */
     --glow-sm: 0 0 20px hsl(var(--accent) / 0.3);
@@ -130,9 +132,12 @@ All colors MUST be HSL.
   }
 
   /* Enhanced Focus Styles for Better Accessibility */
+  /* Clinical Haptic Focus - Hollywood Grade */
   *:focus-visible {
     outline: 2px solid hsl(var(--accent));
-    outline-offset: 2px;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15), 0 0 30px rgba(249, 115, 22, 0.3);
+    transition: var(--transition-apple);
   }
 
   /* Fluid Typography */

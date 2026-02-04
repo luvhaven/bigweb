@@ -61,19 +61,19 @@ export default function HowItWorksCards() {
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Section Header */}
-                <div className="max-w-6xl mb-20 border-l-4 border-orange-600 pl-12">
+                <div className="max-w-6xl mb-32 border-l-8 border-orange-600 pl-16">
                     <motion.span
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        className="text-zinc-700 font-mono font-black uppercase tracking-[0.5em] text-[10px] block mb-6"
+                        className="text-zinc-700 font-mono font-black uppercase tracking-[0.6em] text-[9px] block mb-8"
                     >
-                        Success_Methodology_v.2
+                        Success_Methodology_v.2026
                     </motion.span>
-                    <h2 className="text-6xl md:text-[8rem] font-black text-white tracking-tighter uppercase leading-[0.8] italic">
-                        The <br /><span className="text-zinc-800">Process.</span>
+                    <h2 className="text-6xl md:text-[11rem] font-black text-white tracking-tighter-extreme uppercase leading-[0.7] italic">
+                        The <br /><span className="text-zinc-900">Process.</span>
                     </h2>
-                    <p className="text-zinc-500 text-2xl md:text-3xl mt-12 font-medium max-w-3xl leading-tight">
-                        A clinical methodology engineered to eliminate friction and maximize <span className="text-white italic underline decoration-orange-600 underline-offset-8">Growth Velocity</span>.
+                    <p className="text-zinc-500 text-3xl md:text-5xl mt-16 font-black leading-none tracking-tighter-extreme uppercase max-w-5xl">
+                        A clinical methodology engineered to destroy friction and maximize <span className="text-white italic">Growth_Velocity.</span>
                     </p>
                 </div>
 
@@ -103,11 +103,11 @@ export default function HowItWorksCards() {
                                 </div>
 
                                 {/* Content */}
-                                <div className="flex-grow relative z-10 space-y-6">
-                                    <h3 className="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter leading-none">
+                                <div className="flex-grow relative z-10 space-y-10">
+                                    <h3 className="text-4xl md:text-7xl font-black text-white uppercase italic tracking-tighter-extreme leading-[0.8]">
                                         {step.title}
                                     </h3>
-                                    <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-md">
+                                    <p className="text-zinc-600 text-xl leading-none font-bold uppercase tracking-tighter-extreme max-w-md">
                                         {step.description}
                                     </p>
                                 </div>
@@ -142,17 +142,17 @@ export default function HowItWorksCards() {
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
-                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
-                        <div className="space-y-6">
-                            <div className="text-[10px] font-mono font-bold text-orange-600 uppercase tracking-[0.6em]">System_Audit_Ready</div>
-                            <h4 className="text-4xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-[0.8]">Plug the Leak <br /><span className="text-zinc-800">Immediately.</span></h4>
-                            <p className="text-zinc-500 text-xl font-medium max-w-xl">Deploy the <span className="text-white italic">Conversion_Diagnostic</span> and uncover your revenue blockers in 7 days.</p>
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-16 text-center md:text-left">
+                        <div className="space-y-8">
+                            <div className="text-[9px] font-mono font-black text-orange-600 uppercase tracking-[0.6em]">System_Audit_Protocol_Active</div>
+                            <h4 className="text-4xl md:text-[9rem] font-black text-white uppercase italic tracking-tighter-extreme leading-[0.7]">Plug the Leak <br /><span className="text-zinc-900 border-b-4 border-orange-600">Immediately.</span></h4>
+                            <p className="text-zinc-600 text-2xl font-black uppercase tracking-tighter-extreme max-w-3xl mt-10">Deploy the <span className="text-white italic">Conversion_Diagnostic</span> and uncover your revenue blockers in 7 days.</p>
                         </div>
 
                         <Link href="/offers/revenue-roadmap">
-                            <Button className="h-24 px-16 rounded-none bg-white text-black hover:bg-orange-600 hover:text-white font-black text-sm uppercase tracking-[0.4em] transition-all duration-500 shadow-2xl group">
-                                INITIALIZE AUDIT
-                                <ArrowRight className="ml-6 w-6 h-6 group-hover:translate-x-4 transition-transform" />
+                            <Button className="h-28 px-20 rounded-none bg-white text-black hover:bg-orange-600 hover:text-white font-black text-xs uppercase tracking-[0.6em] transition-all duration-700 shadow-2xl group ring-1 ring-white/10 ring-offset-8 ring-offset-black">
+                                INITIALIZE_AUDIT
+                                <ArrowRight className="ml-8 w-6 h-6 group-hover:translate-x-6 transition-transform duration-700" />
                             </Button>
                         </Link>
                     </div>

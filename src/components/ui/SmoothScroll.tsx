@@ -1,17 +1,28 @@
 'use client'
 
-import { useEffect } from 'react'
+import { ReactLenis } from '@studio-freight/react-lenis'
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-    useEffect(() => {
-        // Native smooth scrolling is handled by CSS in index.css (html { scroll-behavior: smooth })
-        // This component can be extended for more advanced smooth scrolling libraries like Lenis if needed.
-        // For now, we rely on the native implementation for better performance and mobile support.
-        document.documentElement.style.scrollBehavior = 'smooth'
-        return () => {
-            document.documentElement.style.scrollBehavior = 'auto'
-        }
-    }, [])
+    // Hollywood-grade settings:
+    // - duration: 1.2s -> Heavier, more deliberate feel "Luxury Car suspension"
+    // - easing: easeOutQuart -> Smooth deceleration
+    // - smoothWheel -> true
 
-    return <>{children}</>
+    const lenisOptions: any = {
+        lerp: 0.1,
+        duration: 1.2,
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        normalizeWheel: false,
+        infinite: false,
+    }
+
+    return (
+        <ReactLenis root options={lenisOptions}>
+            {children}
+        </ReactLenis>
+    )
 }

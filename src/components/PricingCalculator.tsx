@@ -147,55 +147,70 @@ export default function PricingCalculator() {
 
                 {/* Summary */}
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 bg-[#0A0A0A] rounded-none p-8 border border-white/5 backdrop-blur-3xl shadow-2xl">
-                        <h3 className="text-xs font-mono font-black mb-8 uppercase tracking-[0.4em] text-zinc-600 border-b border-white/5 pb-4">Estimate_Summary</h3>
+                    <div className="sticky top-24 bg-black rounded-none p-10 border border-white/5 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+                        <div className="text-[9px] font-mono font-black mb-10 uppercase tracking-[0.6em] text-zinc-700 border-b border-white/5 pb-6">SYSTEM_MANIFEST_v.2026</div>
 
-                        <div className="space-y-4 mb-8">
-                            <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">Base Project</span>
-                                <span className="font-medium">
+                        <div className="space-y-6 mb-12">
+                            <div className="flex justify-between items-center group">
+                                <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                    <div className="w-1.5 h-1.5 bg-orange-600" />
+                                    BASE_PROTOCOL
+                                </span>
+                                <span className="text-[10px] font-mono font-black text-white">
                                     ${categories[0].options.find(o => o.id === selections.type)?.price.toLocaleString()}
                                 </span>
                             </div>
-                            <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">Design</span>
-                                <span className="font-medium">
+                            <div className="flex justify-between items-center group">
+                                <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                    <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
+                                    DESIGN_LAYER
+                                </span>
+                                <span className="text-[10px] font-mono font-black text-white">
                                     {categories[1].options.find(o => o.id === selections.design)?.price === 0
-                                        ? 'Included'
+                                        ? 'LOG_INCLUDED'
                                         : `$${categories[1].options.find(o => o.id === selections.design)?.price.toLocaleString()}`}
                                 </span>
                             </div>
-                            {(selections.features as string[]).length > 0 && (
-                                <div className="pt-4 border-t border-border">
-                                    <span className="text-sm text-muted-foreground block mb-2">Add-ons:</span>
-                                    {(selections.features as string[]).map(fid => {
-                                        const feature = categories[2].options.find(o => o.id === fid)
-                                        return (
-                                            <div key={fid} className="flex justify-between text-sm mb-1">
-                                                <span>{feature?.label}</span>
-                                                <span>+${feature?.price.toLocaleString()}</span>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            )}
+                            {(selections.features as string[]).map(fid => {
+                                const feature = categories[2].options.find(o => o.id === fid)
+                                return (
+                                    <div key={fid} className="flex justify-between items-center group">
+                                        <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                            <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
+                                            {feature?.label}
+                                        </span>
+                                        <span className="text-[10px] font-mono font-black text-white">+${feature?.price.toLocaleString()}</span>
+                                    </div>
+                                )
+                            })}
                         </div>
 
-                        <div className="pt-8 mb-10">
+                        <div className="pt-10 border-t border-white/5 mb-12">
                             <div className="flex justify-between items-end">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Gross_Total</span>
-                                <span className="text-5xl font-black text-white tracking-tighter-extreme">
-                                    <AnimatedCounter value={total} prefix="$" />
-                                </span>
+                                <div>
+                                    <span className="text-[9px] font-mono font-black uppercase tracking-[0.6em] text-orange-600 block mb-4">TOTAL_CAPITAL_EXPENDITURE</span>
+                                    <span className="text-6xl font-black text-white tracking-tighter-extreme italic flex items-baseline gap-4">
+                                        <span className="text-zinc-800 text-2xl font-mono not-italic">$</span>
+                                        <AnimatedCounter value={total} />
+                                    </span>
+                                </div>
                             </div>
-                            <p className="text-[9px] font-mono text-zinc-700 mt-4 text-right uppercase">
-                                *Clinical_Precision_Verification_Required
+                            <p className="text-[9px] font-mono text-zinc-800 mt-6 uppercase tracking-widest">
+                                *Verification_Required_Prior_To_Execution
                             </p>
                         </div>
 
-                        <Button className="w-full h-20 bg-white text-black hover:bg-orange-600 hover:text-white rounded-none text-xs font-black uppercase tracking-[0.4em] transition-all">
-                            INITIALIZE DEPLOYMENT
-                        </Button>
+                        <Link href="/contact" className="block">
+                            <Magnetic strength={0.3} className="w-full">
+                                <Button className="w-full h-28 bg-white text-black hover:bg-orange-600 hover:text-white rounded-none text-xs font-black uppercase tracking-[0.6em] transition-all duration-700 relative group overflow-hidden shadow-2xl">
+                                    <div className="absolute inset-0 bg-orange-600 translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]" />
+                                    <span className="relative z-10 flex items-center justify-center gap-4">
+                                        INITIALIZE_ORDER_v1
+                                        <ArrowRight className="w-6 h-6 group-hover:translate-x-4 transition-transform duration-700" />
+                                    </span>
+                                </Button>
+                            </Magnetic>
+                        </Link>
                     </div>
                 </div>
             </div>

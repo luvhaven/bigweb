@@ -12,6 +12,8 @@ import '../src/styles/accessibility.css'
 
 import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements'
+import SmoothScroll from '@/components/ui/SmoothScroll'
+import ClinicalCursor from '@/components/ui/ClinicalCursor'
 
 export const viewport: Viewport = {
   themeColor: '#121212',
@@ -75,13 +77,16 @@ if (typeof window !== 'undefined') {
         <GlobalContentProvider {...globalContent}>
           <div className="cinematic-grain" />
           <ClientLayoutEnhancements />
+          <ClinicalCursor />
           <Providers>
             <Suspense fallback={null}>
               <AnalyticsAdvanced />
             </Suspense>
-            <div id="main-content" className="page-transition">
-              {children}
-            </div>
+            <SmoothScroll>
+              <div id="main-content" className="page-transition">
+                {children}
+              </div>
+            </SmoothScroll>
           </Providers>
         </GlobalContentProvider>
       </body>

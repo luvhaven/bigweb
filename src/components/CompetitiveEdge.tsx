@@ -65,22 +65,22 @@ export default function CompetitiveEdge() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-32">
+        <div className="text-center mb-40">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12"
+            className="inline-flex items-center gap-3 px-5 py-2 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[9px] font-mono font-black uppercase tracking-[0.6em] mb-16"
           >
-            Clinical_Comparison_v1.0
+            Clinical_Comparison_Protocol_v.2026
           </motion.div>
 
-          <h2 className="text-6xl md:text-[11rem] font-black mb-16 tracking-tighter uppercase italic leading-[0.75] text-white">
-            Engineering <br /><span className="text-zinc-800">vs. Guesswork.</span>
+          <h2 className="text-6xl md:text-[13rem] font-black mb-20 tracking-tighter-extreme uppercase italic leading-[0.7] text-white">
+            Engineering <br /><span className="text-zinc-900 border-b-8 border-orange-600">vs. Guesswork.</span>
           </h2>
 
-          <p className="text-2xl md:text-4xl text-zinc-500 font-medium leading-[1.1] tracking-tight max-w-4xl">
-            The industry standard is <span className="text-white italic">Atrophy</span>. <br />The BIGWEB method is <span className="text-white italic underline underline-offset-8 decoration-orange-600">Dominance</span>.
+          <p className="text-2xl md:text-5xl text-zinc-500 font-black leading-none tracking-tighter-extreme max-w-6xl mx-auto uppercase">
+            The industry standard is <span className="text-zinc-700 italic">Atrophy</span>. <br />The BIGWEB method is <span className="text-white italic">Dominance.</span>
           </p>
         </div>
 
@@ -147,11 +147,11 @@ export default function CompetitiveEdge() {
                 </div>
 
                 <div className="md:col-span-4 mt-8 md:mt-0 flex justify-end">
-                  <div className={`px-10 py-6 border border-zinc-900 transition-all duration-500 w-full md:w-auto text-left ${activeTab === 'protocol' ? 'bg-zinc-950 border-orange-600/30' : 'bg-transparent opacity-40'}`}>
-                    <div className={`text-3xl font-black tracking-tighter uppercase italic mb-1 ${activeTab === 'protocol' ? 'text-orange-600' : 'text-zinc-500'}`}>
+                  <div className={`px-10 py-8 border-l border-zinc-900 transition-all duration-700 w-full md:w-auto text-left ${activeTab === 'protocol' ? 'bg-zinc-950 border-orange-600/30' : 'bg-transparent opacity-20'}`}>
+                    <div className={`text-4xl font-black tracking-tighter-extreme uppercase italic mb-2 leading-none ${activeTab === 'protocol' ? 'text-orange-600' : 'text-zinc-700'}`}>
                       {activeTab === 'protocol' ? item.impact : item.baselineImpact}
                     </div>
-                    <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-800">Operational_Delta</div>
+                    <div className="text-[9px] font-mono font-black uppercase tracking-[0.4em] text-zinc-800">Operational_Delta</div>
                   </div>
                 </div>
               </motion.div>

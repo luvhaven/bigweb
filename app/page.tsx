@@ -15,6 +15,7 @@ import HowItWorksCards from '@/components/HowItWorksCards'
 import ElitePortfolio from '@/components/ElitePortfolio'
 import ClientMarquee from '@/components/trust/ClientMarquee'
 import PremiumTestimonials from '@/components/PremiumTestimonials'
+import TrustBadges from '@/components/trust/TrustBadges'
 import Footer from '@/components/Footer'
 import LiveStats from '@/components/LiveStats'
 import { Button } from '@/components/ui/button'
@@ -90,12 +91,14 @@ export default async function HomePage() {
       />
 
       {/* Testimonials (Dynamic) */}
-      <div id="testimonials" className="py-20">
+      <div id="testimonials" className="py-24 md:py-40 border-t border-white/5 bg-[#050505]">
         <PremiumTestimonials initialTestimonials={testimonials} />
       </div>
 
+      <TrustBadges />
+
       {/* Final CTA */}
-      <section className="py-24 bg-black text-white text-center relative overflow-hidden border-t border-zinc-900">
+      <section className="py-40 bg-black text-white text-center relative overflow-hidden border-t border-white/5">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:20px_20px] opacity-[0.03]" />
 
         <div className="container mx-auto px-6 relative z-10">

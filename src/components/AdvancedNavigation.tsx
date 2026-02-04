@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/branding/BrandLogo";
 import MobileMenuOverlay from "@/components/layout/MobileMenuOverlay";
 import { useGlobalContent } from "@/context/GlobalContentContext";
+import TextScramble from "@/components/ui/TextScramble";
 
 const AdvancedNavigation = () => {
   const pathname = usePathname();
@@ -210,7 +211,9 @@ const AdvancedNavigation = () => {
                     onClick={(e) => handleLinkClick(e, item.url || '/#offers')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold tracking-tighter transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
                   >
-                    {item.label} <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
+                    <TextScramble>
+                      {item.label}
+                    </TextScramble> <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
                   </Link>
 
                   <AnimatePresence>
@@ -262,7 +265,7 @@ const AdvancedNavigation = () => {
                 }}
                 className="px-4 py-2 rounded-lg text-sm font-bold tracking-tighter text-zinc-400 hover:text-white transition-all duration-300 whitespace-nowrap"
               >
-                {item.label}
+                <TextScramble>{item.label}</TextScramble>
               </Link>
             );
           })}
