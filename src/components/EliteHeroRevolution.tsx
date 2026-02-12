@@ -57,7 +57,7 @@ export default function EliteHeroRevolution() {
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                             </span>
                             <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
-                                System_Status: Optimal
+                                Operational Status: Active
                             </span>
                         </motion.div>
 
@@ -78,7 +78,7 @@ export default function EliteHeroRevolution() {
                             transition={{ delay: 0.4, duration: 0.8 }}
                             className="text-lg md:text-xl text-zinc-500 font-mono mb-10 max-w-xl leading-relaxed"
                         >
-                            // We engineer high-performance digital infrastructure for market leaders.
+                            We engineer high-performance digital infrastructure for market leaders.
                         </motion.p>
 
                         {/* DUAL CTAs */}
@@ -90,7 +90,7 @@ export default function EliteHeroRevolution() {
                         >
                             <Link href="/contact">
                                 <button className="group relative h-14 px-8 bg-white text-black hover:bg-orange-600 hover:text-white transition-all duration-300 font-bold uppercase tracking-widest text-[10px] flex items-center gap-4">
-                                    Initialize_Project
+                                    Start Project
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </Link>
@@ -100,7 +100,7 @@ export default function EliteHeroRevolution() {
                                 className="group h-14 px-8 bg-transparent border border-zinc-800 text-white hover:bg-zinc-900 transition-all duration-300 font-bold uppercase tracking-widest text-[10px] flex items-center gap-4"
                             >
                                 <Play className="w-4 h-4" />
-                                View_Protocol
+                                View Strategy
                             </button>
                         </motion.div>
 
@@ -113,12 +113,12 @@ export default function EliteHeroRevolution() {
                         >
                             <div>
                                 <div className="text-2xl font-black text-white mb-0.5">500+</div>
-                                <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600">Projects_Deployed</div>
+                                <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600">Projects Delivered</div>
                             </div>
                             <div className="w-px h-10 bg-zinc-900" />
                             <div>
                                 <div className="text-2xl font-black text-white mb-0.5">$50M+</div>
-                                <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600">Revenue_Generated</div>
+                                <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600">Revenue Generated</div>
                             </div>
                         </motion.div>
                     </div>
@@ -150,8 +150,8 @@ export default function EliteHeroRevolution() {
 
                                     {/* Floating Badges (Standard) */}
                                     <div className="absolute top-10 right-10 bg-black border border-zinc-900 p-4 opacity-50 grayscale">
-                                        <div className="text-xs font-mono text-zinc-600 uppercase">System_Load</div>
-                                        <div className="text-xl font-bold text-zinc-400">WAITING...</div>
+                                        <div className="text-xs font-mono text-zinc-600 uppercase">Performance</div>
+                                        <div className="text-xl font-bold text-zinc-400">READY</div>
                                     </div>
                                 </div>
                             }
@@ -174,12 +174,12 @@ export default function EliteHeroRevolution() {
 
                                 {/* Floating Badges (Active) */}
                                 <div className="absolute top-10 right-10 bg-zinc-950 border border-orange-600 p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
-                                    <div className="text-xs font-mono text-orange-500 uppercase">System_Load</div>
+                                    <div className="text-xs font-mono text-orange-500 uppercase">System Performance</div>
                                     <div className="text-xl font-bold text-white">98.4%</div>
                                 </div>
                                 <div className="absolute bottom-20 left-10 bg-zinc-950 border border-orange-600 p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
-                                    <div className="text-xs font-mono text-orange-500 uppercase">Active_Nodes</div>
-                                    <div className="text-xl font-bold text-white">4,281</div>
+                                    <div className="text-xs font-mono text-orange-500 uppercase">Success Rate</div>
+                                    <div className="text-xl font-bold text-white">98%</div>
                                 </div>
                             </div>
                         </PhysicsReveal>

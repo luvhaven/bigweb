@@ -51,21 +51,21 @@ export default function RevenueRoadmap() {
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-40">
+                <div className="text-center mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-3 px-5 py-2 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[9px] font-mono font-black uppercase tracking-[0.6em] mb-16"
+                        className="inline-flex items-center gap-2 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-8"
                     >
-                        <ShieldCheck className="w-4 h-4 text-orange-500" /> System_Diagnostic_Active_v.2026
+                        <ShieldCheck className="w-4 h-4 text-orange-500" /> Your Growth Journey
                     </motion.div>
 
-                    <h2 className="text-6xl md:text-[13rem] font-black text-white tracking-tighter-extreme uppercase italic leading-[0.7] mb-20">
-                        The Road To <br /><span className="text-zinc-900 border-b-8 border-orange-600">Pure ROI.</span>
+                    <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-8">
+                        From Leaky Website<br /><span className="text-zinc-600">To Profit Machine.</span>
                     </h2>
 
-                    <p className="text-2xl md:text-6xl text-zinc-500 font-black leading-none tracking-tighter-extreme max-w-6xl mx-auto uppercase">
-                        We don't build projects. <br />We engineer <span className="text-white italic">Profit_Engines.</span>
+                    <p className="text-xl md:text-2xl text-zinc-400 font-medium leading-relaxed max-w-3xl mx-auto">
+                        We don't just build websites. We engineer systems designed to turn visitors into paying customers, every single day.
                     </p>
                 </div>
 
@@ -98,18 +98,15 @@ export default function RevenueRoadmap() {
                                     {/* Content Side */}
                                     <div className={`w-full md:w-1/2 ${isEven ? 'md:text-left' : 'md:text-right'}`}>
                                         <div className="group relative">
-                                            <div className={`text-[9px] font-mono font-black text-zinc-600 mb-6 uppercase tracking-[0.6em] ${isEven ? 'md:text-left' : 'md:text-right'}`}>
-                                                DEPLOYMENT_PHASE_0{index + 1}
+                                            <div className={`text-[9px] font-mono font-bold text-zinc-600 mb-6 uppercase tracking-[0.6em] ${isEven ? 'md:text-left' : 'md:text-right'}`}>
+                                                Phase 0{index + 1}
                                             </div>
-                                            <h3 className="text-4xl md:text-7xl font-black text-white uppercase italic tracking-tighter-extreme mb-8 group-hover:text-orange-500 transition-colors leading-[0.8] transition-all duration-700">
+                                            <h3 className="text-4xl md:text-7xl font-bold text-white uppercase italic tracking-tighter mb-8 group-hover:text-orange-500 transition-colors leading-[0.8] transition-all duration-700">
                                                 {step.title}
                                             </h3>
-                                            <p className="text-zinc-500 text-xl font-bold leading-[1.1] mb-10 tracking-tighter-extreme uppercase">
-                                                {step.description}
-                                            </p>
-                                            <div className={`flex items-center gap-6 text-[10px] font-mono font-black uppercase tracking-[0.4em] text-zinc-800 ${isEven ? 'justify-start' : 'md:justify-end'}`}>
-                                                <div className="w-3 h-3 bg-orange-600 rounded-none animate-pulse" />
-                                                TARGET_YIELD: <span className="text-white">{step.outcome}</span>
+                                            <div className={`flex items-center gap-6 text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-zinc-800 ${isEven ? 'justify-start' : 'md:justify-end'}`}>
+                                                <div className="w-3 h-3 bg-orange-600 rounded-full animate-pulse" />
+                                                TARGET: <span className="text-white">{step.outcome}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -128,12 +125,12 @@ export default function RevenueRoadmap() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        className="p-16 md:p-32 bg-black border border-white/5 relative overflow-hidden group shadow-[0_0_100px_rgba(0,0,0,1)] text-center"
+                        className="p-16 md:p-32 bg-black border border-white/5 relative overflow-hidden group shadow-[0_0_100px_rgba(0,0,0,1)] text-center rounded-3xl"
                     >
                         <div className="absolute inset-0 bg-orange-600 opacity-0 group-hover:opacity-[0.05] transition-opacity duration-1000" />
                         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-[size:40px_40px]" />
 
-                        <h3 className="text-4xl md:text-[10rem] font-black text-white italic tracking-tighter-extreme uppercase mb-20 leading-[0.7]">
+                        <h3 className="text-4xl md:text-[8rem] font-bold text-white italic tracking-tighter uppercase mb-20 leading-[0.8]">
                             Ready To <br /><span className="text-zinc-900 border-b-4 border-orange-600">Execute?</span>
                         </h3>
 
@@ -142,9 +139,9 @@ export default function RevenueRoadmap() {
                                 <Magnetic strength={0.3} className="w-full sm:w-auto">
                                     <Button
                                         size="lg"
-                                        className="w-full sm:w-auto bg-white text-black hover:bg-orange-600 hover:text-white font-black text-xs px-16 h-28 rounded-none transition-all duration-500 uppercase tracking-[0.6em] shadow-2xl"
+                                        className="w-full sm:w-auto bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs px-16 h-28 rounded-2xl transition-all duration-500 uppercase tracking-[0.4em] shadow-2xl"
                                     >
-                                        INITIALIZE_v1.0
+                                        Start Your Roadmap
                                         <ArrowRight className="ml-6 w-6 h-6 transition-transform group-hover/btn:translate-x-4" />
                                     </Button>
                                 </Magnetic>
@@ -155,9 +152,9 @@ export default function RevenueRoadmap() {
                                     <Button
                                         variant="outline"
                                         size="lg"
-                                        className="w-full sm:w-auto h-28 rounded-none border border-white/10 bg-black text-zinc-600 font-black text-xs px-16 hover:bg-white hover:text-black transition-all duration-500 uppercase tracking-[0.6em]"
+                                        className="w-full sm:w-auto h-28 rounded-2xl border border-white/10 bg-black text-zinc-600 font-bold text-xs px-16 hover:bg-white hover:text-black transition-all duration-500 uppercase tracking-[0.4em]"
                                     >
-                                        ESTIMATE_ROI
+                                        Estimate ROI
                                     </Button>
                                 </Magnetic>
                             </Link>

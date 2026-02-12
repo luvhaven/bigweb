@@ -227,11 +227,11 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
                 })()}
 
                 {/* Data Overlays */}
-                <div className="absolute top-4 left-4 z-30 font-mono text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30">
-                  RAW_DATA_STREAM
+                <div className="absolute top-4 left-4 z-30 font-bold text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30">
+                  PERFORMANCE_METRICS
                 </div>
-                <div className="absolute bottom-4 right-4 z-30 font-mono text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30 animate-pulse">
-                  ENCRYPTED
+                <div className="absolute bottom-4 right-4 z-30 font-bold text-[9px] text-green-500 font-bold tracking-widest bg-black/50 px-2 py-1 border border-green-500/30 animate-pulse">
+                  OPTIMIZED
                 </div>
               </div>
             </PhysicsReveal>
@@ -242,12 +242,12 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
             <div className="relative z-30 flex flex-col">
               {/* Mandatory Info (Always Visible) */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <span className="inline-block px-3 py-1 border border-orange-500/30 bg-orange-600/10 text-orange-500 text-[9px] font-mono font-bold uppercase tracking-[0.2em] backdrop-blur-md">
-                  / Sector_{project.category}
+                <span className="inline-block px-3 py-1 border border-orange-500/30 bg-orange-600/10 text-orange-500 text-[9px] font-bold uppercase tracking-[0.2em] backdrop-blur-md">
+                  {project.category}
                 </span>
               </div>
 
-              <h3 className="text-3xl font-black text-white mb-2 group-hover:text-orange-500 transition-colors duration-300 tracking-tighter uppercase leading-[0.9] italic">
+              <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors duration-300 tracking-tighter uppercase leading-[0.9] italic">
                 {project.title}
               </h3>
 
@@ -263,14 +263,14 @@ const ProjectCard = ({ project, index, isTouch }: ProjectCardProps) => {
 
                 {project.results && (
                   <div className="mb-6 p-4 bg-zinc-950 border border-zinc-900 transition-colors group-hover:border-zinc-800">
-                    <div className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.3em] mb-1">Impact_Result</div>
-                    <div className="text-2xl font-black text-white italic tracking-tighter">{project.results}</div>
+                    <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.3em] mb-1">Business Impact</div>
+                    <div className="text-2xl font-bold text-white italic tracking-tighter">{project.results}</div>
                   </div>
                 )}
 
-                <div className="flex items-center gap-2 text-white font-black uppercase text-[10px] tracking-[0.2em] group/btn">
+                <div className="flex items-center gap-2 text-white font-bold uppercase text-[10px] tracking-[0.2em] group/btn">
                   <span className="relative overflow-hidden">
-                    VIEW ARCHIVE / 0{index + 1}
+                    VIEW CASE STUDY
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300" />
                   </span>
                   <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-orange-500" />
@@ -396,13 +396,13 @@ const ElitePortfolio = ({
               viewport={{ once: true }}
               className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10"
             >
-              <GitBranch className="w-4 h-4" /> Execution_Logs_v8
+              <GitBranch className="w-4 h-4" /> SUCCESSFUL DEPLOYMENTS
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-6xl md:text-[8rem] font-black mb-10 tracking-tighter uppercase italic leading-[0.75] text-white"
+              className="text-6xl md:text-[8rem] font-bold mb-10 tracking-tighter uppercase italic leading-[0.75] text-white"
             >
               The <br /><span className="text-zinc-800">Archive.</span>
             </motion.h2>
@@ -413,7 +413,7 @@ const ElitePortfolio = ({
               transition={{ delay: 0.1 }}
               className="text-zinc-500 text-2xl md:text-4xl max-w-4xl font-medium leading-[1.1] tracking-tight"
             >
-              Clinical execution logs. We deploy engines that have generated over <span className="text-white italic underline decoration-orange-600 underline-offset-8">$50M+</span> for our clients.
+              A proven track record of digital excellence. We deploy systems that have generated over <span className="text-white italic underline decoration-orange-600 underline-offset-8">$50M+</span> for our clients.
             </motion.p>
           </div>
 
@@ -428,7 +428,7 @@ const ElitePortfolio = ({
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-8 py-3 text-[10px] font-mono font-black uppercase tracking-[0.4em] transition-all duration-500 ${activeCategory === category
+                className={`px-8 py-3 text-[10px] font-mono font-bold uppercase tracking-[0.4em] transition-all duration-500 ${activeCategory === category
                   ? 'bg-orange-600 text-white'
                   : 'bg-zinc-950 text-zinc-600 hover:text-zinc-300 hover:bg-zinc-900 border border-zinc-900'
                   }`}
@@ -460,7 +460,7 @@ const ElitePortfolio = ({
             <Button
               onClick={loadMore}
               disabled={isLoading}
-              className="bg-zinc-950 border border-zinc-900 text-white font-black text-sm uppercase tracking-[0.4em] px-12 h-20 rounded-none hover:bg-white hover:text-black transition-all duration-300"
+              className="bg-zinc-950 border border-zinc-900 text-white font-bold text-sm uppercase tracking-[0.4em] px-12 h-20 rounded-xl hover:bg-white hover:text-black transition-all duration-300"
             >
               {isLoading ? (
                 <>
@@ -468,7 +468,7 @@ const ElitePortfolio = ({
                   PROCESSING...
                 </>
               ) : (
-                'INITIALIZE_DATA_PULL'
+                'LOAD MORE PROJECTS'
               )}
             </Button>
           </div>
@@ -476,8 +476,8 @@ const ElitePortfolio = ({
         {showViewAll && (
           <div className="mt-20 flex justify-center">
             <Link href="/case-studies">
-              <Button className="bg-orange-600 hover:bg-orange-500 text-white font-black text-sm px-12 h-24 rounded-none uppercase tracking-[0.5em] transition-all duration-300">
-                OPEN_FULL_LABORATORY_ARCHIVE
+              <Button className="bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm px-12 h-24 rounded-xl uppercase tracking-[0.5em] transition-all duration-300">
+                VIEW ALL CASE STUDIES
                 <ArrowUpRight className="ml-4 w-6 h-6" />
               </Button>
             </Link>

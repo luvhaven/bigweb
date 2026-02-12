@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 import { ShieldCheck, Lock, Zap, Gauge } from 'lucide-react'
 
 const badges = [
-    { icon: ShieldCheck, label: "CLINICAL_VERIFIED", detail: "Secured_Infrastructure" },
-    { icon: Zap, label: "PHASE_DETECTION", detail: "Rapid_Deployment" },
-    { icon: Gauge, label: "PERFORMANCE_LOCK", detail: "Optimized_Yield" }
+    { icon: ShieldCheck, label: "Enterprise Verified", detail: "Secure Infrastructure" },
+    { icon: Zap, label: "Rapid Deployment", detail: "Phase Detection" },
+    { icon: Gauge, label: "Performance First", detail: "Optimized Yield" }
 ]
 
 export default function TrustBadges() {

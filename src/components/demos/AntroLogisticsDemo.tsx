@@ -126,7 +126,7 @@ const AntroLogisticsDemo = () => {
                             <motion.h1
                                 initial={{ y: -20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
-                                className="text-5xl md:text-6xl font-black text-cyan-400 tracking-[0.15em] uppercase italic flex items-center gap-4 drop-shadow-[0_0_30px_rgba(0,212,255,0.8)]"
+                                className="text-5xl md:text-6xl font-bold text-cyan-400 tracking-[0.15em] uppercase italic flex items-center gap-4 drop-shadow-[0_0_30px_rgba(0,212,255,0.8)]"
                             >
                                 Antro <span className="text-white not-italic opacity-90 drop-shadow-none">Logistics</span>
                             </motion.h1>
@@ -143,13 +143,13 @@ const AntroLogisticsDemo = () => {
                                     <Activity className="w-5 h-5 text-cyan-400" />
                                 </div>
                                 <div>
-                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] leading-none mb-1">Command</div>
+                                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] leading-none mb-1">Command</div>
                                     <div className="text-[8px] font-bold text-cyan-500/60 uppercase tracking-widest leading-none">v4.0.2_Stable</div>
                                 </div>
                             </div>
 
                             <div className="absolute left-1/2 -translate-x-1/2 text-center pointer-events-none">
-                                <h1 className="text-xl font-black text-white uppercase tracking-[0.4em] mb-1">Antro Logistics</h1>
+                                <h1 className="text-xl font-bold text-white uppercase tracking-[0.4em] mb-1">Antro Logistics</h1>
                                 <div className="flex items-center justify-center gap-2">
                                     <span className="w-8 h-px bg-gradient-to-r from-transparent to-cyan-500/40" />
                                     <span className="text-[8px] font-bold text-cyan-400/60 uppercase tracking-[0.2em]">Global Telemetry Network</span>
@@ -197,7 +197,7 @@ const AntroLogisticsDemo = () => {
                                                     animate={{ height: `${h}%` }}
                                                     className="w-full min-w-[6px] bg-gradient-to-t from-cyan-500/20 to-cyan-400 rounded-t-lg transition-all duration-500 group-hover/item:brightness-125 group-hover/item:shadow-[0_0_15px_#22d3ee]"
                                                 />
-                                                <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover/item:opacity-100 transition-opacity whitespace-nowrap bg-cyan-500 text-[8px] px-1.5 py-0.5 rounded font-black text-white pointer-events-none z-50">
+                                                <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover/item:opacity-100 transition-opacity whitespace-nowrap bg-cyan-500 text-[8px] px-1.5 py-0.5 rounded font-bold text-white pointer-events-none z-50">
                                                     {h}%
                                                 </div>
                                             </div>
@@ -329,7 +329,7 @@ const AntroLogisticsDemo = () => {
                                                                 exit={{ opacity: 0, x: -10 }}
                                                                 className="bg-black/90 border border-cyan-500/50 rounded-xl p-3 backdrop-blur-xl shadow-2xl"
                                                             >
-                                                                <div className="text-[9px] font-black text-cyan-400 uppercase tracking-widest mb-1">{node.city}</div>
+                                                                <div className="text-[9px] font-bold text-cyan-400 uppercase tracking-widest mb-1">{node.city}</div>
                                                                 <div className="flex justify-between items-center mb-1">
                                                                     <span className="text-[8px] text-white/40 uppercase">Load:</span>
                                                                     <span className="text-[10px] text-white font-bold">{node.load}</span>
@@ -352,19 +352,19 @@ const AntroLogisticsDemo = () => {
                                 <div className="mt-8 flex gap-12 text-center">
                                     <div className="space-y-1">
                                         <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Active Freights</div>
-                                        <div className="text-2xl font-black text-white">{systemMetrics.freights.toLocaleString()}</div>
+                                        <div className="text-2xl font-bold text-white">{systemMetrics.freights.toLocaleString()}</div>
                                     </div>
                                     <div className="space-y-1">
                                         <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Live Nodes</div>
-                                        <div className="text-2xl font-black text-white">{systemMetrics.nodes}</div>
+                                        <div className="text-2xl font-bold text-white">{systemMetrics.nodes}</div>
                                     </div>
                                     <div className="space-y-1">
                                         <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Global Uptime</div>
-                                        <div className="text-2xl font-black text-emerald-400">{systemMetrics.uptime}%</div>
+                                        <div className="text-2xl font-bold text-emerald-400">{systemMetrics.uptime}%</div>
                                     </div>
                                     <div className="space-y-1 cursor-pointer group/toggle" onClick={() => setIsLive(!isLive)}>
                                         <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] group-hover/toggle:text-cyan-400 transition-colors text-right">System Status</div>
-                                        <div className={`text-2xl font-black flex items-center justify-end gap-2 ${isLive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                        <div className={`text-2xl font-bold flex items-center justify-end gap-2 ${isLive ? 'text-emerald-400' : 'text-rose-400'}`}>
                                             {isLive ? 'LIVE' : 'PAUSED'}
                                             <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-emerald-400 animate-pulse shadow-[0_0_10px_#10b981]' : 'bg-rose-400 shadow-[0_0_10px_#f43f5e]'}`} />
                                         </div>
@@ -388,7 +388,7 @@ const AntroLogisticsDemo = () => {
                                                     transition={{ duration: 1.5 }}
                                                 />
                                             </svg>
-                                            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white">85%</div>
+                                            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">85%</div>
                                         </div>
                                         <div className="relative w-16 h-16">
                                             <svg className="w-full h-full rotate-[-90deg]">
@@ -400,7 +400,7 @@ const AntroLogisticsDemo = () => {
                                                     transition={{ duration: 1.5 }}
                                                 />
                                             </svg>
-                                            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white">72%</div>
+                                            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">72%</div>
                                         </div>
                                     </div>
                                 </div>
@@ -431,7 +431,7 @@ const AntroLogisticsDemo = () => {
                                                     <div className="text-[8px] text-white/40 uppercase tracking-widest mt-0.5">{item.origin} → {item.dest}</div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className={`text-[9px] font-black uppercase ${item.complexity === 'Critical' ? 'text-rose-400' : 'text-white/60'}`}>{item.status}</div>
+                                                    <div className={`text-[9px] font-bold uppercase ${item.complexity === 'Critical' ? 'text-rose-400' : 'text-white/60'}`}>{item.status}</div>
                                                     <div className="text-[7px] text-white/20 font-bold uppercase mt-1">{item.complexity}_PRIORITY</div>
                                                 </div>
                                             </div>
@@ -448,11 +448,11 @@ const AntroLogisticsDemo = () => {
                 <div className="absolute bottom-0 left-0 right-0 h-14 bg-black/90 border-t border-cyan-500/20 z-50 flex items-center px-10 justify-between backdrop-blur-xl">
                     <div className="flex gap-12">
                         <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">Protocol</span>
-                            <span className="text-[9px] font-black text-cyan-500 uppercase tracking-[0.3em]">ANTRO_SECURE_v4.2</span>
+                            <span className="text-[9px] font-bold text-white/20 uppercase tracking-[0.3em]">Protocol</span>
+                            <span className="text-[9px] font-bold text-cyan-500 uppercase tracking-[0.3em]">ANTRO_SECURE_v4.2</span>
                         </div>
                         <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">Network</span>
+                            <span className="text-[9px] font-bold text-white/20 uppercase tracking-[0.3em]">Network</span>
                             <div className="flex items-center gap-1.5">
                                 {[1, 2, 3, 4].map(b => (
                                     <div key={b} className={`w-1 h-3 rounded-sm ${b <= 3 ? 'bg-cyan-500' : 'bg-white/10'}`} />
@@ -461,12 +461,12 @@ const AntroLogisticsDemo = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-6">
-                        <div className="hidden md:flex items-center gap-4 text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">
+                        <div className="hidden md:flex items-center gap-4 text-[8px] font-bold text-white/20 uppercase tracking-[0.4em]">
                             Packet_Loss: <span className="text-emerald-500">0.00%</span>
                         </div>
                         <div className="flex items-center gap-3 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full">
                             <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
-                            <span className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.2em]">Encr_Tunnel_Stable</span>
+                            <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-[0.2em]">Encr_Tunnel_Stable</span>
                         </div>
                     </div>
                 </div>
@@ -488,8 +488,8 @@ const AntroLogisticsDemo = () => {
                         className="bg-white/[0.01] border border-white/[0.05] p-6 rounded-[2rem] flex flex-col items-center text-center group hover:bg-white/[0.02] transition-colors"
                     >
                         <item.icon className="w-6 h-6 text-cyan-500/40 mb-4 group-hover:text-cyan-400 transition-colors" />
-                        <div className="text-2xl font-black text-white italic mb-1 tracking-tighter">{item.value}</div>
-                        <div className="text-[10px] text-white/30 font-black uppercase tracking-[0.2em]">{item.label}</div>
+                        <div className="text-2xl font-bold text-white italic mb-1 tracking-tighter">{item.value}</div>
+                        <div className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em]">{item.label}</div>
                     </motion.div>
                 ))}
             </div>

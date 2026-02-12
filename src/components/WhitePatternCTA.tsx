@@ -48,7 +48,7 @@ export default function WhitePatternCTA() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12"
+                  className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-12"
                 >
                   Deploy <br />
                   <span className="text-zinc-800">New Logic.</span>
@@ -74,7 +74,7 @@ export default function WhitePatternCTA() {
                   <Link href="/offers/diagnostic">
                     <Button
                       size="xl"
-                      className="h-20 px-12 bg-white text-black hover:bg-orange-600 hover:text-white border border-transparent hover:border-orange-600 text-xs font-black uppercase tracking-[0.3em] rounded-none shadow-none transition-all group"
+                      className="h-20 px-12 bg-white text-black hover:bg-orange-600 hover:text-white border border-transparent hover:border-orange-600 text-xs font-bold uppercase tracking-[0.3em] rounded-xl shadow-none transition-all group"
                     >
                       Start_System_Audit
                       <ArrowRight className="ml-4 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -85,7 +85,7 @@ export default function WhitePatternCTA() {
                     <Button
                       size="xl"
                       variant="outline"
-                      className="h-20 px-12 bg-black text-white border-zinc-800 hover:bg-zinc-900 text-xs font-black uppercase tracking-[0.3em] rounded-none transition-all"
+                      className="h-20 px-12 bg-black text-white border-zinc-800 hover:bg-zinc-900 text-xs font-bold uppercase tracking-[0.3em] rounded-xl transition-all"
                     >
                       Schedule_Uplink
                     </Button>
@@ -122,7 +122,7 @@ export default function WhitePatternCTA() {
               <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2]" />
 
               <div className="relative z-10">
-                <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
+                <h2 className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
                   <span className="text-orange-500">OPTIMIZE</span> <br />
                   <span className="text-white">EVERY NODE.</span>
                 </h2>

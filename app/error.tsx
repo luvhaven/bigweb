@@ -33,7 +33,7 @@ export default function Error({
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl md:text-6xl font-black mb-6 uppercase italic tracking-tighter"
+                    className="text-4xl md:text-6xl font-bold mb-6 uppercase italic tracking-tighter"
                 >
                     Circuit <span className="text-orange-600">Disruption</span>
                 </motion.h2>
@@ -55,7 +55,7 @@ export default function Error({
                 >
                     <Button
                         onClick={() => reset()}
-                        className="h-16 px-8 bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest rounded-2xl group transition-all"
+                        className="h-16 px-8 bg-orange-600 hover:bg-orange-700 text-white font-bold uppercase tracking-widest rounded-2xl group transition-all"
                     >
                         <RefreshCw className="mr-2 w-5 h-5 group-hover:rotate-180 transition-transform duration-700" />
                         Retry Connection
@@ -64,7 +64,7 @@ export default function Error({
                     <Button
                         asChild
                         variant="outline"
-                        className="h-16 px-8 border-white/10 hover:bg-white/5 text-white font-black uppercase tracking-widest rounded-2xl"
+                        className="h-16 px-8 border-white/10 hover:bg-white/5 text-white font-bold uppercase tracking-widest rounded-2xl"
                     >
                         <Link href="/">
                             <Home className="mr-2 w-5 h-5" />
@@ -74,7 +74,7 @@ export default function Error({
                 </motion.div>
 
                 <div className="mt-16 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
-                    <p className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.4em]">System Diagnostic Logs</p>
+                    <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-[0.4em]">System Diagnostic Logs</p>
                     <div className="flex gap-4">
                         <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-zinc-500">
                             STATUS: OFFLINE

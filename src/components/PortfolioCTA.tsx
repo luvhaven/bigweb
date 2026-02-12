@@ -51,7 +51,7 @@ export default function PortfolioCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-[10rem] font-black text-center mb-16 leading-[0.8] italic tracking-tighter uppercase text-white"
+            className="text-6xl md:text-[10rem] font-bold text-center mb-16 leading-[0.8] italic tracking-tighter uppercase text-white"
           >
             Deploy <br />
             <span className="text-zinc-800">Your Vision.</span>
@@ -66,13 +66,13 @@ export default function PortfolioCTA() {
             className="flex flex-col sm:flex-row gap-8 justify-center mb-24"
           >
             <Link href="/offers/diagnostic">
-              <Button size="lg" className="h-24 px-12 bg-orange-600 hover:bg-orange-500 text-white border-0 rounded-none text-sm font-black uppercase tracking-[0.4em] transition-all duration-300">
+              <Button size="lg" className="h-24 px-12 bg-orange-600 hover:bg-orange-500 text-white border-0 rounded-xl text-sm font-bold uppercase tracking-[0.4em] transition-all duration-300">
                 INITIATE_DIAGNOSTIC
                 <ArrowRight className="ml-4 w-5 h-5" />
               </Button>
             </Link>
             <Link href="/contact">
-              <Button size="lg" variant="outline" className="h-24 px-12 bg-transparent border border-zinc-800 text-white hover:bg-white hover:text-black rounded-none text-sm font-black uppercase tracking-[0.4em] transition-all duration-300">
+              <Button size="lg" variant="outline" className="h-24 px-12 bg-transparent border border-zinc-800 text-white hover:bg-white hover:text-black rounded-xl text-sm font-bold uppercase tracking-[0.4em] transition-all duration-300">
                 SCHEDULE_BRIEFING
               </Button>
             </Link>
@@ -100,7 +100,7 @@ export default function PortfolioCTA() {
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
                 className="text-center py-12 border-b border-r border-zinc-900 last:border-r-0"
               >
-                <div className="text-4xl md:text-5xl font-black text-white italic tracking-tighter mb-4 group-hover:text-orange-600 transition-colors">
+                <div className="text-4xl md:text-5xl font-bold text-white italic tracking-tighter mb-4 group-hover:text-orange-600 transition-colors">
                   {stat.value}
                 </div>
                 <div className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em]">

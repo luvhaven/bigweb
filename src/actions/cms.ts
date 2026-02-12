@@ -318,17 +318,30 @@ export async function getSettings() {
     unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data, error } = await supabase
+
+        // Try primary table
+        let { data, error } = await supabase
             .from('cms_site_settings')
             .select('*')
             .order('category', { ascending: true })
 
-        if (error) throw error
+        // Fallback to legacy
+        if (error) {
+            const fallback = await supabase
+                .from('site_settings')
+                .select('*');
+            data = fallback.data;
+            error = fallback.error;
+        }
+
+        if (error && !error.message?.includes('Could not find the table')) throw error
 
         // Convert to key-value object
         const settings: Record<string, any> = {}
-            ; (data || []).forEach(setting => {
-                settings[setting.key] = setting.value
+            ; (data || []).forEach(row => {
+                const key = row.key || row.setting_key;
+                const value = row.value !== undefined ? row.value : row.setting_value;
+                if (key) settings[key] = value;
             })
 
         return settings
@@ -342,14 +355,25 @@ export async function getSetting(key: string) {
     unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data, error } = await supabase
+
+        let { data, error } = await supabase
             .from('cms_site_settings')
             .select('*')
             .eq('key', key)
             .single()
 
-        if (error) throw error
-        return data?.value
+        if (error) {
+            const fallback = await supabase
+                .from('site_settings')
+                .select('*')
+                .eq('key', key)
+                .single();
+            data = fallback.data;
+            error = fallback.error;
+        }
+
+        if (error && !error.message?.includes('Could not find the table')) throw error
+        return data?.value || data?.setting_value;
     } catch (error: any) {
         logCmsError(`setting ${key}`, error)
         return null

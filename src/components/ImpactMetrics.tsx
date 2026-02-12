@@ -91,7 +91,7 @@ const ImpactMetrics = () => {
               Impact_Velocity_v3
             </span>
           </div>
-          <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-10">
+          <h2 className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-10">
             Impact <br />
             <span className="text-zinc-800">Vector.</span>
           </h2>
@@ -120,7 +120,7 @@ const ImpactMetrics = () => {
                 </div>
 
                 {/* Counter */}
-                <div className="text-5xl md:text-6xl font-black mb-4 text-white italic tracking-tighter group-hover:translate-x-2 transition-transform duration-500">
+                <div className="text-5xl md:text-6xl font-bold mb-4 text-white italic tracking-tighter group-hover:translate-x-2 transition-transform duration-500">
                   <AnimatedCounter value={metric.value} suffix={metric.suffix} inView={isInView} />
                 </div>
 

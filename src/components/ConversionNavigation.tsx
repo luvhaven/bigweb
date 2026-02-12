@@ -11,9 +11,9 @@ import { useGlobalContent } from '@/context/GlobalContentContext'
 
 const navItems = [
     {
-        title: 'Services',
+        title: 'Capabilities',
         href: '/services',
-        description: 'Premium digital production services',
+        description: 'Elite digital production capabilities',
         items: [
             { title: 'Web Development', href: '/services/web-development', icon: Layers, desc: 'Enterprise-grade websites & apps' },
             { title: 'AI Automation', href: '/services/ai-automation', icon: Zap, desc: 'Agents & process automation' },
@@ -22,9 +22,9 @@ const navItems = [
         ]
     },
     {
-        title: 'Offers',
+        title: 'Engagements',
         href: '/#offers',
-        description: 'Our core conversion products',
+        description: 'Commercial performance models',
         items: [
             { title: 'Conversion Audit', href: '/offers/diagnostic', icon: BarChart3, desc: 'Entry-level analysis' },
             { title: 'Fix Sprint', href: '/offers/fix-sprint', icon: Zap, desc: 'Rapid critical fixes' },
@@ -33,9 +33,7 @@ const navItems = [
         ]
     },
     { title: 'Process', href: '/process' },
-    { title: 'Case Studies', href: '/case-studies' },
-    { title: 'About', href: '/about' },
-    { title: 'Contact', href: '/contact' },
+    { title: 'Evidence', href: '/case-studies' },
 ]
 
 export default function ConversionNavigation() {
@@ -133,7 +131,7 @@ export default function ConversionNavigation() {
                                                                                     <sub.icon className="w-4 h-4" />
                                                                                 </div>
                                                                                 <div className="space-y-1">
-                                                                                    <div className="text-sm font-black text-white uppercase italic tracking-tighter group-hover/sub:text-orange-600 transition-colors leading-none">{sub.title}</div>
+                                                                                    <div className="text-sm font-bold text-white uppercase italic tracking-tighter group-hover/sub:text-orange-600 transition-colors leading-none">{sub.title}</div>
                                                                                     <div className="text-[9px] font-mono font-bold text-zinc-700 uppercase tracking-widest">{sub.desc}</div>
                                                                                 </div>
                                                                             </Link>
@@ -161,7 +159,7 @@ export default function ConversionNavigation() {
                                                                                     <sub.icon className="w-4 h-4" />
                                                                                 </div>
                                                                                 <div className="space-y-1">
-                                                                                    <div className="text-sm font-black text-white uppercase italic tracking-tighter group-hover/sub:text-orange-600 transition-colors leading-none">{sub.title}</div>
+                                                                                    <div className="text-sm font-bold text-white uppercase italic tracking-tighter group-hover/sub:text-orange-600 transition-colors leading-none">{sub.title}</div>
                                                                                     <div className="text-[9px] font-mono font-bold text-zinc-700 uppercase tracking-widest">{sub.desc}</div>
                                                                                 </div>
                                                                             </Link>
@@ -173,14 +171,14 @@ export default function ConversionNavigation() {
                                                             {/* Column 3: Featured */}
                                                             <div className="col-span-4">
                                                                 <div className="h-full bg-zinc-950 border border-zinc-900 p-8 relative overflow-hidden group/feat">
-                                                                    <div className="absolute top-0 right-0 bg-orange-600 text-white px-4 py-1 text-[9px] font-black uppercase tracking-widest">
+                                                                    <div className="absolute top-0 right-0 bg-orange-600 text-white px-4 py-1 text-[9px] font-bold uppercase tracking-widest">
                                                                         FLAGSHIP
                                                                     </div>
                                                                     <h4 className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em] mb-4">Featured_Product</h4>
-                                                                    <div className="text-3xl font-black text-white uppercase italic tracking-tighter leading-none mb-6">The Revenue <br /> Engine™</div>
+                                                                    <div className="text-3xl font-bold text-white uppercase italic tracking-tighter leading-none mb-6">The Revenue <br /> Engine™</div>
                                                                     <p className="text-[11px] font-mono font-bold text-zinc-800 uppercase tracking-widest mb-10 leading-relaxed">Sub-2s performance, <br /> 3X conversion yield.</p>
                                                                     <Link href="/services/web-development">
-                                                                        <Button className="w-full h-16 bg-orange-600 hover:bg-orange-500 text-white font-black text-xs uppercase tracking-[0.4em] rounded-none transition-all duration-300">
+                                                                        <Button className="w-full h-16 bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-[0.4em] rounded-xl transition-all duration-300">
                                                                             EXPLORE_v1
                                                                             <ArrowRight className="ml-4 w-4 h-4" />
                                                                         </Button>
@@ -200,7 +198,7 @@ export default function ConversionNavigation() {
                                                                         <div className="w-10 h-10 bg-black border border-zinc-900 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors">
                                                                             <subItem.icon className="w-4 h-4 text-zinc-600 group-hover:text-white" />
                                                                         </div>
-                                                                        <div className="text-sm font-black text-white uppercase italic tracking-tighter group-hover:text-orange-600 transition-colors">
+                                                                        <div className="text-sm font-bold text-white uppercase italic tracking-tighter group-hover:text-orange-600 transition-colors">
                                                                             {subItem.title}
                                                                         </div>
                                                                     </div>
@@ -232,9 +230,9 @@ export default function ConversionNavigation() {
 
                     {/* CTAs */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href="/offers/diagnostic">
-                            <Button className="bg-orange-600 hover:bg-orange-500 text-white font-black text-xs px-8 h-14 rounded-none uppercase tracking-[0.4em] transition-all duration-300">
-                                START_DIAGNOSTIC_v1
+                        <Link href="/offers/revenue-roadmap">
+                            <Button className="bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs px-8 h-14 rounded-xl uppercase tracking-[0.4em] transition-all duration-300">
+                                REVENUE ROADMAP
                                 <ArrowRight className="ml-4 w-4 h-4" />
                             </Button>
                         </Link>

@@ -85,15 +85,15 @@ export default function EliteStatistics() {
           <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
             <Award className="w-5 h-5 text-orange-600" />
             <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
-              Operational_Yield_v2
+              Revenue Performance
             </span>
           </div>
-          <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-10">
+          <h2 className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-10">
             Performance <br />
             <span className="text-zinc-800">Metrics.</span>
           </h2>
           <p className="text-xl text-zinc-500 font-medium max-w-2xl mx-auto uppercase tracking-wide">
-            Quantifiable capital extraction across global vectors.
+            High-impact conversion engineering for global brands.
           </p>
         </motion.div>
 
@@ -124,7 +124,7 @@ export default function EliteStatistics() {
                   </div>
 
                   {/* Counter */}
-                  <div className="text-5xl md:text-7xl font-black mb-4 text-white italic tracking-tighter">
+                  <div className="text-5xl md:text-7xl font-bold mb-4 text-white italic tracking-tighter">
                     <Counter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                   </div>
 
@@ -148,7 +148,7 @@ export default function EliteStatistics() {
         >
           <div className="inline-flex items-center gap-4 text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">
             <span className="w-2 h-2 bg-emerald-500 animate-pulse" />
-            <span>Telemetry_Stream: ACTIVE</span>
+            <span>Growth Systems: Online</span>
           </div>
         </motion.div>
       </div>

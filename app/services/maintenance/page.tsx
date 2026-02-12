@@ -66,13 +66,12 @@ const socialProof = [
     { value: "Elite", label: "Coverage Tier" }
 ]
 
-// Transformation phases
 const transformation = [
     {
         phase: "Phase 01",
-        title: "Infection Audit",
-        outcome: "We surgically audit your system for existing vulnerabilities, bloated logic, and architectural friction nodes.",
-        deliverables: ["Security Audit", "Patch Roadmap", "Mesh Blueprint"]
+        title: "System Diagnostics",
+        outcome: "We surgically audit your system for existing vulnerabilities, latency bottlenecks, and architectural friction nodes.",
+        deliverables: ["Health Analysis", "Patch Roadmap", "Mesh Blueprint"]
     },
     {
         phase: "Phase 02",
@@ -90,7 +89,7 @@ const transformation = [
 
 export default function MaintenancePage() {
     return (
-        <main className="min-h-screen bg-[#050505] text-white selection:bg-slate-500/30">
+        <main className="min-h-screen bg-black text-white selection:bg-orange-500/30">
             <ServiceSchema
                 name={`${PRODUCT_NAME} - Elite Maintenance by BIGWEB`}
                 description={`${PRODUCT_TAGLINE}. 24/7 monitoring and security for your web application. Zero downtime guarantee, bank-grade security, proactive optimization.`}
@@ -102,22 +101,21 @@ export default function MaintenancePage() {
             <AdvancedNavigation />
 
             {/* Hero Section */}
-            <section className="relative min-h-[110vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-gradient-mesh">
+            <section className="relative min-h-[100vh] flex items-center justify-center pt-32 pb-24 overflow-hidden">
                 {/* Background Grid */}
                 <div className="absolute inset-0 opacity-[0.03]">
                     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px]" />
                 </div>
 
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                    <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-slate-600/10 rounded-full blur-[140px] animate-pulse" />
-                    <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] bg-zinc-600/10 rounded-full blur-[120px] animate-pulse-slow" />
+                    <div className="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[140px] animate-pulse" />
                 </div>
 
                 <div className="relative z-10 container mx-auto px-6 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
                         className="max-w-6xl mx-auto"
                     >
                         {/* Status Badge */}
@@ -125,10 +123,10 @@ export default function MaintenancePage() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2, duration: 0.6 }}
-                            className="inline-flex items-center gap-3 px-6 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-slate-500/20 shadow-[0_0_20px_rgba(148,163,184,0.1)] mb-12"
+                            className="inline-flex items-center gap-3 px-6 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-white/10 mb-12"
                         >
-                            <ShieldCheck className="w-4 h-4 text-slate-400" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
+                            <ShieldCheck className="w-4 h-4 text-orange-500" />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">
                                 Security System: {PRODUCT_NAME}
                             </span>
                         </motion.div>
@@ -138,10 +136,10 @@ export default function MaintenancePage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.8 }}
-                            className="text-5xl md:text-8xl lg:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.85] italic"
+                            className="text-6xl md:text-9xl font-bold mb-8 tracking-tighter uppercase leading-[0.85]"
                         >
                             Zero-Downtime<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 via-zinc-600 to-slate-800">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-700">
                                 Mesh™
                             </span>
                         </motion.h1>
@@ -150,7 +148,7 @@ export default function MaintenancePage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.8 }}
-                            className="text-lg md:text-2xl font-bold tracking-widest text-slate-500 uppercase italic mb-12"
+                            className="text-lg md:text-2xl font-bold tracking-widest text-zinc-500 uppercase mb-12"
                         >
                             {PRODUCT_TAGLINE}
                         </motion.p>
@@ -159,11 +157,11 @@ export default function MaintenancePage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
-                            className="text-xl md:text-3xl text-zinc-400 max-w-4xl mx-auto leading-tight mb-20 font-light"
+                            className="text-xl md:text-3xl text-zinc-400 max-w-4xl mx-auto leading-tight mb-20 font-medium tracking-tight"
                         >
-                            We protect your digital sovereignty with <strong className="text-white font-black italic">industrial-grade surveillance</strong> and forensic mitigation.
+                            We protect your digital sovereignty with <strong className="text-white">industrial-grade surveillance</strong> and forensic mitigation.
                             <br />
-                            <span className="text-white font-black underline decoration-slate-500 underline-offset-8">Uptime is not a luxury. It is a mandatory requirement.</span>
+                            <span className="text-white underline decoration-orange-500/50 underline-offset-8">Uptime is mandatory.</span>
                         </motion.p>
 
                         <motion.div
@@ -174,28 +172,28 @@ export default function MaintenancePage() {
                         >
                             <Link
                                 href="/contact"
-                                className="group relative px-12 py-6 rounded-2xl bg-slate-600 text-white font-black uppercase tracking-widest text-lg hover:bg-slate-500 transition-all hover:scale-105 shadow-2xl shadow-slate-500/20"
+                                className="group relative px-12 py-6 rounded-full bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-zinc-200 transition-all hover:scale-[1.02] shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                             >
                                 <span className="relative z-10 flex items-center gap-3">
-                                    <Shield className="w-6 h-6" />
+                                    <Shield className="w-5 h-5" />
                                     Secure My System
-                                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform ease-apple" />
                                 </span>
                             </Link>
                             <Link
                                 href="#coverage"
-                                className="px-12 py-6 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-lg hover:bg-white/10 transition-all font-bold"
+                                className="px-12 py-6 rounded-full border border-white/10 text-white font-bold uppercase tracking-widest text-sm hover:bg-white/5 transition-all"
                             >
                                 View Coverage
                             </Link>
                         </motion.div>
 
                         {/* Security Telemetry */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto border-t border-white/10 pt-12">
                             {socialProof.map((stat, i) => (
                                 <div key={i} className="text-center">
-                                    <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                                    <div className="text-4xl font-bold text-white mb-2 tracking-tighter">{stat.value}</div>
+                                    <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">{stat.label}</div>
                                 </div>
                             ))}
                         </div>
@@ -204,11 +202,11 @@ export default function MaintenancePage() {
             </section>
 
             {/* Defense Infrastructure */}
-            <section className="py-24 border-t border-white/5 border-b bg-[#080808]">
+            <section className="py-32 border-t border-white/5 bg-black">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-20">
-                        <span className="text-slate-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Engine Integrity</span>
-                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter">Defense Stack</h2>
+                        <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Engine Integrity</span>
+                        <h2 className="text-4xl md:text-6xl font-bold text-white uppercase tracking-tighter">Defense Stack</h2>
                     </div>
 
                     <div className="grid md:grid-cols-4 gap-8">
@@ -218,12 +216,12 @@ export default function MaintenancePage() {
                             { title: "Logic Persistence", desc: "Forced redundancy and automated failover meshes.", icon: Database },
                             { title: "Kernel Defense", desc: "Military-grade OS hardening and root-level security.", icon: Cpu },
                         ].map((tool, i) => (
-                            <div key={i} className="flex flex-col items-center text-center p-8 rounded-3xl bg-black border border-white/5 hover:border-slate-500/20 transition-all group">
-                                <div className="w-16 h-16 rounded-2xl bg-slate-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                    <tool.icon className="w-8 h-8 text-slate-500" />
+                            <div key={i} className="flex flex-col items-center text-center p-8 bg-zinc-900/10 border border-white/5 hover:border-orange-500/30 transition-all group backdrop-blur-md rounded-3xl">
+                                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:bg-orange-500/10 transition-colors">
+                                    <tool.icon className="w-6 h-6 text-zinc-400 group-hover:text-orange-500 transition-colors" />
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-2 uppercase italic leading-tight">{tool.title}</h3>
-                                <p className="text-zinc-500 leading-relaxed font-medium text-xs">{tool.desc}</p>
+                                <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">{tool.title}</h3>
+                                <p className="text-zinc-500 leading-relaxed font-medium text-xs tracking-wide">{tool.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -231,13 +229,13 @@ export default function MaintenancePage() {
             </section>
 
             {/* Forensic Outcomes */}
-            <section className="py-32 relative overflow-hidden bg-[#050505]">
+            <section className="py-32 relative overflow-hidden bg-black">
                 <div className="container mx-auto px-6 mb-24 text-center">
-                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
-                        System <span className="text-slate-500">Stability</span>
+                    <h2 className="text-4xl md:text-6xl font-bold text-white uppercase tracking-tighter mb-6">
+                        System <span className="text-zinc-600">Stability</span>
                     </h2>
                     <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
-                        Downtime is a failure of logic. We engineer for <strong className="text-white italic">permanent uptime</strong>.
+                        Downtime is a failure of logic. We engineer for <strong className="text-white">permanent uptime</strong>.
                     </p>
                 </div>
 
@@ -249,17 +247,17 @@ export default function MaintenancePage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-slate-500/30 transition-all duration-500"
+                                className="group p-10 bg-white/[0.02] border border-white/5 hover:border-orange-500/30 transition-all duration-500 rounded-3xl"
                             >
-                                <div className="p-5 rounded-2xl bg-slate-500/10 border border-slate-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
-                                    <outcome.icon className="w-8 h-8 text-slate-500" />
+                                <div className="p-4 rounded-full bg-white/5 w-fit mb-8 group-hover:bg-orange-500/10 transition-colors">
+                                    <outcome.icon className="w-6 h-6 text-zinc-400 group-hover:text-orange-500 transition-colors" />
                                 </div>
-                                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                                <h3 className="text-2xl font-bold text-white uppercase mb-4 tracking-tight">{outcome.title}</h3>
                                 <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
 
-                                <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
-                                    <div className="text-5xl font-black text-slate-500 italic tracking-tighter">{outcome.metric}</div>
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                                <div className="pt-8 border-t border-white/5 flex flex-col gap-1">
+                                    <div className="text-5xl font-bold text-white tracking-tighter">{outcome.metric}</div>
+                                    <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
                                 </div>
                             </motion.div>
                         ))}
@@ -268,13 +266,13 @@ export default function MaintenancePage() {
             </section>
 
             {/* Deployment Timeline */}
-            <section id="coverage" className="py-40 relative bg-white/[0.01]">
+            <section id="coverage" className="py-40 relative">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 italic">
-                            The <span className="text-slate-500">Coverage</span> Loop
+                        <h2 className="text-5xl md:text-7xl font-bold text-white uppercase tracking-tighter mb-8">
+                            The <span className="text-zinc-600">Coverage</span> Loop
                         </h2>
-                        <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+                        <p className="text-xl text-zinc-500 uppercase tracking-widest font-bold">
                             How we architect your digital security.
                         </p>
                     </div>
@@ -285,23 +283,23 @@ export default function MaintenancePage() {
                                 key={i}
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-slate-500/20 transition-all relative group"
+                                className="flex gap-8 md:gap-12 p-10 bg-black/50 backdrop-blur-sm border border-white/5 hover:border-orange-500/20 transition-all relative group rounded-3xl"
                             >
-                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-slate-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-orange-500 rounded-lg text-black font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
                                     Phase {i + 1}
                                 </div>
 
                                 <div className="flex-1 space-y-6">
                                     <div>
-                                        <div className="text-slate-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
-                                        <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                                        <div className="text-orange-500 font-bold uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                                        <h3 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-tighter leading-none">{step.title}</h3>
                                     </div>
                                     <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
 
                                     <div className="flex flex-wrap gap-3">
                                         {step.deliverables.map((item, j) => (
-                                            <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-500/5 border border-slate-500/10">
-                                                <CheckCircle2 className="w-4 h-4 text-slate-500" />
+                                            <div key={j} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                                                <CheckCircle2 className="w-4 h-4 text-orange-500" />
                                                 <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight">{item}</span>
                                             </div>
                                         ))}
@@ -314,34 +312,34 @@ export default function MaintenancePage() {
             </section>
 
             {/* Final CTA */}
-            <section className="py-40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-slate-600/5 blur-[120px]" />
+            <section className="py-40 relative overflow-hidden bg-black">
+                <div className="absolute inset-0 bg-orange-500/5 blur-[120px]" />
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+                    <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-3xl bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
                         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
 
                         <div className="relative z-10">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-500/10 border border-slate-500/20 text-slate-400 text-[10px] font-black uppercase tracking-widest mb-10"
+                                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-10"
                             >
                                 <Lock className="w-4 h-4" /> System Hardened
                             </motion.div>
 
-                            <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
-                                Occupy the <span className="text-slate-600">Mesh</span>
+                            <h2 className="text-5xl md:text-8xl font-bold text-white uppercase tracking-tighter mb-10 leading-none">
+                                Activate <span className="text-zinc-600">Protection</span>
                             </h2>
 
                             <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-16 font-medium">
                                 Do not settle for system decay.
                                 <br />
-                                <strong className="text-white italic">The Zero-Downtime Mesh is ready to start.</strong>
+                                <strong className="text-white">The Zero-Downtime Mesh is ready to start.</strong>
                             </p>
 
                             <Link
                                 href="/contact"
-                                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+                                className="inline-flex items-center gap-4 px-16 py-8 rounded-full bg-white text-black font-bold uppercase tracking-[0.2em] text-xl transition-all hover:scale-[1.02] shadow-[0_0_50px_rgba(255,255,255,0.2)]"
                             >
                                 <ShieldCheck className="w-8 h-8" />
                                 Start My Mesh

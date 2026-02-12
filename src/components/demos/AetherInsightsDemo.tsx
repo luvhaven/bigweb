@@ -67,7 +67,7 @@ const AetherInsightsDemo = () => {
                             <BrainCircuit className="w-7 h-7 text-white" />
                         </div>
                         <div>
-                            <h2 className="text-sm font-black text-white uppercase tracking-[0.4em]">Aether_Insights</h2>
+                            <h2 className="text-sm font-bold text-white uppercase tracking-[0.4em]">Aether_Insights</h2>
                             <div className="flex items-center gap-2">
                                 <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Neural_Revenue_Network</span>
                                 <span className="w-2 h-[1px] bg-white/20" />
@@ -78,8 +78,8 @@ const AetherInsightsDemo = () => {
 
                     <div className="flex items-center gap-6">
                         <div className="hidden md:flex gap-3">
-                            <button className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-[10px] text-white/60 font-black uppercase tracking-widest hover:bg-white/[0.08] transition-colors">Config</button>
-                            <button className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-[10px] text-white/60 font-black uppercase tracking-widest hover:bg-white/[0.08] transition-colors">Neural_Map</button>
+                            <button className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-[10px] text-white/60 font-bold uppercase tracking-widest hover:bg-white/[0.08] transition-colors">Config</button>
+                            <button className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-[10px] text-white/60 font-bold uppercase tracking-widest hover:bg-white/[0.08] transition-colors">Neural_Map</button>
                         </div>
                         <div className="h-10 w-px bg-white/10" />
                         <div className="flex items-center gap-3">
@@ -157,10 +157,10 @@ const AetherInsightsDemo = () => {
                                 </motion.div>
 
                                 <div className="space-y-1">
-                                    <div className="text-4xl font-black text-white italic tracking-tighter">
+                                    <div className="text-4xl font-bold text-white italic tracking-tighter">
                                         {progress === 100 ? '+420%' : `${progress}%`}
                                     </div>
-                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">
+                                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.4em]">
                                         {progress === 100 ? 'Analysis_Complete' : 'Processing_Data'}
                                     </div>
                                 </div>
@@ -178,9 +178,9 @@ const AetherInsightsDemo = () => {
                             <div key={i} className="bg-white/[0.02] border border-white/[0.08] rounded-2xl p-6 backdrop-blur-xl">
                                 <div className="flex items-center gap-3 mb-4">
                                     <stat.icon className="w-4 h-4 text-purple-400" />
-                                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{stat.label}</span>
+                                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{stat.label}</span>
                                 </div>
-                                <div className="text-2xl font-black text-white italic tracking-tighter">{stat.value}</div>
+                                <div className="text-2xl font-bold text-white italic tracking-tighter">{stat.value}</div>
                             </div>
                         ))}
                     </div>
@@ -190,12 +190,12 @@ const AetherInsightsDemo = () => {
                 <div className="p-8 backdrop-blur-3xl bg-white/[0.02] border-t border-white/[0.05] flex items-center justify-between">
                     <div className="flex items-center gap-8">
                         <div>
-                            <p className="text-[10px] text-white/30 font-black uppercase tracking-widest mb-1">Target_Market</p>
+                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mb-1">Target_Market</p>
                             <p className="text-sm font-bold text-white uppercase tracking-widest leading-none">Global_Enterprise</p>
                         </div>
                         <div className="w-px h-8 bg-white/10" />
                         <div>
-                            <p className="text-[10px] text-white/30 font-black uppercase tracking-widest mb-1">AI_Model</p>
+                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mb-1">AI_Model</p>
                             <p className="text-sm font-bold text-white uppercase tracking-widest leading-none">Vortex_Neural_v4</p>
                         </div>
                     </div>
@@ -203,9 +203,9 @@ const AetherInsightsDemo = () => {
                     <button
                         onClick={startScan}
                         disabled={isScanning}
-                        className={`px-10 py-5 rounded-2xl font-black uppercase tracking-[0.4em] text-xs transition-all duration-500 relative overflow-hidden group ${isScanning
-                                ? 'bg-purple-900/40 text-purple-300 cursor-not-allowed border border-purple-500/20'
-                                : 'bg-white text-black hover:bg-purple-600 hover:text-white shadow-2xl'
+                        className={`px-10 py-5 rounded-2xl font-bold uppercase tracking-[0.4em] text-xs transition-all duration-500 relative overflow-hidden group ${isScanning
+                            ? 'bg-purple-900/40 text-purple-300 cursor-not-allowed border border-purple-500/20'
+                            : 'bg-white text-black hover:bg-purple-600 hover:text-white shadow-2xl'
                             }`}
                     >
                         <span className="relative z-10 flex items-center gap-3">

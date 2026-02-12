@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Check, HelpCircle, Info } from 'lucide-react'
+import Link from 'next/link'
+import Magnetic from '@/components/ui/Magnetic'
+import { Check, HelpCircle, Info, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 
@@ -96,7 +98,7 @@ export default function PricingCalculator() {
                 <div className="lg:col-span-2 space-y-10">
                     {categories.map((category) => (
                         <div key={category.id}>
-                            <h3 className="text-sm font-black mb-6 flex items-center gap-2 uppercase tracking-tighter-extreme text-zinc-400">
+                            <h3 className="text-sm font-bold mb-6 flex items-center gap-2 uppercase tracking-tighter text-zinc-400">
                                 {category.title}
                                 <div className="group relative">
                                     <Info className="w-4 h-4 text-muted-foreground cursor-help" />
@@ -122,7 +124,7 @@ export default function PricingCalculator() {
                                                     setSelections({ ...selections, [category.id]: option.id })
                                                 }
                                             }}
-                                            className={`relative p-5 rounded-none border-2 cursor-pointer transition-all duration-300 ${isSelected
+                                            className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${isSelected
                                                 ? 'border-orange-600 bg-orange-600/5'
                                                 : 'border-white/5 hover:border-white/10 hover:bg-white/5'
                                                 }`}
@@ -130,12 +132,12 @@ export default function PricingCalculator() {
                                             whileTap={{ scale: 0.99 }}
                                         >
                                             <div className="flex justify-between items-start mb-2">
-                                                <span className="font-black text-xs uppercase tracking-tighter-extreme">{option.label}</span>
+                                                <span className="font-bold text-xs uppercase tracking-tighter">{option.label}</span>
                                                 {isSelected && <Check className="w-4 h-4 text-orange-600" />}
                                             </div>
                                             <p className="text-[11px] text-zinc-500 mb-3 leading-tight font-medium">{option.description}</p>
-                                            <div className="text-[10px] font-mono font-black text-zinc-400">
-                                                {option.price === 0 ? 'LOG_INCLUDED' : `+${option.price.toLocaleString()}_USD`}
+                                            <div className="text-[10px] font-mono font-bold text-zinc-400">
+                                                {option.price === 0 ? 'INCLUDED' : `+${option.price.toLocaleString()}`}
                                             </div>
                                         </motion.div>
                                     )
@@ -147,27 +149,27 @@ export default function PricingCalculator() {
 
                 {/* Summary */}
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 bg-black rounded-none p-10 border border-white/5 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)]">
-                        <div className="text-[9px] font-mono font-black mb-10 uppercase tracking-[0.6em] text-zinc-700 border-b border-white/5 pb-6">SYSTEM_MANIFEST_v.2026</div>
+                    <div className="sticky top-24 bg-black rounded-3xl p-10 border border-white/5 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+                        <div className="text-[9px] font-mono font-bold mb-10 uppercase tracking-[0.6em] text-zinc-700 border-b border-white/5 pb-6">Project Summary</div>
 
                         <div className="space-y-6 mb-12">
                             <div className="flex justify-between items-center group">
-                                <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
                                     <div className="w-1.5 h-1.5 bg-orange-600" />
-                                    BASE_PROTOCOL
+                                    Base Cost
                                 </span>
-                                <span className="text-[10px] font-mono font-black text-white">
+                                <span className="text-[10px] font-mono font-bold text-white">
                                     ${categories[0].options.find(o => o.id === selections.type)?.price.toLocaleString()}
                                 </span>
                             </div>
                             <div className="flex justify-between items-center group">
-                                <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
                                     <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
-                                    DESIGN_LAYER
+                                    Design Fee
                                 </span>
-                                <span className="text-[10px] font-mono font-black text-white">
+                                <span className="text-[10px] font-mono font-bold text-white">
                                     {categories[1].options.find(o => o.id === selections.design)?.price === 0
-                                        ? 'LOG_INCLUDED'
+                                        ? 'INCLUDED'
                                         : `$${categories[1].options.find(o => o.id === selections.design)?.price.toLocaleString()}`}
                                 </span>
                             </div>
@@ -175,11 +177,11 @@ export default function PricingCalculator() {
                                 const feature = categories[2].options.find(o => o.id === fid)
                                 return (
                                     <div key={fid} className="flex justify-between items-center group">
-                                        <span className="text-[10px] font-mono font-black text-zinc-500 uppercase tracking-widest flex items-center gap-3">
+                                        <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
                                             <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
                                             {feature?.label}
                                         </span>
-                                        <span className="text-[10px] font-mono font-black text-white">+${feature?.price.toLocaleString()}</span>
+                                        <span className="text-[10px] font-mono font-bold text-white">+${feature?.price.toLocaleString()}</span>
                                     </div>
                                 )
                             })}
@@ -188,24 +190,24 @@ export default function PricingCalculator() {
                         <div className="pt-10 border-t border-white/5 mb-12">
                             <div className="flex justify-between items-end">
                                 <div>
-                                    <span className="text-[9px] font-mono font-black uppercase tracking-[0.6em] text-orange-600 block mb-4">TOTAL_CAPITAL_EXPENDITURE</span>
-                                    <span className="text-6xl font-black text-white tracking-tighter-extreme italic flex items-baseline gap-4">
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.6em] text-orange-600 block mb-4">Total Estimate</span>
+                                    <span className="text-6xl font-bold text-white tracking-tighter italic flex items-baseline gap-4">
                                         <span className="text-zinc-800 text-2xl font-mono not-italic">$</span>
                                         <AnimatedCounter value={total} />
                                     </span>
                                 </div>
                             </div>
                             <p className="text-[9px] font-mono text-zinc-800 mt-6 uppercase tracking-widest">
-                                *Verification_Required_Prior_To_Execution
+                                *Final quote provided after consultation
                             </p>
                         </div>
 
                         <Link href="/contact" className="block">
                             <Magnetic strength={0.3} className="w-full">
-                                <Button className="w-full h-28 bg-white text-black hover:bg-orange-600 hover:text-white rounded-none text-xs font-black uppercase tracking-[0.6em] transition-all duration-700 relative group overflow-hidden shadow-2xl">
+                                <Button className="w-full h-28 bg-white text-black hover:bg-orange-600 hover:text-white rounded-2xl text-xs font-bold uppercase tracking-[0.6em] transition-all duration-700 relative group overflow-hidden shadow-2xl">
                                     <div className="absolute inset-0 bg-orange-600 translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]" />
                                     <span className="relative z-10 flex items-center justify-center gap-4">
-                                        INITIALIZE_ORDER_v1
+                                        Start Project
                                         <ArrowRight className="w-6 h-6 group-hover:translate-x-4 transition-transform duration-700" />
                                     </span>
                                 </Button>

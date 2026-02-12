@@ -45,32 +45,32 @@ const EliteCTA = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
-              Secure_The_Model
+              Future-Proof Your Business
             </div>
 
-            <h2 className="text-6xl md:text-[9.5rem] font-black text-white tracking-tighter mb-16 leading-[0.75] uppercase italic">
+            <h2 className="text-6xl md:text-[9.5rem] font-bold text-white tracking-tighter mb-16 leading-[0.75] uppercase italic">
               Stop <span className="text-zinc-800">Bleeding.</span>
             </h2>
 
             <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-5xl mx-auto mb-20">
-              Your digital infrastructure is hemorrhaging capital. Deploy our <span className="text-white italic underline underline-offset-8 decoration-orange-600">Clinical_Diagnostic</span> to remediate today.
+              Your digital infrastructure is hemorrhaging capital. Deploy our <span className="text-white italic underline underline-offset-8 decoration-orange-600">Expert Conversion Audit</span> to remediate today.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
               <Link href="/offers/revenue-roadmap" className="w-full sm:w-auto">
                 <Button
-                  className="w-full sm:w-80 h-24 rounded-none bg-orange-600 text-white hover:bg-orange-500 font-black text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
+                  className="w-full sm:w-80 h-24 rounded-xl bg-orange-600 text-white hover:bg-orange-500 font-bold text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
                 >
-                  INITIALIZE_AUDIT_v1
+                  Start My Free Audit
                   <ArrowRight className="ml-4 w-5 h-5" />
                 </Button>
               </Link>
 
               <Link href="/case-studies" className="w-full sm:w-auto">
                 <Button
-                  className="w-full sm:w-80 h-24 rounded-none bg-zinc-950 text-white border border-zinc-900 hover:bg-white hover:text-black font-black text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
+                  className="w-full sm:w-80 h-24 rounded-xl bg-zinc-950 text-white border border-zinc-900 hover:bg-white hover:text-black font-bold text-[12px] uppercase tracking-[0.5em] transition-all duration-300"
                 >
-                  VIEW_LOGS
+                  View Our Work
                 </Button>
               </Link>
             </div>

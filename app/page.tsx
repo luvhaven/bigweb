@@ -6,7 +6,7 @@ import { getPageMetadata } from '@/lib/data/cms'
 import type { Metadata } from 'next'
 
 import AdvancedNavigation from '@/components/AdvancedNavigation'
-import { EliteImmersiveHero } from '@/components/EliteImmersiveHero'
+import VerticalSplitHero from '@/components/VerticalSplitHero'
 import ProblemSolution from '@/components/ProblemSolution'
 import CompetitiveEdge from '@/components/CompetitiveEdge'
 import SimplePricing from '@/components/SimplePricing'
@@ -42,11 +42,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   // Parallel data fetching for maximum performance
-  const [projects, testimonials, services, heroData] = await Promise.all([
+  const [projects, testimonials, services] = await Promise.all([
     getFeaturedProjects(),
     getFeaturedTestimonials(),
-    getServices(),
-    getHeroByPage('/')
+    getServices()
   ])
 
   // Extract unique categories for portfolio filters
@@ -56,8 +55,8 @@ export default async function HomePage() {
     <main className="min-h-screen bg-background text-foreground selection:bg-accent/30">
       <AdvancedNavigation />
 
-      {/* Hero Section - Immersive Design */}
-      <EliteImmersiveHero heroData={heroData} />
+      {/* Hero Section - Carousel with Images on Right */}
+      <VerticalSplitHero />
 
       {/* Live Statistics - Social Proof */}
       <LiveStats />

@@ -170,7 +170,7 @@ export default function Team() {
           <h2 className="text-sm md:text-base uppercase tracking-[0.3em] text-accent font-bold mb-4">
             The Lab Personnel
           </h2>
-          <p className="text-3xl md:text-5xl font-black tracking-tighter mb-6 uppercase leading-tight">
+          <p className="text-3xl md:text-5xl font-bold tracking-tighter mb-6 uppercase leading-tight">
             Engineers, Not Artists. <br />
             <span className="text-accent">Outcome-Obsessed.</span>
           </p>

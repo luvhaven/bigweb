@@ -50,11 +50,11 @@ const CarouselCinematic = () => {
   const [direction, setDirection] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-  
+
   // Physics-based drag
   const x = useMotionValue(0)
   const xSpring = useSpring(x, { stiffness: 300, damping: 30 })
-  
+
   // Parallax effects
   const rotateX = useTransform(xSpring, [-200, 200], [15, -15])
   const rotateY = useTransform(xSpring, [-200, 200], [-15, 15])
@@ -78,7 +78,7 @@ const CarouselCinematic = () => {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activeIndex])
-  
+
   // Auto-play timer
   const startTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -145,7 +145,7 @@ const CarouselCinematic = () => {
       {/* Main 3D Carousel Container */}
       <div className="relative z-10 h-full flex items-center justify-center px-4 md:px-8 lg:px-16">
         <div className="w-full max-w-7xl mx-auto">
-          
+
           {/* 3D Card Stack */}
           <motion.div
             className="relative"
@@ -158,19 +158,19 @@ const CarouselCinematic = () => {
               <motion.div
                 key={activeIndex}
                 custom={direction}
-                initial={{ 
+                initial={{
                   x: direction > 0 ? 1000 : -1000,
                   opacity: 0,
                   rotateY: direction > 0 ? 45 : -45,
                   scale: 0.8,
                 }}
-                animate={{ 
+                animate={{
                   x: 0,
                   opacity: 1,
                   rotateY: 0,
                   scale: 1,
                 }}
-                exit={{ 
+                exit={{
                   x: direction > 0 ? -1000 : 1000,
                   opacity: 0,
                   rotateY: direction > 0 ? -45 : 45,
@@ -201,7 +201,7 @@ const CarouselCinematic = () => {
               >
                 {/* Main Card */}
                 <div className="relative aspect-[16/9] max-w-6xl mx-auto rounded-3xl overflow-hidden">
-                  
+
                   {/* Background Image with Parallax */}
                   <motion.div
                     className="absolute inset-0"
@@ -226,7 +226,7 @@ const CarouselCinematic = () => {
 
                   {/* Content */}
                   <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12 lg:p-16">
-                    
+
                     {/* Animated Badge */}
                     <motion.div
                       initial={{ x: -50, opacity: 0 }}
@@ -239,11 +239,11 @@ const CarouselCinematic = () => {
                         backdropFilter: 'blur(10px)',
                       }}
                     >
-                      <span 
+                      <span
                         className="w-2 h-2 rounded-full animate-pulse"
                         style={{ backgroundColor: currentSlide.color }}
                       />
-                      <span 
+                      <span
                         className="text-sm font-bold uppercase tracking-wider"
                         style={{ color: currentSlide.color }}
                       >
@@ -344,7 +344,7 @@ const CarouselCinematic = () => {
                       repeat: Infinity,
                     }}
                   />
-                  
+
                   <motion.div
                     className="absolute bottom-0 right-0 w-32 h-32"
                     style={{
@@ -413,16 +413,16 @@ const CarouselCinematic = () => {
                 >
                   {/* Dot */}
                   <motion.div
-                    className="w-3 h-3 rounded-full transition-all"
+                    className="w-1.5 h-1.5 rounded-full transition-all"
                     style={{
-                      background: index === activeIndex ? slide.color : 'rgba(255,255,255,0.3)',
-                      boxShadow: index === activeIndex ? `0 0 20px ${slide.color}` : 'none',
+                      backgroundColor: index === activeIndex ? slide.color : 'rgba(255,255,255,0.3)',
+                      boxShadow: index === activeIndex ? `0 0 10px ${slide.color}40` : 'none',
                     }}
                     animate={{
                       scale: index === activeIndex ? 1.5 : 1,
                     }}
                   />
-                  
+
                   {/* Hover Preview */}
                   <motion.div
                     initial={{ opacity: 0, y: 10, scale: 0.8 }}

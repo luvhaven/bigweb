@@ -11,7 +11,6 @@ export const ChromeShimmer = () => {
             {/* The Main Abstract "Object" */}
             <motion.div
                 animate={{
-                    rotate: 360,
                     scale: [1, 1.05, 1],
                 }}
                 transition={{
@@ -44,7 +43,7 @@ export const ChromeShimmer = () => {
                     animate={{
                         boxShadow: [
                             '0 0 40px rgba(254,80,0,0.2)',
-                            '0 0 100px rgba(254,80,0,0.4)',
+                            '0 0-100px rgba(254,80,0,0.4)',
                             '0 0 40px rgba(254,80,0,0.2)'
                         ]
                     }}
@@ -52,8 +51,8 @@ export const ChromeShimmer = () => {
                     className="absolute inset-20 rounded-full bg-gradient-to-br from-zinc-900 to-black border border-white/5 flex items-center justify-center overflow-hidden"
                 >
                     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-10" />
-                    <div className="text-[10px] font-mono font-bold text-orange-500 tracking-[0.5em] opacity-30 select-none uppercase">
-                        Clinical_Engineering
+                    <div className="text-[10px] font-bold text-zinc-500 tracking-[0.3em] opacity-40 select-none uppercase">
+                        Elite Performance
                     </div>
                 </motion.div>
             </motion.div>
@@ -62,14 +61,14 @@ export const ChromeShimmer = () => {
             <motion.div
                 animate={{ y: ['-100%', '200%'] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent z-10 shadow-[0_0_20px_rgba(254,80,0,0.5)]"
+                className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent z-10 shadow-[0_0_15px_rgba(254,80,0,0.3)]"
             />
 
-            {/* Corner Metadata (Apple Newsroom Style) */}
-            <div className="absolute bottom-12 right-12 text-zinc-800 font-mono text-[9px] flex flex-col items-end gap-1 uppercase tracking-widest opacity-40">
-                <span>System_Status: Optimal</span>
-                <span>Latency: 2ms</span>
-                <span>Kernel: v2.026.4</span>
+            {/* Corner Metadata (Refined for Clarity) */}
+            <div className="absolute bottom-12 right-12 text-zinc-800 font-bold text-[9px] flex flex-col items-end gap-1 uppercase tracking-widest opacity-40">
+                <span>Optimized Experience</span>
+                <span>High Performance</span>
+                <span>v2026.04</span>
             </div>
         </div>
     )

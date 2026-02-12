@@ -39,8 +39,8 @@ export default function SimplePricing() {
         features: engagement.features || [],
         cta: engagement.name.includes('Roadmap') ? 'Order Roadmap' :
             engagement.name.includes('Sprint') ? 'Start A Sprint' :
-                engagement.name.includes('Retainer') ? 'Access The Lab' :
-                    'Build My System',
+                engagement.name.includes('Retainer') ? 'Work With Us' :
+                    'Get Started',
         ctaLink: engagement.route || '#',
         icon: getIconComponent(engagement.icon),
         highlighted: engagement.highlighted,
@@ -56,27 +56,27 @@ export default function SimplePricing() {
 
             <div className="container mx-auto max-w-7xl relative z-10">
                 {/* Header */}
-                <div className="max-w-6xl mb-20 border-l-4 border-orange-600 pl-12 relative overflow-hidden">
+                <div className="max-w-5xl mb-16 border-l-4 border-orange-500 pl-10 relative overflow-hidden">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-black uppercase tracking-[0.5em] mb-12"
+                        className="inline-flex items-center gap-2 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-8"
                     >
-                        <ShieldCheck className="w-4 h-4" /> Capital_Efficiency_v2
+                        <ShieldCheck className="w-4 h-4" /> Transparent Pricing
                     </motion.div>
 
-                    <h2 className="text-6xl md:text-[8rem] font-black text-white tracking-tighter uppercase italic leading-[0.75] mb-10">
-                        Buy <br /><span className="text-zinc-800">Growth.</span>
+                    <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-6">
+                        Choose Your<br />Growth Path.
                     </h2>
 
-                    <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-5xl">
-                        We don't bill for effort. We bill for <span className="text-white italic underline underline-offset-8 decoration-orange-600">Yield_Extraction</span>. Choose your entry point.
+                    <p className="text-xl md:text-2xl text-zinc-400 font-medium leading-relaxed max-w-3xl">
+                        No hidden fees. No hourly billing. Just <span className="text-white">results-focused packages</span> designed to deliver measurable ROI.
                     </p>
                 </div>
 
                 {/* Grid */}
-                <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-px bg-zinc-900 border border-zinc-900 overflow-hidden">
+                <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
                     {packages.map((pkg, index) => {
                         const Icon = pkg.icon
 
@@ -87,14 +87,14 @@ export default function SimplePricing() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                                className={`group relative p-12 transition-all duration-500 h-full flex flex-col ${pkg.highlighted
-                                    ? 'bg-zinc-950 shadow-2xl z-10'
-                                    : 'bg-black'
+                                className={`group relative p-12 transition-all duration-500 h-full flex flex-col rounded-3xl border border-white/5 ${pkg.highlighted
+                                    ? 'bg-white/[0.08] backdrop-blur-xl shadow-2xl z-10 border-orange-500/20'
+                                    : 'bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04]'
                                     }`}
                             >
                                 {pkg.badge && (
                                     <div className="absolute top-0 right-0 transform translate-y-[-50%] pr-8 z-20">
-                                        <span className="bg-orange-600 text-white text-[9px] font-mono font-black px-4 py-1.5 uppercase tracking-widest shadow-xl">
+                                        <span className="bg-orange-600 text-white text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest shadow-xl rounded-bl-xl">
                                             {pkg.badge}
                                         </span>
                                     </div>
@@ -103,8 +103,8 @@ export default function SimplePricing() {
                                 <div className="space-y-8 flex-grow">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1">
-                                            <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em]">Protocol_0xc{index + 1}</div>
-                                            <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white">{pkg.name}</h3>
+                                            <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{pkg.tagline || `Option 0${index + 1}`}</div>
+                                            <h3 className="text-xl font-bold tracking-tight text-white">{pkg.name}</h3>
                                         </div>
                                         <div className={`w-10 h-10 flex items-center justify-center transition-colors ${pkg.highlighted ? 'text-orange-600' : 'text-zinc-800 group-hover:text-orange-600'}`}>
                                             <Icon className="w-6 h-6" />
@@ -112,10 +112,10 @@ export default function SimplePricing() {
                                     </div>
 
                                     <div className="py-8 border-y border-zinc-900 group-hover:border-zinc-800 transition-colors">
-                                        <div className="text-5xl font-black text-white italic tracking-tighter mb-1 leading-none">
+                                        <div className="text-5xl font-bold text-white italic tracking-tighter mb-1 leading-none">
                                             {pkg.price}
                                         </div>
-                                        <span className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">{pkg.priceSubtext}</span>
+                                        <span className="text-[10px] font-bold text-zinc-700 uppercase tracking-widest">{pkg.priceSubtext}</span>
                                     </div>
 
                                     <p className="text-zinc-500 text-base leading-[1.1] font-medium">
@@ -136,9 +136,9 @@ export default function SimplePricing() {
                                     <Link href={pkg.ctaLink}>
                                         <Magnetic strength={0.2} className="w-full">
                                             <Button
-                                                className={`w-full h-20 text-[10px] font-mono font-black uppercase tracking-[0.4em] rounded-none transition-all duration-300 ${pkg.highlighted
-                                                    ? 'bg-orange-600 hover:bg-orange-500 text-white'
-                                                    : 'bg-zinc-950 hover:bg-white hover:text-black text-white border border-zinc-900 hover:border-white'
+                                                className={`w-full h-16 text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all duration-300 ${pkg.highlighted
+                                                    ? 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-600/20'
+                                                    : 'bg-white/5 hover:bg-white text-white hover:text-black border border-white/10 hover:border-white'
                                                     }`}
                                             >
                                                 {pkg.cta}

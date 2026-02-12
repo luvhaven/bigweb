@@ -201,149 +201,147 @@ const VortexPayDemo = () => {
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#ff6b35]" />
-                                    <span className="text-[10px] font-black text-white/40 tracking-[0.3em] uppercase">Auth_Session_Active</span>
+                                    <span className="text-[10px] font-bold text-white/40 tracking-[0.3em] uppercase">Auth_Session_Active</span>
                                 </div>
-                                <div className="p-2.5 bg-white/[0.03] border border-white/10 rounded-xl">
-                                    <Bell className="w-5 h-5 text-white/40" />
+                                <Bell className="w-5 h-5 text-white/40" />
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center">
+                                    <User className="w-5 h-5 text-accent" />
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center">
-                                        <User className="w-5 h-5 text-accent" />
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* DASHBOARD GRID */}
+                    <div className="flex-grow grid grid-cols-12 gap-6">
+
+                        {/* LEFT WIDGET: TRANSACTION HISTORY */}
+                        <div className="col-span-12 lg:col-span-4 h-full">
+                            <div className="h-full bg-white/[0.03] border border-white/[0.08] rounded-[2.5rem] backdrop-blur-3xl p-8 flex flex-col">
+                                <h3 className="text-[11px] font-bold text-white/40 uppercase tracking-[0.4em] mb-8">Transaction Logs</h3>
+
+                                <div className="relative mb-8">
+                                    <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                                    <input
+                                        type="text"
+                                        placeholder="Query Registry..."
+                                        className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-xs text-white/80 placeholder:text-white/20 focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all font-mono"
+                                    />
+                                </div>
+
+                                <div className="flex-grow flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
+                                    {transactions.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            onClick={() => toggleVerify(item.id)}
+                                            className="flex items-center justify-between group cursor-pointer hover:bg-white/[0.04] p-3 rounded-2xl transition-all border border-transparent hover:border-white/5"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-colors ${item.verified ? 'bg-emerald-500/10 text-emerald-400' : 'bg-accent/10 text-accent'}`}>
+                                                    {item.verified ? <Shield className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+                                                </div>
+                                                <div>
+                                                    <div className="text-[12px] font-bold text-white transition-colors group-hover:text-accent">{item.name}</div>
+                                                    <div className="text-[9px] text-white/20 uppercase tracking-widest mt-1">ID: #{item.id * 892}</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className={`text-[11px] font-bold ${item.type === 'up' ? 'text-emerald-400' : 'text-rose-400'}`}>{item.amount}</div>
+                                                <div className="text-[8px] text-white/20 uppercase font-bold mt-1">{item.status}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-8 pt-8 border-t border-white/[0.05] flex items-center justify-center gap-2 text-white/20 hover:text-white/60 cursor-pointer transition-colors">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Vertical_Scroll_Enabled</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* DASHBOARD GRID */}
-                        <div className="flex-grow grid grid-cols-12 gap-6">
+                        {/* CENTER AREA: BRANDING + SCANNER */}
+                        <div className="col-span-12 lg:col-span-4 flex flex-col items-center justify-center gap-12 pt-10">
 
-                            {/* LEFT WIDGET: TRANSACTION HISTORY */}
-                            <div className="col-span-12 lg:col-span-4 h-full">
-                                <div className="h-full bg-white/[0.03] border border-white/[0.08] rounded-[2.5rem] backdrop-blur-3xl p-8 flex flex-col">
-                                    <h3 className="text-[11px] font-bold text-white/40 uppercase tracking-[0.4em] mb-8">Transaction Logs</h3>
+                            {/* VORTEX PAY GLASS CARD */}
+                            <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.5 }}
+                                className="bg-white/[0.04] border border-white/[0.1] rounded-[2rem] px-14 py-8 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative group overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent w-1/2 -skew-x-12 group-hover:left-full transition-all duration-1000" />
+                                <h1 className="text-5xl font-bold text-white tracking-widest leading-none">
+                                    Vortex <span className="text-accent italic">Pay</span>
+                                </h1>
+                            </motion.div>
 
-                                    <div className="relative mb-8">
-                                        <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                                        <input
-                                            type="text"
-                                            placeholder="Query Registry..."
-                                            className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-xs text-white/80 placeholder:text-white/20 focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all font-mono"
-                                        />
-                                    </div>
+                            {/* CENTRAL SECURITY INTERFACE */}
+                            <div className="relative w-72 h-72 group">
+                                {/* Rotating Brackets */}
+                                <motion.div
+                                    animate={{ rotate: isScanning ? 360 : 0 }}
+                                    transition={{ duration: isScanning ? 2 : 20, repeat: isScanning ? Infinity : 0, ease: "linear" }}
+                                    className={`absolute inset-0 border-2 border-dashed rounded-full transition-colors duration-500 ${isVerified ? 'border-emerald-500/40' : 'border-accent/20'}`}
+                                />
 
-                                    <div className="flex-grow flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
-                                        {transactions.map((item) => (
-                                            <div
-                                                key={item.id}
-                                                onClick={() => toggleVerify(item.id)}
-                                                className="flex items-center justify-between group cursor-pointer hover:bg-white/[0.04] p-3 rounded-2xl transition-all border border-transparent hover:border-white/5"
-                                            >
-                                                <div className="flex items-center gap-4">
-                                                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-colors ${item.verified ? 'bg-emerald-500/10 text-emerald-400' : 'bg-accent/10 text-accent'}`}>
-                                                        {item.verified ? <Shield className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-[12px] font-bold text-white transition-colors group-hover:text-accent">{item.name}</div>
-                                                        <div className="text-[9px] text-white/20 uppercase tracking-widest mt-1">ID: #{item.id * 892}</div>
-                                                    </div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className={`text-[11px] font-black ${item.type === 'up' ? 'text-emerald-400' : 'text-rose-400'}`}>{item.amount}</div>
-                                                    <div className="text-[8px] text-white/20 uppercase font-bold mt-1">{item.status}</div>
-                                                </div>
+                                <div
+                                    onClick={startScan}
+                                    className={`absolute inset-4 bg-[#0a0a0a] border rounded-[3rem] shadow-2xl flex flex-col items-center justify-center overflow-hidden cursor-pointer transition-all duration-700 ${isVerified ? 'border-emerald-500/40' : 'border-white/[0.1] hover:border-accent/40'}`}
+                                >
+                                    {/* Scanner Line */}
+                                    <AnimatePresence>
+                                        {isScanning && (
+                                            <motion.div
+                                                className="absolute left-0 right-0 h-1 bg-accent/60 shadow-[0_0_20px_#ff6b35] z-20"
+                                                initial={{ top: '10%' }}
+                                                animate={{ top: '90%' }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                            />
+                                        )}
+                                    </AnimatePresence>
+
+                                    {isVerified ? (
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            className="flex flex-col items-center gap-4"
+                                        >
+                                            <Shield className="w-24 h-24 text-emerald-400 drop-shadow-[0_0_15px_#10b981]" />
+                                            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.3em]">Access_Granted</span>
+                                        </motion.div>
+                                    ) : (
+                                        <div className="relative flex flex-col items-center justify-center">
+                                            <Fingerprint className={`w-28 h-28 transition-all duration-700 ${isScanning ? 'text-accent scale-110' : 'text-white/20'}`} strokeWidth={1.5} />
+                                            <div className="mt-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.2em]">
+                                                {isScanning ? `${scanProgress}% SCANNED` : 'INITIATE_HAND_AUTH'}
                                             </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="mt-8 pt-8 border-t border-white/[0.05] flex items-center justify-center gap-2 text-white/20 hover:text-white/60 cursor-pointer transition-colors">
-                                        <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Vertical_Scroll_Enabled</span>
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
+
+                                {/* Corner Markers */}
+                                <div className={`absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 rounded-tl-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
+                                <div className={`absolute -top-2 -right-2 w-10 h-10 border-t-2 border-r-2 rounded-tr-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
+                                <div className={`absolute -bottom-2 -left-2 w-10 h-10 border-b-2 border-l-2 rounded-bl-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
+                                <div className={`absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 rounded-br-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
                             </div>
 
-                            {/* CENTER AREA: BRANDING + SCANNER */}
-                            <div className="col-span-12 lg:col-span-4 flex flex-col items-center justify-center gap-12 pt-10">
-
-                                {/* VORTEX PAY GLASS CARD */}
-                                <motion.div
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="bg-white/[0.04] border border-white/[0.1] rounded-[2rem] px-14 py-8 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative group overflow-hidden"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent w-1/2 -skew-x-12 group-hover:left-full transition-all duration-1000" />
-                                    <h1 className="text-5xl font-black text-white tracking-widest leading-none">
-                                        Vortex <span className="text-accent italic">Pay</span>
-                                    </h1>
-                                </motion.div>
-
-                                {/* CENTRAL SECURITY INTERFACE */}
-                                <div className="relative w-72 h-72 group">
-                                    {/* Rotating Brackets */}
-                                    <motion.div
-                                        animate={{ rotate: isScanning ? 360 : 0 }}
-                                        transition={{ duration: isScanning ? 2 : 20, repeat: isScanning ? Infinity : 0, ease: "linear" }}
-                                        className={`absolute inset-0 border-2 border-dashed rounded-full transition-colors duration-500 ${isVerified ? 'border-emerald-500/40' : 'border-accent/20'}`}
-                                    />
-
-                                    <div
-                                        onClick={startScan}
-                                        className={`absolute inset-4 bg-[#0a0a0a] border rounded-[3rem] shadow-2xl flex flex-col items-center justify-center overflow-hidden cursor-pointer transition-all duration-700 ${isVerified ? 'border-emerald-500/40' : 'border-white/[0.1] hover:border-accent/40'}`}
-                                    >
-                                        {/* Scanner Line */}
-                                        <AnimatePresence>
-                                            {isScanning && (
-                                                <motion.div
-                                                    className="absolute left-0 right-0 h-1 bg-accent/60 shadow-[0_0_20px_#ff6b35] z-20"
-                                                    initial={{ top: '10%' }}
-                                                    animate={{ top: '90%' }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                                                />
-                                            )}
-                                        </AnimatePresence>
-
-                                        {isVerified ? (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="flex flex-col items-center gap-4"
-                                            >
-                                                <Shield className="w-24 h-24 text-emerald-400 drop-shadow-[0_0_15px_#10b981]" />
-                                                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em]">Access_Granted</span>
-                                            </motion.div>
-                                        ) : (
-                                            <div className="relative flex flex-col items-center justify-center">
-                                                <Fingerprint className={`w-28 h-28 transition-all duration-700 ${isScanning ? 'text-accent scale-110' : 'text-white/20'}`} strokeWidth={1.5} />
-                                                <div className="mt-4 text-[9px] font-black text-white/40 uppercase tracking-[0.2em]">
-                                                    {isScanning ? `${scanProgress}% SCANNED` : 'INITIATE_HAND_AUTH'}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Corner Markers */}
-                                    <div className={`absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 rounded-tl-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
-                                    <div className={`absolute -top-2 -right-2 w-10 h-10 border-t-2 border-r-2 rounded-tr-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
-                                    <div className={`absolute -bottom-2 -left-2 w-10 h-10 border-b-2 border-l-2 rounded-bl-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
-                                    <div className={`absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 rounded-br-2xl transition-colors duration-700 ${isVerified ? 'border-emerald-500' : 'border-accent'}`} />
-                                </div>
-
-                                {/* Bottom Stat Bar */}
-                                <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl px-8 py-4 flex items-center gap-10">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-emerald-500/10 rounded-lg"><Activity className="w-4 h-4 text-emerald-400" /></div>
-                                        <div>
-                                            <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Efficiency</div>
-                                            <div className="text-[12px] font-black text-white">{stats.efficiency}%</div>
-                                        </div>
+                            {/* Bottom Stat Bar */}
+                            <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl px-8 py-4 flex items-center gap-10">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-emerald-500/10 rounded-lg"><Activity className="w-4 h-4 text-emerald-400" /></div>
+                                    <div>
+                                        <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Efficiency</div>
+                                        <div className="text-[12px] font-bold text-white">{stats.efficiency}%</div>
                                     </div>
                                     <div className="w-[1px] h-6 bg-white/10" />
                                     <div className="flex items-center gap-3">
                                         <div className="p-2 bg-accent/10 rounded-lg"><Lock className="w-4 h-4 text-accent" /></div>
                                         <div>
                                             <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Bit_Key</div>
-                                            <div className="text-[12px] font-black text-white">AES_256</div>
+                                            <div className="text-[12px] font-bold text-white">AES_256</div>
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +354,7 @@ const VortexPayDemo = () => {
                                 <div className="bg-white/[0.03] border border-white/[0.08] rounded-[2.5rem] backdrop-blur-3xl p-8 flex-grow">
                                     <div className="flex justify-between items-center mb-8">
                                         <h3 className="text-[11px] font-bold text-white/40 uppercase tracking-[0.4em]">Revenue</h3>
-                                        <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black text-white/40">PERIOD_NODES</div>
+                                        <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-bold text-white/40">PERIOD_NODES</div>
                                     </div>
 
                                     <div className="flex items-end gap-1.5 h-32 mb-10">
@@ -365,10 +363,10 @@ const VortexPayDemo = () => {
                                                 <motion.div
                                                     initial={{ height: 0 }}
                                                     animate={{ height: `${v}%` }}
-                                                    whileHover={{ scaleX: 1.1, brightness: 1.2 }}
+                                                    whileHover={{ scaleX: 1.1, filter: "brightness(1.2)" }}
                                                     className="w-full bg-gradient-to-t from-accent/20 to-accent rounded-full transition-all duration-300 group-hover/bar:shadow-[0_0_20px_#ff6b35] cursor-pointer"
                                                 />
-                                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-all duration-300 bg-accent text-[10px] px-2 py-0.5 rounded-lg font-black text-white shadow-[0_10px_20px_rgba(255,107,53,0.4)] z-50 whitespace-nowrap border border-white/20">
+                                                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-all duration-300 bg-accent text-[10px] px-2 py-0.5 rounded-lg font-bold text-white shadow-[0_10px_20px_rgba(255,107,53,0.4)] z-50 whitespace-nowrap border border-white/20">
                                                     ${v}.4k
                                                 </div>
                                             </div>
@@ -378,7 +376,7 @@ const VortexPayDemo = () => {
                                     <div className="space-y-6 pt-6 border-t border-white/[0.05]">
                                         <div className="flex justify-between items-center">
                                             <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Growth_Index</span>
-                                            <span className="text-emerald-400 font-black">+{stats.growth}%</span>
+                                            <span className="text-emerald-400 font-bold">+{stats.growth}%</span>
                                         </div>
                                         <div className="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                                             <motion.div
@@ -397,7 +395,7 @@ const VortexPayDemo = () => {
                                         <h3 className="text-[11px] font-bold text-white/40 uppercase tracking-[0.4em]">Revenue Analytics</h3>
                                         <div className="flex gap-2">
                                             <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                                            <span className="text-[8px] font-black text-accent uppercase tracking-widest">Live_Tracking</span>
+                                            <span className="text-[8px] font-bold text-accent uppercase tracking-widest">Live_Tracking</span>
                                         </div>
                                     </div>
 
@@ -458,7 +456,7 @@ const VortexPayDemo = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between mt-4 text-[8px] font-black text-white/20 uppercase tracking-widest">
+                                    <div className="flex justify-between mt-4 text-[8px] font-bold text-white/20 uppercase tracking-widest">
                                         <span>Node_Alpha</span>
                                         <span className="text-accent/40">Real_Time_Stream</span>
                                         <span>Node_Omega</span>

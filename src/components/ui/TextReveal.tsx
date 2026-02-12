@@ -17,10 +17,9 @@ export default function TextReveal({
     type = 'word'
 }: TextRevealProps) {
     const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-10%" })
+    const isInView = useInView(ref, { once: true, margin: "0px" })
 
     const words = text.split(" ")
-    const chars = text.split("")
 
     if (type === 'char') {
         return (
@@ -48,19 +47,23 @@ export default function TextReveal({
         )
     }
 
+    // Simplified Reveal
     return (
         <span ref={ref} className={className}>
             {words.map((word, i) => (
-                <span key={i} className="inline-block overflow-hidden align-bottom">
-                    <motion.span
-                        initial={{ y: "100%" }}
-                        animate={isInView ? { y: 0 } : {}}
-                        transition={{ duration: 0.5, delay: delay + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
-                        className="inline-block mr-[0.2em]"
-                    >
-                        {word}
-                    </motion.span>
-                </span>
+                <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: delay + i * 0.1,
+                        ease: [0.22, 1, 0.36, 1]
+                    }}
+                    className="inline-block mr-[0.25em] whitespace-nowrap"
+                >
+                    {word}
+                </motion.span>
             ))}
         </span>
     )

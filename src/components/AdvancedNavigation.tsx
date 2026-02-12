@@ -1,9 +1,9 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowRight, Code, Smartphone, ShoppingCart, Search, BarChart3, Palette, Brain, TrendingUp, Bot, Shield, Users, ChevronDown, Sparkles, Zap, Layers, RefreshCw, Rocket, Terminal, GitBranch, Microscope, ShieldCheck, Cpu, FlaskConical, Target, Globe, Lock, CheckCircle2, AlertCircle, MessageSquare, Fingerprint, Network, Database } from "lucide-react";
+import { Menu, X, ArrowRight, Code, Smartphone, ShoppingCart, Search, BarChart3, Palette, Brain, TrendingUp, Bot, Shield, Users, ChevronDown, Sparkles, Zap, Layers, RefreshCw, Rocket, Terminal, GitBranch, Microscope, ShieldCheck, Cpu, FlaskConical, Target, Globe, Lock, CheckCircle2, AlertCircle, MessageSquare, Fingerprint, Network, Database, Beaker } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/branding/BrandLogo";
@@ -17,13 +17,22 @@ const AdvancedNavigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+
+  // Mouse tracking for target effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const [isHoveringLink, setIsHoveringLink] = useState(false);
+
+  const springConfig = { damping: 20, stiffness: 300 };
+  const targetX = useSpring(mouseX, springConfig);
+  const targetY = useSpring(mouseY, springConfig);
 
   // Icon mapping for dynamic Lucide icons
   const iconMap: Record<string, any> = {
-    Terminal, GitBranch, ShieldCheck, Cpu, Microscope, Search, Zap, Rocket, FlaskConical, Code, Smartphone, ShoppingCart, BarChart3, Palette, Brain, TrendingUp, Bot, Shield, Users, Sparkles, Layers, RefreshCw, Target, Globe, Lock, CheckCircle2, AlertCircle, MessageSquare, Fingerprint, Network, Database
+    Terminal, GitBranch, ShieldCheck, Cpu, Microscope, Search, Zap, Rocket, FlaskConical, Code, Smartphone, ShoppingCart, BarChart3, Palette, Brain, TrendingUp, Bot, Shield, Users, Sparkles, Layers, RefreshCw, Target, Globe, Lock, CheckCircle2, AlertCircle, MessageSquare, Fingerprint, Network, Database, Beaker
   };
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string | null | undefined) => {
@@ -40,6 +49,11 @@ const AdvancedNavigation = () => {
       }
       setIsMenuOpen(false);
     }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
   };
 
   const handleMouseEnter = (key: string) => {
@@ -65,15 +79,118 @@ const AdvancedNavigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Hardcoded structure based on UI screenshots
+  const hardcodedNav = [
+    {
+      id: 'capabilities',
+      label: 'Capabilities',
+      url: '/services',
+      children: [
+        {
+          id: 'cap1',
+          label: 'Conversion-First Website Engineering',
+          description: 'We design and build websites engineered to guide decisions, remove friction, and...',
+          icon: 'Code',
+          url: '/services/web-development',
+          tags: ['UI/UX DESIGN', 'FRONTEND/BACKEND', 'SPEED OPTIMIZATION', 'MOBILE ARCHITECTURE', 'CONVERSION LAYOUTS']
+        },
+        {
+          id: 'cap2',
+          label: 'Revenue System Engineering',
+          description: 'We connect websites to real sales infrastructure that captures, qualifies, a...',
+          icon: 'Cpu',
+          url: '/services/crm-automation',
+          tags: ['CRM SETUP', 'AUTOMATION', 'EMAIL SEQUENCES', 'LEAD SCORING', 'ANALYTICS']
+        },
+        {
+          id: 'cap3',
+          label: 'Funnel & Journey Architecture',
+          description: 'We architect user journeys that move prospects from curiosity to commitment...',
+          icon: 'GitBranch',
+          url: '/services/funnels',
+          tags: ['LANDING PAGES', 'LEAD FUNNELS', 'BOOKING FLOWS', 'SALES FUNNELS', 'DROP-OFF REDUCTION']
+        },
+        {
+          id: 'cap4',
+          label: 'Conversion Science (The Lab™)',
+          description: 'We run continuous experiments to improve performance using data, testin...',
+          icon: 'Microscope',
+          url: '/services/conversion-optimization',
+          tags: ['A/B TESTING', 'UX EXPERIMENTS', 'CONVERSION ANALYSIS', 'CONTINUOUS OPTIMIZATION']
+        },
+        {
+          id: 'cap5',
+          label: 'Performance & Trust Optimization',
+          description: 'We optimize the invisible factors that determine whether users trust and act.',
+          icon: 'ShieldCheck',
+          url: '/services/performance-trust',
+          tags: ['SPEED', 'SEO FOUNDATIONS', 'ACCESSIBILITY', 'CREDIBILITY SIGNALS']
+        }
+      ]
+    },
+    {
+      id: 'engagements',
+      label: 'Engagements',
+      url: '/#offers',
+      children: [
+        {
+          id: 'eng1',
+          label: 'Revenue Roadmap',
+          subtitle: 'Expert Strategy & Audit',
+          icon: 'Search',
+          url: '/offers/revenue-roadmap'
+        },
+        {
+          id: 'eng2',
+          label: 'Fix Sprint',
+          subtitle: 'Quick Performance Gains',
+          icon: 'Zap',
+          url: '/offers/fix-sprint'
+        },
+        {
+          id: 'eng3',
+          label: 'Revenue System',
+          subtitle: 'End-to-End Growth System',
+          icon: 'Rocket',
+          url: '/offers/revenue-system'
+        },
+        {
+          id: 'eng4',
+          label: 'The Conversion Lab™',
+          subtitle: 'Performance Optimization',
+          icon: 'Beaker',
+          url: '/offers/conversion-lab'
+        }
+      ]
+    },
+    { id: 'process', label: 'Process', url: '/process' },
+    { id: 'evidence', label: 'Evidence', url: '/case-studies' },
+    { id: 'contact', label: 'Contact', url: '/contact' }
+  ];
+
   if (!isMounted) return null;
 
   return (
     <header
+      onMouseMove={handleMouseMove}
       className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] border-b border-white/5 ${scrolled
         ? "py-3 bg-black/80 backdrop-blur-3xl shadow-2xl"
         : "py-5 bg-black/40 backdrop-blur-xl"
         }`}
     >
+      {/* Target Crosshair Effect */}
+      {/* Target Crosshair Effect - Minimalist Revision */}
+      <motion.div
+        className="pointer-events-none fixed z-[9999] mix-blend-difference hidden xl:block"
+        style={{ x: targetX, y: targetY, translateX: '-50%', translateY: '-50%' }}
+        animate={{ opacity: isHoveringLink ? 0.3 : 0, scale: isHoveringLink ? 0.8 : 0.5 }}
+      >
+        <div className="relative w-8 h-8 flex items-center justify-center">
+          <div className="absolute inset-0 border border-orange-500 rounded-full opacity-30" />
+          <div className="w-0.5 h-0.5 bg-orange-500 rounded-full" />
+        </div>
+      </motion.div>
+
       <div className="max-w-screen-2xl mx-auto px-8 md:px-12 flex items-center justify-between">
         {/* Brand Logo Section */}
         <Link href="/" className="relative z-50 group flex items-center shrink-0">
@@ -86,206 +203,180 @@ const AdvancedNavigation = () => {
         </Link>
 
         {/* Main Navigation Links */}
-        <div className="hidden xl:flex items-center gap-6">
-
-
-          {navigation?.map((item) => {
+        <div className="hidden xl:flex items-center gap-1.5">
+          {hardcodedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
             const labelLower = (item.label || '').toLowerCase();
             const isMega = labelLower === 'capabilities';
             const isDropdown = labelLower === 'engagements';
 
-            if (isMega) {
-              return (
-                <div
-                  key={item.id}
-                  onMouseEnter={() => handleMouseEnter(item.id)}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative"
+            return (
+              <div
+                key={item.id}
+                onMouseEnter={() => { handleMouseEnter(item.id); setIsHoveringLink(true); setHoveredId(item.id); }}
+                onMouseLeave={() => { handleMouseLeave(); setIsHoveringLink(false); setHoveredId(null); }}
+                className="relative"
+              >
+                <Link
+                  href={item.url || '#'}
+                  onClick={(e) => handleLinkClick(e, item.url)}
+                  className={`relative flex items-center gap-1 px-4 py-2 rounded-lg text-[13px] font-black tracking-tight transition-all duration-300 z-10 ${activeDropdown === item.id || hoveredId === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
                 >
-                  <Link
-                    href={item.url || '/services'}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold tracking-tighter transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    {item.label} <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
-                  </Link>
+                  {item.label}
+                  {(isMega || isDropdown) && (
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-500 ${activeDropdown === item.id ? 'rotate-180 text-orange-500' : 'opacity-40'}`} />
+                  )}
+                </Link>
 
-                  <AnimatePresence>
-                    {activeDropdown === item.id && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute top-full -left-20 pt-4 w-[850px] z-[101]"
-                      >
-                        <div className="bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 shadow-[0_30px_100px_rgba(0,0,0,0.8)] overflow-hidden backdrop-blur-2xl">
-                          <div className="grid grid-cols-2 gap-8">
-                            <div className="col-span-1 space-y-6">
-                              {item.children?.slice(0, 3).map((child) => {
-                                const IconName = child.icon || 'Code';
-                                const Icon = iconMap[IconName] || Code;
-                                const includes = child.metadata?.includes || [];
-                                return (
-                                  <Link
-                                    key={child.id}
-                                    href={child.url || '#'}
-                                    onClick={(e) => handleLinkClick(e, child.url)}
-                                    className="group/item flex gap-4 p-4 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-300 items-start"
-                                  >
-                                    <div className="w-10 h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center group-hover/item:bg-orange-600 transition-all duration-500 mt-1">
-                                      <Icon className="w-5 h-5 text-white transition-transform group-hover/item:scale-110" />
-                                    </div>
-                                    <div>
-                                      <div className="text-sm font-bold text-white group-hover/item:text-orange-500 transition-colors leading-tight mb-2">{child.label}</div>
-                                      <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-2">{child.description}</p>
-                                      <div className="flex flex-wrap gap-x-2 gap-y-1">
-                                        {includes.map((inc: string, i: number) => (
-                                          <span key={i} className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight hover:text-white transition-colors">{inc}{i < includes.length - 1 ? ',' : ''}</span>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                            <div className="col-span-1 space-y-6">
-                              {item.children?.slice(3).map((child) => {
-                                const IconName = child.icon || 'Code';
-                                const Icon = iconMap[IconName] || Code;
-                                const includes = child.metadata?.includes || [];
-                                return (
-                                  <Link
-                                    key={child.id}
-                                    href={child.url || '#'}
-                                    onClick={(e) => handleLinkClick(e, child.url)}
-                                    className="group/item flex gap-4 p-4 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-300 items-start"
-                                  >
-                                    <div className="w-10 h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center group-hover/item:bg-orange-600 transition-all duration-500 mt-1">
-                                      <Icon className="w-5 h-5 text-white transition-transform group-hover/item:scale-110" />
-                                    </div>
-                                    <div>
-                                      <div className="text-sm font-bold text-white group-hover/item:text-orange-500 transition-colors leading-tight mb-2">{child.label}</div>
-                                      <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-2">{child.description}</p>
-                                      <div className="flex flex-wrap gap-x-2 gap-y-1">
-                                        {includes.map((inc: string, i: number) => (
-                                          <span key={i} className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight hover:text-white transition-colors">{inc}{i < includes.length - 1 ? ',' : ''}</span>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  </Link>
-                                );
-                              })}
-                              <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-zinc-900 to-black border border-zinc-800">
-                                <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3">Enterprise Needs?</h4>
-                                <p className="text-xs text-zinc-400 mb-4">We deploy bespoke engineering teams for high-scale architectural challenges.</p>
-                                <Link href="/contact" className="text-[10px] font-black text-orange-500 uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform">
-                                  Contact Engineering <ArrowRight className="w-3 h-3" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
-                            <div className="text-[9px] font-bold text-white/20 uppercase tracking-[0.4em]">Integrated Conversion Solutions</div>
-                            <Link href="/services" className="text-[9px] font-black text-orange-500 hover:text-orange-400 uppercase tracking-[0.4em] flex items-center gap-2 transition-colors">View All Capabilities <ArrowRight className="w-3 h-3" />
-                            </Link>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            }
+                {hoveredId === item.id && (
+                  <motion.div
+                    layoutId="navPill"
+                    className="absolute inset-0 bg-white/[0.08] backdrop-blur-sm rounded-xl z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
 
-            if (isDropdown) {
-              return (
-                <div
-                  key={item.id}
-                  onMouseEnter={() => handleMouseEnter(item.id)}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative"
-                >
-                  <Link
-                    href={item.url || '/#offers'}
-                    onClick={(e) => handleLinkClick(e, item.url || '/#offers')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold tracking-tighter transition-all duration-300 ${activeDropdown === item.id ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    <TextScramble>
-                      {item.label}
-                    </TextScramble> <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 text-white ${activeDropdown === item.id ? 'rotate-180' : 'opacity-40'}`} />
-                  </Link>
-
-                  <AnimatePresence>
-                    {activeDropdown === item.id && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute top-full left-0 pt-4 w-[500px] z-[101]"
-                      >
-                        <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-4 shadow-2xl overflow-hidden backdrop-blur-2xl">
-                          <div className="grid grid-cols-2 gap-2">
-                            {item.children?.map((child) => {
-                              const IconName = child.icon || 'Zap';
-                              const Icon = iconMap[IconName] || Zap;
+                <AnimatePresence>
+                  {activeDropdown === item.id && isMega && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute top-full -left-48 pt-6 w-[900px] z-[101]"
+                    >
+                      <div className="bg-[#050505]/90 backdrop-blur-[64px] border border-white/10 rounded-3xl p-10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden">
+                        <div className="grid grid-cols-12 gap-10">
+                          {/* Column 1: Core Engineering */}
+                          <div className="col-span-6 space-y-7">
+                            {item.children?.slice(0, 3).map((child) => {
+                              const IconName = child.icon || 'Code';
+                              const Icon = iconMap[IconName] || Code;
                               return (
                                 <Link
                                   key={child.id}
                                   href={child.url || '#'}
-                                  onClick={(e) => handleLinkClick(e, child.url)}
-                                  className="flex flex-col p-4 rounded-xl hover:bg-white/5 border border-transparent transition-all duration-300 group/item"
+                                  className="group/item flex gap-5 items-start"
                                 >
-                                  <div className="w-10 h-10 rounded-lg bg-orange-600/10 text-[#FF4D00] flex items-center justify-center mb-3 group-hover/item:bg-[#FF4D00] group-hover/item:text-white transition-all duration-300">
-                                    <Icon className="w-5 h-5" />
+                                  <div className="w-11 h-11 shrink-0 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover/item:bg-white/[0.12] group-hover/item:border-white/20 group-hover/item:scale-105 transition-all duration-300">
+                                    <Icon className="w-5 h-5 text-zinc-300 group-hover/item:text-orange-400 transition-colors" />
                                   </div>
-                                  <h4 className="text-white text-sm font-bold mb-1">{child.label}</h4>
-                                  <p className="text-[11px] text-zinc-500 leading-tight">{child.description}</p>
+                                  <div>
+                                    <h3 className="text-base font-bold text-white group-hover/item:text-orange-400 transition-colors leading-tight mb-2.5">{child.label}</h3>
+                                    <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-2">{child.description}</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {child.tags?.map((tag: string, i: number) => (
+                                        <span key={i} className="text-[9px] font-mono font-semibold text-zinc-500 hover:text-zinc-300 transition-colors">{tag}{i < child.tags!.length - 1 ? ',' : ''}</span>
+                                      ))}
+                                    </div>
+                                  </div>
                                 </Link>
                               );
                             })}
                           </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            }
 
-            return (
-              <Link
-                key={item.id}
-                href={item.url === "/case-studies" && pathname === "/" ? "/#evidence" : (item.url || '/')}
-                onClick={(e) => {
-                  if (item.url === "/case-studies" && pathname === "/") {
-                    handleLinkClick(e, "/#evidence");
-                  }
-                }}
-                className="px-4 py-2 rounded-lg text-sm font-bold tracking-tighter text-zinc-400 hover:text-white transition-all duration-300 whitespace-nowrap"
-              >
-                <TextScramble>{item.label}</TextScramble>
-              </Link>
+                          {/* Column 2: Specific Science */}
+                          <div className="col-span-6 space-y-7">
+                            {item.children?.slice(3).map((child) => {
+                              const IconName = child.icon || 'Code';
+                              const Icon = iconMap[IconName] || Code;
+                              return (
+                                <Link
+                                  key={child.id}
+                                  href={child.url || '#'}
+                                  className="group/item flex gap-5 items-start"
+                                >
+                                  <div className="w-11 h-11 shrink-0 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover/item:bg-white/[0.12] group-hover/item:border-white/20 group-hover/item:scale-105 transition-all duration-300">
+                                    <Icon className="w-5 h-5 text-zinc-300 group-hover/item:text-orange-400 transition-colors" />
+                                  </div>
+                                  <div>
+                                    <h3 className="text-base font-bold text-white group-hover/item:text-orange-400 transition-colors leading-tight mb-2.5">{child.label}</h3>
+                                    <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-2">{child.description}</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {child.tags?.map((tag: string, i: number) => (
+                                        <span key={i} className="text-[9px] font-mono font-semibold text-zinc-500 hover:text-zinc-300 transition-colors">{tag}{i < child.tags!.length - 1 ? ',' : ''}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+
+                            {/* Enterprise Card */}
+                            <div className="p-7 rounded-2xl bg-white/[0.04] border border-white/[0.08] relative overflow-hidden group/ent hover:bg-white/[0.08] hover:border-white/[0.12] transition-all duration-300">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 blur-3xl -mr-16 -mt-16 group-hover/ent:bg-orange-500/15 transition-all" />
+                              <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.15em] mb-3 leading-tight relative z-10">Custom Enterprise Solutions</h4>
+                              <p className="text-xs text-zinc-400 mb-6 leading-relaxed relative z-10">We deploy bespoke engineering teams for high-scale architectural challenges.</p>
+                              <Link
+                                href="/contact"
+                                className="inline-flex items-center gap-2 text-[10px] font-bold text-orange-400 uppercase tracking-wide group-hover/ent:gap-3 group-hover/ent:text-orange-300 transition-all relative z-10"
+                              >
+                                Contact Our Team <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {activeDropdown === item.id && isDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute top-full -left-20 pt-6 w-[550px] z-[101]"
+                    >
+                      <div className="bg-[#050505]/90 backdrop-blur-[64px] border border-white/10 rounded-3xl p-8 shadow-[0_20px_80px_rgba(0,0,0,0.8)]">
+                        <div className="grid grid-cols-2 gap-8">
+                          {item.children?.map((child) => {
+                            const IconName = child.icon || 'Zap';
+                            const Icon = iconMap[IconName] || Zap;
+                            return (
+                              <Link
+                                key={child.id}
+                                href={child.url || '#'}
+                                className="group/item flex flex-col items-start gap-5"
+                              >
+                                <div className="w-12 h-12 rounded-xl bg-orange-500/[0.08] border border-orange-500/20 flex items-center justify-center group-hover/item:bg-orange-500 group-hover/item:border-orange-500 group-hover/item:scale-105 transition-all duration-300">
+                                  <Icon className="w-5 h-5 text-orange-400 group-hover/item:text-white transition-colors" />
+                                </div>
+                                <div>
+                                  <h3 className="text-lg font-bold text-white group-hover/item:text-orange-400 transition-colors leading-tight mb-2">{child.label}</h3>
+                                  <p className="text-xs font-medium text-zinc-400 group-hover/item:text-zinc-300 transition-colors">{child.subtitle}</p>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             );
           })}
         </div>
 
-        {/* CTA Action */}
+        {/* CTA Action - Reverted to former UX */}
         <div className="flex items-center gap-4">
           <Button
             className="hidden md:flex rounded-xl bg-[#FF4D00] hover:bg-[#FF6600] text-white hover:text-white px-6 py-2.5 h-auto text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 hover:scale-[1.02] border-none shadow-xl shadow-orange-600/20 active:scale-[0.98] group"
             asChild
           >
-            <Link href="/offers/revenue-roadmap" className="flex items-center gap-2 !text-white hover:!text-white transition-colors">
+            <Link href="/offers/revenue-roadmap" className="flex items-center gap-3 !text-white hover:!text-white transition-colors">
               REVENUE ROADMAP
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform !text-white" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform !text-white" />
             </Link>
           </Button>
 
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="lg:hidden p-2 rounded-lg bg-white/5 text-white hover:bg-white/10 transition-colors"
+            className="lg:hidden p-3 rounded-full bg-white/5 text-white hover:bg-orange-600 transition-all border border-white/5"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -293,7 +384,7 @@ const AdvancedNavigation = () => {
       </div>
 
       <MobileMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-    </header >
+    </header>
   );
 };
 

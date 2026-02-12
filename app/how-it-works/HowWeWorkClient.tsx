@@ -38,11 +38,11 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                         transition={{ duration: 1 }}
                         className="mb-20"
                     >
-                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-black uppercase tracking-[0.5em] mb-12">
+                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
                             <Layers className="w-4 h-4" /> Operational_Doctrine_v3
                         </div>
 
-                        <h1 className="text-6xl md:text-[9rem] font-black mb-12 tracking-tighter leading-[0.8] uppercase italic">
+                        <h1 className="text-6xl md:text-[9rem] font-bold mb-12 tracking-tighter leading-[0.8] uppercase italic">
                             How We <br />
                             <span className="text-zinc-800">Work.</span>
                         </h1>
@@ -74,7 +74,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                                     <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                                         {/* ID Column */}
                                         <div className="lg:col-span-2 hidden lg:flex flex-col items-center sticky top-32">
-                                            <div className="text-[10rem] font-black leading-none text-zinc-900/50 italic select-none">
+                                            <div className="text-[10rem] font-bold leading-none text-zinc-900/50 italic select-none">
                                                 {step.step_number}
                                             </div>
                                             <div className="h-32 w-px bg-gradient-to-b from-zinc-800 to-transparent mt-4" />
@@ -93,7 +93,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+                                                <h3 className="text-4xl md:text-6xl font-bold text-white uppercase italic tracking-tighter mb-6">
                                                     {step.title}
                                                 </h3>
 
@@ -131,12 +131,12 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                                         <div className="lg:col-span-3 lg:sticky lg:top-32 flex flex-col justify-center h-full pt-8 lg:pt-0">
                                             <div className="bg-zinc-950 border border-zinc-900 p-8 text-center relative group-hover:border-zinc-800 transition-colors">
                                                 <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest mb-4">Investment_Index</div>
-                                                <div className={`text-3xl font-black italic tracking-tighter ${step.color} mb-8`}>
+                                                <div className={`text-3xl font-bold italic tracking-tighter ${step.color} mb-8`}>
                                                     {step.price}
                                                 </div>
 
                                                 <Link href={step.cta_link || '#'} className="block w-full">
-                                                    <Button className="w-full h-16 bg-white text-black hover:bg-orange-600 hover:text-white font-black text-xs uppercase tracking-[0.3em] rounded-none transition-all duration-300">
+                                                    <Button className="w-full h-16 bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs uppercase tracking-[0.3em] rounded-xl transition-all duration-300">
                                                         {step.cta_text}
                                                     </Button>
                                                 </Link>
@@ -154,10 +154,10 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
             <section className="py-32 border-y border-zinc-900 bg-[#0A0A0A]">
                 <div className="container mx-auto px-6 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-orange-600/10 border border-orange-600/20 text-orange-600 text-[10px] font-mono font-black uppercase tracking-[0.5em] mb-10">
+                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-orange-600/10 border border-orange-600/20 text-orange-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10">
                             <ShieldCheck className="w-4 h-4" /> Core_Philosophy
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-black mb-12 tracking-tighter uppercase italic text-white leading-[0.9]">
+                        <h2 className="text-5xl md:text-7xl font-bold mb-12 tracking-tighter uppercase italic text-white leading-[0.9]">
                             We Don't Guess. <br />We <span className="text-zinc-800">Diagnose.</span>
                         </h2>
                         <p className="text-xl text-zinc-500 leading-relaxed font-medium max-w-2xl mx-auto">
@@ -170,7 +170,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
             {/* Final CTA */}
             <section className="py-32 relative overflow-hidden bg-black">
                 <div className="container mx-auto px-6 text-center relative z-10">
-                    <h2 className="text-5xl md:text-[8rem] font-black mb-10 tracking-tighter uppercase italic leading-[0.8]">
+                    <h2 className="text-5xl md:text-[8rem] font-bold mb-10 tracking-tighter uppercase italic leading-[0.8]">
                         Where Do I <br /> <span className="text-zinc-800">Start?</span>
                     </h2>
                     <p className="text-xl md:text-2xl text-zinc-500 mb-16 max-w-2xl mx-auto font-medium">
@@ -179,7 +179,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-8">
                         <Link href="/offers/revenue-roadmap">
-                            <Button className="h-20 px-12 bg-orange-600 hover:bg-orange-500 text-white font-black text-sm uppercase tracking-[0.4em] rounded-none transition-all duration-300 shadow-[0_0_50px_rgba(234,88,12,0.3)]">
+                            <Button className="h-20 px-12 bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm uppercase tracking-[0.4em] rounded-xl transition-all duration-300 shadow-[0_0_50px_rgba(234,88,12,0.3)]">
                                 INITIALIZE DIAGNOSTIC
                                 <ArrowRight className="w-5 h-5 ml-4" />
                             </Button>

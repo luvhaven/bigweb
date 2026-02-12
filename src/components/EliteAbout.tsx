@@ -106,7 +106,7 @@ const EliteAbout = () => {
               style={isMounted ? { y } : {}}
             >
               <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10">
-                <GitBranch className="w-4 h-4" /> System_Identity_0xc1
+                <Globe className="w-4 h-4" /> About BigWeb
               </div>
 
               <h2 ref={headingRef} className="text-6xl md:text-[8rem] font-black tracking-tighter mb-12 leading-[0.75] uppercase italic text-white">
@@ -119,11 +119,11 @@ const EliteAbout = () => {
                 </p>
 
                 <p>
-                  Since 2017, we have engineered environments for cohorts ranging from <span className="text-white italic">Aggressive_Startups</span> to Fortune 500 giants.
+                  Since 2017, we have engineered environments for cohorts ranging from <span className="text-white italic">Aggressive Startups</span> to Fortune 500 giants.
                 </p>
 
                 <p>
-                  Clinical execution logs show <span className="text-white font-bold italic">$50M+ in realized revenue</span> for our partners. No fluff. Just engineering.
+                  Our track record shows <span className="text-white font-bold italic">$50M+ in realized revenue</span> for our partners. No fluff. Just engineering.
                 </p>
               </div>
 
@@ -136,9 +136,9 @@ const EliteAbout = () => {
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
                 {[
-                  { label: "OPERATIONAL_TIME", value: "8", suffix: "Y", icon: Activity },
-                  { label: "ACTIVE_NODES", value: "250", suffix: "+", icon: Globe },
-                  { label: "REVENUE_YIELD", value: "50", prefix: "$", suffix: "M+", icon: TrendingUp }
+                  { label: "EXPERIENCE", value: "8", suffix: "Y", icon: Activity },
+                  { label: "SUCCESSFUL LAUNCHES", value: "250", suffix: "+", icon: Globe },
+                  { label: "REALIZED REVENUE", value: "50", prefix: "$", suffix: "M+", icon: TrendingUp }
                 ].map((stat, i) => (
                   <div key={i} className="bg-black p-8 group/stat">
                     <div className="flex justify-between items-start mb-6">
@@ -193,11 +193,11 @@ const EliteAbout = () => {
                 transition={{ duration: 0.6, delay: 0.5, type: 'spring' }}
               >
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 text-zinc-600 text-[8px] font-mono font-bold uppercase tracking-widest mb-6">
-                  <Binary className="w-3 h-3" /> Operational_Integrity
+                  <CheckCircle2 className="w-3 h-3" /> Partner Retention
                 </div>
                 <div className="text-6xl font-black mb-4 text-white italic tracking-tighter leading-none">98%</div>
                 <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-widest leading-relaxed">
-                  Systemic stability and partner retention metrics.
+                  Long-term partner satisfaction and stability metrics.
                 </div>
               </motion.div>
             </motion.div>

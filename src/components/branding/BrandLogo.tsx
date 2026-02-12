@@ -102,7 +102,7 @@ export default function BrandLogo({ className = "", variant = 'full', color = "#
                 <div className="flex items-center mt-2">
                     <div className="h-[1px] w-4 bg-orange-600/50 mr-2 group-hover:w-8 transition-all duration-500" />
                     <span className="text-[9px] font-mono font-bold tracking-[0.4em] leading-none uppercase text-zinc-600 whitespace-nowrap group-hover:text-zinc-400 transition-colors">
-                        CONVERSION LAB
+                        THE CONVERSION LAB
                     </span>
                 </div>
             </div>

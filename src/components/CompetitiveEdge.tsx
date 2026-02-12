@@ -65,22 +65,22 @@ export default function CompetitiveEdge() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-40">
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-5 py-2 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[9px] font-mono font-black uppercase tracking-[0.6em] mb-16"
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-8"
           >
-            Clinical_Comparison_Protocol_v.2026
+            Why Choose Us
           </motion.div>
 
-          <h2 className="text-6xl md:text-[13rem] font-black mb-20 tracking-tighter-extreme uppercase italic leading-[0.7] text-white">
-            Engineering <br /><span className="text-zinc-900 border-b-8 border-orange-600">vs. Guesswork.</span>
+          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tight leading-tight text-white">
+            The Difference Between<br /><span className="text-zinc-600">Average and Exceptional.</span>
           </h2>
 
-          <p className="text-2xl md:text-5xl text-zinc-500 font-black leading-none tracking-tighter-extreme max-w-6xl mx-auto uppercase">
-            The industry standard is <span className="text-zinc-700 italic">Atrophy</span>. <br />The BIGWEB method is <span className="text-white italic">Dominance.</span>
+          <p className="text-xl md:text-2xl text-zinc-400 font-medium leading-relaxed max-w-3xl mx-auto">
+            Most agencies build websites. We engineer revenue-generating machines backed by data, strategy, and precision.
           </p>
         </div>
 
@@ -95,13 +95,13 @@ export default function CompetitiveEdge() {
                 onClick={() => setActiveTab('baseline')}
                 className={`px-12 py-6 text-[10px] font-mono font-bold uppercase tracking-[0.4em] transition-all duration-300 ${activeTab === 'baseline' ? 'bg-orange-600 text-white' : 'bg-black text-zinc-600 hover:text-white'}`}
               >
-                INDUSTRY_BASELINE
+                Industry Standard
               </button>
               <button
                 onClick={() => setActiveTab('protocol')}
                 className={`px-12 py-6 text-[10px] font-mono font-bold uppercase tracking-[0.4em] transition-all duration-300 ${activeTab === 'protocol' ? 'bg-orange-600 text-white' : 'bg-black text-zinc-600 hover:text-white'}`}
               >
-                BIGWEB_SYSTEM_v4
+                The BigWeb Edge
               </button>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function CompetitiveEdge() {
                   </div>
                   <div>
                     <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-700 mb-1">{item.category}</h4>
-                    <span className="text-xl font-black text-white uppercase tracking-tighter italic">0{i + 1}_METRIC</span>
+                    <span className="text-xl font-black text-white uppercase tracking-tighter italic">Metric 0{i + 1}</span>
                   </div>
                 </div>
 
@@ -140,7 +140,7 @@ export default function CompetitiveEdge() {
                         {activeTab === 'protocol' ? item.method : item.baseline}
                       </span>
                       <p className="text-[10px] font-mono font-bold tracking-widest text-zinc-700 uppercase">
-                        Spec_Output
+                        Project Result
                       </p>
                     </motion.div>
                   </AnimatePresence>
@@ -151,7 +151,7 @@ export default function CompetitiveEdge() {
                     <div className={`text-4xl font-black tracking-tighter-extreme uppercase italic mb-2 leading-none ${activeTab === 'protocol' ? 'text-orange-600' : 'text-zinc-700'}`}>
                       {activeTab === 'protocol' ? item.impact : item.baselineImpact}
                     </div>
-                    <div className="text-[9px] font-mono font-black uppercase tracking-[0.4em] text-zinc-800">Operational_Delta</div>
+                    <div className="text-[9px] font-mono font-black uppercase tracking-[0.4em] text-zinc-800">Performance Increase</div>
                   </div>
                 </div>
               </motion.div>

@@ -65,10 +65,10 @@ export default function Footer() {
               <div className="relative flex items-center">
                 <Input
                   type="email"
-                  placeholder="INPUT_HIVE_MIND_EMAIL"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-zinc-950/50 border-zinc-800 text-xs font-mono text-white placeholder:text-zinc-700 h-10 pr-10 rounded-lg focus:border-orange-500/50 focus:ring-0 transition-all uppercase tracking-widest"
+                  className="bg-zinc-950/50 border-zinc-800 text-sm text-white placeholder:text-zinc-600 h-10 pr-10 rounded-lg focus:border-orange-500/50 focus:ring-0 transition-all"
                 />
                 <button type="submit" className="absolute right-0 top-0 h-10 w-10 flex items-center justify-center text-zinc-600 hover:text-orange-500 transition-colors">
                   <Send className="w-4 h-4" />
@@ -78,16 +78,14 @@ export default function Footer() {
 
             <div className="space-y-6 pt-6 border-t border-zinc-900/50">
               <div className="flex flex-col gap-1 group">
-                <span className="text-[9px] font-mono font-bold text-zinc-700 uppercase tracking-widest group-hover:text-orange-600 transition-colors">Global_Support</span>
-                <a href="mailto:support@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-bold uppercase tracking-tighter italic font-mono flex items-center gap-2">
-                  <div className="w-1 h-1 bg-zinc-600 rounded-full group-hover:bg-orange-500 transition-colors" />
+                <span className="text-xs font-semibold text-zinc-600 uppercase tracking-wider group-hover:text-orange-500 transition-colors">Support</span>
+                <a href="mailto:support@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">
                   support@bigwebdigital.com
                 </a>
               </div>
               <div className="flex flex-col gap-1 group">
-                <span className="text-[9px] font-mono font-bold text-zinc-700 uppercase tracking-widest group-hover:text-orange-600 transition-colors">Accounts_&_Billing</span>
-                <a href="mailto:billing@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-bold uppercase tracking-tighter italic font-mono flex items-center gap-2">
-                  <div className="w-1 h-1 bg-zinc-600 rounded-full group-hover:bg-orange-500 transition-colors" />
+                <span className="text-xs font-semibold text-zinc-600 uppercase tracking-wider group-hover:text-orange-500 transition-colors">Billing</span>
+                <a href="mailto:billing@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">
                   billing@bigwebdigital.com
                 </a>
               </div>
@@ -98,9 +96,8 @@ export default function Footer() {
           <div className="lg:col-span-8">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
               <div>
-                <h4 className="text-[10px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em] mb-10 flex items-center gap-2">
-                  <div className="w-4 h-px bg-zinc-900" />
-                  CAPABILITIES
+                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                  Services
                 </h4>
                 <ul className="space-y-6">
                   {[
@@ -111,7 +108,7 @@ export default function Footer() {
                     { label: 'Trust Optimization', href: '/services/trust-optimization' },
                   ].map((link, i) => (
                     <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-black text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
+                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
                         {link.label}
                       </Link>
@@ -121,9 +118,8 @@ export default function Footer() {
               </div>
 
               <div>
-                <h4 className="text-[10px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em] mb-10 flex items-center gap-2">
-                  <div className="w-4 h-px bg-zinc-900" />
-                  ENGAGEMENTS
+                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                  Packages
                 </h4>
                 <ul className="space-y-6">
                   {[
@@ -133,7 +129,7 @@ export default function Footer() {
                     { label: 'Revenue System', href: '/offers/revenue-system' },
                   ].map((link, i) => (
                     <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-black text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
+                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
                         {link.label}
                       </Link>
@@ -143,9 +139,8 @@ export default function Footer() {
               </div>
 
               <div>
-                <h4 className="text-[10px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em] mb-10 flex items-center gap-2">
-                  <div className="w-4 h-px bg-zinc-900" />
-                  RESOURCES
+                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                  Company
                 </h4>
                 <ul className="space-y-6">
                   {[
@@ -155,7 +150,7 @@ export default function Footer() {
                     { label: 'Client Login', href: '/login' },
                   ].map((link, i) => (
                     <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-black text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
+                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
                         {link.label}
                       </Link>
@@ -168,37 +163,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Status Bar */}
-        <div className="pt-16 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="flex gap-16">
-            <div className="flex flex-col gap-2">
-              <span className="text-[9px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em]">System_Status</span>
-              <span className="flex items-center gap-3 text-[11px] font-black text-emerald-500 uppercase tracking-widest">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Operational_Stable
-              </span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <span className="text-[9px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em]">Terminal_Epoch</span>
-              <span className="text-[11px] font-black text-zinc-500 uppercase tracking-widest tabular-nums">
-                {time || 'INITIALIZING...'}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 relative group">
-              <span className="text-[9px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em] group-hover:text-orange-600 transition-colors">Engineering_Lab</span>
-              <span className="text-[11px] font-black text-zinc-700 uppercase tracking-widest italic flex items-center gap-2">
-                Tokyo_v4.2_Build <span className="text-zinc-800 opacity-50 px-1 border border-zinc-800 rounded text-[9px]">STABLE</span>
-              </span>
-            </div>
+        <div className="pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-sm font-medium text-zinc-400">All Systems Operational</span>
           </div>
 
-          <div className="flex gap-12 items-center">
+          <div className="flex gap-8 items-center">
             {['Privacy', 'Terms', 'Cookies'].map((link) => (
-              <Link key={link} href="#" className="text-[9px] font-mono font-bold text-zinc-600 hover:text-white uppercase tracking-[0.5em] transition-all">
+              <Link key={link} href={`/${link.toLowerCase()}`} className="text-xs font-medium text-zinc-600 hover:text-white uppercase tracking-wider transition-all">
                 {link}
               </Link>
             ))}
-            <span className="text-[9px] font-mono font-bold text-zinc-800 uppercase tracking-[0.4em]">
-              © {new Date().getFullYear()} BIGWEB_Digital // ARCHITECT_V1
+            <span className="text-xs font-medium text-zinc-700">
+              © {new Date().getFullYear()} BIGWEB Digital
             </span>
           </div>
         </div>

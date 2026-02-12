@@ -44,29 +44,29 @@ export default function ServicesPageClient({ capabilities }: ServicesPageClientP
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="inline-flex items-center gap-3 px-4 py-1.5 bg-orange-600/10 border border-orange-500/20 text-orange-400 text-[9px] font-mono font-black uppercase tracking-[0.4em] mb-8 shadow-[0_0_30px_rgba(249,115,22,0.1)]"
+                            className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-semibold uppercase tracking-wider mb-8"
                         >
-                            <GitBranch className="w-3.5 h-3.5" /> Capabilities_Inventory_v4.2
+                            <GitBranch className="w-3.5 h-3.5" /> Our Expertise
                         </motion.div>
 
-                        <h1 className="text-6xl md:text-[8rem] font-black tracking-tighter mb-8 leading-[0.8] uppercase italic font-sans grayscale brightness-200">
+                        <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-8 leading-tight">
                             Our <br />
-                            <span className="text-zinc-800">Capabilities.</span>
+                            <span className="text-zinc-600">Capabilities.</span>
                         </h1>
 
-                        <p className="text-xl md:text-3xl text-zinc-500 leading-tight tracking-tight max-w-3xl mx-auto mb-12 font-medium border-l border-orange-600/30 pl-8 text-left">
-                            Constructing high-yield <span className="text-white italic underline decoration-zinc-800 underline-offset-[8px]">Digital Systems</span> engineered for zero-friction revenue extraction.
+                        <p className="text-xl md:text-2xl text-zinc-400 leading-relaxed tracking-tight max-w-3xl mx-auto mb-12 font-medium">
+                            Building high-performance <span className="text-white underline decoration-orange-500/30 underline-offset-8">digital systems</span> designed to grow your business.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                             <Link href="/how-it-works">
-                                <Button size="xl" className="h-20 px-12 rounded-none bg-white text-black hover:bg-orange-600 hover:text-white font-black text-xs uppercase tracking-[0.4em] transition-all duration-500 shadow-[0_0_80px_rgba(255,255,255,0.1)] group">
-                                    EXPLORE OUR PROCESS
-                                    <ArrowRight className="w-5 h-5 ml-4 group-hover:translate-x-4 transition-transform" />
+                                <Button size="xl" className="h-16 px-10 rounded-full bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-sm uppercase tracking-wider transition-all shadow-lg group">
+                                    Our Process
+                                    <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
-                            <Link href="/offers/revenue-roadmap" className="text-zinc-600 hover:text-white transition-colors uppercase font-mono font-black tracking-[0.3em] text-[10px] flex items-center gap-3 px-8 py-4 border border-zinc-900 hover:border-orange-600/30">
-                                SYSTEM_DIAGNOSTIC <ArrowRight className="w-4 h-4 text-orange-600" />
+                            <Link href="/offers/revenue-roadmap" className="text-zinc-400 hover:text-white transition-colors uppercase font-semibold text-xs tracking-wider flex items-center gap-3 px-8 py-4">
+                                Get Roadmap <ArrowRight className="w-4 h-4 text-orange-500" />
                             </Link>
                         </div>
                     </motion.div>
@@ -94,12 +94,12 @@ export default function ServicesPageClient({ capabilities }: ServicesPageClientP
                                     <div className={`lg:col-span-5 ${isEven ? '' : 'lg:col-start-8'}`}>
                                         <div className="relative group/visual">
                                             <div className="absolute -inset-4 bg-orange-600/5 rounded-none blur-3xl opacity-0 group-hover/visual:opacity-100 transition-opacity duration-700" />
-                                            <div className="relative p-12 rounded-none bg-zinc-950 border border-zinc-900 backdrop-blur-sm overflow-hidden min-h-[350px] flex flex-col justify-center items-center shadow-2xl">
-                                                <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-zinc-800 tracking-widest uppercase">Node_Architecture_v0{capability.number}</div>
-                                                <div className="text-[12rem] font-black text-white/[0.02] italic absolute -right-8 -bottom-12 select-none pointer-events-none">{capability.number}</div>
+                                            <div className="relative p-12 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm overflow-hidden min-h-[350px] flex flex-col justify-center items-center shadow-xl group-hover/visual:border-orange-500/30 transition-colors">
+                                                <div className="absolute top-6 left-6 text-xs font-semibold text-zinc-500 tracking-wider uppercase">0{capability.number}</div>
+                                                <div className="text-[12rem] font-bold text-white/[0.02] italic absolute -right-8 -bottom-12 select-none pointer-events-none">{capability.number}</div>
 
-                                                <div className={`w-32 h-32 rounded-none bg-orange-600/5 border border-zinc-900 flex items-center justify-center shrink-0 mb-8 relative z-10 group-hover/visual:border-orange-600 transition-all duration-500`}>
-                                                    <Icon className={`w-12 h-12 text-zinc-700 group-hover/visual:text-orange-600 transition-colors duration-500`} />
+                                                <div className={`w-32 h-32 rounded-2xl bg-zinc-900/50 border border-white/5 flex items-center justify-center shrink-0 mb-8 relative z-10 group-hover/visual:border-orange-500/50 transition-all duration-500`}>
+                                                    <Icon className={`w-12 h-12 text-zinc-600 group-hover/visual:text-orange-500 transition-colors duration-500`} />
                                                 </div>
 
                                                 <div className="w-full h-[1px] bg-zinc-900 relative">
@@ -115,10 +115,10 @@ export default function ServicesPageClient({ capabilities }: ServicesPageClientP
 
                                     {/* Content Side */}
                                     <div className={`lg:col-span-7 ${isEven ? '' : 'lg:col-start-1 lg:row-start-1'}`}>
-                                        <div className="border-l-4 border-zinc-900 pl-10 group-hover:border-orange-600 transition-colors duration-500">
-                                            <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-[0.5em] mb-4">ENGINEERING_PHASE_0{capability.number}</div>
-                                            <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.85] uppercase italic text-white">{capability.title}</h2>
-                                            <p className="text-xl md:text-2xl text-zinc-500 font-medium leading-[1.1] max-w-2xl">{capability.description}</p>
+                                        <div className="pl-6 border-l-2 border-orange-500/30">
+                                            <div className="text-xs font-semibold text-orange-500 uppercase tracking-wider mb-3">Service 0{capability.number}</div>
+                                            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-white">{capability.title}</h2>
+                                            <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">{capability.description}</p>
                                         </div>
 
                                         <div className="mt-8 mb-8">
@@ -137,8 +137,8 @@ export default function ServicesPageClient({ capabilities }: ServicesPageClientP
                                         </div>
 
                                         <Link href={capability.route || '#'}>
-                                            <Button variant="outline" className="border-white/10 hover:bg-white/5 hover:border-orange-500/40 transition-all font-mono text-[10px] uppercase tracking-widest">
-                                                View Capability Protocol
+                                            <Button variant="outline" className="border-white/10 hover:bg-white/5 text-sm font-medium rounded-xl h-12 px-6">
+                                                Learn More
                                                 <ArrowRight className="w-4 h-4 ml-2" />
                                             </Button>
                                         </Link>
@@ -167,23 +167,23 @@ export default function ServicesPageClient({ capabilities }: ServicesPageClientP
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
-                                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8"
+                                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-8"
                             >
                                 Ready to Start?
                             </motion.div>
 
-                            <h2 className="text-5xl md:text-[7rem] font-black tracking-tighter mb-12 uppercase italic leading-[0.8] text-white">
-                                Secure the <br /><span className="text-orange-600">Audit.</span>
+                            <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">
+                                Start Your<br /><span className="text-orange-500">Project.</span>
                             </h2>
 
-                            <p className="text-xl md:text-2xl text-zinc-500 mb-16 font-medium leading-[1.1] max-w-2xl mx-auto">
-                                Our capabilities are most effective when deployed as a <strong className="text-white italic">Clinical_Diagnostic</strong>. Get your 7-day battle plan today.
+                            <p className="text-lg md:text-xl text-zinc-400 mb-12 font-medium leading-relaxed max-w-2xl mx-auto">
+                                The best way to start is with a free <strong className="text-white">Revenue Roadmap</strong>. Get a clear plan for your growth.
                             </p>
 
                             <Link href="/offers/revenue-roadmap">
-                                <Button size="xl" className="h-24 px-16 rounded-none bg-orange-600 text-white hover:bg-orange-500 font-black text-sm uppercase tracking-[0.4em] shadow-[0_0_60px_rgba(249,115,22,0.2)] transition-all group">
-                                    GET REVENUE ROADMAP
-                                    <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-4 transition-transform" />
+                                <Button size="xl" className="h-16 px-12 rounded-full bg-orange-600 text-white hover:bg-orange-500 font-bold text-sm uppercase tracking-wider shadow-lg transition-all group">
+                                    Get Free Roadmap
+                                    <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
                         </div>

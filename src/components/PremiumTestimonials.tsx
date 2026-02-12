@@ -41,31 +41,32 @@ export default function PremiumTestimonials({ initialTestimonials = [] }: Premiu
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* Header Content */}
-          <div className="lg:col-span-4 space-y-8 border-l-4 border-orange-600 pl-12">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-4">
-              Clinical_Verdicts_v1.0
+          <div className="lg:col-span-4 space-y-8 border-l-2 border-orange-500/50 pl-12 relative">
+            <div className="absolute top-0 left-[-2px] h-32 w-[2px] bg-gradient-to-b from-orange-500 to-transparent" />
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 border border-white/10 text-zinc-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-4 backdrop-blur-xl rounded-full">
+              Verified Outcomes
             </div>
 
-            <h2 className="text-6xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.75] mb-8">
-              The <br /><span className="text-zinc-800">Verdicts.</span>
+            <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter-clinical leading-[0.85] mb-8">
+              Client <br /><span className="text-zinc-600">Results.</span>
             </h2>
 
-            <p className="text-zinc-500 text-2xl md:text-4xl font-medium leading-[1.1] tracking-tight max-w-sm">
-              Clinical execution logs from the world's most <span className="text-white italic underline underline-offset-8 decoration-orange-600">Aggressive_Growth</span> cohorts.
+            <p className="text-zinc-400 text-xl md:text-2xl font-medium leading-relaxed tracking-tight max-w-sm">
+              Impactful partnerships with some of the world's most <span className="text-white font-bold decoration-orange-500/50 underline underline-offset-4">High-Growth</span> companies.
             </p>
 
-            <div className="flex gap-px bg-zinc-900 pt-12">
+            <div className="flex gap-4 pt-12">
               <button
                 onClick={() => paginate(-1)}
-                className="w-20 h-20 flex items-center justify-center bg-zinc-950 border border-zinc-900 text-zinc-700 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all duration-300"
+                className="w-16 h-16 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-500 ease-apple backdrop-blur-md"
               >
-                <ChevronLeft className="w-8 h-8" />
+                <ChevronLeft className="w-6 h-6" />
               </button>
               <button
                 onClick={() => paginate(1)}
-                className="w-20 h-20 flex items-center justify-center bg-zinc-950 border border-zinc-900 text-zinc-700 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all duration-300"
+                className="w-16 h-16 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-500 ease-apple backdrop-blur-md"
               >
-                <ChevronRight className="w-8 h-8" />
+                <ChevronRight className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -75,40 +76,40 @@ export default function PremiumTestimonials({ initialTestimonials = [] }: Premiu
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, x: 50, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, x: -50, filter: 'blur(10px)' }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="w-full"
               >
-                <div className="space-y-16">
-                  <div className="flex gap-2">
+                <div className="space-y-12">
+                  <div className="flex gap-1.5">
                     {[...Array(5)].map((_, i) => (
-                      <div key={i} className={`w-12 h-1.5 ${i < (testimonials[currentIndex]?.rating || 5) ? 'bg-orange-600' : 'bg-zinc-900'}`} />
+                      <div key={i} className={`w-8 h-1 rounded-full ${i < (testimonials[currentIndex]?.rating || 5) ? 'bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]' : 'bg-zinc-800'}`} />
                     ))}
                   </div>
 
-                  <blockquote className="text-4xl md:text-7xl font-black text-white italic tracking-tighter leading-[0.9] uppercase max-w-6xl">
+                  <blockquote className="text-3xl md:text-6xl font-bold text-white tracking-tight leading-[1.1] max-w-5xl">
                     "{testimonials[currentIndex]?.content}"
                   </blockquote>
 
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-12 pt-16 border-l-4 border-zinc-900 pl-12 relative overflow-hidden">
-                    <div className="space-y-4">
-                      <div className="text-4xl font-black text-white italic tracking-tight uppercase leading-none">
+                  <div className="flex flex-col md:flex-row items-start md:items-end gap-12 pt-12 border-t border-white/5 relative">
+                    <div className="space-y-2">
+                      <div className="text-2xl font-bold text-white tracking-tight">
                         {testimonials[currentIndex]?.client_name}
                       </div>
-                      <div className="text-[12px] font-mono font-black text-zinc-700 uppercase tracking-[0.5em]">
-                        {testimonials[currentIndex]?.client_role} <span className="text-zinc-800">//</span> {testimonials[currentIndex]?.client_company}
+                      <div className="text-xs font-medium text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                        {testimonials[currentIndex]?.client_role} <span className="w-1 h-1 bg-zinc-700 rounded-full" /> {testimonials[currentIndex]?.client_company}
                       </div>
                     </div>
 
                     {testimonials[currentIndex]?.result_metric && (
                       <div className="md:ml-auto text-left md:text-right">
-                        <div className="text-6xl md:text-[8rem] font-black text-white italic tracking-tighter leading-none mb-4 group-hover:text-orange-600 transition-colors">
+                        <div className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tighter leading-none mb-2">
                           {testimonials[currentIndex]?.result_metric}
                         </div>
-                        <div className="text-[11px] font-mono font-bold text-zinc-800 uppercase tracking-[0.6em]">
-                          Delta_Performance_Yield
+                        <div className="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em]">
+                          Revenue Uplift
                         </div>
                       </div>
                     )}

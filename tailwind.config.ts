@@ -133,6 +133,10 @@ export default {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'mesh': 'radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%)',
       },
+      transitionTimingFunction: {
+        'apple': 'cubic-bezier(0.22, 1, 0.36, 1)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

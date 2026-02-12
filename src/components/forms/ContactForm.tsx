@@ -127,7 +127,7 @@ export default function ContactForm({
                     {formData.plan ? `Targeting: ${formData.plan.replace('-', ' ').toUpperCase()}` : 'Lab Access: Open'}
                 </div>
 
-                <h3 className="text-3xl font-black mb-3 text-white italic tracking-tighter uppercase">{title}</h3>
+                <h3 className="text-3xl font-bold mb-3 text-white italic tracking-tighter uppercase">{title}</h3>
                 <p className="text-zinc-500 font-medium leading-relaxed max-w-md">
                     {description}
                 </p>
@@ -136,7 +136,7 @@ export default function ContactForm({
                     <div className="mt-6 p-4 bg-orange-600/10 border border-orange-500/20 rounded-xl flex items-start gap-4">
                         <Building className="w-5 h-5 text-orange-500 mt-1 shrink-0" />
                         <div>
-                            <div className="text-xs font-black uppercase tracking-widest text-orange-500 mb-1">Enterprise Application</div>
+                            <div className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-1">Enterprise Application</div>
                             <p className="text-xs text-zinc-400 font-medium">You are applying for a full system rebuild. This requires a preliminary architectural audit ($0).</p>
                         </div>
                     </div>
@@ -246,7 +246,7 @@ export default function ContactForm({
 
                 <Button
                     type="submit"
-                    className="w-full h-14 text-sm font-black uppercase tracking-[0.2em] bg-white text-black hover:bg-orange-600 hover:text-white shadow-xl transition-all duration-300 rounded-none group"
+                    className="w-full h-14 text-sm font-bold uppercase tracking-[0.2em] bg-white text-black hover:bg-orange-600 hover:text-white shadow-xl transition-all duration-300 rounded-xl group"
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (

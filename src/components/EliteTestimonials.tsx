@@ -73,7 +73,7 @@ const EliteTestimonials = () => {
                 Client_Verification_Log
               </span>
             </div>
-            <h2 className="text-5xl md:text-[8rem] font-black text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
+            <h2 className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
               Success <br />
               <span className="text-zinc-800">Protocol.</span>
             </h2>
@@ -148,12 +148,12 @@ const EliteTestimonials = () => {
                 <div className="h-[1px] flex-1 bg-zinc-900 mt-4" />
               </div>
 
-              <blockquote className="text-3xl md:text-4xl font-black text-white uppercase leading-tight tracking-tight mb-10">
+              <blockquote className="text-3xl md:text-4xl font-bold text-white uppercase leading-tight tracking-tight mb-10">
                 "{activeTestimonial.quote}"
               </blockquote>
 
               <div className="flex items-center gap-6 border-t border-zinc-900 pt-8">
-                <div className="w-12 h-12 bg-zinc-950 border border-zinc-900 flex items-center justify-center text-zinc-700 font-black">
+                <div className="w-12 h-12 bg-zinc-950 border border-zinc-900 flex items-center justify-center text-zinc-700 font-bold">
                   0{activeIndex + 1}
                 </div>
                 <div>

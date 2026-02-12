@@ -128,7 +128,7 @@ export default function LiveChatWidget() {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950 border border-zinc-900 text-zinc-600 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all duration-300"
+                        className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950/80 backdrop-blur-xl border border-zinc-800 text-zinc-400 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-orange-600 hover:text-white hover:border-orange-500 transition-all duration-300 rounded-full shadow-2xl"
                     >
                         <MessageCircle className="w-8 h-8 mb-1" />
                         <span className="text-[9px] font-mono font-bold uppercase tracking-widest">RELAY_v1</span>
@@ -153,14 +153,14 @@ export default function LiveChatWidget() {
                         }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         className={cn(
-                            "fixed bottom-10 right-10 z-50 w-[400px] bg-black border border-zinc-900 shadow-2xl flex flex-col font-mono",
+                            "fixed bottom-10 right-10 z-50 w-[400px] bg-[#0A0A0A]/90 backdrop-blur-3xl border border-white/10 shadow-2xl flex flex-col font-sans rounded-3xl overflow-hidden",
                             isMinimized ? "" : ""
                         )}
                     >
                         {/* Header */}
                         <div className="bg-zinc-950 border-b border-zinc-900 p-6 flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-black border border-zinc-900 flex items-center justify-center">
+                                <div className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center rounded-full">
                                     <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
                                 </div>
                                 <div className="space-y-1">
@@ -173,13 +173,13 @@ export default function LiveChatWidget() {
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setIsMinimized(!isMinimized)}
-                                    className="w-8 h-8 flex items-center justify-center bg-black border border-zinc-900 hover:bg-zinc-900 text-zinc-500 transition-colors"
+                                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 transition-colors rounded-full"
                                 >
                                     {isMinimized ? <Maximize2 className="w-3 h-3" /> : <Minimize2 className="w-3 h-3" />}
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="w-8 h-8 flex items-center justify-center bg-black border border-zinc-900 hover:bg-orange-600 hover:text-white hover:border-orange-600 text-zinc-500 transition-colors"
+                                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-orange-600 hover:text-white hover:border-orange-500 text-zinc-400 transition-colors rounded-full"
                                 >
                                     <X className="w-3 h-3" />
                                 </button>
@@ -204,8 +204,8 @@ export default function LiveChatWidget() {
                                             )}
                                             <div
                                                 className={`max-w-[75%] p-4 border ${msg.sender === 'user'
-                                                    ? 'bg-zinc-950 border-zinc-900 text-zinc-300'
-                                                    : 'bg-black border-zinc-900 text-zinc-500'
+                                                    ? 'bg-orange-600 text-white rounded-2xl rounded-tr-sm'
+                                                    : 'bg-white/5 border-white/10 text-zinc-300 rounded-2xl rounded-tl-sm'
                                                     }`}
                                             >
                                                 <p className="text-[11px] leading-relaxed font-bold tracking-wide uppercase">{msg.text}</p>
@@ -250,13 +250,13 @@ export default function LiveChatWidget() {
                                                 value={message}
                                                 onChange={(e) => setMessage(e.target.value)}
                                                 placeholder="ENTER_COMMAND..."
-                                                className="w-full bg-black border border-zinc-900 h-12 pl-8 pr-4 text-xs font-bold text-white placeholder:text-zinc-700 focus-visible:ring-0 focus-visible:border-orange-600 transition-colors uppercase tracking-widest rounded-none"
+                                                className="w-full bg-white/5 border border-white/10 h-12 pl-6 pr-4 text-xs font-bold text-white placeholder:text-zinc-600 focus-visible:ring-0 focus-visible:border-orange-500 transition-colors rounded-xl"
                                             />
                                         </div>
                                         <Button
                                             type="submit"
                                             disabled={!message.trim()}
-                                            className="w-12 h-12 bg-white hover:bg-orange-600 text-black hover:text-white rounded-none border border-zinc-900 transition-all font-bold"
+                                            className="w-12 h-12 bg-orange-600 hover:bg-orange-500 text-white border-0 transition-all font-bold rounded-xl shadow-lg shadow-orange-900/20"
                                         >
                                             <Send className="w-4 h-4" />
                                         </Button>

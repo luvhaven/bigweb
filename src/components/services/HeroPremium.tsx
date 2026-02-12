@@ -259,7 +259,7 @@ export default function HeroPremium({
                     </div>
 
                     {/* Headline */}
-                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter-extreme mb-12 leading-[0.85] uppercase text-white">
+                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter-extreme mb-12 leading-[0.85] uppercase text-white">
                         {title} <br className="hidden md:block" />
                         <span className={cn(
                             "bg-gradient-to-r bg-clip-text text-transparent inline-block",

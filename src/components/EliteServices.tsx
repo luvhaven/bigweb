@@ -67,11 +67,11 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
 
             {/* Number & Tech Header */}
             <div className="flex justify-between items-start p-8 border-b border-zinc-900">
-              <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-zinc-700 to-zinc-900 font-mono tracking-tighter">
+              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-zinc-700 to-zinc-900 font-mono tracking-tighter">
                 {service.number}
               </span>
               <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest group-hover:text-orange-600 transition-colors">
-                SYS_MOD_{service.number}
+                Performance Module {service.number}
               </span>
             </div>
 
@@ -81,11 +81,11 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
               <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.05]" />
 
               <div className="relative z-10 mb-20">
-                <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
+                <h3 className="text-3xl md:text-4xl font-bold text-white uppercase italic tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
                   {service.title}
                 </h3>
                 <p className="text-sm font-mono text-zinc-500 uppercase tracking-wide leading-relaxed max-w-sm">
-                  // {service.description}
+                  {service.description}
                 </p>
               </div>
 
@@ -112,18 +112,18 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
 
           {/* Header */}
           <div className="flex justify-between items-start p-8 border-b border-orange-900/30 relative z-10">
-            <span className="text-4xl font-black text-orange-600 font-mono tracking-tighter mix-blend-screen">
+            <span className="text-4xl font-bold text-orange-600 font-mono tracking-tighter mix-blend-screen">
               {service.number}
             </span>
             <span className="px-2 py-1 bg-orange-600/20 text-orange-500 text-[10px] font-mono font-bold uppercase tracking-widest border border-orange-600/30">
-              ACTIVE_NODE
+              ADVANCED SYSTEM
             </span>
           </div>
 
           {/* Body */}
           <div className="p-8 md:p-12 flex-1 flex flex-col justify-between relative z-10">
             <div className="mb-20">
-              <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter mb-6 text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
+              <h3 className="text-3xl md:text-4xl font-bold text-white uppercase italic tracking-tighter mb-6 text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
                 {service.title}
               </h3>
               <div className="space-y-2">
@@ -171,11 +171,11 @@ const EliteServices = () => {
             <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
               <span className="w-2 h-2 bg-orange-600 animate-pulse" />
               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
-                Core_Capabilities_v2
+                Strategic Capabilities
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl lg:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-white">
-              Tactical <br /> <span className="text-zinc-800">Deployment.</span>
+            <h2 className="text-4xl md:text-6xl lg:text-[8rem] font-bold tracking-tighter uppercase italic leading-[0.8] text-white">
+              Professional <br /> <span className="text-zinc-800">Services.</span>
             </h2>
           </motion.div>
         </div>

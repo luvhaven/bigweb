@@ -8,10 +8,21 @@ import {
     Users,
     HelpCircle,
     FileText,
-    BarChart
+    BarChart,
+    Layout,
+    Library,
+    Megaphone,
+    Layers
 } from 'lucide-react'
 
 const cmsModules = [
+    {
+        title: 'Pages',
+        description: 'Manage website pages and content',
+        href: '/admin/cms/pages',
+        icon: Layout,
+        color: 'text-indigo-400'
+    },
     {
         title: 'Hero Sections',
         description: 'Manage hero content for all pages',
@@ -30,7 +41,7 @@ const cmsModules = [
         title: 'Footer',
         description: 'Manage footer sections and links',
         href: '/admin/cms/footer',
-        icon: FooterIcon,
+        icon: Layers,
         color: 'text-purple-400'
     },
     {
@@ -55,11 +66,25 @@ const cmsModules = [
         color: 'text-pink-400'
     },
     {
+        title: 'Campaigns',
+        description: 'Manage sales and launches',
+        href: '/admin/cms/campaigns',
+        icon: Megaphone,
+        color: 'text-amber-400'
+    },
+    {
         title: 'Blog Posts',
         description: 'Manage blog content',
         href: '/admin/blog',
         icon: FileText,
         color: 'text-yellow-400'
+    },
+    {
+        title: 'Media Library',
+        description: 'Organize images, videos, and documents',
+        href: '/admin/cms/media',
+        icon: Library,
+        color: 'text-pink-400'
     },
     {
         title: 'Analytics',

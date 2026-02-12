@@ -114,7 +114,7 @@ export default function GAIOClient() {
                             className="inline-flex items-center gap-3 px-5 py-2 rounded-full backdrop-blur-3xl bg-white/5 border border-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.1)] mb-8"
                         >
                             <Target className="w-4 h-4 text-indigo-400" />
-                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-indigo-400">
+                            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-indigo-400">
                                 Calibration System: {PRODUCT_NAME}
                             </span>
                         </motion.div>
@@ -124,7 +124,7 @@ export default function GAIOClient() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.8 }}
-                            className="text-4xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter uppercase leading-[0.85] italic"
+                            className="text-4xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tighter uppercase leading-[0.85] italic"
                         >
                             The Answer<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-indigo-600 to-blue-600">
@@ -147,9 +147,9 @@ export default function GAIOClient() {
                             transition={{ delay: 0.5, duration: 0.8 }}
                             className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-tight mb-12 font-light"
                         >
-                            Google is no longer the search gatekeeper. <strong className="text-white font-black italic">LLMs are.</strong>
+                            Google is no longer the search gatekeeper. <strong className="text-white font-bold italic">LLMs are.</strong>
                             <br />
-                            We calibrate AI models to cite your brand as the <span className="text-white font-black underline decoration-indigo-500 underline-offset-8">absolute industry authority</span>.
+                            We calibrate AI models to cite your brand as the <span className="text-white font-bold underline decoration-indigo-500 underline-offset-8">absolute industry authority</span>.
                         </motion.p>
 
                         <motion.div
@@ -160,7 +160,7 @@ export default function GAIOClient() {
                         >
                             <Link
                                 href="/contact"
-                                className="group relative px-10 py-5 rounded-xl bg-indigo-600 text-white font-black uppercase tracking-widest text-sm hover:bg-indigo-500 transition-all hover:scale-105 shadow-2xl shadow-indigo-500/20"
+                                className="group relative px-10 py-5 rounded-full bg-indigo-600 text-white font-bold uppercase tracking-widest text-sm hover:bg-indigo-500 transition-all hover:scale-105 shadow-2xl shadow-indigo-500/20"
                             >
                                 <span className="relative z-10 flex items-center gap-3">
                                     <Brain className="w-5 h-5" />
@@ -170,7 +170,7 @@ export default function GAIOClient() {
                             </Link>
                             <Link
                                 href="#demo"
-                                className="px-10 py-5 rounded-xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-sm hover:bg-white/10 transition-all font-bold"
+                                className="px-10 py-5 rounded-full bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-sm hover:bg-white/10 transition-all"
                             >
                                 Live Demo
                             </Link>
@@ -180,8 +180,8 @@ export default function GAIOClient() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-50 border-t border-white/5 pt-12">
                             {socialProof.map((stat, i) => (
                                 <div key={i} className="text-center">
-                                    <div className="text-3xl font-black text-white italic mb-1">{stat.value}</div>
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{stat.label}</div>
+                                    <div className="text-3xl font-bold text-white italic mb-1">{stat.value}</div>
+                                    <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{stat.label}</div>
                                 </div>
                             ))}
                         </div>
@@ -196,11 +196,11 @@ export default function GAIOClient() {
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
-                            className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-6"
+                            className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-6"
                         >
                             <Search className="w-4 h-4" /> Live Calibration Monitor
                         </motion.div>
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8 leading-none">
+                        <h2 className="text-5xl md:text-7xl font-bold text-white uppercase italic tracking-tighter mb-8 leading-none">
                             The <span className="text-zinc-800">Calibration</span> Result
                         </h2>
                         <p className="text-xl text-zinc-500 max-w-2xl mx-auto uppercase font-bold tracking-widest">
@@ -215,7 +215,7 @@ export default function GAIOClient() {
             {/* Outcome Framework */}
             <section className="py-32 relative overflow-hidden bg-[#050505]">
                 <div className="container mx-auto px-6 mb-24 text-center">
-                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">
+                    <h2 className="text-4xl md:text-6xl font-bold text-white uppercase italic tracking-tighter mb-6">
                         Forensic <span className="text-indigo-500">Intelligence</span>
                     </h2>
                     <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-medium">
@@ -231,17 +231,17 @@ export default function GAIOClient() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="group p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition-all duration-500"
+                                className="group p-10 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition-all duration-500"
                             >
                                 <div className="p-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 w-fit mb-8 group-hover:scale-110 transition-transform duration-500">
                                     <outcome.icon className="w-8 h-8 text-indigo-500" />
                                 </div>
-                                <h3 className="text-2xl font-black text-white uppercase italic mb-4">{outcome.title}</h3>
+                                <h3 className="text-2xl font-bold text-white uppercase italic mb-4">{outcome.title}</h3>
                                 <p className="text-zinc-400 font-medium mb-12 text-lg leading-relaxed">{outcome.description}</p>
 
                                 <div className="pt-8 border-t border-white/10 flex flex-col gap-1">
-                                    <div className="text-5xl font-black text-indigo-500 italic tracking-tighter">{outcome.metric}</div>
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
+                                    <div className="text-5xl font-bold text-indigo-500 italic tracking-tighter">{outcome.metric}</div>
+                                    <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">{outcome.metricLabel}</div>
                                 </div>
                             </motion.div>
                         ))}
@@ -253,10 +253,10 @@ export default function GAIOClient() {
             <section id="process" className="py-40 relative bg-white/[0.01]">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-8">
+                        <h2 className="text-5xl md:text-7xl font-bold text-white uppercase italic tracking-tighter mb-8">
                             Instruction <span className="text-indigo-500">System</span>
                         </h2>
-                        <p className="text-xl text-zinc-500 uppercase tracking-widest font-black">
+                        <p className="text-xl text-zinc-500 uppercase tracking-widest font-bold">
                             How we embed your brand into the global knowledge graph.
                         </p>
                     </div>
@@ -267,16 +267,16 @@ export default function GAIOClient() {
                                 key={i}
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                className="flex gap-8 md:gap-12 p-10 rounded-[3rem] bg-black border border-white/5 hover:border-indigo-500/20 transition-all relative group"
+                                className="flex gap-8 md:gap-12 p-10 rounded-3xl bg-black border border-white/5 hover:border-indigo-500/20 transition-all relative group"
                             >
-                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-indigo-600 rounded-lg text-white font-black text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
+                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 py-4 px-2 bg-indigo-600 rounded-lg text-white font-bold text-[10px] uppercase [writing-mode:vertical-lr] tracking-widest transform transition-transform group-hover:scale-110">
                                     Phase {i + 1}
                                 </div>
 
                                 <div className="flex-1 space-y-6">
                                     <div>
-                                        <div className="text-indigo-500 font-black uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
-                                        <h3 className="text-3xl md:text-4xl font-black text-white uppercase italic leading-none">{step.title}</h3>
+                                        <div className="text-indigo-500 font-bold uppercase text-[10px] tracking-widest mb-2">{step.phase}</div>
+                                        <h3 className="text-3xl md:text-4xl font-bold text-white uppercase italic leading-none">{step.title}</h3>
                                     </div>
                                     <p className="text-xl text-zinc-400 font-medium leading-relaxed">{step.outcome}</p>
 
@@ -299,19 +299,19 @@ export default function GAIOClient() {
             <section className="py-40 relative overflow-hidden">
                 <div className="absolute inset-0 bg-indigo-600/5 blur-[120px]" />
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-[4rem] bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+                    <div className="max-w-5xl mx-auto p-16 md:p-32 rounded-3xl bg-white/[0.02] border border-white/5 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
                         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] scale-150" />
 
                         <div className="relative z-10">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-10"
+                                className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-10"
                             >
                                 <Lock className="w-4 h-4" /> Authority Locked
                             </motion.div>
 
-                            <h2 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-10 leading-none">
+                            <h2 className="text-5xl md:text-8xl font-bold text-white uppercase italic tracking-tighter mb-10 leading-none">
                                 Own The <span className="text-indigo-600">Answer</span>
                             </h2>
 
@@ -323,7 +323,7 @@ export default function GAIOClient() {
 
                             <Link
                                 href="/contact"
-                                className="inline-flex items-center gap-4 px-16 py-8 rounded-[2rem] bg-white text-black font-black uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+                                className="inline-flex items-center gap-4 px-16 py-8 rounded-full bg-white text-black font-bold uppercase tracking-[0.2em] text-xl transition-all hover:scale-105 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
                             >
                                 <Cpu className="w-8 h-8" />
                                 Begin Calibration

@@ -77,7 +77,7 @@ export default function CapabilityPageLayout({
                                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-zinc-400">{subtitle}</span>
                             </div>
 
-                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic">
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 leading-[0.9] uppercase italic">
                                 {(dynamicHero?.title || title).split(' ').map((word, i, arr) => (
                                     <span key={i} className={i === arr.length - 1 ? 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600' : 'text-white'}>
                                         {word}{' '}
@@ -100,12 +100,12 @@ export default function CapabilityPageLayout({
 
                             <div className="flex flex-col sm:flex-row gap-6">
                                 <Link href="/contact">
-                                    <Button className="h-16 px-10 rounded-none bg-white text-black hover:bg-orange-500 hover:text-white font-black uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(249,115,22,0.3)]">
+                                    <Button className="h-16 px-10 rounded-xl bg-white text-black hover:bg-orange-500 hover:text-white font-bold uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(249,115,22,0.3)]">
                                         Initiate Engagement
                                     </Button>
                                 </Link>
                                 <Link href="#details">
-                                    <Button variant="outline" className="h-16 px-10 rounded-none border-zinc-800 text-zinc-400 hover:text-white hover:border-white font-bold uppercase tracking-[0.2em] text-xs">
+                                    <Button variant="outline" className="h-16 px-10 rounded-xl border-zinc-800 text-zinc-400 hover:text-white hover:border-white font-bold uppercase tracking-[0.2em] text-xs">
                                         Explore Intelligence
                                     </Button>
                                 </Link>
@@ -122,7 +122,7 @@ export default function CapabilityPageLayout({
                         <div className="grid md:grid-cols-12 gap-12 items-center">
                             <div className="md:col-span-5">
                                 <div className="text-[10px] font-bold text-red-500 uppercase tracking-[0.4em] mb-6 animate-pulse">Critical_Friction_Detected</div>
-                                <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white mb-6 leading-[0.9]">{dynamicProblem?.title || problem?.title}</h2>
+                                <h2 className="text-4xl md:text-5xl font-bold uppercase italic text-white mb-6 leading-[0.9]">{dynamicProblem?.title || problem?.title}</h2>
                                 <div className="w-20 h-1 bg-gradient-to-r from-red-600 to-transparent mb-8" />
                             </div>
                             <div className="md:col-span-7">
@@ -151,7 +151,7 @@ export default function CapabilityPageLayout({
                                     return (
                                         <div key={section.id} className="p-8 border border-white/5 bg-white/[0.02] hover:border-orange-500/30 transition-all duration-300 group">
                                             <Icon className="w-8 h-8 text-zinc-600 group-hover:text-orange-500 transition-colors mb-6" />
-                                            <h3 className="text-xl font-black uppercase italic text-white mb-4 group-hover:translate-x-1 transition-transform">{section.title}</h3>
+                                            <h3 className="text-xl font-bold uppercase italic text-white mb-4 group-hover:translate-x-1 transition-transform">{section.title}</h3>
                                             <p className="text-sm text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors">{section.description}</p>
                                         </div>
                                     )
@@ -163,7 +163,7 @@ export default function CapabilityPageLayout({
                                             {Icon && (
                                                 <Icon className="w-8 h-8 text-zinc-600 group-hover:text-orange-500 transition-colors mb-6" />
                                             )}
-                                            <h3 className="text-xl font-black uppercase italic text-white mb-4 group-hover:translate-x-1 transition-transform">{feature.title}</h3>
+                                            <h3 className="text-xl font-bold uppercase italic text-white mb-4 group-hover:translate-x-1 transition-transform">{feature.title}</h3>
                                             <p className="text-sm text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors">{feature.desc}</p>
                                         </div>
                                     )
@@ -179,7 +179,7 @@ export default function CapabilityPageLayout({
                     <div className="container mx-auto px-6">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <div>
-                                <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-8 leading-none">
+                                <h2 className="text-4xl md:text-5xl font-bold uppercase italic tracking-tighter mb-8 leading-none">
                                     The <span className="text-zinc-700">Advantage.</span>
                                 </h2>
                                 <ul className="space-y-8">
@@ -227,13 +227,13 @@ export default function CapabilityPageLayout({
                 <section className="py-24 bg-[#080808] border-y border-white/5">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-20">
-                            <h2 className="text-3xl md:text-4xl font-black uppercase italic text-white tracking-tighter mb-4">{methodology.title}</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white tracking-tighter mb-4">{methodology.title}</h2>
                             <div className="w-24 h-1 bg-orange-600 mx-auto" />
                         </div>
                         <div className="grid md:grid-cols-4 gap-6">
                             {methodology.steps.map((step, i) => (
                                 <div key={i} className="relative p-8 border border-white/5 bg-black hover:border-orange-500/30 transition-all duration-300 group">
-                                    <div className="absolute -top-4 -left-4 text-4xl font-black text-zinc-900 italic select-none group-hover:text-orange-900/20 transition-colors">0{i + 1}</div>
+                                    <div className="absolute -top-4 -left-4 text-4xl font-bold text-zinc-900 italic select-none group-hover:text-orange-900/20 transition-colors">0{i + 1}</div>
                                     <div className="relative z-10">
                                         <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-3 group-hover:text-orange-500 transition-colors">{step.title}</h3>
                                         <div className="w-8 h-[2px] bg-zinc-800 mb-4 group-hover:bg-orange-500 transition-colors" />
