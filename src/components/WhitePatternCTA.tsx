@@ -37,8 +37,8 @@ export default function WhitePatternCTA() {
                   transition={{ duration: 0.5 }}
                   className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10"
                 >
-                  <Sparkles className="w-4 h-4 text-orange-600" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent">
                     System_Expansion_Available
                   </span>
                 </motion.div>
@@ -74,7 +74,7 @@ export default function WhitePatternCTA() {
                   <Link href="/offers/diagnostic">
                     <Button
                       size="xl"
-                      className="h-20 px-12 bg-white text-black hover:bg-orange-600 hover:text-white border border-transparent hover:border-orange-600 text-xs font-bold uppercase tracking-[0.3em] rounded-xl shadow-none transition-all group"
+                      className="h-20 px-12 bg-white text-black hover:bg-accent hover:text-white border border-transparent hover:border-accent text-xs font-bold uppercase tracking-[0.3em] rounded-xl shadow-none transition-all group"
                     >
                       Start_System_Audit
                       <ArrowRight className="ml-4 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -117,23 +117,23 @@ export default function WhitePatternCTA() {
             }
           >
             {/* REVEALED CONTENT (Neural Pattern) */}
-            <div className="text-center p-20 bg-zinc-950 border border-orange-600/30 overflow-hidden relative">
-              <div className="absolute inset-0 bg-orange-600/10 mix-blend-overlay" />
+            <div className="text-center p-20 bg-zinc-950 border border-accent/30 overflow-hidden relative">
+              <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" />
               <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2]" />
 
               <div className="relative z-10">
                 <h2 className="text-5xl md:text-[8rem] font-bold text-white uppercase italic tracking-tighter leading-[0.8] mb-12">
-                  <span className="text-orange-500">OPTIMIZE</span> <br />
+                  <span className="text-accent">OPTIMIZE</span> <br />
                   <span className="text-white">EVERY NODE.</span>
                 </h2>
 
                 <div className="flex justify-center gap-4 mb-8">
                   {Array.from({ length: 12 }).map((_, i) => (
-                    <div key={i} className="w-1 h-8 bg-orange-600/30 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                    <div key={i} className="w-1 h-8 bg-accent/30 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
                   ))}
                 </div>
 
-                <p className="text-orange-500 font-mono text-sm uppercase tracking-[0.5em] font-bold">Protocol_Override_Success</p>
+                <p className="text-accent font-mono text-sm uppercase tracking-[0.5em] font-bold">Protocol_Override_Success</p>
               </div>
             </div>
           </PhysicsReveal>

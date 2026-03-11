@@ -48,14 +48,14 @@ const colorVariants = {
         orb: "bg-purple-500/10"
     },
     orange: {
-        text: "text-orange-400",
-        border: "border-orange-500/30",
-        bg: "bg-orange-500/5",
-        bgSolid: "bg-orange-600",
-        bgHover: "hover:bg-orange-500",
-        shadow: "shadow-orange-500/20",
-        gradient: "from-orange-400 via-amber-400 to-orange-600",
-        orb: "bg-orange-500/10"
+        text: "text-accent-light",
+        border: "border-accent/30",
+        bg: "bg-accent/5",
+        bgSolid: "bg-accent",
+        bgHover: "hover:bg-accent",
+        shadow: "shadow-accent/20",
+        gradient: "from-accent-light via-amber-400 to-accent",
+        orb: "bg-accent/10"
     },
     emerald: {
         text: "text-emerald-400",
@@ -114,7 +114,7 @@ const colorVariants = {
         bgSolid: "bg-yellow-600",
         bgHover: "hover:bg-yellow-500",
         shadow: "shadow-yellow-500/20",
-        gradient: "from-yellow-400 via-orange-400 to-yellow-600",
+        gradient: "from-yellow-400 via-accent-light to-yellow-600",
         orb: "bg-yellow-500/10"
     }
 }
@@ -321,7 +321,7 @@ export default function HeroPremium({
             {/* Scroll Indicator */}
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-20">
                 <motion.div
-                    className="w-px h-20 bg-gradient-to-b from-transparent via-orange-500 to-transparent"
+                    className="w-px h-20 bg-gradient-to-b from-transparent via-accent to-transparent"
                     animate={{
                         scaleY: [1, 1.3, 1],
                         opacity: [0.3, 0.7, 0.3],

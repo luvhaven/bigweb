@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import ImageUpload from '@/components/admin/ImageUpload'
 
 interface Settings {
     id: string
@@ -172,39 +173,22 @@ export default function SettingsPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* Logo */}
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-400 mb-3">Main Logo</label>
-                                <div className="space-y-3">
-                                    <div className="w-full h-32 bg-zinc-950 border border-dashed border-zinc-800 rounded-lg flex items-center justify-center relative overflow-hidden group">
-                                        {settings.logo_url ? (
-                                            <img src={settings.logo_url} alt="Logo" className="max-w-full max-h-full p-4 object-contain" />
-                                        ) : (
-                                            <span className="text-zinc-600 text-sm">No logo</span>
-                                        )}
-                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                            <p className="text-xs text-white">Change Image</p>
-                                        </div>
-                                    </div>
-                                    <Input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo_url')} className="cursor-pointer" />
-                                </div>
-                            </div>
-
-                            {/* Favicon */}
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-400 mb-3">Favicon</label>
-                                <div className="space-y-3">
-                                    <div className="w-16 h-16 bg-zinc-950 border border-dashed border-zinc-800 rounded-lg flex items-center justify-center relative overflow-hidden">
-                                        {settings.favicon_url ? (
-                                            <img src={settings.favicon_url} alt="Favicon" className="w-8 h-8 object-contain" />
-                                        ) : (
-                                            <div className="w-8 h-8 rounded bg-zinc-800" />
-                                        )}
-                                    </div>
-                                    <Input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, 'favicon_url')} className="cursor-pointer" />
-                                    <p className="text-xs text-zinc-500">Recommended: 32x32 SVG or PNG</p>
-                                </div>
-                            </div>
+                            <ImageUpload
+                                label="Main Logo"
+                                value={settings.logo_url || ''}
+                                onChange={(url) => setSettings({ ...settings, logo_url: url })}
+                                bucket="media"
+                                folder="settings"
+                                hint="SVG, PNG, or WebP recommended. Appears in header & footer."
+                            />
+                            <ImageUpload
+                                label="Favicon"
+                                value={settings.favicon_url || ''}
+                                onChange={(url) => setSettings({ ...settings, favicon_url: url })}
+                                bucket="media"
+                                folder="settings"
+                                hint="Recommended: 32×32 SVG or PNG."
+                            />
                         </div>
                     </motion.div>
 

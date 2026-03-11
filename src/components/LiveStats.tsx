@@ -32,7 +32,7 @@ export default function LiveStats() {
             prefix: '$',
             suffix: 'M+',
             description: 'Client Success',
-            color: 'text-orange-600'
+            color: 'text-accent'
         },
         {
             icon: Globe,
@@ -63,8 +63,8 @@ export default function LiveStats() {
                     {/* Integrated Monitoring Badge */}
                     <div className="flex items-center gap-4 bg-white/[0.02] backdrop-blur-3xl border border-white/10 px-6 py-2.5 rounded-full shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
                         <div className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full bg-orange-500 opacity-40 rounded-full"></span>
-                            <span className="relative inline-flex h-2 w-2 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)] rounded-full"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full bg-accent opacity-40 rounded-full"></span>
+                            <span className="relative inline-flex h-2 w-2 bg-accent shadow-[0_0_10px_rgba(249,115,22,0.8)] rounded-full"></span>
                         </div>
                         <span className="text-[10px] font-black text-zinc-400 tracking-[0.4em] uppercase">
                             Operational Intelligence <span className="text-zinc-700 ml-2">Monitor_v4</span>
@@ -88,7 +88,7 @@ export default function LiveStats() {
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-orange-600 rounded-full opacity-60 scale-0 group-hover/stat:scale-100 transition-transform" />
+                                    <div className="w-1.5 h-1.5 bg-accent rounded-full opacity-60 scale-0 group-hover/stat:scale-100 transition-transform" />
                                     <span className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] group-hover/stat:text-zinc-400 transition-colors">
                                         {stat.label}
                                     </span>

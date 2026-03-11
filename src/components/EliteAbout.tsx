@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { gsap } from 'gsap';
-import { GitBranch, Binary, Globe, Activity, TrendingUp } from 'lucide-react';
+import { GitBranch, Binary, Globe, Activity, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { MouseReveal, RevealPatterns } from '@/components/ui/MouseReveal';
@@ -89,7 +89,7 @@ const EliteAbout = () => {
   const scale = useTransform(imageProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
 
   return (
-    <section id="about" className="relative bg-secondary/30">
+    <section id="about" className="relative bg-[#050505]">
       <MouseReveal
         revealContent={<RevealPatterns.Grid />}
         revealSize={400}
@@ -143,7 +143,7 @@ const EliteAbout = () => {
                   <div key={i} className="bg-black p-8 group/stat">
                     <div className="flex justify-between items-start mb-6">
                       <div className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">{stat.label}</div>
-                      <stat.icon className="w-4 h-4 text-zinc-800 group-hover/stat:text-orange-600 transition-colors" />
+                      <stat.icon className="w-4 h-4 text-zinc-800 group-hover/stat:text-accent transition-colors" />
                     </div>
                     <div className="text-4xl md:text-5xl font-black text-white italic tracking-tighter">
                       {stat.prefix}<span className="stat-number" data-target={stat.value}>0</span>{stat.suffix}
@@ -177,7 +177,7 @@ const EliteAbout = () => {
                       alt="Team Revealed"
                       className="w-full h-full object-cover contrast-125 transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-orange-600/10 mix-blend-color-dodge pointer-events-none" />
+                    <div className="absolute inset-0 bg-accent/10 mix-blend-color-dodge pointer-events-none" />
                     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:10px_10px] opacity-[0.2]" />
                   </div>
                 </PhysicsReveal>
@@ -186,7 +186,7 @@ const EliteAbout = () => {
 
               {/* Floating Card */}
               <motion.div
-                className="absolute -bottom-12 -left-12 bg-zinc-950 p-10 max-w-xs border border-zinc-900 hover:border-orange-600 transition-all duration-500 shadow-2xl z-20"
+                className="absolute -bottom-12 -left-12 bg-zinc-950 p-10 max-w-xs border border-zinc-900 hover:border-accent transition-all duration-500 shadow-2xl z-20"
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}

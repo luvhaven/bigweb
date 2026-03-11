@@ -1,142 +1,150 @@
 import { getFeaturedProjects } from '@/actions/portfolio'
 import { getFeaturedTestimonials } from '@/actions/testimonials'
 import { getServices } from '@/actions/services'
-import { getHeroByPage } from '@/actions/cms'
 import { getPageMetadata } from '@/lib/data/cms'
+import {
+  getCmsProjects,
+  getCmsTestimonials,
+  getCmsGrowthPackages,
+  getEngagements,
+  getCmsFooterData,
+  getCmsHero,
+  getStatistics,
+  getProcessPhases,
+  getCmsClients,
+  getVideoShowroom,
+} from '@/actions/cms'
+import { getGlobalStats } from '@/actions/stats'
 import type { Metadata } from 'next'
 
+import HomepageHero from '@/components/HomepageHero'
+import CleanProcess from '@/components/CleanProcess'
+import FinalCTA from '@/components/FinalCTA'
+import Footer from '@/components/Footer'
 import AdvancedNavigation from '@/components/AdvancedNavigation'
-import VerticalSplitHero from '@/components/VerticalSplitHero'
-import ProblemSolution from '@/components/ProblemSolution'
+import ClientMarquee from '@/components/trust/ClientMarquee'
 import CompetitiveEdge from '@/components/CompetitiveEdge'
 import SimplePricing from '@/components/SimplePricing'
-import RevenueRoadmap from '@/components/RevenueRoadmap'
-import HowItWorksCards from '@/components/HowItWorksCards'
+import BrutalComparison from '@/components/BrutalComparison'
 import ElitePortfolio from '@/components/ElitePortfolio'
-import ClientMarquee from '@/components/trust/ClientMarquee'
 import PremiumTestimonials from '@/components/PremiumTestimonials'
-import TrustBadges from '@/components/trust/TrustBadges'
-import Footer from '@/components/Footer'
-import LiveStats from '@/components/LiveStats'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import Magnetic from '@/components/ui/Magnetic'
+import ImpactNumbers from '@/components/ImpactNumbers'
+import VideoShowroom from '@/components/VideoShowroom'
+import SocialProofToast from '@/components/SocialProofToast'
+import ExitIntentModal from '@/components/ExitIntentModal'
+import SectionBridge from '@/components/effects/SectionBridge'
 
-// Set to 0 for immediate reflection as requested by user
-export const revalidate = 0
+export const revalidate = 60
 
 export async function generateMetadata(): Promise<Metadata> {
-  const metadata = await getPageMetadata('/')
+  const metadata = await getPageMetadata('/').catch(() => null)
 
   return {
-    title: metadata?.title || 'BIGWEB Digital',
-    description: metadata?.description || 'Elite Web Engineering',
+    title: metadata?.title || 'BIGWEB Digital — The World\'s #1 Revenue-Focused Web Agency',
+    description: metadata?.description || 'We engineer digital revenue machines for industry leaders and ambitious startups. Strategy, design, and elite web engineering that compounds growth.',
     keywords: metadata?.keywords || [],
     openGraph: {
       title: metadata?.og_title || metadata?.title || 'BIGWEB Digital',
-      description: metadata?.og_description || metadata?.description || 'Elite Web Engineering',
+      description: metadata?.og_description || metadata?.description || 'Strategy, design, and engineering for brands that refuse to blend in.',
     }
   }
 }
 
 export default async function HomePage() {
-  // Parallel data fetching for maximum performance
-  const [projects, testimonials, services] = await Promise.all([
-    getFeaturedProjects(),
-    getFeaturedTestimonials(),
-    getServices()
+  const [
+    projects,
+    cmsProjects,
+    testimonials,
+    cmsTestimonials,
+    services,
+    stats,
+    statistics,
+    heroStats,
+    engagements,
+    cmsPackages,
+    footerData,
+    processPhases,
+    clients,
+    hero,
+    videos,
+  ] = await Promise.all([
+    getFeaturedProjects().catch(() => []),
+    getCmsProjects(true).catch(() => []),
+    getFeaturedTestimonials().catch(() => []),
+    getCmsTestimonials(true).catch(() => []),
+    getServices().catch(() => []),
+    getGlobalStats().catch(() => null),
+    getStatistics().catch(() => []),
+    getStatistics('homepage-hero').catch(() => []),
+    getEngagements().catch(() => []),
+    getCmsGrowthPackages().catch(() => []),
+    getCmsFooterData().catch(() => ({ settings: null, sections: [] })),
+    getProcessPhases().catch(() => []),
+    getCmsClients().catch(() => []),
+    getCmsHero('homepage').catch(() => null),
+    getVideoShowroom().catch(() => []),
   ])
 
-  // Extract unique categories for portfolio filters
-  const portfolioCategories = ['All', ...new Set(projects.map(p => p.category).filter(Boolean))] as string[]
+  const finalProjects = projects.length > 0 ? projects : cmsProjects
+  const finalTestimonials = testimonials.length > 0 ? testimonials : cmsTestimonials
 
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-accent/30">
+    <main className="relative min-h-screen bg-[#040404] text-foreground overflow-x-hidden">
       <AdvancedNavigation />
 
-      {/* Hero Section - Carousel with Images on Right */}
-      <VerticalSplitHero />
-
-      {/* Live Statistics - Social Proof */}
-      <LiveStats />
-
-      {/* Problem & Solution - Clear Value Prop */}
-      <ProblemSolution />
-
-      {/* Why Choose Us - Differentiation */}
-      <CompetitiveEdge />
-
-      {/* Social Proof */}
-      <ClientMarquee />
-
-      {/* Pricing - Clear Packages / Driven by real services */}
-      <SimplePricing />
-
-      {/* The Growth Path - Story Driven Section */}
-      <RevenueRoadmap />
-
-      {/* Process - How We Work */}
-      <div id="process">
-        <HowItWorksCards />
-      </div>
-
-      {/* Case Studies - Proof (Dynamic) */}
-      <ElitePortfolio
-        title="Success Stories"
-        showViewAll={true}
-        initialProjects={projects}
-        initialCategories={portfolioCategories}
+      {/* 1. Hero */}
+      <HomepageHero
+        stats={heroStats.length > 0 ? heroStats : stats}
+        hero={hero}
       />
 
-      {/* Testimonials (Dynamic) */}
-      <div id="testimonials" className="py-24 md:py-40 border-t border-white/5 bg-[#050505]">
-        <PremiumTestimonials initialTestimonials={testimonials} />
-      </div>
+      {/* 2. Client Social Proof */}
+      <SectionBridge variant="neutral" fromColor="#040404" toColor="#050505" />
+      <ClientMarquee
+        initialStats={stats}
+        initialClients={clients}
+      />
 
-      <TrustBadges />
+      {/* 3. Services */}
+      <SectionBridge variant="gold" fromColor="#050505" toColor="#040404" label="Services" />
+      <CompetitiveEdge initialServices={services} />
 
-      {/* Final CTA */}
-      <section className="py-40 bg-black text-white text-center relative overflow-hidden border-t border-white/5">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:20px_20px] opacity-[0.03]" />
+      {/* 4. Selected Work */}
+      <SectionBridge variant="indigo" fromColor="#040404" toColor="#050505" label="Portfolio" />
+      <ElitePortfolio initialProjects={finalProjects} />
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-[10px] font-mono font-bold text-orange-500 mb-8 uppercase tracking-[0.4em]">Project_Initialization_Protocol</div>
+      {/* 5. Impact Numbers */}
+      <SectionBridge variant="gold" fromColor="#050505" toColor="#040404" label="Results" />
+      <ImpactNumbers initialStats={statistics} />
 
-          <h2 className="text-5xl md:text-9xl font-black mb-10 italic tracking-tighter-extreme uppercase leading-[0.85]">
-            Plug the <br /><span className="text-zinc-800">Leak.</span>
-          </h2>
+      {/* 6. Process */}
+      <SectionBridge variant="neutral" fromColor="#040404" toColor="#060606" label="Process" />
+      <CleanProcess initialPhases={processPhases} />
 
-          <p className="text-xl md:text-2xl mb-16 max-w-2xl mx-auto text-zinc-500 font-medium leading-tight">
-            Deploy the <span className="text-white italic">Conversion_Audit_System_v1.0</span> and receive your clinical battle plan in 7 days.
-          </p>
+      {/* 7. Comparison */}
+      <SectionBridge variant="gold" fromColor="#060606" toColor="#040404" label="Why BIGWEB" />
+      <BrutalComparison />
 
-          <Link href="/offers/revenue-roadmap">
-            <Magnetic strength={0.3} className="mx-auto">
-              <Button
-                className="bg-orange-600 hover:bg-orange-500 text-white font-black text-sm uppercase tracking-widest px-12 h-16 rounded-none shadow-2xl transition-all duration-300 group"
-              >
-                GET MY REVENUE ROADMAP
-                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </Button>
-            </Magnetic>
-          </Link>
+      {/* 8. Video Showroom */}
+      <SectionBridge variant="emerald" fromColor="#040404" toColor="#050505" label="In Action" />
+      <VideoShowroom initialVideos={videos} />
 
-          <div className="mt-16 flex flex-col sm:flex-row justify-center items-center gap-8">
-            <div className="flex flex-col gap-1">
-              <span className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-widest text-left">EST_Time_to_Deliver</span>
-              <span className="text-xs font-bold text-white uppercase text-left">7 Business Days</span>
-            </div>
-            <div className="w-px h-8 bg-zinc-900" />
-            <div className="flex flex-col gap-1">
-              <span className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-widest text-left">Typical_ROI_Delta</span>
-              <span className="text-xs font-bold text-white uppercase text-left">+412% Increase</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 9. Testimonials */}
+      <SectionBridge variant="emerald" fromColor="#050505" toColor="#060606" label="Client Proof" />
+      <PremiumTestimonials initialTestimonials={finalTestimonials} />
 
-      <Footer />
+      {/* 10. Pricing */}
+      <SectionBridge variant="gold" fromColor="#060606" toColor="#040404" label="Pricing" />
+      <SimplePricing initialPackages={engagements.length > 0 ? engagements : cmsPackages} />
+
+      {/* 11. Final CTA */}
+      <SectionBridge variant="gold" fromColor="#040404" toColor="#040404" />
+      <FinalCTA />
+
+      <Footer footerData={footerData} />
+
+      <SocialProofToast />
+      <ExitIntentModal />
     </main>
   )
 }

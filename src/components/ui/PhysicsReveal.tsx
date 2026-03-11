@@ -84,10 +84,10 @@ export const PhysicsReveal: React.FC<PhysicsRevealProps> = ({
 
             {/* Industrial Crosshair Follower */}
             <motion.div
-                className="absolute w-12 h-12 border border-orange-500/30 rounded-full z-40 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute w-12 h-12 border border-accent/30 rounded-full z-40 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{ x, y, left: -24, top: -24 }}
             >
-                <div className="w-1 h-1 bg-orange-500 rounded-full" />
+                <div className="w-1 h-1 bg-accent rounded-full" />
             </motion.div>
         </div>
     )

@@ -21,7 +21,7 @@ export const ChromeShimmer = () => {
                 className="relative w-96 h-96 md:w-[500px] md:h-[500px]"
             >
                 {/* Layered Glass/Chrome Orbs */}
-                <div className="absolute inset-0 rounded-full border border-white/10 backdrop-blur-3xl bg-gradient-to-tr from-white/5 via-orange-500/10 to-transparent shadow-[inset_0_0_80px_rgba(255,255,255,0.05)]" />
+                <div className="absolute inset-0 rounded-full border border-white/10 backdrop-blur-3xl bg-gradient-to-tr from-white/5 via-accent/10 to-transparent shadow-[inset_0_0_80px_rgba(255,255,255,0.05)]" />
 
                 {/* Shimmer Streaks */}
                 <motion.div
@@ -61,7 +61,7 @@ export const ChromeShimmer = () => {
             <motion.div
                 animate={{ y: ['-100%', '200%'] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent z-10 shadow-[0_0_15px_rgba(254,80,0,0.3)]"
+                className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-accent/30 to-transparent z-10 shadow-[0_0_15px_rgba(254,80,0,0.3)]"
             />
 
             {/* Corner Metadata (Refined for Clarity) */}

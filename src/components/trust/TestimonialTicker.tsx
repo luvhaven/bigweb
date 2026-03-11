@@ -56,7 +56,7 @@ export default function TestimonialTicker() {
                 >
                     {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                         <div key={i} className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex text-orange-500">
+                            <div className="flex text-accent">
                                 {[...Array(t.rating)].map((_, starsIndex) => (
                                     <Star key={starsIndex} className="w-3 h-3 fill-current" />
                                 ))}

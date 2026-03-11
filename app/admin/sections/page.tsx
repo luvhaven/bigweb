@@ -93,12 +93,12 @@ export default function SectionsAdmin() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto selection:bg-orange-500/30">
+        <div className="p-8 max-w-7xl mx-auto selection:bg-accent/30">
             {/* Header */}
             <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 bg-orange-600 rounded-none flex items-center justify-center">
+                        <div className="w-10 h-10 bg-accent rounded-none flex items-center justify-center">
                             <Layers className="w-6 h-6 text-white" />
                         </div>
                         <h1 className="text-4xl font-black text-white uppercase tracking-tighter italic">SECTION_REGISTRY</h1>
@@ -108,12 +108,12 @@ export default function SectionsAdmin() {
 
                 <div className="flex items-center gap-4">
                     <div className="relative group">
-                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-hover:text-orange-500 transition-colors" />
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-hover:text-accent transition-colors" />
                         <Input
                             value={filterRoute}
                             onChange={(e) => setFilterRoute(e.target.value)}
                             placeholder="/services/web-engineering"
-                            className="bg-zinc-900/50 border-zinc-800 rounded-none h-12 pl-10 w-64 text-sm font-mono focus:border-orange-500/50 transition-all"
+                            className="bg-zinc-900/50 border-zinc-800 rounded-none h-12 pl-10 w-64 text-sm font-mono focus:border-accent/50 transition-all"
                         />
                     </div>
                     <Button
@@ -165,7 +165,7 @@ export default function SectionsAdmin() {
                                     <div>
                                         <label className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest mb-2 block">Block Type</label>
                                         <select
-                                            className="w-full h-12 bg-black border border-zinc-800 rounded-none px-4 text-white text-sm font-mono focus:border-orange-500 outline-none"
+                                            className="w-full h-12 bg-black border border-zinc-800 rounded-none px-4 text-white text-sm font-mono focus:border-accent outline-none"
                                             value={formData.section_type}
                                             onChange={(e) => setFormData({ ...formData, section_type: e.target.value })}
                                         >
@@ -199,7 +199,7 @@ export default function SectionsAdmin() {
                                     <div>
                                         <label className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest mb-2 block">Description / Body</label>
                                         <textarea
-                                            className="w-full bg-black border border-zinc-800 rounded-none p-4 text-white text-sm focus:border-orange-500 outline-none min-h-[100px]"
+                                            className="w-full bg-black border border-zinc-800 rounded-none p-4 text-white text-sm focus:border-accent outline-none min-h-[100px]"
                                             value={formData.description || ''}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                         />
@@ -215,7 +215,7 @@ export default function SectionsAdmin() {
                                                     key={s}
                                                     onClick={() => setFormData({ ...formData, status: s })}
                                                     className={`flex-1 rounded-none h-12 font-black text-[10px] uppercase tracking-widest transition-all ${formData.status === s
-                                                        ? 'bg-orange-600 text-white'
+                                                        ? 'bg-accent text-white'
                                                         : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800'
                                                         }`}
                                                 >
@@ -264,7 +264,7 @@ export default function SectionsAdmin() {
             <div className="space-y-4">
                 {loading ? (
                     <div className="flex items-center justify-center p-20">
-                        <div className="w-8 h-8 border-t-2 border-orange-500 rounded-full animate-spin" />
+                        <div className="w-8 h-8 border-t-2 border-accent rounded-full animate-spin" />
                     </div>
                 ) : sections.length === 0 ? (
                     <Card className="p-20 text-center bg-zinc-950 border-zinc-900 border-dashed rounded-none">
@@ -275,7 +275,7 @@ export default function SectionsAdmin() {
                     sections.map((section) => (
                         <Card
                             key={section.id}
-                            className={`group overflow-hidden rounded-none bg-zinc-950 border transition-all duration-500 ${section.status === 'published' ? 'border-zinc-900 hover:border-orange-500/30' : 'border-zinc-900 opacity-60'
+                            className={`group overflow-hidden rounded-none bg-zinc-950 border transition-all duration-500 ${section.status === 'published' ? 'border-zinc-900 hover:border-accent/30' : 'border-zinc-900 opacity-60'
                                 }`}
                         >
                             <div className="flex flex-col md:flex-row md:items-stretch">
@@ -288,7 +288,7 @@ export default function SectionsAdmin() {
                                             <span className="text-[10px] font-mono font-black text-zinc-600 uppercase tracking-widest bg-zinc-900 px-2 py-1">
                                                 ID: {section.section_key}
                                             </span>
-                                            <span className="text-[10px] font-mono font-black text-orange-500 uppercase tracking-widest">
+                                            <span className="text-[10px] font-mono font-black text-accent uppercase tracking-widest">
                                                 [{section.section_type}]
                                             </span>
                                         </div>

@@ -65,7 +65,7 @@ export default function FAQSection({ category = 'general', title = 'Everything Y
             <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:40px_40px] opacity-[0.02] pointer-events-none" />
 
             <div className="container mx-auto px-6 max-w-5xl relative z-10">
-                <div className="text-left mb-32 border-l-4 border-orange-600 pl-12 relative overflow-hidden">
+                <div className="text-left mb-32 border-l-4 border-accent pl-12 relative overflow-hidden">
                     <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
                         Clinical_Queries_v2.0
                     </div>
@@ -73,7 +73,7 @@ export default function FAQSection({ category = 'general', title = 'Everything Y
                         Common <br /><span className="text-zinc-800">Inquiries.</span>
                     </h2>
                     <p className="text-zinc-500 text-2xl md:text-5xl font-medium leading-none tracking-tight max-w-5xl">
-                        Technical responses to the infrastructure questions most agencies deflect. <span className="text-white italic underline underline-offset-8 decoration-orange-600">Pure_Transparency</span>.
+                        Technical responses to the infrastructure questions most agencies deflect. <span className="text-white italic underline underline-offset-8 decoration-accent">Pure_Transparency</span>.
                     </p>
                 </div>
 
@@ -93,12 +93,12 @@ export default function FAQSection({ category = 'general', title = 'Everything Y
                                     className="w-full flex items-center justify-between p-12 text-left group"
                                 >
                                     <div className="flex items-center gap-12">
-                                        <span className="text-[11px] font-mono font-bold text-zinc-800 group-hover:text-orange-600 transition-colors uppercase tracking-[0.4em]">LOG_0{index + 1}</span>
-                                        <h3 className={`text-2xl font-black uppercase italic tracking-tighter transition-all ${activeIndex === faq.id ? 'text-orange-600' : 'text-white'}`}>
+                                        <span className="text-[11px] font-mono font-bold text-zinc-800 group-hover:text-accent transition-colors uppercase tracking-[0.4em]">LOG_0{index + 1}</span>
+                                        <h3 className={`text-2xl font-black uppercase italic tracking-tighter transition-all ${activeIndex === faq.id ? 'text-accent' : 'text-white'}`}>
                                             {faq.question}
                                         </h3>
                                     </div>
-                                    <span className={`transition-transform duration-500 ${activeIndex === faq.id ? 'rotate-180 text-orange-600' : 'text-zinc-700'}`}>
+                                    <span className={`transition-transform duration-500 ${activeIndex === faq.id ? 'rotate-180 text-accent' : 'text-zinc-700'}`}>
                                         {activeIndex === faq.id ? <Minus className="w-8 h-8" /> : <Plus className="w-8 h-8" />}
                                     </span>
                                 </button>

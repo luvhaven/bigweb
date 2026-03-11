@@ -25,7 +25,7 @@ const FormattedMessage: React.FC<{ text: string }> = ({ text }) => {
                     }
                     if (part.startsWith('http')) {
                         return (
-                            <a key={j} href={part} target="_blank" rel="noopener noreferrer" className="text-orange-400 underline hover:text-orange-300 break-all transition-colors">
+                            <a key={j} href={part} target="_blank" rel="noopener noreferrer" className="text-accent-light underline hover:text-accent-light break-all transition-colors">
                                 {part.replace('https://', '').replace('www.', '')}
                             </a>
                         )
@@ -39,7 +39,7 @@ const FormattedMessage: React.FC<{ text: string }> = ({ text }) => {
                         <ul key={i} className="space-y-2">
                             {items.map((item, k) => (
                                 <li key={k} className="flex items-start">
-                                    <span className="text-orange-500 mr-2 mt-1.5 w-1 h-1 bg-orange-500 rounded-full" />
+                                    <span className="text-accent mr-2 mt-1.5 w-1 h-1 bg-accent rounded-full" />
                                     <span className="leading-relaxed opacity-80 text-sm">{item.trim()}</span>
                                 </li>
                             ))}
@@ -53,12 +53,12 @@ const FormattedMessage: React.FC<{ text: string }> = ({ text }) => {
 }
 
 const BookingCard: React.FC<{ booking: any }> = ({ booking }) => (
-    <div className="w-full mt-4 bg-zinc-950/50 border border-orange-500/20 rounded-2xl p-5 shadow-lg backdrop-blur-sm">
+    <div className="w-full mt-4 bg-zinc-950/50 border border-accent/20 rounded-2xl p-5 shadow-lg backdrop-blur-sm">
         <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center border border-orange-500/20">
-                <span className="text-sm text-orange-500">✓</span>
+            <div className="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center border border-accent/20">
+                <span className="text-sm text-accent">✓</span>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Confirmed</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-accent">Confirmed</span>
         </div>
         <h4 className="text-white font-bold text-base mb-2">Audit Confirmed</h4>
         <p className="text-zinc-400 text-xs mb-4 leading-relaxed">We're analyzing **{booking.website}**. A senior partner will email **{booking.name}** at **{booking.email}** shortly.</p>
@@ -121,7 +121,7 @@ export default function ChatWidget() {
                         {/* Header */}
                         <div className="p-6 bg-white/5 border-b border-white/5 flex items-center justify-between backdrop-blur-md">
                             <div className="flex items-center space-x-4">
-                                <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.4)]">
+                                <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.4)]">
                                     <Bot className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
@@ -190,12 +190,12 @@ export default function ChatWidget() {
                                     value={input}
                                     onChange={handleInputChange}
                                     placeholder="Type your message..."
-                                    className="w-full bg-zinc-900/80 border border-white/10 rounded-full px-6 py-4 text-sm text-white placeholder:text-zinc-600 focus:ring-1 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all outline-none pr-14 shadow-inner"
+                                    className="w-full bg-zinc-900/80 border border-white/10 rounded-full px-6 py-4 text-sm text-white placeholder:text-zinc-600 focus:ring-1 focus:ring-accent/50 focus:border-accent/50 transition-all outline-none pr-14 shadow-inner"
                                 />
                                 <button
                                     type="submit"
                                     disabled={!input.trim() || isLoading}
-                                    className={`absolute right-2 top-1/2 -translate-y-1/2 p-2.5 rounded-full transition-all ${input.trim() && !isLoading ? 'bg-orange-500 text-white shadow-lg hover:scale-105 active:scale-90' : 'bg-transparent text-zinc-700 cursor-not-allowed'}`}
+                                    className={`absolute right-2 top-1/2 -translate-y-1/2 p-2.5 rounded-full transition-all ${input.trim() && !isLoading ? 'bg-accent text-white shadow-lg hover:scale-105 active:scale-90' : 'bg-transparent text-zinc-700 cursor-not-allowed'}`}
                                 >
                                     <Send className="w-4 h-4" />
                                 </button>

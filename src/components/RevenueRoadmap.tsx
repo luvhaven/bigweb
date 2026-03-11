@@ -47,7 +47,7 @@ export default function RevenueRoadmap() {
         <section className="py-40 bg-[#050505] relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:60px_60px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-orange-600/5 blur-[160px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-accent/5 blur-[160px] rounded-full pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
@@ -57,7 +57,7 @@ export default function RevenueRoadmap() {
                         whileInView={{ opacity: 1, y: 0 }}
                         className="inline-flex items-center gap-2 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-8"
                     >
-                        <ShieldCheck className="w-4 h-4 text-orange-500" /> Your Growth Journey
+                        <ShieldCheck className="w-4 h-4 text-accent" /> Your Growth Journey
                     </motion.div>
 
                     <h2 className="text-4xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-8">
@@ -90,8 +90,8 @@ export default function RevenueRoadmap() {
                                 >
                                     {/* Central Indicator */}
                                     <div className="absolute left-0 md:left-1/2 -translate-x-1/2 z-20">
-                                        <div className="w-20 h-20 bg-black border border-zinc-900 flex items-center justify-center shadow-xl group hover:border-orange-600 transition-colors duration-500">
-                                            <Icon className="w-8 h-8 text-zinc-600 group-hover:text-orange-500 transition-colors" />
+                                        <div className="w-20 h-20 bg-black border border-zinc-900 flex items-center justify-center shadow-xl group hover:border-accent transition-colors duration-500">
+                                            <Icon className="w-8 h-8 text-zinc-600 group-hover:text-accent transition-colors" />
                                         </div>
                                     </div>
 
@@ -101,11 +101,11 @@ export default function RevenueRoadmap() {
                                             <div className={`text-[9px] font-mono font-bold text-zinc-600 mb-6 uppercase tracking-[0.6em] ${isEven ? 'md:text-left' : 'md:text-right'}`}>
                                                 Phase 0{index + 1}
                                             </div>
-                                            <h3 className="text-4xl md:text-7xl font-bold text-white uppercase italic tracking-tighter mb-8 group-hover:text-orange-500 transition-colors leading-[0.8] transition-all duration-700">
+                                            <h3 className="text-4xl md:text-7xl font-bold text-white uppercase italic tracking-tighter mb-8 group-hover:text-accent transition-colors leading-[0.8] transition-all duration-700">
                                                 {step.title}
                                             </h3>
                                             <div className={`flex items-center gap-6 text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-zinc-800 ${isEven ? 'justify-start' : 'md:justify-end'}`}>
-                                                <div className="w-3 h-3 bg-orange-600 rounded-full animate-pulse" />
+                                                <div className="w-3 h-3 bg-accent rounded-full animate-pulse" />
                                                 TARGET: <span className="text-white">{step.outcome}</span>
                                             </div>
                                         </div>
@@ -127,11 +127,11 @@ export default function RevenueRoadmap() {
                         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                         className="p-16 md:p-32 bg-black border border-white/5 relative overflow-hidden group shadow-[0_0_100px_rgba(0,0,0,1)] text-center rounded-3xl"
                     >
-                        <div className="absolute inset-0 bg-orange-600 opacity-0 group-hover:opacity-[0.05] transition-opacity duration-1000" />
+                        <div className="absolute inset-0 bg-accent opacity-0 group-hover:opacity-[0.05] transition-opacity duration-1000" />
                         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-[size:40px_40px]" />
 
                         <h3 className="text-4xl md:text-[8rem] font-bold text-white italic tracking-tighter uppercase mb-20 leading-[0.8]">
-                            Ready To <br /><span className="text-zinc-900 border-b-4 border-orange-600">Execute?</span>
+                            Ready To <br /><span className="text-zinc-900 border-b-4 border-accent">Execute?</span>
                         </h3>
 
                         <div className="flex flex-col sm:flex-row justify-center gap-12 items-center">
@@ -139,7 +139,7 @@ export default function RevenueRoadmap() {
                                 <Magnetic strength={0.3} className="w-full sm:w-auto">
                                     <Button
                                         size="lg"
-                                        className="w-full sm:w-auto bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs px-16 h-28 rounded-2xl transition-all duration-500 uppercase tracking-[0.4em] shadow-2xl"
+                                        className="w-full sm:w-auto bg-white text-black hover:bg-accent hover:text-white font-bold text-xs px-16 h-28 rounded-2xl transition-all duration-500 uppercase tracking-[0.4em] shadow-2xl"
                                     >
                                         Start Your Roadmap
                                         <ArrowRight className="ml-6 w-6 h-6 transition-transform group-hover/btn:translate-x-4" />

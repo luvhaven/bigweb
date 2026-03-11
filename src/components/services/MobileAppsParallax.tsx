@@ -116,7 +116,7 @@ export default function MobileAppsParallax() {
 
                     <div className="pt-2">
                         <div className="h-14 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center px-4 gap-3 shadow-sm">
-                            <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 font-bold text-xs">J</div>
+                            <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-accent/50/30 flex items-center justify-center text-accent font-bold text-xs">J</div>
                             <div className="flex-1">
                                 <div className="h-2 w-20 bg-slate-200 dark:bg-slate-800 rounded mb-1" />
                                 <div className="h-1.5 w-12 bg-slate-100 dark:bg-slate-800 rounded" />

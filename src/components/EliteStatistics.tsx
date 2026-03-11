@@ -33,7 +33,7 @@ const stats: Stat[] = [
     value: 3.2,
     suffix: 'x',
     label: 'Average ROI Increase',
-    color: 'from-orange-500 to-red-500'
+    color: 'from-accent to-red-500'
   },
   {
     icon: Zap,
@@ -83,8 +83,8 @@ export default function EliteStatistics() {
           className="text-center mb-24"
         >
           <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
-            <Award className="w-5 h-5 text-orange-600" />
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+            <Award className="w-5 h-5 text-accent" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent">
               Revenue Performance
             </span>
           </div>
@@ -116,11 +116,11 @@ export default function EliteStatistics() {
                 {/* Card */}
                 <div className="bg-black border-l border-zinc-900 h-full flex flex-col items-center text-center p-12 relative overflow-hidden group-hover:bg-zinc-950 transition-all duration-500">
                   {/* Top Border Indicator */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-zinc-900 group-hover:bg-orange-600 transition-colors duration-500" />
+                  <div className="absolute top-0 left-0 w-full h-1 bg-zinc-900 group-hover:bg-accent transition-colors duration-500" />
 
                   {/* Icon */}
                   <div className="mb-8 p-4 bg-zinc-950 border border-zinc-900 flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-zinc-600 group-hover:text-orange-600 transition-colors duration-300" />
+                    <Icon className="w-6 h-6 text-zinc-600 group-hover:text-accent transition-colors duration-300" />
                   </div>
 
                   {/* Counter */}

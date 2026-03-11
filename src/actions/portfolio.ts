@@ -2,19 +2,21 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath, unstable_noStore } from 'next/cache'
+import { ProjectListSchema, safeParseList, type Project } from '@/lib/schemas'
 
 // Fetch all projects (NO CACHE)
-export async function getProjects() {
-    unstable_noStore() // Prevent caching
+export async function getProjects(): Promise<Project[]> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: projects, error } = await supabase
+        const { data, error } = await supabase
             .from('portfolio_projects')
             .select('*')
             .order('completionDate', { ascending: false })
 
         if (error) throw error
-        return projects || []
+
+        return safeParseList<Project>(ProjectListSchema, data || [], 'Project')
     } catch (error: any) {
         console.error('Failed to fetch projects:', error.message || error)
         return []
@@ -22,23 +24,25 @@ export async function getProjects() {
 }
 
 // Fetch featured projects
-export async function getFeaturedProjects() {
-    unstable_noStore() // Prevent caching
+export async function getFeaturedProjects(): Promise<Project[]> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: projects, error } = await supabase
+        const { data, error } = await supabase
             .from('portfolio_projects')
             .select('*')
             .eq('featured', true)
             .order('completionDate', { ascending: false })
 
         if (error) throw error
-        return projects || []
+
+        return safeParseList<Project>(ProjectListSchema, data || [], 'Project')
     } catch (error: any) {
         console.error('Failed to fetch featured projects:', error.message || error)
         return []
     }
 }
+
 
 // Fetch single project by slug
 export async function getProjectBySlug(slug: string) {

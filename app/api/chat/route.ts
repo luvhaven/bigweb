@@ -20,8 +20,18 @@ const supabaseAdmin = createClient(
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || '')
 
+import { ratelimit } from '@/lib/rate-limit'
+
 export async function POST(req: NextRequest) {
     try {
+        // --- 1. Rate Limiting ---
+        const ip = req.headers.get('x-forwarded-for') || '127.0.0.1'
+        const { success: rateLimitSuccess } = await ratelimit.limit(`chat_${ip}`)
+
+        if (!rateLimitSuccess) {
+            return new NextResponse(JSON.stringify({ error: 'Rate limit exceeded. Try again later.' }), { status: 429 })
+        }
+
         const { messages, visitorId, sessionId } = await req.json()
 
         if (!messages || messages.length === 0) {

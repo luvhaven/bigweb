@@ -1,63 +1,53 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { createClient } from '@supabase/supabase-js'
 
-// GET /api/careers/openings - Fetch all active job openings
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  { auth: { autoRefreshToken: false, persistSession: false } }
+)
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const department = searchParams.get('department')
     const type = searchParams.get('type')
 
-    const where: any = { isActive: true }
-    
+    let query = supabaseAdmin
+      .from('career_openings')
+      .select('*')
+      .eq('is_active', true)
+      .order('posted_date', { ascending: false })
+
     if (department && department !== 'All') {
-      where.department = department
+      query = query.eq('department', department)
     }
-    
     if (type && type !== 'All') {
-      where.type = type
+      query = query.eq('type', type)
     }
 
-    const openings = await prisma.careerOpening.findMany({
-      where,
-      orderBy: { postedDate: 'desc' },
-      select: {
-        id: true,
-        title: true,
-        location: true,
-        type: true,
-        department: true,
-        description: true,
-        salaryRange: true,
-        postedDate: true,
-        _count: {
-          select: { applications: true },
-        },
-      },
-    })
+    const { data: openings, error } = await query
 
-    // Parse JSON fields
-    const formattedOpenings = openings.map(opening => ({
+    if (error) {
+      console.error('Careers openings error:', error)
+      return NextResponse.json({ success: false, error: 'Failed to fetch career openings' }, { status: 500 })
+    }
+
+    const formattedOpenings = (openings || []).map((opening: any) => ({
       id: opening.id,
       title: opening.title,
       location: opening.location,
       type: opening.type,
       department: opening.department,
       description: opening.description,
-      salaryRange: opening.salaryRange,
-      postedDate: opening.postedDate.toISOString(),
-      applicants: opening._count.applications,
+      salaryRange: opening.salary_range,
+      postedDate: opening.posted_date,
+      applicants: 0,
     }))
 
-    return NextResponse.json({
-      success: true,
-      data: formattedOpenings,
-    })
+    return NextResponse.json({ success: true, data: formattedOpenings })
   } catch (error) {
     console.error('Error fetching career openings:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch career openings' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: 'Failed to fetch career openings' }, { status: 500 })
   }
 }

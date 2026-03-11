@@ -197,7 +197,7 @@ export function analyzeIntent(message: string): {
         return {
             intent: 'services',
             confidence: 0.85,
-            suggestedActions: ['View All Services', 'See Portfolio', 'Book Free Audit']
+            suggestedActions: ['View All Services', 'See Portfolio', 'View Pricing']
         }
     }
 

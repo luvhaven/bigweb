@@ -38,7 +38,7 @@ export default function PortfolioCTA() {
             className="flex justify-center mb-16"
           >
             <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 shadow-2xl">
-              <span className="w-2 h-2 bg-orange-600 animate-pulse" />
+              <span className="w-2 h-2 bg-accent animate-pulse" />
               <span className="text-zinc-500 text-[10px] font-mono font-bold uppercase tracking-[0.4em]">
                 System_Ready_State
               </span>
@@ -66,8 +66,8 @@ export default function PortfolioCTA() {
             className="flex flex-col sm:flex-row gap-8 justify-center mb-24"
           >
             <Link href="/offers/diagnostic">
-              <Button size="lg" className="h-24 px-12 bg-orange-600 hover:bg-orange-500 text-white border-0 rounded-xl text-sm font-bold uppercase tracking-[0.4em] transition-all duration-300">
-                INITIATE_DIAGNOSTIC
+              <Button size="lg" className="h-24 px-12 bg-accent hover:bg-accent text-white border-0 rounded-xl text-sm font-bold uppercase tracking-[0.4em] transition-all duration-300">
+                START_PROJECT
                 <ArrowRight className="ml-4 w-5 h-5" />
               </Button>
             </Link>
@@ -100,7 +100,7 @@ export default function PortfolioCTA() {
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
                 className="text-center py-12 border-b border-r border-zinc-900 last:border-r-0"
               >
-                <div className="text-4xl md:text-5xl font-bold text-white italic tracking-tighter mb-4 group-hover:text-orange-600 transition-colors">
+                <div className="text-4xl md:text-5xl font-bold text-white italic tracking-tighter mb-4 group-hover:text-accent transition-colors">
                   {stat.value}
                 </div>
                 <div className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-[0.4em]">

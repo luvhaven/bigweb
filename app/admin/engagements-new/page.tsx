@@ -1,319 +1,187 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import type { Engagement } from '@/types/database'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Card } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
-import { Plus, Save, Trash2, Eye, EyeOff, DollarSign } from 'lucide-react'
-import { toast } from 'sonner'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Plus, Save, Trash2, Edit3, X, RefreshCw, CheckCircle2, Star } from 'lucide-react'
 
-export default function EngagementsAdmin() {
-    const [engagements, setEngagements] = useState<Engagement[]>([])
+interface Engagement {
+    id: string
+    name: string
+    slug: string
+    tagline: string | null
+    description: string
+    price: string
+    price_subtext: string | null
+    features: string[]
+    highlighted: boolean
+    badge_text: string | null
+    order_index: number
+    status: string
+}
+
+const empty: Partial<Engagement> = { name: '', slug: '', tagline: '', description: '', price: '', price_subtext: '', features: [], highlighted: false, badge_text: '', order_index: 99, status: 'published' }
+const inputCls = 'w-full bg-zinc-900/80 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-600 outline-none focus:border-accent/40 transition-all'
+
+export default function PricingAdminPage() {
+    const supabase = createClient()
+    const [items, setItems] = useState<Engagement[]>([])
     const [loading, setLoading] = useState(true)
-    const [editingId, setEditingId] = useState<string | null>(null)
-    const [formData, setFormData] = useState<Partial<Engagement>>({})
-    const [featuresInput, setFeaturesInput] = useState('')
+    const [editing, setEditing] = useState<string | null>(null)
+    const [form, setForm] = useState<Partial<Engagement>>(empty)
+    const [featuresText, setFeaturesText] = useState('')
+    const [saving, setSaving] = useState(false)
+    const [saved, setSaved] = useState(false)
+    const [error, setError] = useState('')
 
-    useEffect(() => {
-        fetchEngagements()
-    }, [])
-
-    const fetchEngagements = async () => {
-        const supabase = createClient()
-        const { data, error } = await supabase
-            .from('engagements')
-            .select('*')
-            .order('order_index', { ascending: true })
-
-        if (error) {
-            toast.error('Failed to fetch engagements')
-            console.error(error)
-        } else {
-            setEngagements(data as Engagement[])
-        }
+    const load = useCallback(async () => {
+        setLoading(true)
+        const { data } = await supabase.from('engagements').select('*').order('order_index', { ascending: true })
+        setItems(data || [])
         setLoading(false)
+    }, [supabase])
+
+    useEffect(() => { load() }, [load])
+
+    const startEdit = (e: Engagement) => {
+        setEditing(e.id); setForm({ ...e })
+        setFeaturesText((e.features || []).join('\n'))
+        setError(''); setSaved(false)
     }
+    const startNew = () => { setEditing('new'); setForm({ ...empty }); setFeaturesText(''); setError(''); setSaved(false) }
+    const cancel = () => { setEditing(null); setForm(empty) }
 
-    const handleSave = async () => {
-        if (!formData.name || !formData.slug) {
-            toast.error('Name and slug are required')
-            return
-        }
-
-        // Convert features input to array
-        const features = featuresInput
-            .split('\n')
-            .map(f => f.trim())
-            .filter(f => f.length > 0)
-
-        const dataToSave = {
-            ...formData,
-            features
-        }
-
-        const supabase = createClient()
-
-        if (editingId) {
-            // Update existing
-            const { error } = await supabase
-                .from('engagements')
-                .update(dataToSave)
-                .eq('id', editingId)
-
-            if (error) {
-                toast.error('Failed to update engagement')
-                console.error(error)
-            } else {
-                toast.success('Engagement updated successfully')
-                resetForm()
-                fetchEngagements()
-            }
+    async function handleSave() {
+        if (!form.name || !form.price) { setError('Name and price are required.'); return }
+        setSaving(true); setError('')
+        const features = featuresText.split('\n').map(l => l.trim()).filter(Boolean)
+        const payload = { ...form, features, updated_at: new Date().toISOString() }
+        const { id, ...fields } = payload
+        let result
+        if (editing !== 'new' && editing) {
+            result = await supabase.from('engagements').update(fields).eq('id', editing)
         } else {
-            // Create new
-            const { error } = await supabase
-                .from('engagements')
-                .insert({ ...dataToSave, order_index: engagements.length + 1 })
-
-            if (error) {
-                toast.error('Failed to create engagement')
-                console.error(error)
-            } else {
-                toast.success('Engagement created successfully')
-                resetForm()
-                fetchEngagements()
-            }
+            result = await supabase.from('engagements').insert(fields)
         }
+        setSaving(false)
+        if (result.error) { setError(result.error.message); return }
+        setSaved(true)
+        await load()
+        setTimeout(() => { setSaved(false); setEditing(null) }, 1500)
     }
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this engagement?')) return
-
-        const supabase = createClient()
-        const { error } = await supabase
-            .from('engagements')
-            .delete()
-            .eq('id', id)
-
-        if (error) {
-            toast.error('Failed to delete engagement')
-            console.error(error)
-        } else {
-            toast.success('Engagement deleted successfully')
-            fetchEngagements()
-        }
+    async function handleDelete(id: string) {
+        if (!confirm('Delete this engagement?')) return
+        await supabase.from('engagements').delete().eq('id', id)
+        load()
     }
 
-    const toggleStatus = async (engagement: Engagement) => {
-        const supabase = createClient()
-        const newStatus = engagement.status === 'published' ? 'draft' : 'published'
-
-        const { error } = await supabase
-            .from('engagements')
-            .update({ status: newStatus })
-            .eq('id', engagement.id)
-
-        if (error) {
-            toast.error('Failed to toggle status')
-        } else {
-            toast.success(`Engagement ${newStatus}`)
-            fetchEngagements()
-        }
-    }
-
-    const resetForm = () => {
-        setEditingId(null)
-        setFormData({})
-        setFeaturesInput('')
-    }
-
-    const startEdit = (engagement: Engagement) => {
-        setEditingId(engagement.id)
-        setFormData(engagement)
-        setFeaturesInput(engagement.features?.join('\n') || '')
-    }
-
-    if (loading) {
-        return <div className="p-8">Loading...</div>
-    }
+    if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" /></div>
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-6 max-w-4xl text-white">
+            <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black uppercase tracking-tight">Engagements Manager</h1>
-                    <p className="text-zinc-500 mt-2">Manage your service packages and pricing</p>
+                    <h1 className="text-2xl font-bold">Pricing / Engagements</h1>
+                    <p className="text-zinc-500 text-sm mt-1">Manage pricing packages shown on the Pricing page.</p>
                 </div>
-                <Button
-                    onClick={() => {
-                        resetForm()
-                        setFormData({
-                            status: 'draft',
-                            highlighted: false,
-                            features: []
-                        })
-                    }}
-                >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Engagement
-                </Button>
+                <div className="flex gap-2">
+                    <button onClick={load} className="p-2 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white"><RefreshCw className="w-4 h-4" /></button>
+                    <button onClick={startNew} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-black font-semibold text-sm hover:opacity-90"><Plus className="w-4 h-4" /> Add Package</button>
+                </div>
             </div>
 
-            {/* Edit Form */}
-            {(editingId || Object.keys(formData).length > 0) && (
-                <Card className="p-6 mb-8 bg-zinc-950 border-zinc-800">
-                    <h2 className="text-xl font-bold mb-4">
-                        {editingId ? 'Edit Engagement' : 'New Engagement'}
-                    </h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input
-                            placeholder="Slug (e.g., revenue-roadmap)"
-                            value={formData.slug || ''}
-                            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Name (e.g., Revenue Roadmap)"
-                            value={formData.name || ''}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        />
-                        <Input
-                            className="col-span-2"
-                            placeholder="Tagline (e.g., Phase 01: Clinical Diagnostic)"
-                            value={formData.tagline || ''}
-                            onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
-                        />
-                        <Textarea
-                            className="col-span-2"
-                            placeholder="Description"
-                            value={formData.description || ''}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            rows={3}
-                        />
-                        <Input
-                            placeholder="Price (e.g., $500)"
-                            value={formData.price || ''}
-                            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Price Subtext (e.g., One-Time)"
-                            value={formData.price_subtext || ''}
-                            onChange={(e) => setFormData({ ...formData, price_subtext: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Icon (e.g., Search)"
-                            value={formData.icon || ''}
-                            onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Route (e.g., /offers/revenue-roadmap)"
-                            value={formData.route || ''}
-                            onChange={(e) => setFormData({ ...formData, route: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Badge Text (optional)"
-                            value={formData.badge_text || ''}
-                            onChange={(e) => setFormData({ ...formData, badge_text: e.target.value })}
-                        />
-                        <Input
-                            placeholder="Color Scheme (e.g., orange)"
-                            value={formData.color_scheme || ''}
-                            onChange={(e) => setFormData({ ...formData, color_scheme: e.target.value })}
-                        />
-                        <div className="col-span-2">
-                            <label className="text-sm font-medium mb-2 block">Highlighted Package</label>
-                            <Switch
-                                checked={formData.highlighted || false}
-                                onCheckedChange={(checked) => setFormData({ ...formData, highlighted: checked })}
-                            />
-                        </div>
-                        <Textarea
-                            className="col-span-2"
-                            placeholder="Features (one per line)"
-                            value={featuresInput}
-                            onChange={(e) => setFeaturesInput(e.target.value)}
-                            rows={5}
-                        />
-                    </div>
-
-                    <div className="flex gap-2 mt-4">
-                        <Button onClick={handleSave}>
-                            <Save className="w-4 h-4 mr-2" />
-                            Save
-                        </Button>
-                        <Button variant="outline" onClick={resetForm}>
-                            Cancel
-                        </Button>
-                    </div>
-                </Card>
-            )}
-
-            {/* Engagements List */}
-            <div className="grid gap-4">
-                {engagements.map((engagement) => (
-                    <Card
-                        key={engagement.id}
-                        className={`p-6 border transition-all ${engagement.highlighted
-                                ? 'bg-orange-600/10 border-orange-600/30'
-                                : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
-                            }`}
-                    >
-                        <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <h3 className="text-xl font-black">{engagement.name}</h3>
-                                    {engagement.highlighted && (
-                                        <span className="text-xs px-2 py-0.5 rounded bg-orange-500 text-white">
-                                            HIGHLIGHTED
-                                        </span>
-                                    )}
-                                    <span
-                                        className={`text-xs px-2 py-0.5 rounded ${engagement.status === 'published'
-                                                ? 'bg-green-500/20 text-green-500'
-                                                : 'bg-yellow-500/20 text-yellow-500'
-                                            }`}
-                                    >
-                                        {engagement.status}
-                                    </span>
+            <div className="grid md:grid-cols-2 gap-4">
+                {items.map((item, i) => (
+                    <motion.div key={item.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                        className={`bg-zinc-900/50 border rounded-2xl p-6 ${item.highlighted ? 'border-accent/30' : 'border-white/[0.06]'}`}>
+                        <div className="flex items-start justify-between mb-3">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-white">{item.name}</span>
+                                    {item.highlighted && <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20 font-black">{item.badge_text || 'Featured'}</span>}
                                 </div>
-                                <p className="text-zinc-500 text-sm mb-1">{engagement.tagline}</p>
-                                <p className="text-zinc-400 text-sm mb-3">{engagement.description}</p>
-                                <div className="flex items-center gap-4 text-sm">
-                                    <span className="text-orange-500 font-black flex items-center gap-1">
-                                        <DollarSign className="w-4 h-4" />
-                                        {engagement.price}
-                                    </span>
-                                    <span className="text-zinc-600">{engagement.price_subtext}</span>
-                                    <span className="text-zinc-600">Icon: {engagement.icon}</span>
-                                </div>
-                                {engagement.features && engagement.features.length > 0 && (
-                                    <div className="mt-3 text-xs text-zinc-600">
-                                        {engagement.features.length} features included
-                                    </div>
-                                )}
+                                <p className="text-zinc-500 text-xs">{item.tagline}</p>
                             </div>
-
-                            <div className="flex gap-2">
-                                <Button variant="ghost" size="sm" onClick={() => toggleStatus(engagement)}>
-                                    {engagement.status === 'published' ? (
-                                        <Eye className="w-4 h-4" />
-                                    ) : (
-                                        <EyeOff className="w-4 h-4" />
-                                    )}
-                                </Button>
-                                <Button variant="ghost" size="sm" onClick={() => startEdit(engagement)}>
-                                    Edit
-                                </Button>
-                                <Button variant="ghost" size="sm" onClick={() => handleDelete(engagement.id)}>
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                            <div className="text-right">
+                                <span className="text-xl font-black text-white">{item.price}</span>
+                                <span className="text-zinc-500 text-xs ml-1">{item.price_subtext}</span>
                             </div>
                         </div>
-                    </Card>
+                        <p className="text-zinc-500 text-xs line-clamp-2 mb-4">{item.description}</p>
+                        <div className="flex gap-2">
+                            <button onClick={() => startEdit(item)} className="flex-1 py-2 rounded-xl bg-zinc-800 border border-white/[0.06] text-zinc-300 text-xs font-medium flex items-center justify-center gap-2 hover:text-white"><Edit3 className="w-3.5 h-3.5" /> Edit</button>
+                            <button onClick={() => handleDelete(item.id)} className="p-2 rounded-xl bg-zinc-800 border border-white/[0.06] text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+                        </div>
+                    </motion.div>
                 ))}
             </div>
+
+            <AnimatePresence>
+                {editing && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="bg-zinc-900/80 border border-white/[0.08] rounded-3xl p-8 backdrop-blur-xl">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-xl font-bold">{editing === 'new' ? '✦ New Package' : '✦ Edit Package'}</h2>
+                            <button onClick={cancel} className="p-2 rounded-lg text-zinc-500 hover:text-white"><X className="w-5 h-5" /></button>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Package Name *</label>
+                                    <input value={form.name || ''} onChange={e => setForm(d => ({ ...d, name: e.target.value }))} placeholder="Revenue System" className={inputCls} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Slug</label>
+                                    <input value={form.slug || ''} onChange={e => setForm(d => ({ ...d, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))} placeholder="revenue-system" className={inputCls} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Price *</label>
+                                    <input value={form.price || ''} onChange={e => setForm(d => ({ ...d, price: e.target.value }))} placeholder="£15,000" className={inputCls} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Price Subtext</label>
+                                    <input value={form.price_subtext || ''} onChange={e => setForm(d => ({ ...d, price_subtext: e.target.value }))} placeholder="project / /month / one-time" className={inputCls} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Tagline</label>
+                                    <input value={form.tagline || ''} onChange={e => setForm(d => ({ ...d, tagline: e.target.value }))} placeholder="The complete rebuild" className={inputCls} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Badge Text (if highlighted)</label>
+                                    <input value={form.badge_text || ''} onChange={e => setForm(d => ({ ...d, badge_text: e.target.value }))} placeholder="Most Popular" className={inputCls} />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Description</label>
+                                <textarea value={form.description || ''} onChange={e => setForm(d => ({ ...d, description: e.target.value }))} rows={3} className={inputCls + ' resize-none'} />
+                            </div>
+                            <div>
+                                <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2 block">Features (one per line)</label>
+                                <textarea value={featuresText} onChange={e => setFeaturesText(e.target.value)} placeholder={"Full site redesign\nConversion architecture\nElite engineering"} rows={6} className={inputCls + ' resize-none font-mono text-xs'} />
+                            </div>
+                            <div className="flex items-center gap-6">
+                                <div className="flex items-center gap-3">
+                                    <button onClick={() => setForm(d => ({ ...d, highlighted: !d.highlighted }))} className={`w-12 h-6 rounded-full transition-colors relative ${form.highlighted ? 'bg-accent' : 'bg-zinc-700'}`}>
+                                        <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${form.highlighted ? 'translate-x-6' : ''}`} />
+                                    </button>
+                                    <span className="text-sm text-zinc-400">Highlighted / Featured</span>
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1 block">Sort Order</label>
+                                    <input type="number" value={form.order_index || 99} onChange={e => setForm(d => ({ ...d, order_index: parseInt(e.target.value) || 99 }))} className={inputCls + ' w-24'} />
+                                </div>
+                            </div>
+                        </div>
+                        {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
+                        <div className="flex gap-3 mt-6">
+                            <button onClick={handleSave} disabled={saving || saved} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-black font-bold text-sm hover:opacity-90 disabled:opacity-60">
+                                {saved ? <><CheckCircle2 className="w-4 h-4" /> Saved!</> : saving ? <><span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" /> Saving...</> : <><Save className="w-4 h-4" /> Save Package</>}
+                            </button>
+                            <button onClick={cancel} className="px-6 py-3 rounded-xl border border-white/10 text-zinc-400 hover:text-white text-sm">Cancel</button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

@@ -3,9 +3,11 @@
 import { ReactNode, useEffect, useState, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Head from 'next/head'
 import { QueryProvider } from '@/providers/QueryProvider'
 import { useAuth, AuthProvider } from '@/hooks/useAuth'
 import { motion, AnimatePresence } from 'framer-motion'
+import '../../src/index.css'
 import {
     LayoutDashboard,
     Navigation,
@@ -29,21 +31,44 @@ import {
 import BrandLogo from '@/components/branding/BrandLogo'
 import { useGlobalContent } from '@/context/GlobalContentContext'
 
-// Sidebar Menu Configuration
-const menuItems = [
-    { label: 'Overview', href: '/admin', icon: LayoutDashboard },
-    { label: 'Navigation', href: '/admin/navigation', icon: Navigation },
-    { label: 'Capabilities', href: '/admin/capabilities-new', icon: Cpu },
-    { label: 'Engagements', href: '/admin/engagements-new', icon: Zap },
-    { label: 'Process', href: '/admin/process-new', icon: Search },
-    { label: 'Page Sections', href: '/admin/sections', icon: Layers },
-    { label: 'SEO Metadata', href: '/admin/seo-new', icon: Globe },
-    { label: 'System Flags', href: '/admin/flags-new', icon: Lock },
-    { label: 'Team', href: '/admin/team', icon: Users },
-    { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
-    { label: 'Leads & CRM', href: '/admin/leads', icon: FileText },
-    { label: 'Settings', href: '/admin/settings', icon: Settings },
+// Sidebar Menu Configuration — grouped by section
+const menuSections = [
+    {
+        title: 'Content',
+        items: [
+            { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+            { label: 'Hero Sections', href: '/admin/heroes', icon: ImageIcon },
+            { label: 'Services', href: '/admin/capabilities-new', icon: Cpu },
+            { label: 'Portfolio', href: '/admin/portfolio', icon: Globe },
+            { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
+            { label: 'Team', href: '/admin/team', icon: Users },
+            { label: 'Clients & Logos', href: '/admin/clients', icon: Layers },
+            { label: 'Video Showroom', href: '/admin/media', icon: ImageIcon },
+            { label: 'Blog', href: '/admin/blog', icon: FileText },
+            { label: 'FAQs', href: '/admin/faqs', icon: Search },
+        ],
+    },
+    {
+        title: 'Revenue',
+        items: [
+            { label: 'Pricing & Packages', href: '/admin/engagements-new', icon: Zap },
+            { label: 'Process Steps', href: '/admin/process-new', icon: Layers },
+            { label: 'Leads & CRM', href: '/admin/leads', icon: BarChart3 },
+            { label: 'Campaigns', href: '/admin/campaign', icon: Search },
+            { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+        ],
+    },
+    {
+        title: 'System',
+        items: [
+            { label: 'Navigation', href: '/admin/navigation', icon: Navigation },
+            { label: 'Site Settings', href: '/admin/settings', icon: Settings },
+        ],
+    },
 ]
+
+// Flat list for command palette
+const menuItems = menuSections.flatMap(s => s.items)
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
@@ -107,7 +132,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     if (loading) {
         return (
             <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
             </div>
         )
     }
@@ -135,38 +160,49 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-                    {menuItems.map((item) => {
-                        const isActive = pathname === item.href ||
-                            (item.href !== '/admin' && pathname.startsWith(item.href))
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                    ? 'bg-orange-500/20 text-orange-500'
-                                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
-                                    }`}
-                            >
-                                <item.icon className="w-5 h-5 shrink-0" />
-                                <AnimatePresence>
-                                    {sidebarOpen && (
-                                        <motion.span
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            exit={{ opacity: 0, x: -10 }}
-                                            className="font-medium whitespace-nowrap"
+                <nav className="flex-1 p-4 overflow-y-auto space-y-4">
+                    {menuSections.map((section) => (
+                        <div key={section.title}>
+                            {sidebarOpen && (
+                                <p className="text-[9px] font-black uppercase tracking-[0.25em] text-zinc-600 px-4 mb-2">
+                                    {section.title}
+                                </p>
+                            )}
+                            <div className="space-y-0.5">
+                                {section.items.map((item) => {
+                                    const isActive = pathname === item.href ||
+                                        (item.href !== '/admin' && pathname.startsWith(item.href))
+                                    return (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group ${isActive
+                                                ? 'bg-accent/15 text-accent'
+                                                : 'text-zinc-500 hover:text-white hover:bg-white/5'
+                                                }`}
                                         >
-                                            {item.label}
-                                        </motion.span>
-                                    )}
-                                </AnimatePresence>
-                                {isActive && sidebarOpen && (
-                                    <ChevronRight className="w-4 h-4 ml-auto opacity-50" />
-                                )}
-                            </Link>
-                        )
-                    })}
+                                            <item.icon className="w-4 h-4 shrink-0" />
+                                            <AnimatePresence>
+                                                {sidebarOpen && (
+                                                    <motion.span
+                                                        initial={{ opacity: 0, x: -8 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        exit={{ opacity: 0, x: -8 }}
+                                                        className="text-sm font-medium whitespace-nowrap"
+                                                    >
+                                                        {item.label}
+                                                    </motion.span>
+                                                )}
+                                            </AnimatePresence>
+                                            {isActive && sidebarOpen && (
+                                                <span className="ml-auto w-1 h-4 rounded-full bg-accent" />
+                                            )}
+                                        </Link>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    ))}
                 </nav>
 
                 {/* Footer */}
@@ -213,7 +249,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                         <div className="flex items-center gap-3">
                             <button className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition-colors relative">
                                 <Bell className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full" />
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
                             </button>
 
                             {/* User Avatar */}

@@ -274,7 +274,7 @@ export default function AccessibilityPanel({ isEmbedded = false, onClose }: Acce
                                     {/* Dyslexia Font */}
                                     <div className="flex items-center justify-between bg-secondary/20 rounded-2xl p-4 border border-white/5">
                                         <label className="flex items-center gap-2 text-sm font-medium">
-                                            <div className="p-1.5 bg-orange-500/20 rounded-lg text-orange-400">
+                                            <div className="p-1.5 bg-accent/20 rounded-lg text-accent-light">
                                                 <Type className="w-4 h-4" />
                                             </div>
                                             Dyslexia Font

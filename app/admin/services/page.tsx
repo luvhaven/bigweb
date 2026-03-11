@@ -61,7 +61,7 @@ export default function AdminServicesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 rounded-[2rem] border border-white/5 bg-zinc-900/20">
                     <h4 className="text-sm font-black text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-orange-500" />
+                        <Sparkles className="w-4 h-4 text-accent" />
                         Service_Clarity
                     </h4>
                     <p className="text-xs text-zinc-500 leading-relaxed">

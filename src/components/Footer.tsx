@@ -1,115 +1,173 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, MapPin, Phone, ArrowRight, Send, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Trophy, Award, Star, Globe2 } from 'lucide-react';
 import BrandLogo from '@/components/branding/BrandLogo';
 import { useGlobalContent } from "@/context/GlobalContentContext";
 
-// Helper for dynamic icons
-const IconMap: any = { Mail, MapPin, Phone, ArrowRight, Send, Facebook, Twitter, Instagram, Linkedin };
+interface FooterData {
+  settings: {
+    contact_email?: string
+    contact_phone?: string
+    social_links?: Record<string, string>
+    site_name?: string
+  } | null
+  sections: any[]
+}
 
-export default function Footer() {
-  const { footer, settings } = useGlobalContent();
+export default function Footer({ footerData }: { footerData?: FooterData | null }) {
+  const { settings: ctxSettings } = useGlobalContent();
+  // Prefer server-side footerData.settings over context
+  const settings = footerData?.settings || ctxSettings;
   const [email, setEmail] = useState('');
-  const [time, setTime] = useState<string>('');
+  const [year, setYear] = useState('');
+  const [subStatus, setSubStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   useEffect(() => {
-    // Client-side only time to avoid hydration mismatch
-    const updateTime = () => {
-      const now = new Date();
-      setTime(now.toISOString().replace('T', '_').split('.')[0] + '_UTC');
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
+    setYear(new Date().getFullYear().toString());
   }, []);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    setEmail('');
+    if (!email || subStatus === 'loading') return;
+    setSubStatus('loading');
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'newsletter_footer', notes: 'Subscribed via footer' }),
+      });
+      if (res.ok) {
+        setSubStatus('success');
+        setEmail('');
+        setTimeout(() => setSubStatus('idle'), 5000);
+      } else {
+        setSubStatus('error');
+        setTimeout(() => setSubStatus('idle'), 4000);
+      }
+    } catch {
+      setSubStatus('error');
+      setTimeout(() => setSubStatus('idle'), 4000);
+    }
   };
 
-  // Group sections by column
-  const columns: Record<number, any[]> = { 1: [], 2: [], 3: [], 4: [] };
-  (footer as any[] || []).forEach((section: any) => {
-    if (columns[section.column_position]) {
-      columns[section.column_position].push(section);
-      columns[section.column_position].sort((a: any, b: any) => a.sort_order - b.sort_order);
-    }
-  });
-
   return (
-    <footer className="bg-black border-t border-white/10 relative overflow-hidden">
-      {/* Cinematic Background - Amped Up */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px] opacity-[0.1]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-orange-600/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen" />
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-50" />
-      <div className="container mx-auto px-6 py-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
+    <footer className="bg-[#0a0a0a] border-t border-white/[0.04] relative overflow-hidden">
+      {/* Top ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
-          {/* Brand Unit */}
-          <div className="lg:col-span-4 space-y-10">
-            <Link href="/" className="inline-block">
-              <BrandLogo variant="full" className="h-10 brightness-[10]" />
-            </Link>
+      {/* Global Reach Background (Subtle) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1200px] opacity-[0.02] pointer-events-none flex items-center justify-center">
+        <Globe2 className="w-[800px] h-[800px] text-white" />
+      </div>
 
-            <p className="text-zinc-600 text-sm font-medium leading-relaxed max-w-sm uppercase tracking-tight">
-              Clinical web engineering for global growth teams. We eliminate guesswork and deploy high-performance revenue engines.
+      <div className="container mx-auto px-6 lg:px-16 py-20 md:py-28 relative z-10">
+
+        {/* Full-width Newsletter CTA */}
+        <div className="mb-20 p-8 md:p-12 rounded-3xl border border-white/[0.06] bg-white/[0.01] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 100% 50%, rgba(212,168,83,0.05) 0%, transparent 60%)' }} />
+          <div className="max-w-xl relative z-10">
+            <h3 className="font-display text-3xl md:text-4xl text-white tracking-tight mb-3">Join <span className="text-accent italic">The Lab.</span></h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              Get our latest conversion protocols, design engineering insights, and tear-downs delivered to your inbox every Tuesday. Join 5,000+ growth leaders.
             </p>
-
-            <form onSubmit={handleSubscribe} className="relative max-w-xs group">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative flex items-center">
-                <Input
+          </div>
+          <form onSubmit={handleSubscribe} className="relative w-full md:w-auto min-w-[320px] z-10">
+            {subStatus === 'success' ? (
+              <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-sm font-medium">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                You&apos;re in. Check your inbox.
+              </div>
+            ) : (
+              <div className="flex items-center bg-white/[0.03] border border-white/[0.08] rounded-xl overflow-hidden focus-within:border-accent/50 focus-within:bg-white/[0.05] transition-all">
+                <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Your work email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-zinc-950/50 border-zinc-800 text-sm text-white placeholder:text-zinc-600 h-10 pr-10 rounded-lg focus:border-orange-500/50 focus:ring-0 transition-all"
+                  className="bg-transparent text-sm text-white placeholder:text-zinc-600 px-5 py-4 flex-1 outline-none"
+                  required
                 />
-                <button type="submit" className="absolute right-0 top-0 h-10 w-10 flex items-center justify-center text-zinc-600 hover:text-orange-500 transition-colors">
-                  <Send className="w-4 h-4" />
+                <button
+                  type="submit"
+                  disabled={subStatus === 'loading'}
+                  className="px-5 py-4 text-white hover:text-accent transition-colors border-l border-white/[0.08] flex items-center justify-center group disabled:opacity-50"
+                >
+                  {subStatus === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  )}
                 </button>
               </div>
-            </form>
+            )}
+            {subStatus === 'error' && (
+              <p className="text-xs text-red-400 mt-2 ml-1">Something went wrong. Please try again.</p>
+            )}
+          </form>
+        </div>
 
-            <div className="space-y-6 pt-6 border-t border-zinc-900/50">
-              <div className="flex flex-col gap-1 group">
-                <span className="text-xs font-semibold text-zinc-600 uppercase tracking-wider group-hover:text-orange-500 transition-colors">Support</span>
-                <a href="mailto:support@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">
-                  support@bigwebdigital.com
-                </a>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20 mb-16">
+
+          {/* Brand Column */}
+          <div className="lg:col-span-4 space-y-6">
+            <Link href="/" className="inline-block">
+              <BrandLogo variant="full" showIcon animate={false} className="h-7 brightness-[10]" />
+            </Link>
+
+            {/* Availability status */}
+            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-emerald-400">
+                Available for projects
+              </span>
+            </div>
+
+            <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
+              The world&apos;s most revenue-focused web engineering agency. Trusted by ambitious founders and Fortune 500 brands alike.
+            </p>
+
+            {/* Global Reach / Timezones */}
+            <div className="pt-4 border-t border-white/[0.04] max-w-xs">
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600 mb-3 block">Global Reach</div>
+              <div className="flex flex-wrap gap-x-3 gap-y-2 text-xs text-zinc-500 font-mono">
+                <span>San Francisco <span className="text-emerald-500/50">•</span></span>
+                <span>London <span className="text-emerald-500/50">•</span></span>
+                <span>Dubai <span className="text-emerald-500/50">•</span></span>
+                <span>Singapore</span>
               </div>
-              <div className="flex flex-col gap-1 group">
-                <span className="text-xs font-semibold text-zinc-600 uppercase tracking-wider group-hover:text-orange-500 transition-colors">Billing</span>
-                <a href="mailto:billing@bigwebdigital.com" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">
-                  billing@bigwebdigital.com
-                </a>
-              </div>
+            </div>
+
+            {/* Contact */}
+            <div className="pt-2 space-y-2">
+              <a href="mailto:hello@bigwebdigital.com" className="block text-sm text-zinc-500 hover:text-white transition-colors">
+                hello@bigwebdigital.com
+              </a>
             </div>
           </div>
 
-          {/* Links Units */}
+          {/* Links */}
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12">
               <div>
-                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                <h4 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-5">
                   Services
                 </h4>
-                <ul className="space-y-6">
+                <ul className="space-y-2.5">
                   {[
-                    { label: 'Website Engineering', href: '/services/web-engineering' },
-                    { label: 'Funnel Architecture', href: '/services/funnel-architecture' },
+                    { label: 'Website Engineering', href: '/services/web-development' },
                     { label: 'Revenue Systems', href: '/services/revenue-systems' },
-                    { label: 'Conversion Science', href: '/services/conversion-science' },
-                    { label: 'Trust Optimization', href: '/services/trust-optimization' },
-                  ].map((link, i) => (
-                    <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
-                        <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
+                    { label: 'Funnel Architecture', href: '/services/funnel-architecture' },
+                    { label: 'Conversion Optimization', href: '/services/conversion-optimization' },
+                    { label: 'Performance & Trust', href: '/services/trust-optimization' },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="link-shimmer text-sm text-zinc-500 hover:text-white transition-colors duration-200">
                         {link.label}
                       </Link>
                     </li>
@@ -118,19 +176,18 @@ export default function Footer() {
               </div>
 
               <div>
-                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                <h4 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-5">
                   Packages
                 </h4>
-                <ul className="space-y-6">
+                <ul className="space-y-2.5">
                   {[
                     { label: 'Revenue Roadmap', href: '/offers/revenue-roadmap' },
                     { label: 'Fix Sprint', href: '/offers/fix-sprint' },
-                    { label: 'Growth Retainer', href: '/offers/retainer' },
                     { label: 'Revenue System', href: '/offers/revenue-system' },
-                  ].map((link, i) => (
-                    <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
-                        <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
+                    { label: 'Growth Retainer', href: '/offers/retainer' },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="link-shimmer text-sm text-zinc-500 hover:text-white transition-colors duration-200">
                         {link.label}
                       </Link>
                     </li>
@@ -139,21 +196,44 @@ export default function Footer() {
               </div>
 
               <div>
-                <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-8">
+                <h4 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-5">
                   Company
                 </h4>
-                <ul className="space-y-6">
+                <ul className="space-y-2.5">
                   {[
-                    { label: 'Our Process', href: '/how-it-works' },
-                    { label: 'The Archive', href: '/case-studies' },
-                    { label: 'Engineering Team', href: '/contact' },
-                    { label: 'Client Login', href: '/login' },
-                  ].map((link, i) => (
-                    <li key={i}>
-                      <Link href={link.href} className="text-[11px] font-bold text-zinc-600 hover:text-orange-600 uppercase tracking-widest transition-all block group">
-                        <span className="opacity-0 group-hover:opacity-100 transition-opacity mr-2">//</span>
+                    { label: 'Case Studies', href: '/case-studies' },
+                    { label: 'About', href: '/about' },
+                    { label: 'Careers', href: '/careers' },
+                    { label: 'Contact', href: '/contact' },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm text-zinc-500 hover:text-white transition-colors duration-200">
                         {link.label}
                       </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-[0.15em] mb-5">
+                  Connect
+                </h4>
+                <ul className="space-y-2.5">
+                  {[
+                    { label: 'LinkedIn', href: 'https://linkedin.com/company/bigwebdigital' },
+                    { label: 'X / Twitter', href: 'https://x.com/bigwebdigital' },
+                    { label: 'Instagram', href: 'https://instagram.com/bigwebdigital' },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-zinc-500 hover:text-white transition-colors duration-200 inline-flex items-center gap-1"
+                      >
+                        {link.label}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -162,25 +242,38 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Status Bar */}
-        <div className="pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-sm font-medium text-zinc-400">All Systems Operational</span>
-          </div>
+        {/* Awards & Recognition Strip */}
+        <div className="py-10 border-t border-white/[0.04] flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+          {[
+            { icon: Trophy, text: "Awwwards SOTD" },
+            { icon: Award, text: "FWA of the Day" },
+            { icon: Star, text: "Top B2B Agency '26" },
+            { icon: Globe2, text: "Global Excellence" }
+          ].map((award, i) => (
+            <div key={i} className="flex items-center gap-3 text-sm font-semibold tracking-wide text-zinc-300">
+              <award.icon className="w-5 h-5 text-accent" />
+              {award.text}
+            </div>
+          ))}
+        </div>
 
-          <div className="flex gap-8 items-center">
-            {['Privacy', 'Terms', 'Cookies'].map((link) => (
-              <Link key={link} href={`/${link.toLowerCase()}`} className="text-xs font-medium text-zinc-600 hover:text-white uppercase tracking-wider transition-all">
-                {link}
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center gap-4">
+          <span className="text-xs text-zinc-600">
+            © {year || '2026'} BIGWEB Digital. All rights reserved.
+          </span>
+          <div className="flex items-center gap-6">
+            {[
+              { label: 'Privacy', href: '/privacy' },
+              { label: 'Terms', href: '/terms' },
+            ].map((link) => (
+              <Link key={link.href} href={link.href} className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">
+                {link.label}
               </Link>
             ))}
-            <span className="text-xs font-medium text-zinc-700">
-              © {new Date().getFullYear()} BIGWEB Digital
-            </span>
           </div>
         </div>
       </div>
-    </footer>
+    </footer >
   );
 }

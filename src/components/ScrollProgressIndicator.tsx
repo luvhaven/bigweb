@@ -18,7 +18,7 @@ export default function ScrollProgressIndicator() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-orange-500 to-accent origin-left z-[9999] transition-transform duration-100"
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent to-accent origin-left z-[9999] transition-transform duration-100"
       style={{ transform: `scaleX(${scrollProgress / 100})` }}
     />
   )

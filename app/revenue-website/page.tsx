@@ -220,7 +220,7 @@ export default function RevenueWebsitePage() {
                     >
                         <div className="flex items-center gap-3">
                             <div className="flex -space-x-3">
-                                {['bg-gradient-to-br from-emerald-400 to-cyan-400', 'bg-gradient-to-br from-purple-400 to-pink-400', 'bg-gradient-to-br from-orange-400 to-red-400', 'bg-gradient-to-br from-blue-400 to-indigo-400'].map((gradient, i) => (
+                                {['bg-gradient-to-br from-emerald-400 to-cyan-400', 'bg-gradient-to-br from-purple-400 to-pink-400', 'bg-gradient-to-br from-accent-light to-red-400', 'bg-gradient-to-br from-blue-400 to-indigo-400'].map((gradient, i) => (
                                     <div key={i} className={`w-10 h-10 rounded-full ${gradient} border-2 border-background flex items-center justify-center text-xs font-bold text-white shadow-lg`}>
                                         ★
                                     </div>
@@ -460,8 +460,8 @@ export default function RevenueWebsitePage() {
                                 F-Pattern layouts to direct your visitor's eye straight to the "Buy" button.
                             </p>
                             <div className="grid grid-cols-2 gap-6">
-                                <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-orange-500/50 transition-colors">
-                                    <Flame className="w-8 h-8 text-orange-500 mb-3" />
+                                <div className="bg-zinc-900 p-6 rounded-2xl border border-white/5 hover:border-accent/50 transition-colors">
+                                    <Flame className="w-8 h-8 text-accent mb-3" />
                                     <div className="font-bold text-lg mb-1">Scarcity Engine</div>
                                     <div className="text-xs text-zinc-500">Urgency badges that actually convert.</div>
                                 </div>

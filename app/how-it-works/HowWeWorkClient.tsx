@@ -23,13 +23,13 @@ interface HowWeWorkClientProps {
 
 export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-orange-600/30">
+        <main className="min-h-screen bg-black text-white selection:bg-accent/30">
             <AdvancedNavigation />
 
             {/* Elite Hero Section */}
             <section className="relative pt-48 pb-32 overflow-hidden border-b border-zinc-900">
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:50px_50px] opacity-[0.03]" />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
                 <div className="container mx-auto px-6 text-center relative z-10">
                     <motion.div
@@ -48,7 +48,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                         </h1>
 
                         <p className="text-xl md:text-3xl text-zinc-500 max-w-4xl mx-auto leading-relaxed font-medium tracking-tight">
-                            We reject "random acts of marketing." We adhere to a <strong className="text-white italic underline decoration-orange-600 underline-offset-8">Clinical Methodology</strong> engineered to extract maximum yield from your traffic.
+                            We reject "random acts of marketing." We adhere to a <strong className="text-white italic underline decoration-accent underline-offset-8">Clinical Methodology</strong> engineered to extract maximum yield from your traffic.
                         </p>
                     </motion.div>
                 </div>
@@ -136,7 +136,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                                                 </div>
 
                                                 <Link href={step.cta_link || '#'} className="block w-full">
-                                                    <Button className="w-full h-16 bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs uppercase tracking-[0.3em] rounded-xl transition-all duration-300">
+                                                    <Button className="w-full h-16 bg-white text-black hover:bg-accent hover:text-white font-bold text-xs uppercase tracking-[0.3em] rounded-xl transition-all duration-300">
                                                         {step.cta_text}
                                                     </Button>
                                                 </Link>
@@ -154,7 +154,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
             <section className="py-32 border-y border-zinc-900 bg-[#0A0A0A]">
                 <div className="container mx-auto px-6 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-orange-600/10 border border-orange-600/20 text-orange-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10">
+                        <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-10">
                             <ShieldCheck className="w-4 h-4" /> Core_Philosophy
                         </div>
                         <h2 className="text-5xl md:text-7xl font-bold mb-12 tracking-tighter uppercase italic text-white leading-[0.9]">
@@ -179,7 +179,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-8">
                         <Link href="/offers/revenue-roadmap">
-                            <Button className="h-20 px-12 bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm uppercase tracking-[0.4em] rounded-xl transition-all duration-300 shadow-[0_0_50px_rgba(234,88,12,0.3)]">
+                            <Button className="h-20 px-12 bg-accent hover:bg-accent text-white font-bold text-sm uppercase tracking-[0.4em] rounded-xl transition-all duration-300 shadow-[0_0_50px_rgba(234,88,12,0.3)]">
                                 INITIALIZE DIAGNOSTIC
                                 <ArrowRight className="w-5 h-5 ml-4" />
                             </Button>

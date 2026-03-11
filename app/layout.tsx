@@ -5,16 +5,13 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 import Providers from '@/components/Providers'
 import { OrganizationSchema } from '@/components/seo/JsonLd'
 import '../src/index.css'
-import '../src/styles/luxury-polish.css'
-import '../src/styles/elite-design-system.css'
-import '../src/styles/animations.css'
 import '../src/styles/accessibility.css'
 
 import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements'
 
 export const viewport: Viewport = {
-  themeColor: '#121212',
+  themeColor: '#0a0a0a',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -31,10 +28,10 @@ export async function generateMetadata() {
   return {
     metadataBase: new URL('https://bigwebdigital.com'),
     title: {
-      default: settings?.site_name ? `${settings.site_name} - Award-Winning Digital Agency` : 'BIGWEB Digital - Award-Winning Digital Agency | Web Development & Design',
+      default: settings?.site_name ? `${settings.site_name} — Premium Digital Agency` : 'BIGWEB Digital — Premium Digital Agency',
       template: settings?.site_name ? `%s | ${settings.site_name}` : '%s | BIGWEB Digital',
     },
-    description: settings?.site_description || 'Transform your digital presence with BIGWEB Digital. Expert web development, UI/UX design, mobile apps, AI automation, and SEO services.',
+    description: settings?.site_description || 'We engineer high-performance websites and growth systems for ambitious brands. Strategy, design, and development under one roof.',
     icons: {
       icon: [
         { url: '/logo_pulse.svg' },
@@ -60,9 +57,7 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-// Initialize accessibility features
 if (typeof window !== 'undefined') {
-  // Respect prefers-reduced-motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) {
     document.documentElement.classList.add('reduce-motion');
@@ -73,7 +68,6 @@ if (typeof window !== 'undefined') {
         />
 
         <GlobalContentProvider {...globalContent}>
-          <div className="cinematic-grain" />
           <ClientLayoutEnhancements />
           <Providers>
             <Suspense fallback={null}>

@@ -22,8 +22,8 @@ const steps = [
         title: "Conversion Strategy",
         description: "We design a clear path to purchase based on user psychology and proven data. No guessing—just results.",
         icon: Target,
-        color: "from-orange-500 to-red-600",
-        shadow: "shadow-orange-500/20",
+        color: "from-accent to-red-600",
+        shadow: "shadow-accent/20",
         elements: ["Value Prop", "Trust Building", "Social Proof", "Clear CTAs"]
     },
     {
@@ -61,7 +61,7 @@ export default function HowItWorksCards() {
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Section Header */}
-                <div className="max-w-4xl mb-20 border-l-4 border-orange-500 pl-10">
+                <div className="max-w-4xl mb-20 border-l-4 border-accent pl-10">
                     <motion.span
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -93,8 +93,8 @@ export default function HowItWorksCards() {
                                 {/* Header */}
                                 <div className="flex items-start justify-between mb-12 relative z-10">
                                     <div className="flex items-center gap-6">
-                                        <div className="w-16 h-16 flex items-center justify-center bg-zinc-950 border border-zinc-900 group-hover:border-orange-600 transition-colors duration-500 rounded-2xl">
-                                            <Icon className="w-6 h-6 text-zinc-700 group-hover:text-orange-600 transition-colors" />
+                                        <div className="w-16 h-16 flex items-center justify-center bg-zinc-950 border border-zinc-900 group-hover:border-accent transition-colors duration-500 rounded-2xl">
+                                            <Icon className="w-6 h-6 text-zinc-700 group-hover:text-accent transition-colors" />
                                         </div>
                                         <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-[0.5em]">
                                             Phase 0{index + 1}
@@ -119,7 +119,7 @@ export default function HowItWorksCards() {
                                             key={i}
                                             className="flex items-center gap-3"
                                         >
-                                            <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors rounded-full" />
+                                            <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-accent transition-colors rounded-full" />
                                             <span className="text-[10px] font-mono font-bold text-zinc-700 group-hover:text-zinc-400 uppercase tracking-widest transition-colors">
                                                 {el}
                                             </span>
@@ -140,17 +140,17 @@ export default function HowItWorksCards() {
                     whileInView={{ opacity: 1, y: 0 }}
                     className="mt-20 p-16 md:p-20 bg-zinc-950 border border-zinc-900 relative overflow-hidden group shadow-3xl rounded-3xl"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-16 text-center md:text-left">
                         <div className="space-y-8">
-                            <div className="text-[9px] font-mono font-bold text-orange-600 uppercase tracking-[0.6em]">System Audit: Active</div>
-                            <h4 className="text-4xl md:text-[9rem] font-bold text-white uppercase italic tracking-tighter leading-[0.7]">Plug the Leak <br /><span className="text-zinc-900 border-b-4 border-orange-600">Immediately.</span></h4>
+                            <div className="text-[9px] font-mono font-bold text-accent uppercase tracking-[0.6em]">System Audit: Active</div>
+                            <h4 className="text-4xl md:text-[9rem] font-bold text-white uppercase italic tracking-tighter leading-[0.7]">Plug the Leak <br /><span className="text-zinc-900 border-b-4 border-accent">Immediately.</span></h4>
                             <p className="text-zinc-600 text-2xl font-bold uppercase tracking-tighter max-w-3xl mt-10">Deploy our <span className="text-white italic">Conversion Audit</span> and uncover your revenue blockers in 7 days.</p>
                         </div>
 
                         <Link href="/offers/revenue-roadmap">
-                            <Button className="h-28 px-20 rounded-full bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs uppercase tracking-[0.6em] transition-all duration-700 shadow-2xl group ring-1 ring-white/10 ring-offset-8 ring-offset-black">
+                            <Button className="h-28 px-20 rounded-full bg-white text-black hover:bg-accent hover:text-white font-bold text-xs uppercase tracking-[0.6em] transition-all duration-700 shadow-2xl group ring-1 ring-white/10 ring-offset-8 ring-offset-black">
                                 Get Started
                                 <ArrowRight className="ml-8 w-6 h-6 group-hover:translate-x-6 transition-transform duration-700" />
                             </Button>

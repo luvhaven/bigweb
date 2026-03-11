@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plus, Search, Pencil, Trash2, Eye, Calendar, FileText } from 'lucide-react'
@@ -68,7 +70,7 @@ export default function BlogPage() {
             case 'published': return 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20'
             case 'draft': return 'bg-zinc-500/10 text-zinc-400 ring-zinc-500/20'
             case 'scheduled': return 'bg-blue-500/10 text-blue-500 ring-blue-500/20'
-            case 'archived': return 'bg-orange-500/10 text-orange-500 ring-orange-500/20'
+            case 'archived': return 'bg-accent/10 text-accent ring-accent/20'
             default: return 'bg-zinc-500/10 text-zinc-400'
         }
     }

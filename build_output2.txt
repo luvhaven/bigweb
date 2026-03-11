@@ -1,0 +1,144 @@
+   ▲ Next.js 15.5.7
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+[1m[33mwarn[39m[22m - The class `ease-[cubic-bezier(0.16,1,0.3,1)]` is ambiguous and matches multiple utilities.
+[1m[33mwarn[39m[22m - If this is content and not a class, replace it with `ease-&lsqb;cubic-bezier(0.16,1,0.3,1)&rsqb;` to silence this warning.
+ ✓ Compiled successfully in 28.5s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_URL`
+[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_TOKEN`
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+   Generating static pages (0/87) ...
+[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_URL`
+[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_TOKEN`
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+   Generating static pages (21/87) 
+Failed to fetch Global Stats: Dynamic server usage: Route / couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+   Generating static pages (43/87) 
+   Generating static pages (65/87) 
+ ✓ Generating static pages (87/87)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    31.4 kB         320 kB
+├ ƒ /_not-found                            190 B         102 kB
+├ ƒ /about                               4.91 kB         271 kB
+├ ƒ /admin                               4.59 kB         203 kB
+├ ƒ /admin/analytics                      113 kB         309 kB
+├ ƒ /admin/blog                          2.67 kB         169 kB
+├ ƒ /admin/blog/[id]                       718 B         164 kB
+├ ƒ /admin/blog/new                        394 B         164 kB
+├ ƒ /admin/campaign                      4.46 kB         180 kB
+├ ƒ /admin/capabilities-new              6.24 kB         205 kB
+├ ƒ /admin/clients                       7.25 kB         203 kB
+├ ƒ /admin/cms                             169 B         106 kB
+├ ƒ /admin/cms/hero                      4.23 kB         114 kB
+├ ƒ /admin/contacts                      4.28 kB         209 kB
+├ ƒ /admin/contacts/[id]                 2.87 kB         169 kB
+├ ƒ /admin/debug                          2.9 kB         160 kB
+├ ƒ /admin/engagements-new               5.81 kB         201 kB
+├ ƒ /admin/faqs                           5.9 kB         201 kB
+├ ƒ /admin/flags-new                     5.07 kB         179 kB
+├ ƒ /admin/growth                          628 B         219 kB
+├ ƒ /admin/heroes                        7.24 kB         203 kB
+├ ƒ /admin/leads                         6.91 kB         202 kB
+├ ƒ /admin/login                         3.55 kB         199 kB
+├ ƒ /admin/media                         8.09 kB         203 kB
+├ ƒ /admin/migrate                         683 B         103 kB
+├ ƒ /admin/navigation                    4.19 kB         207 kB
+├ ƒ /admin/offers                         2.4 kB         220 kB
+├ ƒ /admin/pages                         4.79 kB         173 kB
+├ ƒ /admin/pages/[id]                     5.6 kB         174 kB
+├ ƒ /admin/portfolio                     8.55 kB         197 kB
+├ ƒ /admin/portfolio/[id]                  796 B         171 kB
+├ ƒ /admin/portfolio/new                   383 B         166 kB
+├ ƒ /admin/pricing                       5.11 kB         173 kB
+├ ƒ /admin/pricing/[id]                  6.06 kB         174 kB
+├ ƒ /admin/process-new                   5.37 kB         179 kB
+├ ƒ /admin/projects                        609 B         218 kB
+├ ƒ /admin/sections                      7.45 kB         220 kB
+├ ƒ /admin/seed                          3.73 kB         183 kB
+├ ƒ /admin/seo-new                       4.82 kB         179 kB
+├ ƒ /admin/services                         2 kB         220 kB
+├ ƒ /admin/services/[id]                 6.76 kB         175 kB
+├ ƒ /admin/services/new                   3.6 kB         109 kB
+├ ƒ /admin/settings                       5.6 kB         218 kB
+├ ƒ /admin/sync                          1.68 kB         181 kB
+├ ƒ /admin/team                          7.39 kB         203 kB
+├ ƒ /admin/team/[id]                     4.41 kB         169 kB
+├ ƒ /admin/testimonials                  7.62 kB         203 kB
+├ ƒ /admin/testimonials/[id]               758 B         164 kB
+├ ƒ /admin/testimonials/new                375 B         164 kB
+├ ƒ /ai-boost                            9.94 kB         158 kB
+├ ƒ /api/analytics/track                   190 B         102 kB
+├ ƒ /api/audit                             190 B         102 kB
+├ ƒ /api/auth/login                        190 B         102 kB
+├ ƒ /api/blog/posts                        190 B         102 kB
+├ ƒ /api/blueprint                         190 B         102 kB
+├ ƒ /api/campaign/analytics                190 B         102 kB
+├ ƒ /api/campaign/lead                     190 B         102 kB
+├ ƒ /api/careers/apply                     190 B         102 kB
+├ ƒ /api/careers/openings                  190 B         102 kB
+├ ƒ /api/chat                              190 B         102 kB
+├ ƒ /api/contact                           190 B         102 kB
+├ ƒ /api/contact/general                   190 B         102 kB
+├ ƒ /api/leads                             190 B         102 kB
+├ ƒ /api/llm-feed                          190 B         102 kB
+├ ƒ /api/portfolio/projects                190 B         102 kB
+├ ƒ /api/revalidate                        190 B         102 kB
+├ ƒ /audit                               7.94 kB         176 kB
+├ ƒ /blog                                3.01 kB         223 kB
+├ ƒ /blog/[slug]                         2.36 kB         166 kB
+├ ƒ /careers                             4.52 kB         158 kB
+├ ƒ /case-studies                        11.6 kB         168 kB
+├ ƒ /case-studies/[slug]                 33.7 kB         258 kB
+├ ƒ /contact                             31.1 kB         309 kB
+├ ƒ /cookies                             3.17 kB         156 kB
+├ ƒ /estimator                           12.8 kB         186 kB
+├ ƒ /how-it-works                          190 B         102 kB
+├ ○ /icon.svg                                0 B            0 B
+├ ○ /manifest.webmanifest                  190 B         102 kB
+├ ƒ /newyear                             6.47 kB         167 kB
+├ ƒ /newyear/digital-launch-pro          5.57 kB         176 kB
+├ ƒ /newyear/empire-builder              5.64 kB         177 kB
+├ ƒ /newyear/revenue-rocket              5.12 kB         176 kB
+├ ƒ /offers/[slug]                       3.47 kB         274 kB
+├ ƒ /portal                              3.05 kB         144 kB
+├ ƒ /portfolio                             190 B         102 kB
+├ ƒ /portfolio/[id]                      19.3 kB         234 kB
+├ ƒ /pricing                              9.2 kB         288 kB
+├ ƒ /privacy                             3.01 kB         156 kB
+├ ƒ /process                             1.99 kB         214 kB
+├ ƒ /project/[id]                        7.57 kB         171 kB
+├ ƒ /resources                           1.86 kB         160 kB
+├ ƒ /results                             3.01 kB         223 kB
+├ ƒ /results/[slug]                      7.34 kB         239 kB
+├ ƒ /revenue-website                     12.4 kB         161 kB
+├ ○ /robots.txt                            190 B         102 kB
+├ ƒ /services                            7.65 kB         209 kB
+├ ƒ /services/[slug]                     14.4 kB         241 kB
+├ ○ /sitemap.xml                           190 B         102 kB
+├ ƒ /terms                               3.82 kB         157 kB
+├ ƒ /testimonials                        3.91 kB         217 kB
+└ ƒ /unauthorized                          169 B         106 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/1255-642c76f13c20a3ec.js      45.5 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js  54.2 kB
+  └ other shared chunks (total)          2.42 kB
+
+
+ƒ Middleware                             80.2 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

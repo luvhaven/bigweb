@@ -4,8 +4,8 @@ import { motion, useInView, useMotionValue, useSpring, useTransform, useMotionVa
 import { useEffect, useRef, useState } from "react";
 
 const stats = [
-  { value: 250, suffix: "+", label: "Audits Completed", color: "from-accent to-orange-400" },
-  { value: 98, suffix: "%", label: "Conversion Lift", color: "from-orange-500 to-red-500" },
+  { value: 250, suffix: "+", label: "Audits Completed", color: "from-accent to-accent-light" },
+  { value: 98, suffix: "%", label: "Conversion Lift", color: "from-accent to-red-500" },
   { value: 120, suffix: "M+", label: "Client Revenue", color: "from-blue-500 to-cyan-500" },
   { value: 15, suffix: "+", label: "Strategy Experts", color: "from-green-500 to-emerald-500" },
 ];

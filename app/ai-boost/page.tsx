@@ -419,7 +419,7 @@ export default function AIBoostLandingPage() {
                             <p className="text-zinc-400 text-sm">You spend hours replying to the same questions instead of growing your business.</p>
                         </div>
                         <div className="p-4">
-                            <Users className="w-10 h-10 text-orange-500 mx-auto mb-4" />
+                            <Users className="w-10 h-10 text-accent mx-auto mb-4" />
                             <h3 className="text-xl font-bold mb-2">Missed Leads?</h3>
                             <p className="text-zinc-400 text-sm">Clients visit when you're asleep. Without a 24/7 agent, they go to your competitors.</p>
                         </div>

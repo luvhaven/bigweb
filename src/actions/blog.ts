@@ -2,6 +2,61 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { cache } from 'react'
+import { BlogPost, BlogPostSchema, safeParseList } from '@/lib/schemas'
+
+const BlogListSchema = BlogPostSchema.array()
+
+/**
+ * Fetch all published blog posts, ordered by newest first.
+ * Uses Zod safeParseList to filter out any malformed rows without crashing.
+ */
+export const getBlogPosts = cache(async (): Promise<BlogPost[]> => {
+    const supabase = await createClient()
+
+    const { data: posts, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('status', 'published') // Using 'status' based on the save logic below
+        .order('published_at', { ascending: false })
+
+    if (error) {
+        console.error('Failed to fetch blog posts:', error)
+        return []
+    }
+
+    return safeParseList<BlogPost>(BlogListSchema, posts, 'BlogPost')
+})
+
+/**
+ * Fetch a single blog post by its slug.
+ * Uses strict Zod parsing to guarantee type safety in the UI.
+ */
+export const getBlogPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
+    const supabase = await createClient()
+
+    const { data: post, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .eq('status', 'published')
+        .single()
+
+    if (error || !post) {
+        if (error?.code !== 'PGRST116') // ignore "Not found" noise
+            console.error(`Failed to fetch blog post (${slug}):`, error)
+        return null
+    }
+
+    const result = BlogPostSchema.safeParse(post)
+
+    if (!result.success) {
+        console.error(`[Schema:BlogPost] Validation failed for slug ${slug}:`, result.error.flatten())
+        return null
+    }
+
+    return result.data
+})
 
 export async function savePost(data: any) {
     try {

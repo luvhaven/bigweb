@@ -290,7 +290,7 @@ export default function CryptoVaultDemo() {
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500">
+                                    <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent">
                                         <Bitcoin className="w-3 h-3" />
                                     </div>
                                     <span className="text-sm text-slate-300">Bitcoin</span>

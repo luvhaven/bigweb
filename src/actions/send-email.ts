@@ -24,28 +24,41 @@ export type ContactFormState = {
     }
 }
 
+import { createClient } from '@/lib/supabase/server'
+import { parseContactForm } from '@/lib/schemas'
+
+import { headers } from 'next/headers'
+import { ratelimit } from '@/lib/rate-limit'
+
 export async function sendContactEmail(prevState: ContactFormState, formData: FormData): Promise<ContactFormState> {
-    // Validate fields
-    const validatedFields = ContactFormSchema.safeParse({
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        email: formData.get('email'),
-        company: formData.get('company'),
-        inspiration: formData.get('inspiration'),
-        message: formData.get('message'),
-        budget: formData.get('budget')
-    })
-
-    if (!validatedFields.success) {
-        return {
-            error: 'Validation failed',
-            fieldErrors: validatedFields.error.flatten().fieldErrors
-        }
-    }
-
-    const { firstName, lastName, email, company, inspiration, message, budget } = validatedFields.data
-
     try {
+        // --- 1. Rate Limiting ---
+        // Get client IP for rate limiting
+        const headersList = await headers()
+        const ip = headersList.get('x-forwarded-for') || '127.0.0.1'
+        const { success } = await ratelimit.limit(`contact_${ip}`)
+
+        if (!success) {
+            return { error: 'Too many requests. Please try again in an hour.' }
+        }
+
+        // --- 2. Validation ---
+        // Validate fields using the strict throw-on-error helper
+        const validatedData = parseContactForm({
+            name: `${formData.get('firstName')} ${formData.get('lastName')}`.trim(),
+            email: formData.get('email'),
+            company: formData.get('company') || undefined,
+            inspiration: formData.get('inspiration') || undefined,
+            message: formData.get('message'),
+            budget: formData.get('budget') || undefined,
+            website_url: formData.get('website_url') || undefined, // honeypot
+        })
+
+        const [firstName, ...lastNameParts] = validatedData.name.split(' ')
+        const lastName = lastNameParts.join(' ')
+        const { email, company, message, budget } = validatedData
+        const inspiration = (validatedData as any).inspiration // Handle extra fields mapped
+
         // Calculate Lead Score
         const { score, tier } = calculateLeadScore({
             budget,
@@ -53,6 +66,24 @@ export async function sendContactEmail(prevState: ContactFormState, formData: Fo
             messageLength: message.length,
             hasInspiration: !!inspiration
         })
+
+        // 0. Save to CRM (Supabase)
+        const supabase = await createClient()
+        const { error: dbError } = await supabase.from('contact_submissions').insert({
+            name: validatedData.name,
+            email,
+            company,
+            budget,
+            message,
+            lead_score: score,
+            lead_tier: tier,
+            metadata: { inspiration }
+        })
+
+        if (dbError) {
+            console.error('Failed to save lead to CRM:', dbError)
+            // We still proceed to email even if DB fails
+        }
 
         // Check if API key exists (mock mode if not)
         if (!process.env.RESEND_API_KEY) {
@@ -114,8 +145,10 @@ export async function sendContactEmail(prevState: ContactFormState, formData: Fo
         })
 
         return { success: true }
-    } catch (error) {
-        console.error('Email send error:', error)
-        return { error: 'Failed to send email. Please try again later.' }
+    } catch (error: any) {
+        console.error('Email send/validation error:', error)
+        return {
+            error: error.message || 'Failed to send message. Please try again.',
+        }
     }
 }

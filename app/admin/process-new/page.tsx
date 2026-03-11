@@ -140,14 +140,14 @@ export default function ProcessAdmin() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto selection:bg-orange-500/30">
+        <div className="p-8 max-w-7xl mx-auto selection:bg-accent/30">
             <div className="flex justify-between items-center mb-12">
                 <div>
                     <h1 className="text-4xl font-black uppercase tracking-tighter italic">Process_Manager</h1>
                     <p className="text-zinc-500 mt-2 font-mono text-xs uppercase tracking-[0.3em]">Operational_Doctrine_CRUD_v1.0</p>
                 </div>
                 <Button
-                    className="bg-white text-black hover:bg-orange-600 hover:text-white font-black uppercase tracking-widest rounded-none"
+                    className="bg-white text-black hover:bg-accent hover:text-white font-black uppercase tracking-widest rounded-none"
                     onClick={() => {
                         resetForm()
                         setFormData({
@@ -164,7 +164,7 @@ export default function ProcessAdmin() {
             {/* Edit Form */}
             {(editingId || Object.keys(formData).length > 0) && (
                 <Card className="p-8 mb-12 bg-zinc-950 border-zinc-800 rounded-none shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-orange-600" />
+                    <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
                     <h2 className="text-2xl font-black uppercase italic mb-8 tracking-tight">
                         {editingId ? 'Edit_Phase' : 'New_Phase'}
                     </h2>
@@ -285,7 +285,7 @@ export default function ProcessAdmin() {
                     <div className="flex gap-4 mt-12 bg-zinc-900/10 p-4 border border-zinc-900">
                         <Button
                             onClick={handleSave}
-                            className="bg-orange-600 hover:bg-orange-500 text-white font-black uppercase tracking-widest rounded-none h-14 px-10"
+                            className="bg-accent hover:bg-accent text-white font-black uppercase tracking-widest rounded-none h-14 px-10"
                         >
                             <Save className="w-4 h-4 mr-2" />
                             DEPLOY_CHANGES
@@ -327,7 +327,7 @@ export default function ProcessAdmin() {
                                             <span
                                                 className={`text-[8px] font-mono font-black uppercase tracking-widest px-2 py-0.5 rounded ${phase.status === 'published'
                                                         ? 'bg-green-500/10 text-green-500'
-                                                        : 'bg-orange-500/10 text-orange-500'
+                                                        : 'bg-accent/10 text-accent'
                                                     }`}
                                             >
                                                 {phase.status}

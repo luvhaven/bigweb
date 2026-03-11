@@ -1,94 +1,67 @@
 'use client'
 
-import { Check, Loader2 } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
-import { pricingAPI, PricingTier } from '@/lib/api/pricing'
+import type { Engagement } from '@/lib/schemas'
 
-export default function PricingTable() {
-    const [tiers, setTiers] = useState<PricingTier[]>([])
-    const [loading, setLoading] = useState(true)
+interface PricingTableProps {
+    initialTiers: Engagement[]
+}
 
-    useEffect(() => {
-        loadPricing()
-    }, [])
-
-    const loadPricing = async () => {
-        try {
-            const data = await pricingAPI.getAll()
-            if (data && data.length > 0) {
-                setTiers(data)
-            } else {
-                // Fallback to defaults if DB is empty to avoid broken UI
-                setTiers(defaultPlans)
-            }
-        } catch (error) {
-            console.error('Failed to load pricing:', error)
-            setTiers(defaultPlans)
-        } finally {
-            setLoading(false)
-        }
-    }
+export default function PricingTable({ initialTiers }: PricingTableProps) {
+    const tiers = initialTiers.length > 0 ? initialTiers : defaultPlans
 
     const handleCheckout = async (plan: string) => {
         console.log(`Checkout initiated for ${plan}`)
         // await stripe.redirectToCheckout(...)
     }
 
-    if (loading) {
-        return (
-            <div className="flex justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
-            </div>
-        )
-    }
-
     return (
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto px-6 relative z-10">
             {tiers.map((plan, index) => (
                 <motion.div
                     key={plan.id || plan.name}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className={`relative p-8 rounded-2xl border ${plan.is_popular
-                        ? 'bg-secondary/10 border-orange-500/50 shadow-2xl shadow-orange-500/10'
-                        : 'bg-background/50 border-white/10'
-                        } backdrop-blur-sm flex flex-col`}
+                    transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className={`relative p-10 rounded-[2rem] border transition-all duration-500 group ${plan.is_popular
+                        ? 'bg-white/[0.03] border-accent/30 shadow-[0_0_50px_rgba(212,168,83,0.05)]'
+                        : 'bg-white/[0.01] border-white/[0.05] hover:border-white/[0.1] hover:bg-white/[0.02]'
+                        } backdrop-blur-md flex flex-col`}
                 >
                     {plan.is_popular && (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest shadow-lg">
-                            Most Popular
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-[#0a0a0a] px-6 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
+                            Elite Selection
                         </div>
                     )}
 
-                    <div className="mb-8">
-                        <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                        <div className="text-4xl font-bold mb-4">{plan.price}</div>
-                        <p className="text-muted-foreground text-sm">{plan.description}</p>
+                    <div className="mb-10">
+                        <h3 className="text-zinc-500 text-xs font-bold uppercase tracking-[0.2em] mb-4">{plan.name}</h3>
+                        <div className="text-5xl font-serif text-white tracking-tighter mb-4">{plan.price}</div>
+                        <p className="text-zinc-500 text-sm leading-relaxed font-medium">{plan.description}</p>
                     </div>
 
-                    <div className="flex-grow mb-8 space-y-4">
+                    <div className="flex-grow mb-12 space-y-5">
                         {Array.isArray(plan.features) && plan.features.map((feature) => (
-                            <div key={feature} className="flex items-start gap-3">
-                                <div className="p-1 rounded-full bg-green-500/10 text-green-500 mt-0.5">
-                                    <Check className="w-3 h-3" />
+                            <div key={feature} className="flex items-start gap-4">
+                                <div className="p-0.5 rounded-full bg-accent/10 text-accent mt-0.5">
+                                    <Check className="w-3.5 h-3.5" />
                                 </div>
-                                <span className="text-sm">{feature}</span>
+                                <span className="text-sm text-zinc-400 font-medium group-hover:text-zinc-300 transition-colors">{feature}</span>
                             </div>
                         ))}
                     </div>
 
                     <Button
-                        className={`w-full h-12 text-lg font-bold ${plan.is_popular
-                            ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-glow'
-                            : 'bg-white/10 hover:bg-white/20 text-white'
+                        className={`w-full h-14 text-sm font-bold uppercase tracking-widest rounded-xl transition-all duration-300 ${plan.is_popular
+                            ? 'bg-white text-[#0a0a0a] hover:bg-accent hover:text-white shadow-lg'
+                            : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
                             }`}
                         onClick={() => handleCheckout(plan.name)}
                     >
-                        {plan.price === 'Custom' ? 'Contact Sales' : 'Get Started'}
+                        {plan.price === 'Custom' ? 'Contact Sales' : 'Start Your Project'}
                     </Button>
                 </motion.div>
             ))}
@@ -96,55 +69,58 @@ export default function PricingTable() {
     )
 }
 
-const defaultPlans: PricingTier[] = [
+const defaultPlans: Engagement[] = [
     {
         id: '1',
-        name: 'Conversion Diagnostic',
-        price: 'From $2,500',
-        description: 'Complete forensic audit and roadmap to fix your leaking revenue.',
+        name: 'Conversion Landing Pages',
+        price: 'From $5,000',
+        description: 'High-velocity, single-focus landing pages engineered strictly to convert traffic into qualified leads.',
         is_popular: false,
+        is_active: true,
         sort_order: 1,
         features: [
-            'Forensic Data Audit',
-            'Behavioral Analysis',
-            'UX Research Report',
-            'Prioritized Fix List',
-            'ROI Projections',
-            'Strategy Session'
+            'Conversion-Focused UX/UI',
+            'Sub-Second Performance Optimization',
+            'Advanced Analytics Setup',
+            'Behavioral Tracking Integration',
+            'A/B Testing Framework',
+            'Direct Technical Support'
         ]
     },
     {
         id: '2',
-        name: 'Fix Sprint',
-        price: '$5,000+',
-        description: 'Rapid, high-impact implementation of critical conversion fixes.',
+        name: 'The Monolith™ System',
+        price: 'From $15,000',
+        description: 'Our flagship build. End-to-end digital infrastructure, revenue positioning, and advanced funnel architecture.',
         is_popular: true,
+        is_active: true,
         sort_order: 2,
         features: [
-            'Foundational Fixes',
-            'Speed Optimization',
-            'Messaging Overhaul',
-            'Mobile Optimization',
-            'CTA Refinement',
-            '1-Week Implementation',
-            'Performance Tracking'
+            'End-to-End Enterprise Rebuild',
+            'Elite Brand & UI Design',
+            'Custom Headless Architecture',
+            'Cinematic WebGL & Motion',
+            'Intent-Based Copywriting Framework',
+            'Complex Funnel Engineering',
+            '90-Day Post-Launch Growth Strategy'
         ]
     },
     {
         id: '3',
-        name: 'Revenue System',
-        price: 'From $15,000',
-        description: 'Full website rebuild engineered for maximum conversion performance.',
+        name: 'Enterprise Growth',
+        price: 'From $4,000/mo',
+        description: 'Ongoing technical SEO, CRO, and performance engineering for teams demanding continuous, aggressive scaling.',
         is_popular: false,
+        is_active: true,
         sort_order: 3,
         features: [
-            'End-to-End Rebuild',
-            'Elite UX/UI Design',
-            'Custom CMS Integration',
-            'Advanced Animations',
-            'Intent-Based Copy',
-            'A/B Testing Framework',
-            '3-Months Post-Launch Support'
+            'Dedicated Lead Engineer & Strategist',
+            'Continuous A/B/n Testing',
+            'Technical SEO Retainer',
+            'Custom Dashboard Development',
+            'Priority Development Queue',
+            'Weekly Strategy Calls',
+            'No Long-Term Contracts'
         ]
     }
 ]

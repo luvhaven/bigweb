@@ -118,8 +118,8 @@ const AuraWearDemo = () => {
                                     </div>
 
                                     <div className="p-4 bg-black/[0.02] border border-black/[0.05] rounded-xl flex items-center gap-3">
-                                        <Clock className="w-4 h-4 text-orange-500" />
-                                        <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Reserved for <span className="text-orange-600">09:52</span> minutes</p>
+                                        <Clock className="w-4 h-4 text-accent" />
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Reserved for <span className="text-accent">09:52</span> minutes</p>
                                     </div>
                                 </motion.div>
                             )}

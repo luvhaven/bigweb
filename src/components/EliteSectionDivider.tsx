@@ -20,7 +20,7 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
           {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-orange-600/60"
+              className="absolute w-1 h-1 bg-accent/60"
               style={{
                 left: `${(i * 5)}%`,
                 top: '50%',
@@ -47,7 +47,7 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
     return (
       <div ref={ref} className="relative w-full h-4 bg-zinc-950 border-t border-b border-zinc-900 overflow-hidden">
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-600/20 to-transparent w-[50%]"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent w-[50%]"
           animate={{
             x: ['-100%', '200%'],
           }}
@@ -82,7 +82,7 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full h-[1px] bg-orange-600/20" />
+          <div className="w-full h-[1px] bg-accent/20" />
         </div>
       </div>
     )
@@ -103,12 +103,12 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
                 duration: 4,
                 repeat: Infinity,
                 delay: i * 0.1,
-                ease: "step-end"
+                ease: "linear"
               }}
             />
           ))}
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-orange-600/50" />
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-accent/50" />
       </div>
     )
   }
@@ -133,7 +133,7 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
           <path d="M0 100 L 20 50 L 40 80 L 60 20 L 80 60 L 100 100 Z" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-zinc-800" />
           <path d="M0 100 L 10 90 L 20 100 L 30 90 L 40 100 L 50 90 L 60 100 L 70 90 L 80 100 L 90 90 L 100 100 V 100 H 0 Z" fill="currentColor" className="text-zinc-950" />
         </svg>
-        <div className="absolute bottom-0 w-full h-[1px] bg-orange-600/30" />
+        <div className="absolute bottom-0 w-full h-[1px] bg-accent/30" />
       </div>
     )
   }
@@ -153,7 +153,7 @@ export default function EliteSectionDivider({ variant = 'wave', flip = false, in
             duration: 1.5,
             repeat: Infinity,
             delay: i * 0.1,
-            ease: "steps(2)"
+            ease: "linear"
           }}
         />
       ))}

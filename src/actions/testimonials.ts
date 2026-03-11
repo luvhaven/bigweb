@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath, unstable_noStore } from 'next/cache'
+import { TestimonialListSchema, safeParseList, type Testimonial } from '@/lib/schemas'
 
 function mapTestimonial(t: any) {
     return {
@@ -14,11 +15,11 @@ function mapTestimonial(t: any) {
     }
 }
 
-export async function getTestimonials() {
-    unstable_noStore() // Prevent caching
+export async function getTestimonials(): Promise<Testimonial[]> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: testimonials, error } = await supabase
+        const { data, error } = await supabase
             .from('testimonials')
             .select('*')
             .eq('isActive', true)
@@ -26,18 +27,23 @@ export async function getTestimonials() {
 
         if (error) throw error
 
-        return (testimonials || []).map(mapTestimonial)
+        const validated = safeParseList<Testimonial>(
+            TestimonialListSchema,
+            data || [],
+            'Testimonial'
+        )
+        return validated.map(mapTestimonial)
     } catch (error: any) {
         console.error('Failed to fetch testimonials:', error.message || error)
         return []
     }
 }
 
-export async function getFeaturedTestimonials() {
-    unstable_noStore() // Prevent caching
+export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: testimonials, error } = await supabase
+        const { data, error } = await supabase
             .from('testimonials')
             .select('*')
             .eq('isActive', true)
@@ -46,12 +52,18 @@ export async function getFeaturedTestimonials() {
 
         if (error) throw error
 
-        return (testimonials || []).map(mapTestimonial)
+        const validated = safeParseList<Testimonial>(
+            TestimonialListSchema,
+            data || [],
+            'Testimonial'
+        )
+        return validated.map(mapTestimonial)
     } catch (error: any) {
         console.error('Failed to fetch featured testimonials:', error.message || error)
         return []
     }
 }
+
 
 // Mutation: Save Testimonial (Update or Insert)
 export async function saveTestimonial(data: any) {

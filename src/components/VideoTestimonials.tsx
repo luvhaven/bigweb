@@ -18,7 +18,7 @@ export default function VideoTestimonials() {
     const loadVideos = async () => {
         try {
             // Fetch all active testimonials
-            const data = await testimonialsAPI.getAll('active')
+            const data = await testimonialsAPI.getAll()
 
             if (data) {
                 // Filter only those with video URLs

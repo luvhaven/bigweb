@@ -64,8 +64,8 @@ export default function ForensicComparison() {
                 <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
                     <div className="max-w-2xl">
                         <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
-                            <Brain className="w-4 h-4 text-orange-600" />
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                            <Brain className="w-4 h-4 text-accent" />
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent">
                                 Forensic_Analysis_Lab
                             </span>
                         </div>
@@ -107,7 +107,7 @@ export default function ForensicComparison() {
                                 className={cn(
                                     "w-full text-left p-8 border-l-4 transition-all duration-300 group bg-zinc-950",
                                     activeTab === idx
-                                        ? "bg-zinc-900 border-orange-600"
+                                        ? "bg-zinc-900 border-accent"
                                         : "bg-black border-zinc-900 hover:bg-zinc-900"
                                 )}
                             >
@@ -120,10 +120,10 @@ export default function ForensicComparison() {
                                     </span>
                                     <ArrowRight className={cn(
                                         "w-5 h-5 transition-transform",
-                                        activeTab === idx ? "text-orange-600 translate-x-0" : "text-zinc-700 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
+                                        activeTab === idx ? "text-accent translate-x-0" : "text-zinc-700 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
                                     )} />
                                 </div>
-                                <div className="text-[10px] text-orange-600 font-mono font-bold tracking-widest uppercase">
+                                <div className="text-[10px] text-accent font-mono font-bold tracking-widest uppercase">
                                     {comp.metric}
                                 </div>
                             </button>
@@ -131,7 +131,7 @@ export default function ForensicComparison() {
 
                         <div className="p-8 bg-zinc-950 border border-zinc-900 mt-8">
                             <h4 className="font-mono font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Zap className="w-3 h-3 text-orange-600" />
+                                <Zap className="w-3 h-3 text-accent" />
                                 Engineering_Logic_v1
                             </h4>
                             <p className="text-xs text-zinc-400 leading-relaxed font-mono">

@@ -90,10 +90,10 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
     }
 
     return (
-        <section className="py-24 bg-black relative overflow-hidden selection:bg-orange-500/30">
+        <section className="py-24 bg-black relative overflow-hidden selection:bg-accent/30">
             {/* Grid background for "Lab" feel */}
             <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:40px_40px]" />
-            <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
@@ -104,8 +104,8 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                         viewport={{ once: true }}
                         className="inline-flex items-center gap-2 px-5 py-2 bg-zinc-950 border border-zinc-900 mb-6"
                     >
-                        <AlertTriangle className="w-4 h-4 text-orange-500" />
-                        <span className="text-xs font-semibold uppercase tracking-wider text-orange-500">Common Website Problems</span>
+                        <AlertTriangle className="w-4 h-4 text-accent" />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-accent">Common Website Problems</span>
                     </motion.div>
 
                     <h2 className="text-4xl md:text-7xl font-black mb-6 tracking-tight leading-tight text-white">
@@ -126,18 +126,18 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                 key={prob.id}
                                 onClick={() => handleScan(prob.id)}
                                 className={`w-full text-left p-6 md:p-8 border-l-4 transition-all duration-300 group relative overflow-hidden flex items-start gap-6 ${scannedProblem === prob.id
-                                    ? 'bg-zinc-900/50 border-orange-600'
+                                    ? 'bg-zinc-900/50 border-accent'
                                     : 'bg-black border-zinc-900 hover:bg-zinc-950'
                                     }`}
                             >
-                                <div className={`mt-1 transition-all duration-300 ${scannedProblem === prob.id ? 'text-orange-600 scale-110' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
+                                <div className={`mt-1 transition-all duration-300 ${scannedProblem === prob.id ? 'text-accent scale-110' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
                                     <prob.icon className="w-6 h-6" />
                                 </div>
 
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
                                         <div className="flex items-center gap-2">
-                                            {scannedProblem === prob.id && <span className="text-[10px] font-bold text-orange-600 uppercase tracking-wider">DETECTED:</span>}
+                                            {scannedProblem === prob.id && <span className="text-[10px] font-bold text-accent uppercase tracking-wider">DETECTED:</span>}
                                             <h3 className={`text-lg font-bold uppercase tracking-wider transition-colors ${scannedProblem === prob.id ? 'text-white' : 'text-zinc-500 group-hover:text-zinc-300'}`}>
                                                 {prob.title}
                                             </h3>
@@ -148,7 +148,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                     </p>
                                 </div>
 
-                                <div className={`transition-all duration-300 ${scannedProblem === prob.id ? 'opacity-100 translate-x-0 text-orange-600' : 'opacity-0 -translate-x-4'}`}>
+                                <div className={`transition-all duration-300 ${scannedProblem === prob.id ? 'opacity-100 translate-x-0 text-accent' : 'opacity-0 -translate-x-4'}`}>
                                     <ArrowRight className="w-5 h-5" />
                                 </div>
                             </button>
@@ -169,7 +169,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                         animate={{ top: '110%' }}
                                         exit={{ opacity: 0 }}
                                         transition={{ duration: 1.2, ease: "linear" }}
-                                        className="absolute left-0 right-0 h-[100px] bg-gradient-to-b from-transparent via-orange-600/20 to-transparent z-30 pointer-events-none"
+                                        className="absolute left-0 right-0 h-[100px] bg-gradient-to-b from-transparent via-accent/20 to-transparent z-30 pointer-events-none"
                                     />
                                 )}
                             </AnimatePresence>
@@ -178,7 +178,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                             <div className="relative z-10 p-8 md:p-12 flex flex-col h-full font-mono">
                                 <div className="flex items-center justify-between mb-8 border-b border-zinc-900 pb-6">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-2.5 h-2.5 bg-orange-600 animate-pulse rounded-full" />
+                                        <div className="w-2.5 h-2.5 bg-accent animate-pulse rounded-full" />
                                         <span className="font-bold text-[9px] text-zinc-500 uppercase tracking-[0.2em]">Performance Analysis</span>
                                     </div>
                                     <div className="flex gap-1.5">
@@ -194,7 +194,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                             className="text-center"
                                         >
                                             <div className="w-24 h-24 rounded-2xl bg-zinc-900/30 border border-zinc-800 flex items-center justify-center mx-auto mb-8 relative">
-                                                <div className="absolute inset-0 border border-orange-600/10 rounded-2xl animate-pulse" />
+                                                <div className="absolute inset-0 border border-accent/10 rounded-2xl animate-pulse" />
                                                 <Search className="w-10 h-10 text-zinc-700" />
                                             </div>
                                             <p className="text-zinc-600 font-bold uppercase text-[10px] tracking-[0.4em] leading-loose">
@@ -217,7 +217,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                                 {/* Results Header */}
                                                 <div className="flex items-start justify-between">
                                                     <div className="space-y-4">
-                                                        <div className="text-[9px] font-bold text-orange-600 uppercase tracking-widest">Issue Detected</div>
+                                                        <div className="text-[9px] font-bold text-accent uppercase tracking-widest">Issue Detected</div>
                                                         <h4 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-none">
                                                             {problems.find(p => p.id === scannedProblem)?.leakType} <br />
                                                             <span className="text-zinc-800 font-bold not-italic">DETECTED</span>
@@ -238,7 +238,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                                     </div>
                                                     <div className="relative z-10">
                                                         <div className="flex items-center gap-2 mb-4">
-                                                            <Binary className="w-4 h-4 text-orange-600" />
+                                                            <Binary className="w-4 h-4 text-accent" />
                                                             <span className="text-zinc-800 text-[9px] font-bold uppercase tracking-[0.3em]">Detailed Discovery</span>
                                                         </div>
                                                         <p className="text-sm text-zinc-400 font-medium leading-relaxed">
@@ -250,7 +250,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                                 {/* Action Button */}
                                                 <div className="pt-4">
                                                     <Link href="/offers/revenue-roadmap">
-                                                        <Button className="h-14 px-8 rounded-xl bg-white text-black font-bold uppercase tracking-wide text-[11px] hover:bg-orange-600 hover:text-white transition-all flex items-center gap-4 shadow-lg">
+                                                        <Button className="h-14 px-8 rounded-xl bg-white text-black font-bold uppercase tracking-wide text-[11px] hover:bg-accent hover:text-white transition-all flex items-center gap-4 shadow-lg">
                                                             Get The Solution
                                                             <ArrowRight className="w-4 h-4" />
                                                         </Button>
@@ -265,7 +265,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                 <div className="mt-8 pt-6 border-t border-zinc-900 flex justify-between items-center text-[9px] font-bold text-zinc-700 tracking-[0.2em] uppercase">
                                     <div className="flex items-center gap-6">
                                         <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-emerald-500" /> SYSTEM STABLE</span>
-                                        <span className={`flex items-center gap-1.5 transition-colors duration-500 ${scannedProblem ? 'text-orange-600' : ''}`}><div className={`w-1.5 h-1.5 transition-all ${scannedProblem ? 'bg-orange-600 animate-pulse' : 'bg-zinc-900'}`} /> ISSUE IDENTIFIED</span>
+                                        <span className={`flex items-center gap-1.5 transition-colors duration-500 ${scannedProblem ? 'text-accent' : ''}`}><div className={`w-1.5 h-1.5 transition-all ${scannedProblem ? 'bg-accent animate-pulse' : 'bg-zinc-900'}`} /> ISSUE IDENTIFIED</span>
                                     </div>
                                     <div className="hidden md:block">Live Analysis: ACTIVE</div>
                                 </div>
@@ -286,9 +286,9 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                     <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
                                     <div className="relative z-10 space-y-12">
                                         {[
-                                            { label: 'Conversion Rate', start: '12%', end: '84%', color: 'from-orange-600 to-orange-400' },
+                                            { label: 'Conversion Rate', start: '12%', end: '84%', color: 'from-accent to-accent-light' },
                                             { label: 'User Experience', start: '45%', end: '96%', color: 'from-zinc-400 to-white' },
-                                            { label: 'Revenue/Session', start: '+$1.20', end: '+$6.40', color: 'from-orange-800 to-orange-600' }
+                                            { label: 'Revenue/Session', start: '+$1.20', end: '+$6.40', color: 'from-accent/70 to-accent' }
                                         ].map((stat, i) => (
                                             <div key={i} className="space-y-4">
                                                 <div className="flex justify-between items-end">
@@ -308,7 +308,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
 
                                         <div className="mt-12 p-10 bg-zinc-950 border border-zinc-900 text-center relative group/lift overflow-hidden">
                                             <div className="absolute inset-0 bg-white/[0.02] translate-y-full group-hover/lift:translate-y-0 transition-transform duration-700" />
-                                            <p className="text-[9px] text-orange-600 font-bold uppercase tracking-[0.5em] mb-4 relative z-10">Realized Performance Outcome</p>
+                                            <p className="text-[9px] text-accent font-bold uppercase tracking-[0.5em] mb-4 relative z-10">Realized Performance Outcome</p>
                                             <p className="text-4xl md:text-5xl font-black text-white italic tracking-tighter relative z-10">+312% <span className="text-lg text-zinc-500 font-bold ml-2 uppercase tracking-widest not-italic">IMPROVEMENT</span></p>
                                         </div>
                                     </div>
@@ -316,13 +316,13 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                             }
                         >
                             {/* REVEALED CONTENT (Deep Clinical View) */}
-                            <div className="relative bg-black border border-orange-500/30 p-16 shadow-2xl relative overflow-hidden">
-                                <div className="absolute inset-0 bg-orange-600/5 mix-blend-overlay" />
+                            <div className="relative bg-black border border-accent/30 p-16 shadow-2xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-accent/5 mix-blend-overlay" />
                                 <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.1] bg-[size:10px_10px]" />
                                 <div className="relative z-10 space-y-12">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <Activity className="w-5 h-5 text-orange-600 animate-pulse" />
-                                        <span className="text-orange-500 font-bold text-xs font-mono uppercase tracking-[0.4em]">Deep System Analysis</span>
+                                        <Activity className="w-5 h-5 text-accent animate-pulse" />
+                                        <span className="text-accent font-bold text-xs font-mono uppercase tracking-[0.4em]">Deep System Analysis</span>
                                     </div>
 
                                     <div className="p-8 border border-zinc-800 bg-black/40 backdrop-blur-sm relative overflow-hidden">
@@ -360,7 +360,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 text-orange-600 text-[10px] font-bold uppercase tracking-[0.4em] mb-4"
+                            className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 text-accent text-[10px] font-bold uppercase tracking-[0.4em] mb-4"
                         >
                             <FlaskConical className="w-4 h-4" /> Proprietary Methodology
                         </motion.div>
@@ -381,11 +381,11 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
                                 { title: 'Step 04', desc: 'Live Monitoring.', icon: ShieldAlert }
                             ].map((item, i) => (
                                 <div key={i} className="flex gap-6 group/item">
-                                    <div className="w-10 h-10 shrink-0 bg-black border border-zinc-900 flex items-center justify-center group-hover/item:border-orange-600 transition-all duration-500">
-                                        <item.icon className="w-4 h-4 text-zinc-700 group-hover/item:text-orange-600 transition-colors" />
+                                    <div className="w-10 h-10 shrink-0 bg-black border border-zinc-900 flex items-center justify-center group-hover/item:border-accent transition-all duration-500">
+                                        <item.icon className="w-4 h-4 text-zinc-700 group-hover/item:text-accent transition-colors" />
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="font-mono font-bold text-zinc-600 uppercase text-[9px] tracking-widest group-hover/item:text-orange-600 transition-colors">{item.title}</h4>
+                                        <h4 className="font-mono font-bold text-zinc-600 uppercase text-[9px] tracking-widest group-hover/item:text-accent transition-colors">{item.title}</h4>
                                         <p className="text-lg font-black text-white uppercase italic tracking-tight">{item.desc}</p>
                                     </div>
                                 </div>
@@ -394,7 +394,7 @@ export default function ProblemSolution({ data }: ProblemSolutionProps) {
 
                         <div className="pt-8">
                             <Link href="/offers/revenue-roadmap">
-                                <Button size="xl" className="h-16 px-10 rounded-xl bg-white text-black hover:bg-orange-600 hover:text-white font-bold text-xs uppercase tracking-wider shadow-2xl transition-all group border border-transparent hover:border-orange-600">
+                                <Button size="xl" className="h-16 px-10 rounded-xl bg-white text-black hover:bg-accent hover:text-white font-bold text-xs uppercase tracking-wider shadow-2xl transition-all group border border-transparent hover:border-accent">
                                     <span className="flex items-center gap-6">
                                         Start Roadmap
                                         <ArrowRight className="w-5 h-5 group-hover:translate-x-4 transition-transform" />

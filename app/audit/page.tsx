@@ -109,14 +109,14 @@ export default function AuditPage() {
     const getScoreColor = (score: number) => {
         if (score >= 90) return 'text-green-500'
         if (score >= 70) return 'text-yellow-500'
-        if (score >= 50) return 'text-orange-500'
+        if (score >= 50) return 'text-accent'
         return 'text-red-500'
     }
 
     const getSeverityIcon = (severity: string) => {
         switch (severity) {
             case 'critical': return <AlertCircle className="w-5 h-5 text-red-500" />
-            case 'warning': return <AlertCircle className="w-5 h-5 text-orange-500" />
+            case 'warning': return <AlertCircle className="w-5 h-5 text-accent" />
             case 'info': return <Info className="w-5 h-5 text-blue-500" />
             default: return <CheckCircle2 className="w-5 h-5 text-green-500" />
         }
@@ -125,7 +125,7 @@ export default function AuditPage() {
     const getSeverityBg = (severity: string) => {
         switch (severity) {
             case 'critical': return 'bg-red-500/10 border-red-500/20'
-            case 'warning': return 'bg-orange-500/10 border-orange-500/20'
+            case 'warning': return 'bg-accent/10 border-accent/20'
             case 'info': return 'bg-blue-500/10 border-blue-500/20'
             default: return 'bg-green-500/10 border-green-500/20'
         }
@@ -151,7 +151,7 @@ export default function AuditPage() {
                         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
                             Audit Your Website in
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-500">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent">
                                 Real-Time
                             </span>
                         </h1>
@@ -178,7 +178,7 @@ export default function AuditPage() {
                                     onClick={handleAudit}
                                     disabled={loading || !url}
                                     size="lg"
-                                    className="bg-gradient-to-r from-accent to-orange-500 hover:from-accent/90 hover:to-orange-500/90 h-14 px-8"
+                                    className="bg-gradient-to-r from-accent to-accent hover:from-accent/90 hover:to-accent/90 h-14 px-8"
                                 >
                                     {loading ? (
                                         <>
@@ -379,7 +379,7 @@ export default function AuditPage() {
                             </Tabs>
 
                             {/* CTA Section */}
-                            <Card className="mt-8 bg-gradient-to-br from-accent/10 to-orange-500/10 border-accent/20">
+                            <Card className="mt-8 bg-gradient-to-br from-accent/10 to-accent/10 border-accent/20">
                                 <CardContent className="p-8 text-center">
                                     <h3 className="text-2xl font-bold mb-4">Ready to Fix These Issues?</h3>
                                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -388,7 +388,7 @@ export default function AuditPage() {
                                     <div className="flex flex-wrap gap-4 justify-center">
                                         <Button
                                             size="lg"
-                                            className="bg-gradient-to-r from-accent to-orange-500 hover:from-accent/90 hover:to-orange-500/90"
+                                            className="bg-gradient-to-r from-accent to-accent hover:from-accent/90 hover:to-accent/90"
                                             onClick={() => window.location.href = '/contact'}
                                         >
                                             Get Free Consultation

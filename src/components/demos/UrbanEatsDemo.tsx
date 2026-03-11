@@ -86,7 +86,7 @@ export default function UrbanEatsDemo() {
         <div className="flex h-full bg-slate-50 font-sans overflow-hidden text-slate-900">
             {/* Sidebar Navigation */}
             <div className="w-20 bg-white border-r border-slate-200 flex flex-col items-center py-8 shrink-0 z-20">
-                <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mb-8 shadow-lg shadow-orange-500/30">
+                <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-white font-bold text-xl mb-8 shadow-lg shadow-accent/30">
                     U
                 </div>
                 <nav className="flex-1 flex flex-col gap-6 w-full">
@@ -96,11 +96,11 @@ export default function UrbanEatsDemo() {
                     <NavItem icon={Settings} />
                 </nav>
                 <div className="relative">
-                    <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-50 hover:text-orange-500 transition-colors cursor-pointer">
+                    <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-50 hover:text-accent transition-colors cursor-pointer">
                         <ShoppingBag className="w-5 h-5" />
                     </div>
                     {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">
+                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">
                             {cartCount}
                         </span>
                     )}
@@ -113,7 +113,7 @@ export default function UrbanEatsDemo() {
                 <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 shrink-0 z-10">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 text-slate-500 bg-slate-100 px-4 py-2 rounded-full hover:bg-slate-200 transition-colors cursor-pointer">
-                            <MapPin className="w-4 h-4 text-orange-500" />
+                            <MapPin className="w-4 h-4 text-accent" />
                             <span className="text-sm font-medium text-slate-700">New York, 5th Avenue</span>
                             <ChevronDown className="w-4 h-4" />
                         </div>
@@ -124,7 +124,7 @@ export default function UrbanEatsDemo() {
                         <input
                             type="text"
                             placeholder="Search for restaurants, cuisines..."
-                            className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-100 border-none text-sm focus:ring-2 focus:ring-orange-500/20 focus:bg-white transition-all"
+                            className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-100 border-none text-sm focus:ring-2 focus:ring-accent/20 focus:bg-white transition-all"
                         />
                     </div>
 
@@ -148,7 +148,7 @@ export default function UrbanEatsDemo() {
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center px-10 text-white">
-                            <span className="px-3 py-1 bg-orange-500 rounded-full text-xs font-bold w-fit mb-4">Free Delivery</span>
+                            <span className="px-3 py-1 bg-accent rounded-full text-xs font-bold w-fit mb-4">Free Delivery</span>
                             <h2 className="text-4xl font-bold mb-2">Taste the Best <br /> Asian Cuisine</h2>
                             <p className="text-white/80 mb-6 max-w-md">Get 20% off on your first order from selected Asian restaurants. Limited time offer.</p>
                             <button className="px-6 py-3 bg-white text-slate-900 rounded-xl font-bold w-fit hover:bg-orange-50 transition-colors">
@@ -161,7 +161,7 @@ export default function UrbanEatsDemo() {
                     <div className="mb-10">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-bold text-slate-800">Categories</h3>
-                            <button className="text-orange-500 text-sm font-medium hover:underline">See all</button>
+                            <button className="text-accent text-sm font-medium hover:underline">See all</button>
                         </div>
                         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                             {CATEGORIES.map((cat) => (
@@ -169,7 +169,7 @@ export default function UrbanEatsDemo() {
                                     key={cat.id}
                                     onClick={() => setActiveCategory(cat.id)}
                                     className={`flex flex-col items-center gap-3 min-w-[100px] p-4 rounded-2xl transition-all ${activeCategory === cat.id
-                                        ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30 scale-105'
+                                        ? 'bg-accent text-white shadow-lg shadow-accent/30 scale-105'
                                         : 'bg-white text-slate-600 hover:bg-orange-50 border border-slate-100'
                                         }`}
                                 >
@@ -207,7 +207,7 @@ export default function UrbanEatsDemo() {
                                             <Heart className={`w-4 h-4 ${liked.includes(restaurant.id) ? 'fill-red-500 text-red-500' : 'text-slate-400'}`} />
                                         </button>
                                         <div className="absolute bottom-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-lg text-xs font-bold text-slate-800 flex items-center gap-1">
-                                            <Clock className="w-3 h-3 text-orange-500" />
+                                            <Clock className="w-3 h-3 text-accent" />
                                             {restaurant.time}
                                         </div>
                                     </div>
@@ -227,7 +227,7 @@ export default function UrbanEatsDemo() {
                                             <span className="text-slate-400">{restaurant.price}</span>
                                         </div>
                                         <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
-                                            <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                                            <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center text-accent">
                                                 <Navigation className="w-3 h-3" />
                                             </div>
                                             <span>{restaurant.delivery === 'Free' ? 'Free Delivery' : `${restaurant.delivery} Delivery`}</span>
@@ -247,8 +247,8 @@ export default function UrbanEatsDemo() {
                 <div className="flex-1 overflow-y-auto space-y-6 pr-2">
                     <div className="bg-orange-50 rounded-2xl p-4 border border-orange-100">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">In Progress</span>
-                            <span className="text-xs font-medium text-orange-600">15 min left</span>
+                            <span className="text-xs font-bold text-accent uppercase tracking-wider">In Progress</span>
+                            <span className="text-xs font-medium text-accent">15 min left</span>
                         </div>
                         <div className="flex items-center gap-3 mb-3">
                             <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100&q=80" className="w-12 h-12 rounded-lg object-cover" />
@@ -258,7 +258,7 @@ export default function UrbanEatsDemo() {
                             </div>
                         </div>
                         <div className="w-full bg-orange-200 h-1.5 rounded-full overflow-hidden">
-                            <div className="w-2/3 h-full bg-orange-500 rounded-full" />
+                            <div className="w-2/3 h-full bg-accent rounded-full" />
                         </div>
                     </div>
 
@@ -294,7 +294,7 @@ export default function UrbanEatsDemo() {
 }
 
 const NavItem = ({ icon: Icon, active }: any) => (
-    <button className={`w-full flex justify-center py-3 border-r-2 transition-all ${active ? 'border-orange-500 text-orange-500' : 'border-transparent text-slate-400 hover:text-slate-600'}`}>
+    <button className={`w-full flex justify-center py-3 border-r-2 transition-all ${active ? 'border-accent text-accent' : 'border-transparent text-slate-400 hover:text-slate-600'}`}>
         <Icon className="w-6 h-6" />
     </button>
 )

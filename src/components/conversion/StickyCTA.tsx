@@ -45,7 +45,7 @@ export default function StickyCTA() {
                         <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                             <span className="sm:hidden font-medium text-sm">Elevate Your Conversion Rate Today</span>
                             <Link href="/contact">
-                                <Button className="rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20 group">
+                                <Button className="rounded-full bg-accent hover:bg-accent text-white shadow-lg shadow-accent/20 group">
                                     <Sparkles className="w-4 h-4 mr-2" />
                                     Get a Proposal
                                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

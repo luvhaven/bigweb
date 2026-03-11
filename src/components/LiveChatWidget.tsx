@@ -128,7 +128,7 @@ export default function LiveChatWidget() {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950/80 backdrop-blur-xl border border-zinc-800 text-zinc-400 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-orange-600 hover:text-white hover:border-orange-500 transition-all duration-300 rounded-full shadow-2xl"
+                        className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950/80 backdrop-blur-xl border border-zinc-800 text-zinc-400 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-accent hover:text-white hover:border-accent transition-all duration-300 rounded-full shadow-2xl"
                     >
                         <MessageCircle className="w-8 h-8 mb-1" />
                         <span className="text-[9px] font-mono font-bold uppercase tracking-widest">RELAY_v1</span>
@@ -179,7 +179,7 @@ export default function LiveChatWidget() {
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-orange-600 hover:text-white hover:border-orange-500 text-zinc-400 transition-colors rounded-full"
+                                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-accent hover:text-white hover:border-accent text-zinc-400 transition-colors rounded-full"
                                 >
                                     <X className="w-3 h-3" />
                                 </button>
@@ -204,7 +204,7 @@ export default function LiveChatWidget() {
                                             )}
                                             <div
                                                 className={`max-w-[75%] p-4 border ${msg.sender === 'user'
-                                                    ? 'bg-orange-600 text-white rounded-2xl rounded-tr-sm'
+                                                    ? 'bg-accent text-white rounded-2xl rounded-tr-sm'
                                                     : 'bg-white/5 border-white/10 text-zinc-300 rounded-2xl rounded-tl-sm'
                                                     }`}
                                             >
@@ -226,9 +226,9 @@ export default function LiveChatWidget() {
                                                 <span className="text-[8px] font-bold text-zinc-500">SYS</span>
                                             </div>
                                             <div className="bg-black border border-zinc-900 p-4 flex items-center gap-1">
-                                                <span className="w-1 h-1 bg-orange-600 animate-pulse" />
-                                                <span className="w-1 h-1 bg-orange-600 animate-pulse delay-75" />
-                                                <span className="w-1 h-1 bg-orange-600 animate-pulse delay-150" />
+                                                <span className="w-1 h-1 bg-accent animate-pulse" />
+                                                <span className="w-1 h-1 bg-accent animate-pulse delay-75" />
+                                                <span className="w-1 h-1 bg-accent animate-pulse delay-150" />
                                             </div>
                                         </motion.div>
                                     )}
@@ -245,18 +245,18 @@ export default function LiveChatWidget() {
                                         className="relative flex items-center gap-2"
                                     >
                                         <div className="flex-1 relative">
-                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-600 text-xs font-bold">{'>'}</span>
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-accent text-xs font-bold">{'>'}</span>
                                             <Input
                                                 value={message}
                                                 onChange={(e) => setMessage(e.target.value)}
                                                 placeholder="ENTER_COMMAND..."
-                                                className="w-full bg-white/5 border border-white/10 h-12 pl-6 pr-4 text-xs font-bold text-white placeholder:text-zinc-600 focus-visible:ring-0 focus-visible:border-orange-500 transition-colors rounded-xl"
+                                                className="w-full bg-white/5 border border-white/10 h-12 pl-6 pr-4 text-xs font-bold text-white placeholder:text-zinc-600 focus-visible:ring-0 focus-visible:border-accent transition-colors rounded-xl"
                                             />
                                         </div>
                                         <Button
                                             type="submit"
                                             disabled={!message.trim()}
-                                            className="w-12 h-12 bg-orange-600 hover:bg-orange-500 text-white border-0 transition-all font-bold rounded-xl shadow-lg shadow-orange-900/20"
+                                            className="w-12 h-12 bg-accent hover:bg-accent text-white border-0 transition-all font-bold rounded-xl shadow-lg shadow-accent/50/20"
                                         >
                                             <Send className="w-4 h-4" />
                                         </Button>

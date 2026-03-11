@@ -23,8 +23,8 @@ export default function TrustBadges() {
                         transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         className="flex items-center gap-4 group"
                     >
-                        <div className="w-10 h-10 flex items-center justify-center bg-zinc-950 border border-zinc-900 group-hover:border-orange-600 transition-colors duration-500">
-                            <Icon className="w-5 h-5 text-zinc-700 group-hover:text-orange-500 transition-colors" />
+                        <div className="w-10 h-10 flex items-center justify-center bg-zinc-950 border border-zinc-900 group-hover:border-accent transition-colors duration-500">
+                            <Icon className="w-5 h-5 text-zinc-700 group-hover:text-accent transition-colors" />
                         </div>
                         <div className="text-left">
                             <div className="text-[9px] font-mono font-black text-white uppercase tracking-[0.4em] mb-1">{badge.label}</div>

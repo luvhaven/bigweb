@@ -1,108 +1,152 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { TrendingUp, Zap, Award, Users } from 'lucide-react'
 
 const stats = [
-  { icon: TrendingUp, value: '$120M+', label: 'Client Revenue Generated', color: 'from-accent to-orange-600' },
-  { icon: Zap, value: '98%', label: 'Conversion Lift (Avg)', color: 'from-orange-500 to-red-600' },
-  { icon: Award, value: '142+', label: 'Audit Reports Delivered', color: 'from-blue-500 to-cyan-500' },
-  { icon: Users, value: '250+', label: 'High-Growth Founders', color: 'from-green-500 to-emerald-500' },
+  { icon: TrendingUp, value: '$120M+', label: 'Client Revenue Generated' },
+  { icon: Zap, value: '98%', label: 'Conversion Lift (Avg)' },
+  { icon: Award, value: '142+', label: 'Audit Reports Delivered' },
+  { icon: Users, value: '250+', label: 'High-Growth Founders' },
 ]
 
 export default function WhitePatternSection() {
+  const ref = useRef<HTMLElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+
   return (
-    <section className="relative py-32 bg-white overflow-hidden">
-      {/* Advanced Geometric Pattern Background */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        {/* Grid Pattern */}
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
-            </pattern>
-            <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
-              <circle cx="10" cy="10" r="1.5" fill="currentColor" />
-            </pattern>
-            <pattern id="diagonal" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-
-        {/* Dot Pattern Overlay */}
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100%" height="100%" fill="url(#dots)" />
-        </svg>
-      </div>
-
-      {/* Floating Geometric Shapes */}
-      <div className="absolute inset-0 overflow-hidden opacity-[0.04]">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 border-2 border-gray-900 rounded-full"
-          animate={{ rotate: 360, scale: [1, 1.1, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+    <section
+      ref={ref}
+      className="relative py-32 overflow-hidden bg-[#020202]"
+      style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+    >
+      {/* ── Radial depth background ── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 20%, rgba(255,255,255,0.018) 0%, transparent 70%)',
+          }}
         />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-48 h-48 border-2 border-gray-900 rotate-45"
-          animate={{ rotate: 405, scale: [1, 1.2, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute top-1/2 right-1/3 w-32 h-32 border-2 border-gray-900 rounded-lg"
-          animate={{ rotate: -360, scale: [1, 0.9, 1] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.022]"
+          style={{
+            backgroundImage: `
+                            linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)
+                        `,
+            backgroundSize: '48px 48px',
+          }}
         />
       </div>
 
-      {/* Content */}
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Trusted by Industry Leaders
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join hundreds of successful companies who have transformed their digital presence with our expertise
-          </p>
-        </motion.div>
+        {/* ── Heading block ── */}
+        <div className="text-center mb-20">
+          {/* Eye-brow */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-4 mb-7"
+          >
+            <span className="flex-1 max-w-[60px] h-px bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[9px] font-mono uppercase tracking-[0.5em] text-zinc-500 whitespace-nowrap">
+              Proven Impact
+            </span>
+            <span className="flex-1 max-w-[60px] h-px bg-gradient-to-l from-transparent to-white/20" />
+          </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {stats.map((stat, index) => {
+          <motion.h2
+            initial={{ opacity: 0, y: 28 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[0.95] text-white mb-6"
+            style={{ textShadow: '0 0 80px rgba(255,255,255,0.07)' }}
+          >
+            Trusted by
+            <br />
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.38) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Industry Leaders
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.27, ease: [0.16, 1, 0.3, 1] }}
+            className="text-sm text-zinc-500 max-w-md mx-auto leading-relaxed tracking-wide"
+          >
+            Join hundreds of successful companies who have transformed their digital presence with our expertise.
+          </motion.p>
+        </div>
+
+        {/* ── Stats grid ── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto">
+          {stats.map((stat, i) => {
             const Icon = stat.icon
             return (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group"
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.38 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="group relative rounded-2xl p-7 overflow-hidden cursor-default"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  backdropFilter: 'blur(12px)',
+                }}
               >
-                <div className="bg-white border-2 border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-gray-200">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+                {/* Inner top glow */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{
+                    background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,0.05), transparent)',
+                  }}
+                />
+                {/* Corner accent */}
+                <div
+                  className="absolute top-0 right-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                  style={{
+                    background: 'radial-gradient(circle at top right, rgba(255,255,255,0.06), transparent 70%)',
+                  }}
+                />
+
+                <div
+                  className="w-10 h-10 flex items-center justify-center rounded-lg mb-5 transition-transform duration-500 group-hover:scale-110"
+                  style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                  }}
+                >
+                  <Icon className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors duration-500" />
                 </div>
 
-                {/* Decorative corner accents */}
-                <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="text-4xl font-black text-white tracking-tight mb-1" style={{ fontFeatureSettings: '"tnum"' }}>
+                  {stat.value}
+                </div>
+                <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-zinc-500 group-hover:text-zinc-400 transition-colors duration-500 leading-tight">
+                  {stat.label}
+                </div>
               </motion.div>
             )
           })}
         </div>
       </div>
+
+      {/* Bottom accent line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.05] to-transparent pointer-events-none" />
     </section>
   )
 }

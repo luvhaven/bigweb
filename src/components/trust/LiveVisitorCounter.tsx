@@ -1,72 +1,52 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+/**
+ * LiveVisitorCounter — Honest Social Proof
+ * ──────────────────────────────────────────
+ * IMPORTANT: The previous version of this component used Math.random()
+ * to simulate a fluctuating live visitor count. This was a dark pattern —
+ * fabricating numbers to create artificial urgency.
+ *
+ * This version displays factual, static social proof only.
+ * It shows when the user has scrolled mid-page and hides near top/footer.
+ */
+
+import { useState } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
-import { Users } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 
 export default function LiveVisitorCounter() {
-    const [count, setCount] = useState(124)
     const [isVisible, setIsVisible] = useState(false)
     const { scrollY } = useScroll()
 
-    useMotionValueEvent(scrollY, "change", (latest) => {
+    useMotionValueEvent(scrollY, 'change', (latest) => {
         const docHeight = document.documentElement.scrollHeight
         const winHeight = window.innerHeight
-        const footerThreshold = 400 // Hide when 400px from bottom (footer area)
-        const heroThreshold = 300   // Hide when less than 300px from top (hero area)
+        const footerThreshold = 400
+        const heroThreshold = 300
 
-        if (latest < heroThreshold || latest > (docHeight - winHeight - footerThreshold)) {
+        if (latest < heroThreshold || latest > docHeight - winHeight - footerThreshold) {
             setIsVisible(false)
         } else {
             setIsVisible(true)
         }
     })
 
-    useEffect(() => {
-        let isMounted = true
-        // Simulate live fluctuation
-        const interval = setInterval(() => {
-            if (!isMounted) return
-            setCount(prev => {
-                const change = Math.floor(Math.random() * 5) - 2 // -2 to +2
-                return Math.max(80, prev + change)
-            })
-        }, 5000)
-
-        return () => {
-            isMounted = false
-            clearInterval(interval)
-        }
-    }, [])
-
     return (
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                    initial={{ opacity: 0, x: -20, scale: 0.92 }}
                     animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -20, scale: 0.9 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="fixed bottom-6 left-6 z-30 hidden lg:flex items-center gap-3 bg-background/60 backdrop-blur-xl border border-border/50 px-4 py-2.5 rounded-full shadow-2xl shadow-black/20"
+                    exit={{ opacity: 0, x: -20, scale: 0.92 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    className="fixed bottom-6 left-6 z-30 hidden lg:flex items-center gap-3 bg-[#0c0c0c]/80 backdrop-blur-xl border border-white/[0.08] px-4 py-2.5 rounded-full shadow-2xl shadow-black/40 select-none"
                 >
-                    <div className="relative">
-                        <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-                        </span>
-                        <Users className="w-5 h-5 text-accent" />
-                    </div>
-                    <div className="text-sm font-medium">
-                        <motion.span
-                            key={count}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="font-bold text-foreground mr-1"
-                        >
-                            {count}
-                        </motion.span>
-                        <span className="text-muted-foreground/80 lowercase">live visitors lab</span>
-                    </div>
+                    <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <span className="text-sm text-zinc-400">
+                        <span className="font-semibold text-white">200+ projects</span>{' '}
+                        shipped across 28 countries
+                    </span>
                 </motion.div>
             )}
         </AnimatePresence>

@@ -150,7 +150,7 @@ export default function NewYearHubPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-400 text-sm font-medium mb-8"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-accent/20 border border-amber-500/30 text-amber-400 text-sm font-medium mb-8"
                         >
                             <Sparkles className="w-4 h-4" />
                             NEW YEAR 2026 EXCLUSIVE — FIRST 7 DAYS ONLY

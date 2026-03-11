@@ -39,7 +39,7 @@ const CinematicBackground = () => (
 
 const MetricBadge = ({ icon: Icon, label, value }: { icon: any, label: string, value: string }) => (
     <div className="flex items-center gap-4 p-4 bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-2xl">
-        <div className="w-10 h-10 rounded-xl bg-orange-600/10 flex items-center justify-center text-orange-500">
+        <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
             <Icon size={18} />
         </div>
         <div className="flex flex-col">
@@ -56,7 +56,7 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
 
     // 2. Rendering Strategy: Plain HTML with CSS Entry Animations to bypass any Framer Motion issues
     return (
-        <section className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden selection:bg-orange-600/30">
+        <section className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden selection:bg-accent/30">
             <CinematicBackground />
 
             {/* Main Conversion Stage - HIGH PRIORITY Z-INDEX */}
@@ -65,11 +65,11 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
                 {/* 1. Status Indicator - CSS Animated */}
                 <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-full mb-12 shadow-2xl animate-fade-in [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
                     <div className="relative h-2.5 w-2.5">
-                        <span className="absolute h-full w-full rounded-full bg-orange-500 animate-ping opacity-50"></span>
-                        <span className="relative h-2.5 w-2.5 rounded-full bg-orange-500 shadow-[0_0_12px_#f97316] block"></span>
+                        <span className="absolute h-full w-full rounded-full bg-accent animate-ping opacity-50"></span>
+                        <span className="relative h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_12px_#f97316] block"></span>
                     </div>
                     <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-zinc-100">
-                        Operational Status: <span className="text-orange-500">Elite</span>
+                        Operational Status: <span className="text-accent">Elite</span>
                     </span>
                 </div>
 
@@ -87,14 +87,14 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-12 animate-fade-in [animation-delay:800ms] opacity-0 [animation-fill-mode:forwards]">
                     <Link href="/offers/revenue-roadmap">
                         <Magnetic strength={0.2}>
-                            <Button size="xl" className="h-24 px-16 bg-white text-black hover:bg-orange-600 hover:text-white rounded-xl font-bold text-xs tracking-[0.6em] transition-all duration-700 shadow-[0_20px_50px_rgba(255,100,0,0.2)] border-0">
+                            <Button size="xl" className="h-24 px-16 bg-white text-black hover:bg-accent hover:text-white rounded-xl font-bold text-xs tracking-[0.6em] transition-all duration-700 shadow-[0_20px_50px_rgba(255,100,0,0.2)] border-0">
                                 START PROJECT <ArrowRight className="ml-6 w-5 h-5" />
                             </Button>
                         </Magnetic>
                     </Link>
 
                     <Link href="/case-studies" className="group flex items-center gap-6">
-                        <div className="w-16 h-[1px] bg-zinc-800 group-hover:w-24 group-hover:bg-orange-500 transition-all duration-700" />
+                        <div className="w-16 h-[1px] bg-zinc-800 group-hover:w-24 group-hover:bg-accent transition-all duration-700" />
                         <span className="text-[11px] font-bold text-zinc-500 group-hover:text-white uppercase tracking-[0.7em] transition-colors">
                             THE ARCHIVE
                         </span>
@@ -110,7 +110,7 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
                 </div>
 
                 <div className="flex flex-col items-end gap-10 h-full justify-end animate-fade-in [animation-delay:1200ms] opacity-0 [animation-fill-mode:forwards]">
-                    <div className="text-[10px] font-mono font-bold text-orange-500 tracking-[0.4em] uppercase bg-orange-600/10 px-6 py-3 border border-orange-500/30 shadow-2xl backdrop-blur-3xl">
+                    <div className="text-[10px] font-mono font-bold text-accent tracking-[0.4em] uppercase bg-accent/10 px-6 py-3 border border-accent/30 shadow-2xl backdrop-blur-3xl">
                         ESTABLISHED 2018 | HKG.LND.SFO
                     </div>
 
@@ -131,7 +131,7 @@ export const EliteImmersiveHero = ({ heroData }: EliteImmersiveHeroProps) => {
             <motion.div
                 animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
                 transition={{ duration: 15, repeat: Infinity }}
-                className="absolute top-[20%] left-[20%] w-[60%] h-[60%] bg-orange-600/5 blur-[120px] rounded-full pointer-events-none z-0"
+                className="absolute top-[20%] left-[20%] w-[60%] h-[60%] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-0"
             />
         </section>
     )

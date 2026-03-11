@@ -37,7 +37,7 @@ const steps = [
         description: "Launch is only the beginning. We perform constant testing and data-driven updates to ensure your results grow and improve over time.",
         icon: TrendingUp,
         metrics: ["Ongoing Testing", "Growth Planning", "Performance Tracking"],
-        color: "bg-orange-500",
+        color: "bg-accent",
         id: "04"
     }
 ]

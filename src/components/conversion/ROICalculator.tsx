@@ -19,7 +19,7 @@ export default function ROICalculator() {
         <section className="py-32 relative overflow-hidden bg-black border-t border-white/5">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:30px_30px] opacity-[0.03]" />
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -32,7 +32,7 @@ export default function ROICalculator() {
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono uppercase tracking-widest text-zinc-400 mb-6">
-                                <Calculator className="w-3 h-3 text-orange-500" />
+                                <Calculator className="w-3 h-3 text-accent" />
                                 <span>Financial Projection</span>
                             </div>
 
@@ -49,7 +49,7 @@ export default function ROICalculator() {
                             <div className="space-y-5">
                                 <div className="flex justify-between items-end">
                                     <label className="flex items-center gap-3 font-bold text-sm text-zinc-300 uppercase tracking-wider">
-                                        <Users className="w-4 h-4 text-orange-500" />
+                                        <Users className="w-4 h-4 text-accent" />
                                         Monthly Traffic
                                     </label>
                                     <span className="text-2xl font-mono font-bold text-white tracking-tight">{visitors.toLocaleString()}</span>
@@ -68,7 +68,7 @@ export default function ROICalculator() {
                             <div className="space-y-5">
                                 <div className="flex justify-between items-end">
                                     <label className="flex items-center gap-3 font-bold text-sm text-zinc-300 uppercase tracking-wider">
-                                        <TrendingUp className="w-4 h-4 text-orange-500" />
+                                        <TrendingUp className="w-4 h-4 text-accent" />
                                         Base Conversion
                                     </label>
                                     <span className="text-2xl font-mono font-bold text-white tracking-tight">{conversionRate}%</span>
@@ -87,7 +87,7 @@ export default function ROICalculator() {
                             <div className="space-y-5">
                                 <div className="flex justify-between items-end">
                                     <label className="flex items-center gap-3 font-bold text-sm text-zinc-300 uppercase tracking-wider">
-                                        <DollarSign className="w-4 h-4 text-orange-500" />
+                                        <DollarSign className="w-4 h-4 text-accent" />
                                         Order Value
                                     </label>
                                     <span className="text-2xl font-mono font-bold text-white tracking-tight">${averageOrder}</span>
@@ -127,9 +127,9 @@ export default function ROICalculator() {
                                     <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Current Monthly</p>
                                     <p className="text-xl md:text-2xl font-mono font-bold text-zinc-400">${currentRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
                                 </div>
-                                <div className="bg-orange-500/10 border border-orange-500/20 p-6 rounded-2xl text-center backdrop-blur-sm relative overflow-hidden group">
-                                    <div className="absolute inset-0 bg-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                    <p className="text-[10px] uppercase tracking-widest text-orange-400 mb-2 relative z-10">Optimized Monthly</p>
+                                <div className="bg-accent/10 border border-accent/20 p-6 rounded-2xl text-center backdrop-blur-sm relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <p className="text-[10px] uppercase tracking-widest text-accent-light mb-2 relative z-10">Optimized Monthly</p>
                                     <p className="text-xl md:text-2xl font-mono font-bold text-white relative z-10">${improvedRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
                                 </div>
                             </div>

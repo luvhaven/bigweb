@@ -148,7 +148,7 @@ export default function BentoGrid({
                     --blue-500-alpha-15: rgba(59, 130, 246, 0.15);
                     --green-500-alpha-15: rgba(34, 197, 94, 0.15);
                     --purple-500-alpha-15: rgba(168, 85, 247, 0.15);
-                    --orange-500-alpha-15: rgba(249, 115, 22, 0.15);
+                    --accent-alpha-15: rgba(249, 115, 22, 0.15);
                     --cyan-500-alpha-15: rgba(6, 182, 212, 0.15);
                     --emerald-500-alpha-15: rgba(16, 185, 129, 0.15);
                     --indigo-500-alpha-15: rgba(99, 102, 241, 0.15);

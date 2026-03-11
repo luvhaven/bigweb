@@ -1,158 +1,144 @@
-import React from 'react'
-import { ArrowLeft, Clock, Calendar, Share2, Linkedin, Twitter } from 'lucide-react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import ConversionNavigation from '@/components/ConversionNavigation'
+import { getBlogPostBySlug } from '@/actions/blog'
+import AdvancedNavigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
-import { Button } from '@/components/ui/button'
+import Breadcrumbs from '@/components/seo/Breadcrumbs'
+import { BreadcrumbSchema } from '@/components/seo/JsonLd'
+import StickyCTABar from '@/components/mobile/StickyCTABar'
+import { notFound } from 'next/navigation'
 
-// Force dynamic rendering since we are fetching data based on slug
-export const dynamic = 'force-dynamic'
-
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const supabase = await createClient()
-    const { data: post } = await supabase
-        .from('cms_blog_posts')
-        .select('*')
-        .eq('slug', params.slug)
-        .single()
-
-    if (!post) return { title: 'Post Not Found' }
-
-    return {
-        title: post.seo_title || post.title,
-        description: post.seo_description || post.excerpt,
-        openGraph: {
-            images: [post.cover_image_url || '/og-image.jpg']
-        }
-    }
-}
+export const revalidate = 3600
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-    const supabase = await createClient()
-    const { data: post, error } = await supabase
-        .from('cms_blog_posts')
-        .select(`
-            *,
-            category:cms_blog_categories(name, slug)
-        `)
-        .eq('slug', params.slug)
-        .single()
+    const post = await getBlogPostBySlug(params.slug)
 
-    if (error || !post) {
+    if (!post) {
         notFound()
     }
 
-    // Basic markdown-like parsing (conceptually) - for now assuming raw text or simple HTML usage
-    // In production, use 'react-markdown' or similar. 
-    // We will render paragraphs by splitting by \n\n for this MVP.
-    const contentParagraphs = post.content ? post.content.split('\n\n') : []
+    const breadcrumbItems = [
+        { label: 'Digital Almanac', href: '/blog' },
+        { label: post.title, href: `/blog/${post.slug}` }
+    ]
 
     return (
-        <main className="min-h-screen bg-background selection:bg-accent/30">
-            <ConversionNavigation />
-
-            <article className="pt-24 pb-16">
-                {/* Header */}
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <Link href="/blog" className="inline-flex items-center text-muted-foreground hover:text-accent mb-6 transition-colors">
-                        <ArrowLeft className="w-4 h-4 mr-2" /> Back to Knowledge Base
-                    </Link>
-
-                    <div className="flex flex-wrap gap-4 items-center mb-4 text-xs text-muted-foreground">
-                        <span className="px-3 py-1 rounded-full bg-accent/10 text-accent font-bold border border-accent/20">
-                            {post.category?.name || 'Article'}
-                        </span>
-                        <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" /> {post.reading_time_minutes} min read
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" /> {new Date(post.published_at).toLocaleDateString()}
-                        </div>
-                    </div>
-
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        {post.title}
-                    </h1>
-
-                    {post.cover_image_url && (
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-12 border border-white/10 shadow-2xl">
-                            <img src={post.cover_image_url} alt={post.title} className="w-full h-full object-cover" />
-                        </div>
-                    )}
-                </div>
-
-                {/* Content */}
-                <div className="container mx-auto px-6 max-w-3xl">
-                    <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-accent prose-img:rounded-xl">
-                        {contentParagraphs.map((paragraph: string, i: number) => {
-                            // Simple parsing for headings
-                            if (paragraph.startsWith('# ')) return <h1 key={i}>{paragraph.replace('# ', '')}</h1>
-                            if (paragraph.startsWith('## ')) return <h2 key={i} className="text-3xl mt-12 mb-6 text-foreground">{paragraph.replace('## ', '')}</h2>
-                            if (paragraph.startsWith('### ')) return <h3 key={i} className="text-2xl mt-8 mb-4 text-foreground">{paragraph.replace('### ', '')}</h3>
-                            if (paragraph.startsWith('1. ')) {
-                                // List hack
-                                const items = paragraph.split('\n').map(l => l.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
-                                return <ol key={i} className="list-decimal pl-6 space-y-2 mb-6 text-muted-foreground marker:text-accent">{items.map((item, idx) => <li key={idx} dangerouslySetInnerHTML={{ __html: item }} />)}</ol>
+        <main className="min-h-screen bg-[#050505] text-white selection:bg-accent/20">
+            {/* SEO Structured Data */}
+            <BreadcrumbSchema items={[
+                { name: 'Home', url: 'https://bigwebdigital.com' },
+                ...breadcrumbItems.map(item => ({ name: item.label, url: `https://bigwebdigital.com${item.href}` }))
+            ]} />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BlogPosting',
+                        mainEntityOfPage: {
+                            '@type': 'WebPage',
+                            '@id': `https://bigwebdigital.com/blog/${post.slug}`
+                        },
+                        headline: post.title,
+                        description: post.excerpt || (post.content ? post.content.slice(0, 160).replace(/<[^>]*>?/gm, '') : ''),
+                        image: post.cover_image || 'https://bigwebdigital.com/og-image.jpg',
+                        author: {
+                            '@type': 'Organization', // Can map to Person if we fetch Author profile
+                            name: post.author || 'BIGWEB Digital'
+                        },
+                        publisher: {
+                            '@type': 'Organization',
+                            name: 'BIGWEB Digital',
+                            logo: {
+                                '@type': 'ImageObject',
+                                url: 'https://bigwebdigital.com/logo.png'
                             }
+                        },
+                        datePublished: post.published_at || new Date().toISOString(),
+                        dateModified: post.published_at || new Date().toISOString()
+                    })
+                }}
+            />
 
-                            // Bold text replacement
-                            const pContent = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground">$1</strong>').replace(/\*(.*?)\*/g, '<em class="text-accent">$1</em>')
+            <AdvancedNavigation />
 
-                            return <p key={i} className="mb-6 text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: pContent }} />
-                        })}
+            <div className="container mx-auto px-6 pt-32 pb-10">
+                <Breadcrumbs items={breadcrumbItems} />
+            </div>
+
+            <article className="pb-32">
+                {/* Header */}
+                <header className="container mx-auto px-6 lg:px-16 pt-10 pb-16">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <div className="flex justify-center items-center gap-4 text-xs font-mono uppercase tracking-widest text-zinc-500 mb-8">
+                            <span>{post.category}</span>
+                            {post.read_time && (
+                                <>
+                                    <span className="w-1 h-1 rounded-full bg-zinc-700" />
+                                    <span>{post.read_time} min read</span>
+                                </>
+                            )}
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-display leading-[1.05] tracking-tight mb-8">
+                            {post.title}
+                        </h1>
+                        {post.excerpt && (
+                            <p className="text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+                                {post.excerpt}
+                            </p>
+                        )}
+
+                        {post.published_at && (
+                            <div className="mt-8 text-sm text-zinc-600 font-mono">
+                                Published on {new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            </div>
+                        )}
                     </div>
+                </header>
 
-                    {/* Author & Share */}
-                    <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-secondary overflow-hidden">
-                                {post.author_avatar_url ? (
-                                    <img src={post.author_avatar_url} alt={post.author_name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-accent text-white font-bold">
-                                        {post.author_name ? post.author_name[0] : 'A'}
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <p className="font-bold text-foreground">{post.author_name}</p>
-                                <p className="text-xs text-muted-foreground">Conversion Engineer</p>
-                            </div>
+                {/* Cover Image */}
+                {post.cover_image && (
+                    <div className="container mx-auto px-6 lg:px-16 mb-20">
+                        <div className="w-full h-[400px] md:h-[600px] rounded-[2rem] overflow-hidden border border-white/[0.05] relative">
+                            <img
+                                src={post.cover_image}
+                                alt={post.title}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
+                    </div>
+                )}
 
-                        <div className="flex gap-2">
-                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
-                                <Twitter className="w-4 h-4" />
-                            </Button>
-                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
-                                <Linkedin className="w-4 h-4" />
-                            </Button>
-                            <Button variant="outline" size="icon" className="rounded-full border-white/10 hover:bg-white/5">
-                                <Share2 className="w-4 h-4" />
-                            </Button>
-                        </div>
+                {/* Content Body */}
+                <div className="container mx-auto px-6 lg:px-16">
+                    <div className="max-w-3xl mx-auto">
+                        <div
+                            className="prose prose-invert prose-lg prose-p:text-zinc-400 prose-headings:text-white prose-a:text-accent prose-a:no-underline transition-colors hover:prose-a:text-accent/80 prose-blockquote:border-accent prose-blockquote:bg-accent/[0.02] prose-blockquote:px-6 prose-blockquote:py-2 prose-blockquote:border-l-4 prose-blockquote:not-italic prose-li:text-zinc-400"
+                            dangerouslySetInnerHTML={{ __html: post.content || '' }}
+                        />
                     </div>
                 </div>
             </article>
 
-            {/* CTA */}
-            <section className="py-24 bg-card border-y border-border">
+            {/* Newsletter / CTA */}
+            <section className="py-24 border-t border-white/[0.04] bg-white/[0.01]">
                 <div className="container mx-auto px-6 text-center max-w-2xl">
-                    <h2 className="text-3xl font-bold mb-6">Need results like this?</h2>
-                    <p className="text-muted-foreground mb-8">
-                        Stop trying to figure it out alone. Get a forensic audit of your funnel in 48 hours.
-                    </p>
-                    <Link href="/offers/diagnostic">
-                        <Button size="lg" className="h-14 px-8 text-lg bg-accent hover:bg-accent-dark shadow-xl">
-                            Start Your Diagnostic
-                        </Button>
-                    </Link>
+                    <h2 className="text-4xl font-display mb-6">Want more technical teardowns?</h2>
+                    <p className="text-zinc-400 mb-8 leading-relaxed">Join 10,000+ founders and engineers getting our most brutal, actionable insights sent directly to their inbox every Tuesday.</p>
+                    <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            required
+                            className="flex-1 bg-white/[0.03] border border-white/[0.1] rounded-full px-6 py-4 text-sm focus:outline-none focus:border-accent transition-colors"
+                        />
+                        <button type="submit" className="bg-white text-black font-semibold tracking-wide px-8 py-4 rounded-full text-sm hover:bg-zinc-200 transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
                 </div>
             </section>
 
             <Footer />
+            <StickyCTABar />
         </main>
     )
 }

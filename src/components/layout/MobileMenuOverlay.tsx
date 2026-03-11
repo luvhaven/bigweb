@@ -34,8 +34,8 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
     // Sub-items for quick links (Capabilities sub-set)
     const quickLinks = [
         { id: 'cap1', label: 'Engineering', icon: 'Code', url: '/services/web-development' },
-        { id: 'cap2', label: 'Revenue Systems', icon: 'Cpu', url: '/services/crm-automation' },
-        { id: 'cap3', label: 'Funnel Arch', icon: 'GitBranch', url: '/services/funnels' },
+        { id: 'cap2', label: 'Revenue Systems', icon: 'Cpu', url: '/services/revenue-systems' },
+        { id: 'cap3', label: 'Funnel Arch', icon: 'GitBranch', url: '/services/funnel-architecture' },
         { id: 'cap4', label: 'The Lab™', icon: 'Microscope', url: '/services/conversion-optimization' }
     ];
 
@@ -61,7 +61,7 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                 >
                     {/* Background Dynamics */}
                     <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-[size:40px_40px] pointer-events-none" />
-                    <div className="absolute top-0 left-0 w-full h-[40vh] bg-gradient-to-b from-orange-500/[0.08] to-transparent pointer-events-none" />
+                    <div className="absolute top-0 left-0 w-full h-[40vh] bg-gradient-to-b from-accent/[0.08] to-transparent pointer-events-none" />
 
                     {/* Header */}
                     <div className="relative z-10 flex items-center justify-between px-8 py-6 border-b border-white/5">
@@ -93,7 +93,7 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                                         onClick={onClose}
                                         className="group block py-4 border-b border-white/[0.06]"
                                     >
-                                        <div className="text-5xl font-bold text-white group-active:text-orange-400 transition-all duration-300 leading-tight tracking-tight">
+                                        <div className="text-5xl font-bold text-white group-active:text-accent-light transition-all duration-300 leading-tight tracking-tight">
                                             {item.label}
                                         </div>
                                     </Link>
@@ -117,7 +117,7 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
                                             onClick={onClose}
                                             className="flex flex-col gap-4 p-6 rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/10 active:bg-white/[0.12] active:scale-95 transition-all duration-200"
                                         >
-                                            <Icon className="w-6 h-6 text-orange-400" />
+                                            <Icon className="w-6 h-6 text-accent-light" />
                                             <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-zinc-400">
                                                 {service.label}
                                             </span>
@@ -130,7 +130,7 @@ export default function MobileMenuOverlay({ isOpen, onClose }: MobileMenuOverlay
 
                     {/* Action Footer */}
                     <div className="relative z-10 p-8 border-t border-white/[0.08] bg-black/50 backdrop-blur-xl">
-                        <Button className="w-full h-20 text-xs font-bold bg-white text-black hover:bg-orange-500 hover:text-white rounded-2xl uppercase tracking-[0.3em] transition-all duration-300 shadow-lg" asChild>
+                        <Button className="w-full h-20 text-xs font-bold bg-white text-black hover:bg-accent hover:text-white rounded-2xl uppercase tracking-[0.3em] transition-all duration-300 shadow-lg" asChild>
                             <Link href="/offers/revenue-roadmap" onClick={onClose}>
                                 Revenue Roadmap <ArrowRight className="w-5 h-5 ml-4" />
                             </Link>

@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
             {/* Core Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                    { label: 'Total_Leads', value: stats.leads, trend: '+12.4%', up: true, icon: Users, color: 'text-orange-500' },
+                    { label: 'Total_Leads', value: stats.leads, trend: '+12.4%', up: true, icon: Users, color: 'text-accent' },
                     { label: 'Site_Views', value: stats.views.toLocaleString(), trend: '+8.2%', up: true, icon: Eye, color: 'text-blue-500' },
                     { label: 'Conv_Rate', value: '5.2%', trend: '-1.1%', up: false, icon: Target, color: 'text-purple-500' },
                     { label: 'Avg_Uptime', value: '99.9%', trend: 'Perfect', up: true, icon: Gauge, color: 'text-emerald-500' },
@@ -225,15 +225,15 @@ export default function AnalyticsPage() {
                 {/* Conversion Funnel */}
                 <div className="p-8 rounded-[2.5rem] bg-zinc-900/40 border border-white/5 backdrop-blur-sm">
                     <h3 className="text-xl font-black text-white uppercase italic mb-8 flex items-center gap-3">
-                        <Activity className="w-5 h-5 text-orange-500" />
+                        <Activity className="w-5 h-5 text-accent" />
                         Conversion_Funnel
                     </h3>
                     <div className="space-y-6">
                         {[
-                            { label: 'Aquisition', sub: 'Total Visitors', value: '4,820', percent: 100, color: 'bg-orange-500' },
-                            { label: 'Engagement', sub: 'Viewed Offers', value: '1,240', percent: 25.7, color: 'bg-orange-500/80' },
-                            { label: 'Intent', sub: 'Diagnostic Start', value: '312', percent: 6.4, color: 'bg-orange-500/60' },
-                            { label: 'Conversion', sub: 'Qualified Leads', value: '142', percent: 2.9, color: 'bg-orange-500/40' },
+                            { label: 'Aquisition', sub: 'Total Visitors', value: '4,820', percent: 100, color: 'bg-accent' },
+                            { label: 'Engagement', sub: 'Viewed Offers', value: '1,240', percent: 25.7, color: 'bg-accent/80' },
+                            { label: 'Intent', sub: 'Diagnostic Start', value: '312', percent: 6.4, color: 'bg-accent/60' },
+                            { label: 'Conversion', sub: 'Qualified Leads', value: '142', percent: 2.9, color: 'bg-accent/40' },
                         ].map((item, i) => (
                             <div key={i} className="space-y-2">
                                 <div className="flex items-center justify-between">
@@ -279,8 +279,8 @@ export default function AnalyticsPage() {
                                     animate={{ opacity: 1, x: 0 }}
                                     className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 flex items-start gap-4"
                                 >
-                                    <div className="w-10 h-10 shrink-0 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                                        <Zap className="w-5 h-5 text-orange-500" />
+                                    <div className="w-10 h-10 shrink-0 rounded-xl bg-accent/10 flex items-center justify-center">
+                                        <Zap className="w-5 h-5 text-accent" />
                                     </div>
                                     <div className="flex-1 overflow-hidden">
                                         <p className="text-sm font-bold text-white leading-snug">{event.message}</p>

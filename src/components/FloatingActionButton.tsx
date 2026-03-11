@@ -74,7 +74,7 @@ export default function FloatingActionButton() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={scrollToTop}
-                className="w-14 h-14 rounded-full bg-gradient-to-br from-accent to-orange-600 text-white shadow-2xl hover:shadow-accent/50 flex items-center justify-center relative overflow-hidden group"
+                className="w-14 h-14 rounded-full bg-gradient-to-br from-accent to-accent text-white shadow-2xl hover:shadow-accent/50 flex items-center justify-center relative overflow-hidden group"
               >
                 <motion.div
                   className="absolute inset-0 bg-white/20"

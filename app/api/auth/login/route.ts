@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { comparePassword, createToken } from '@/lib/auth'
+import { createClient } from '@supabase/supabase-js'
+
+// This route forwards login requests to Supabase Auth.
+// The app uses Supabase SSR auth + cookie session handling (see middleware.ts).
+// Custom JWT tokens are no longer issued.
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { email, password } = body
 
-    // Validate required fields
     if (!email || !password) {
       return NextResponse.json(
         { success: false, error: 'Email and password are required' },
@@ -15,57 +21,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find user
-    const user = await prisma.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        role: true,
-        password: true,
-        avatar: true,
-      },
-    })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (!user) {
+    if (error || !data.user) {
       return NextResponse.json(
         { success: false, error: 'Invalid credentials' },
         { status: 401 }
       )
     }
 
-    // Verify password
-    const isValid = await comparePassword(password, user.password)
-    if (!isValid) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid credentials' },
-        { status: 401 }
-      )
-    }
-
-    // Create JWT token
-    const token = createToken(user.id, user.email, user.role)
-
-    // Return user data (without password)
     return NextResponse.json({
       success: true,
       data: {
         user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          avatar: user.avatar,
+          id: data.user.id,
+          email: data.user.email,
+          role: data.user.user_metadata?.role || 'user',
         },
-        token,
+        // Note: session token is managed via Supabase SSR cookies automatically
+        // This token is provided for API consumers if needed
+        access_token: data.session?.access_token,
       },
     })
   } catch (error) {
     console.error('Login error:', error)
-    return NextResponse.json(
-      { success: false, error: 'Authentication failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: 'Authentication failed' }, { status: 500 })
   }
 }

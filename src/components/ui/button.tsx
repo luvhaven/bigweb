@@ -15,7 +15,7 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 font-bold",
         ghost: "hover:bg-accent/10 hover:text-accent transition-colors font-bold",
         link: "text-accent underline-offset-4 hover:underline font-bold",
-        gradient: "bg-gradient-to-r from-accent via-orange-500 to-accent text-white shadow-[0_4px_14px_0_rgba(255,107,53,0.39)] hover:shadow-[0_6px_20px_rgba(255,107,53,0.53)] hover:-translate-y-1 bg-size-200 hover:bg-right transition-all font-bold",
+        gradient: "bg-gradient-to-r from-accent via-accent to-accent text-white shadow-[0_4px_14px_0_rgba(255,107,53,0.39)] hover:shadow-[0_6px_20px_rgba(255,107,53,0.53)] hover:-translate-y-1 bg-size-200 hover:bg-right transition-all font-bold",
         luxury: "bg-gradient-to-br from-[#1a1a1a] to-black text-white border border-white/10 shadow-2xl hover:border-accent/40 hover:shadow-accent/20 hover:scale-[1.02] relative overflow-hidden font-bold",
         conversion: "bg-foreground text-background hover:bg-foreground/90 shadow-[0_0_50px_-10px_rgba(var(--accent),0.5)] hover:shadow-[0_0_60px_-5px_rgba(var(--accent),0.6)] hover:-translate-y-1 transition-all font-bold",
         primary: "bg-accent text-white shadow-[0_4px_14px_0_rgba(255,107,53,0.39)] hover:shadow-[0_6px_20px_rgba(255,107,53,0.23)] hover:-translate-y-1 transition-all duration-300 font-bold",

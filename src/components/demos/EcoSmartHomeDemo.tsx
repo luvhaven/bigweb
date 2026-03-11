@@ -28,7 +28,7 @@ const ROOMS = [
 ]
 
 const SCENES = [
-    { id: 'morning', name: 'Morning', icon: Sun, color: 'bg-orange-500' },
+    { id: 'morning', name: 'Morning', icon: Sun, color: 'bg-accent' },
     { id: 'away', name: 'Away', icon: Lock, color: 'bg-slate-500' },
     { id: 'movie', name: 'Movie Night', icon: Music, color: 'bg-purple-500' },
     { id: 'sleep', name: 'Good Night', icon: Moon, color: 'bg-indigo-500' },

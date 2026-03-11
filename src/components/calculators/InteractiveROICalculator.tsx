@@ -87,7 +87,7 @@ export default function InteractiveROICalculator() {
                                     <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <TrendingUp className="w-4 h-4" /> Conv. Rate
                                     </label>
-                                    <span className="text-2xl font-bold text-orange-400">{conversionRate[0].toFixed(1)}%</span>
+                                    <span className="text-2xl font-bold text-accent-light">{conversionRate[0].toFixed(1)}%</span>
                                 </div>
                                 <Slider
                                     value={conversionRate}
@@ -134,14 +134,14 @@ export default function InteractiveROICalculator() {
                 {/* Results Output */}
                 <div className="relative">
                     {/* Glowing Background Effect */}
-                    <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 to-purple-600/20 rounded-[2rem] blur-2xl opacity-50 animate-pulse" />
+                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/20 to-purple-600/20 rounded-[2rem] blur-2xl opacity-50 animate-pulse" />
 
-                    <div className="p-8 rounded-3xl border-2 border-orange-500/30 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+                    <div className="p-8 rounded-3xl border-2 border-accent/30 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl relative overflow-hidden shadow-2xl">
                         <div className="absolute inset-0 bg-[url('/assets/noise.png')] opacity-[0.03] mix-blend-overlay" />
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[80px]" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-[80px]" />
 
                         <div className="relative z-10">
-                            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-orange-400">
+                            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-accent-light">
                                 <Crown className="w-6 h-6" />
                                 Revenue Potential
                             </h3>
@@ -153,7 +153,7 @@ export default function InteractiveROICalculator() {
                                     animate={{ opacity: 1, y: 0 }}
                                     key={newConversionRate} // Re-animate on change
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     <div className="relative">
                                         <div className="text-orange-200/70 text-sm font-medium mb-1">Optimized Conversion Rate</div>
                                         <div className="text-4xl md:text-5xl font-bold text-white tracking-tight flex items-baseline gap-2">
@@ -164,7 +164,7 @@ export default function InteractiveROICalculator() {
                                 </motion.div>
 
                                 <motion.div
-                                    className="p-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-purple-600/20 border border-orange-500/30 relative overflow-hidden"
+                                    className="p-6 rounded-2xl bg-gradient-to-br from-accent/20 to-purple-600/20 border border-accent/30 relative overflow-hidden"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.1 }}
@@ -172,7 +172,7 @@ export default function InteractiveROICalculator() {
                                 >
                                     <div className="relative">
                                         <div className="text-orange-200/70 text-sm font-medium mb-1">Additional Annual Revenue</div>
-                                        <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-400 tracking-tight">
+                                        <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-light to-purple-400 tracking-tight">
                                             +{formatNumber(additionalAnnualRevenue)}
                                         </div>
                                         <div className="text-sm text-white/50 mt-2">
@@ -182,7 +182,7 @@ export default function InteractiveROICalculator() {
                                 </motion.div>
 
                                 <div className="flex items-start gap-3 text-sm text-muted-foreground bg-white/5 p-4 rounded-xl">
-                                    <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                                    <Sparkles className="w-5 h-5 text-accent-light shrink-0 mt-0.5" />
                                     <p>
                                         Based on our conservative <strong className="text-white">2.8x enhancement factor</strong> typically seen in our first 90 days.
                                     </p>
@@ -190,7 +190,7 @@ export default function InteractiveROICalculator() {
 
                                 <div className="pt-4">
                                     <Link href="/contact" className="block">
-                                        <Button size="lg" className="w-full text-lg h-14 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white shadow-xl shadow-orange-500/20 rounded-xl group">
+                                        <Button size="lg" className="w-full text-lg h-14 bg-gradient-to-r from-accent to-red-600 hover:from-accent-light hover:to-red-500 text-white shadow-xl shadow-accent/20 rounded-xl group">
                                             Unlock This Revenue
                                             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                         </Button>

@@ -11,33 +11,44 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#050505] text-white flex items-center justify-center h-screen font-sans selection:bg-orange-600/30">
-        <div className="relative text-center max-w-xl p-6">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-[size:40px_40px] pointer-events-none" />
+      <body className="bg-black text-white flex items-center justify-center h-screen font-sans selection:bg-accent/30 overflow-hidden relative">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] bg-[size:40px_40px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
 
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-orange-600/10 border border-orange-500/20 mb-8 shadow-[0_0_50px_rgba(234,88,12,0.1)]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+        <div className="relative text-center max-w-2xl px-6 z-10">
+          <div className="inline-flex items-center justify-center w-28 h-28 rounded-[2rem] bg-red-500/5 border border-red-500/20 mb-12 shadow-[0_0_50px_rgba(239,44,44,0.1)] relative group">
+            <div className="absolute inset-0 bg-red-500/10 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-red-500 relative z-10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
           </div>
 
-          <h2 className="text-5xl font-bold mb-6 uppercase italic tracking-tighter">
-            System <span className="text-orange-600">Critical</span>
+          <h2 className="font-serif text-6xl md:text-8xl tracking-tighter leading-none mb-8">
+            Critical <br />
+            <span className="text-zinc-600 italic">Interruption.</span>
           </h2>
 
-          <p className="text-xl text-zinc-500 mb-12 font-medium leading-relaxed">
-            Our automated protocols encountered a critical root exception. We are diagnosticating the core failure.
+          <p className="text-lg md:text-xl text-zinc-400 mb-16 max-w-lg mx-auto leading-relaxed font-light">
+            Our core systems encountered a significant failure.
+            We are working to restore service as quickly as possible.
           </p>
 
           <button
             onClick={() => reset()}
-            className="h-16 px-10 bg-orange-600 hover:bg-orange-700 text-white font-bold uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-orange-900/40"
+            className="group relative inline-flex items-center gap-4 bg-white text-black px-12 py-5 rounded-full text-sm font-bold tracking-[0.1em] uppercase transition-all duration-700 hover:scale-105 active:scale-95"
           >
-            Initiate System Restore
+            Restart Experience
           </button>
 
-          <div className="mt-16 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
-            <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-[0.4em]">Root Diagnostic Logs</p>
-            <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-zinc-500">
-              STATUS: CORE_FAILURE
+          <div className="mt-24 pt-12 border-t border-white/5 flex flex-col items-center gap-6">
+            <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.4em]">Diagnostic Information</span>
+            <div className="flex flex-wrap justify-center gap-3">
+              <div className="px-4 py-1.5 rounded-full bg-white/[0.02] border border-white/5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                Signal: Disconnected
+              </div>
+              {error.digest && (
+                <div className="px-4 py-1.5 rounded-full bg-white/[0.02] border border-white/5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                  Trace ID: {error.digest}
+                </div>
+              )}
             </div>
           </div>
         </div>

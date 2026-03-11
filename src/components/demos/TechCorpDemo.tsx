@@ -435,7 +435,7 @@ const ProjectsView = () => (
                         <h3 className="font-semibold text-white">{project.title}</h3>
                         <span className={`px-2 py-1 rounded text-xs font-medium ${project.status === 'Completed' ? 'bg-green-500/10 text-green-400' :
                             project.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400' :
-                                'bg-orange-500/10 text-orange-400'
+                                'bg-accent/10 text-accent-light'
                             }`}>
                             {project.status}
                         </span>
@@ -485,7 +485,7 @@ const NotificationsView = () => (
                 <div key={i} className="bg-[#0f1419] rounded-xl border border-slate-800/50 p-4 hover:border-blue-500/30 transition-colors cursor-pointer">
                     <div className="flex items-start gap-4">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${notif.type === 'success' ? 'bg-green-500/10 text-green-400' :
-                            notif.type === 'warning' ? 'bg-orange-500/10 text-orange-400' :
+                            notif.type === 'warning' ? 'bg-accent/10 text-accent-light' :
                                 notif.type === 'error' ? 'bg-red-500/10 text-red-400' :
                                     'bg-blue-500/10 text-blue-400'
                             }`}>
@@ -680,7 +680,7 @@ const KanbanColumn = ({ title, children }: any) => (
 )
 
 const KanbanCard = ({ title, users, color }: any) => (
-    <div className={`p-3 rounded-lg border ${color === 'teal' ? 'bg-teal-500/10 border-teal-500/30' : 'bg-orange-500/10 border-orange-500/30'}`}>
+    <div className={`p-3 rounded-lg border ${color === 'teal' ? 'bg-teal-500/10 border-teal-500/30' : 'bg-accent/10 border-accent/30'}`}>
         <p className="text-xs text-white mb-2">{title}</p>
         <div className="flex -space-x-2">
             {Array.from({ length: users }).map((_, i) => (

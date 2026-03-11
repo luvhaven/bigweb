@@ -53,7 +53,7 @@ const services = [
     description: "Dominate search rankings and drive qualified organic traffic at scale",
     features: ["Technical SEO", "Content Strategy", "Link Building", "Local SEO"],
     metric: "Top 3 in 6 Months",
-    color: "from-orange-500 to-amber-600",
+    color: "from-accent to-amber-600",
     size: "medium"
   },
   {
@@ -71,7 +71,7 @@ const services = [
     description: "Blazing-fast load times that reduce bounce rates and increase engagement",
     features: ["Core Web Vitals", "CDN Setup", "Image Optimization", "Code Splitting"],
     metric: "99+ Lighthouse Score",
-    color: "from-yellow-500 to-orange-500",
+    color: "from-yellow-500 to-accent",
     size: "small"
   },
   {
@@ -171,7 +171,7 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
           {/* Icon & Badge */}
           <div className="space-y-6">
             <div className="flex items-start justify-between">
-              <div className="w-16 h-16 bg-zinc-950 border border-zinc-900 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 text-zinc-600">
+              <div className="w-16 h-16 bg-zinc-950 border border-zinc-900 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-all duration-500 text-zinc-600">
                 <service.icon className="w-8 h-8" />
               </div>
 
@@ -185,7 +185,7 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
               <h4 className="text-[10px] font-mono font-bold text-zinc-800 uppercase tracking-[0.5em]">
                 CAPABILITY_0{index + 1}
               </h4>
-              <h3 className={`font-black text-white hover:text-orange-600 transition-colors duration-500 uppercase tracking-tighter italic leading-none ${service.size === 'large' ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>
+              <h3 className={`font-black text-white hover:text-accent transition-colors duration-500 uppercase tracking-tighter italic leading-none ${service.size === 'large' ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>
                 {service.title}
               </h3>
               <p className="text-zinc-500 text-lg font-medium leading-[1.1] tracking-tight">
@@ -197,7 +197,7 @@ const ServiceCard = ({ service, index }: ServiceCardProps) => {
             <div className="space-y-3 pt-4 border-t border-zinc-900">
               {service.features.map((feature, i) => (
                 <div key={i} className="flex items-center gap-4 text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-800">
-                  <div className="w-2 h-2 bg-zinc-950 border border-zinc-900 group-hover:bg-orange-600 transition-colors" />
+                  <div className="w-2 h-2 bg-zinc-950 border border-zinc-900 group-hover:bg-accent transition-colors" />
                   {feature}
                 </div>
               ))}
@@ -234,7 +234,7 @@ const ServicesGrid = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
-          className="max-w-6xl mb-40 border-l-4 border-orange-600 pl-12 relative overflow-hidden text-left"
+          className="max-w-6xl mb-40 border-l-4 border-accent pl-12 relative overflow-hidden text-left"
         >
           <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-950 border border-zinc-900 text-zinc-600 text-[10px] font-mono font-bold uppercase tracking-[0.5em] mb-12">
             Development_Arsenal_v1.0
@@ -244,7 +244,7 @@ const ServicesGrid = () => {
             Clinical <br /><span className="text-zinc-800">Capability.</span>
           </h2>
           <p className="text-2xl md:text-5xl text-zinc-500 font-medium leading-none tracking-tight max-w-5xl">
-            End-to-end solutions engineered for <span className="text-white italic underline underline-offset-8 decoration-orange-600">Pure_Performance</span>.
+            End-to-end solutions engineered for <span className="text-white italic underline underline-offset-8 decoration-accent">Pure_Performance</span>.
           </p>
         </motion.div>
 

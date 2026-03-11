@@ -2,20 +2,21 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath, unstable_noStore } from 'next/cache'
+import { ServiceListSchema, ServiceSchema, safeParseList, type Service } from '@/lib/schemas'
 
 // Fetch all active services
-export async function getServices() {
-    unstable_noStore() // Prevent caching
+export async function getServices(): Promise<Service[]> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: services, error } = await supabase
+        const { data, error } = await supabase
             .from('services')
             .select('*')
             .eq('isActive', true)
             .order('title', { ascending: true })
 
         if (error) throw error
-        return services || []
+        return safeParseList<Service>(ServiceListSchema, data || [], 'Service')
     } catch (error: any) {
         console.error('Failed to fetch services:', error.message || error)
         return []
@@ -23,24 +24,32 @@ export async function getServices() {
 }
 
 // Fetch single service by slug
-export async function getServiceBySlug(slug: string) {
-    unstable_noStore() // Prevent caching
+export async function getServiceBySlug(slug: string): Promise<Service | null> {
+    unstable_noStore()
     try {
         const supabase = await createClient()
-        const { data: service, error } = await supabase
+        const { data, error } = await supabase
             .from('services')
             .select('*')
             .eq('slug', slug)
             .eq('isActive', true)
-            .single()
+            .limit(1)
 
         if (error) throw error
-        return service
+        if (!data || data.length === 0) return null
+
+        const result = ServiceSchema.safeParse(data[0])
+        if (!result.success) {
+            console.warn(`[Schema:Service Single] Failed to parse: ${result.error.message}`)
+            return data[0] as Service // Fallback to raw data
+        }
+        return result.data
     } catch (error: any) {
         console.error(`Failed to fetch service ${slug}:`, error.message || error)
         return null
     }
 }
+
 
 // Mutation: Save Service (Update or Insert)
 export async function saveService(data: any) {

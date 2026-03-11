@@ -98,7 +98,7 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
   }, [isPlaying, slides.length])
 
   return (
-    <div ref={containerRef} className="relative h-[100dvh] w-full bg-black overflow-hidden selection:bg-orange-500/30">
+    <div ref={containerRef} className="relative h-[100dvh] w-full bg-black overflow-hidden selection:bg-accent/30">
 
       {/* Visual Component: 45% Width Right Side (Desktop Only) */}
       <div className="absolute inset-y-0 right-0 w-[45%] h-full overflow-hidden bg-black z-0 hidden lg:block">
@@ -167,9 +167,9 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
               className="space-y-6 max-w-2xl"
             >
               <div className="flex items-start">
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-orange-950/40 border border-orange-500/20 backdrop-blur-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                  <span className="text-[11px] font-bold text-orange-500 uppercase tracking-widest leading-none pt-[1px]">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-accent/30/40 border border-accent/20 backdrop-blur-md">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-[11px] font-bold text-accent uppercase tracking-widest leading-none pt-[1px]">
                     {slides[activeSlide].subtitle}
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
                   {slides[activeSlide].title}
                 </h1>
 
-                <p className="text-xs md:text-base lg:text-lg text-zinc-400 max-w-md font-medium leading-relaxed border-l-2 border-orange-500/30 pl-6">
+                <p className="text-xs md:text-base lg:text-lg text-zinc-400 max-w-md font-medium leading-relaxed border-l-2 border-accent/30 pl-6">
                   {slides[activeSlide].description}
                 </p>
               </div>
@@ -194,7 +194,7 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
                 </Link>
                 <Link href="/case-studies">
                   <Button variant="link" className="text-zinc-500 hover:text-white hover:no-underline uppercase font-black tracking-[0.4em] text-xs flex items-center gap-4 group px-0 border-none bg-transparent hover:bg-transparent">
-                    <div className="w-12 h-[1px] bg-zinc-800 group-hover:w-20 group-hover:bg-orange-600 transition-all duration-500" />
+                    <div className="w-12 h-[1px] bg-zinc-800 group-hover:w-20 group-hover:bg-accent transition-all duration-500" />
                     THE EVIDENCE
                   </Button>
                 </Link>
@@ -223,7 +223,7 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
                 <button
                   key={idx}
                   onClick={() => setActiveSlide(idx)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${idx === activeSlide ? 'bg-orange-600 scale-110 shadow-[0_0_10px_rgba(234,88,12,0.4)]' : 'bg-zinc-900 hover:bg-zinc-700'}`}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${idx === activeSlide ? 'bg-accent scale-110 shadow-[0_0_10px_rgba(234,88,12,0.4)]' : 'bg-zinc-900 hover:bg-zinc-700'}`}
                 />
               ))}
             </div>
@@ -231,12 +231,12 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
 
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-3xl flex items-center justify-center text-white hover:bg-orange-600 hover:border-orange-500 transition-all group shadow-2xl relative"
+            className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-3xl flex items-center justify-center text-white hover:bg-accent hover:border-accent transition-all group shadow-2xl relative"
           >
             {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
             {isPlaying && (
               <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none">
-                <circle cx="50%" cy="50%" r="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="100.5" strokeDashoffset="100.5" className="text-orange-500">
+                <circle cx="50%" cy="50%" r="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="100.5" strokeDashoffset="100.5" className="text-accent">
                   <animate attributeName="stroke-dashoffset" from="100.5" to="0" dur="8s" repeatCount="indefinite" />
                 </circle>
               </svg>
@@ -255,7 +255,7 @@ export default function VerticalSplitHero({ slides: cmsSlides }: VerticalSplitHe
         transition={{ delay: 2 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 text-zinc-500"
       >
-        <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-orange-500 to-transparent" />
+        <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-accent to-transparent" />
         <span className="text-[10px] font-black uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll</span>
       </motion.div>
     </div>

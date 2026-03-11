@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import EditPostPageClient from './EditBlogClient'
 
 export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {

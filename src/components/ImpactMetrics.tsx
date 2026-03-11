@@ -34,7 +34,7 @@ const metrics = [
     value: 98,
     suffix: "%",
     label: "Client Satisfaction",
-    color: "from-orange-500 to-red-600",
+    color: "from-accent to-red-600",
     description: "Average rating from clients"
   },
 ];
@@ -86,8 +86,8 @@ const ImpactMetrics = () => {
           className="text-center mb-32"
         >
           <div className="inline-flex items-center gap-3 px-6 py-2 bg-zinc-950 border border-zinc-900 mb-10">
-            <Zap className="w-4 h-4 text-orange-600" />
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+            <Zap className="w-4 h-4 text-accent" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent">
               Impact_Velocity_v3
             </span>
           </div>
@@ -109,14 +109,14 @@ const ImpactMetrics = () => {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="relative group h-full"
             >
-              <div className="relative p-10 bg-black border border-zinc-900 h-full hover:bg-zinc-950 transition-all duration-500 group-hover:border-orange-600">
+              <div className="relative p-10 bg-black border border-zinc-900 h-full hover:bg-zinc-950 transition-all duration-500 group-hover:border-accent">
                 {/* Corner Accents */}
-                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-zinc-700 group-hover:border-orange-600 transition-colors" />
-                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-zinc-700 group-hover:border-orange-600 transition-colors" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-zinc-700 group-hover:border-accent transition-colors" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-zinc-700 group-hover:border-accent transition-colors" />
 
                 {/* Icon */}
                 <div className="mb-8 p-4 bg-zinc-950 border border-zinc-900 inline-block">
-                  <metric.icon className="w-6 h-6 text-zinc-600 group-hover:text-orange-600 transition-colors duration-300" />
+                  <metric.icon className="w-6 h-6 text-zinc-600 group-hover:text-accent transition-colors duration-300" />
                 </div>
 
                 {/* Counter */}
@@ -125,7 +125,7 @@ const ImpactMetrics = () => {
                 </div>
 
                 {/* Label */}
-                <div className="text-[10px] font-mono font-bold text-orange-600 uppercase tracking-[0.3em] mb-4">
+                <div className="text-[10px] font-mono font-bold text-accent uppercase tracking-[0.3em] mb-4">
                   {metric.label}
                 </div>
 

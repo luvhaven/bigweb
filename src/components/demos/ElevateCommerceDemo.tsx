@@ -51,7 +51,7 @@ const ElevateCommerceDemo = () => {
                         <div className="h-8 w-[1px] bg-gray-100" />
                         <div className="relative cursor-pointer group">
                             <ShoppingBag className="w-5 h-5 text-black" />
-                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full" />
+                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-accent rounded-full" />
                         </div>
                     </div>
                 </header>
@@ -88,8 +88,8 @@ const ElevateCommerceDemo = () => {
                                 <div className="md:w-[450px] p-12 md:p-20 flex flex-col justify-center bg-white shrink-0">
                                     <div className="mb-12">
                                         <div className="flex items-center gap-2 mb-4">
-                                            <div className="w-4 h-[1px] bg-orange-500" />
-                                            <span className="text-orange-500 text-[10px] font-black uppercase tracking-widest">{product.category}</span>
+                                            <div className="w-4 h-[1px] bg-accent" />
+                                            <span className="text-accent text-[10px] font-black uppercase tracking-widest">{product.category}</span>
                                         </div>
                                         <h2 className="text-5xl font-black text-black tracking-tighter leading-none mb-6 font-serif italic italic">{product.name}</h2>
                                         <p className="text-3xl font-light text-gray-400 mb-8 font-serif">{product.price}</p>
@@ -117,7 +117,7 @@ const ElevateCommerceDemo = () => {
                                         <div className="space-y-3">
                                             {product.details.map(detail => (
                                                 <div key={detail} className="flex items-center gap-3 text-gray-500">
-                                                    <Check className="w-3 h-3 text-orange-500" />
+                                                    <Check className="w-3 h-3 text-accent" />
                                                     <span className="text-[10px] font-bold uppercase tracking-widest">{detail}</span>
                                                 </div>
                                             ))}
@@ -126,7 +126,7 @@ const ElevateCommerceDemo = () => {
 
                                     <button
                                         onClick={() => setView('checkout')}
-                                        className="w-full py-6 bg-black text-white font-black uppercase tracking-[0.4em] text-[10px] rounded-full flex items-center justify-center gap-2 hover:bg-orange-600 transition-all active:scale-95 group shadow-2xl shadow-black/10"
+                                        className="w-full py-6 bg-black text-white font-black uppercase tracking-[0.4em] text-[10px] rounded-full flex items-center justify-center gap-2 hover:bg-accent transition-all active:scale-95 group shadow-2xl shadow-black/10"
                                     >
                                         Proceed to Concierge
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -159,10 +159,10 @@ const ElevateCommerceDemo = () => {
                                                     <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">Priority_Shipping</p>
                                                     <div className="p-5 bg-white border border-gray-100 rounded-2xl flex items-center justify-between shadow-sm">
                                                         <div className="flex items-center gap-4">
-                                                            <Package className="w-5 h-5 text-orange-500" />
+                                                            <Package className="w-5 h-5 text-accent" />
                                                             <span className="text-xs font-bold uppercase text-gray-800 tracking-widest">White Glove Delivery</span>
                                                         </div>
-                                                        <span className="text-[10px] font-black text-orange-600 uppercase">Selected</span>
+                                                        <span className="text-[10px] font-black text-accent uppercase">Selected</span>
                                                     </div>
                                                 </div>
 
@@ -177,7 +177,7 @@ const ElevateCommerceDemo = () => {
 
                                             <div className="pt-8 border-t border-gray-100 flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <Gift className="w-4 h-4 text-orange-500" />
+                                                    <Gift className="w-4 h-4 text-accent" />
                                                     <span className="text-[10px] font-black uppercase text-gray-500">Add Signature Gift Wrap</span>
                                                 </div>
                                                 <div className="w-10 h-6 bg-gray-200 rounded-full p-1"><div className="w-4 h-4 bg-white rounded-full" /></div>
@@ -185,7 +185,7 @@ const ElevateCommerceDemo = () => {
 
                                             <button
                                                 onClick={() => setView('success')}
-                                                className="w-full py-6 bg-black text-white font-black uppercase tracking-[0.4em] text-[10px] rounded-full flex items-center justify-center gap-2 hover:bg-orange-600 transition-all active:scale-95 shadow-2xl shadow-black/10"
+                                                className="w-full py-6 bg-black text-white font-black uppercase tracking-[0.4em] text-[10px] rounded-full flex items-center justify-center gap-2 hover:bg-accent transition-all active:scale-95 shadow-2xl shadow-black/10"
                                             >
                                                 Finalize Acquisition
                                                 <ShieldCheck className="w-4 h-4" />
@@ -231,7 +231,7 @@ const ElevateCommerceDemo = () => {
                                 className="flex-1 flex flex-col items-center justify-center p-20 text-center"
                             >
                                 <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mb-10">
-                                    <Check className="w-10 h-10 text-orange-600" />
+                                    <Check className="w-10 h-10 text-accent" />
                                 </div>
                                 <h3 className="text-5xl font-black font-serif italic mb-6">Secured.</h3>
                                 <p className="text-sm text-gray-400 max-w-sm font-medium uppercase tracking-widest leading-relaxed">Your acquisition is being prepared with surgical precision within our Maison’s logistics network.</p>

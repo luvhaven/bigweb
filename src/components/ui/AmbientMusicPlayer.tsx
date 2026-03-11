@@ -158,7 +158,7 @@ export default function AmbientMusicPlayer() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setShowControls(true)}
                             className={`relative w-12 h-12 rounded-xl ${isPlaying
-                                    ? 'bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500'
+                                    ? 'bg-gradient-to-br from-purple-600 via-pink-600 to-accent'
                                     : 'bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800'
                                 } text-white shadow-[0_0_30px_-5px_rgba(168,85,247,0.5)] flex items-center justify-center overflow-hidden group transition-all duration-300`}
                             aria-label={isPlaying ? "Music Playing - Click to control" : "Music Paused - Click to control"}
@@ -257,7 +257,7 @@ export default function AmbientMusicPlayer() {
                                     {bars.map((height, i) => (
                                         <motion.div
                                             key={i}
-                                            className="flex-1 bg-gradient-to-t from-purple-600 via-pink-500 to-orange-400 rounded-full opacity-80"
+                                            className="flex-1 bg-gradient-to-t from-purple-600 via-pink-500 to-accent-light rounded-full opacity-80"
                                             animate={{
                                                 height: isPlaying ? `${height}%` : '10%'
                                             }}

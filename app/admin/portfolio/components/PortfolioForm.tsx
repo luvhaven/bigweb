@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, Plus, X, Image as ImageIcon } from 'lucide-re
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
 import { saveProject } from '@/actions/portfolio'
 import Link from 'next/link'
+import ImageUpload from '@/components/admin/ImageUpload'
 
 interface PortfolioFormProps {
     initialData?: any
@@ -39,8 +40,9 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
         technical_details: initialData?.technical_details || {
             architecture_url: '',
             api_latency: '',
-            core_features: '' // Stored as a string for easier editing, could be parsed to array
-        }
+            core_features: ''
+        },
+        featured_image: initialData?.featured_image || '',
     })
 
     const addTech = (e: React.KeyboardEvent) => {
@@ -80,9 +82,9 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
                 deconstructed_view: formData.deconstructed_view,
                 technical_details: formData.technical_details,
 
-                featured_image: null,
+                featured_image: formData.featured_image || null,
                 gallery_images: null,
-                main_image: null,
+                main_image: formData.featured_image || null,
                 website_url: formData.live_url,
                 background_color: null,
                 text_color: null,
@@ -287,6 +289,18 @@ export default function PortfolioForm({ initialData, isEditing = false }: Portfo
 
                 {/* Sidebar */}
                 <div className="space-y-6">
+                    {/* Featured Image */}
+                    <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-6 space-y-4">
+                        <h3 className="text-lg font-semibold text-white">Media</h3>
+                        <ImageUpload
+                            label="Featured Image"
+                            value={formData.featured_image}
+                            onChange={(url) => setFormData(prev => ({ ...prev, featured_image: url }))}
+                            folder="portfolio"
+                            hint="Main image shown on listing pages and case study hero."
+                        />
+                    </div>
+
                     {/* Status */}
                     <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-6 space-y-6">
                         <h3 className="text-lg font-semibold text-white">Publishing</h3>

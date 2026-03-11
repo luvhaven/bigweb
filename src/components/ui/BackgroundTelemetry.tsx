@@ -76,7 +76,7 @@ export default function BackgroundTelemetry() {
                         ease: "linear",
                         delay: Math.random() * 15
                     }}
-                    className="absolute font-mono text-[9px] font-bold text-orange-500 whitespace-nowrap tracking-widest uppercase"
+                    className="absolute font-mono text-[9px] font-bold text-accent whitespace-nowrap tracking-widest uppercase"
                 >
                     {TELEMETRY_STRINGS[Math.floor(Math.random() * TELEMETRY_STRINGS.length)]} // RUN_ID_{Math.floor(Math.random() * 10000)}
                 </motion.div>

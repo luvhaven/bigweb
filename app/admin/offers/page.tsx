@@ -16,7 +16,7 @@ export default function AdminOffersPage() {
             >
                 <div>
                     <h1 className="text-5xl font-black text-white tracking-tighter uppercase italic flex items-center gap-4">
-                        <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(255,77,0,0.3)]">
+                        <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(255,77,0,0.3)]">
                             <Zap className="w-7 h-7 text-white" />
                         </div>
                         Offer_Engine
@@ -40,7 +40,7 @@ export default function AdminOffersPage() {
             {/* Quick Intelligence Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
-                    { label: 'Highest_Conv', value: 'Diagnostic', icon: Target, color: 'text-orange-500' },
+                    { label: 'Highest_Conv', value: 'Diagnostic', icon: Target, color: 'text-accent' },
                     { label: 'Avg_Order_Value', value: '$2.4k', icon: DollarSign, color: 'text-emerald-500' },
                     { label: 'Monthly_Reach', value: '1.2k', icon: TrendingUp, color: 'text-blue-500' },
                 ].map((stat, i) => (
@@ -64,7 +64,7 @@ export default function AdminOffersPage() {
 
             {/* Management Table Container */}
             <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/10 to-transparent rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-accent/10 to-transparent rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
                 <div className="relative bg-zinc-900/40 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-4 shadow-2xl overflow-hidden">
                     <GenericAdminTable
                         tableName="cms_growth_packages"
@@ -86,7 +86,7 @@ export default function AdminOffersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 rounded-[2rem] border border-white/5 bg-zinc-900/20">
                     <h4 className="text-sm font-black text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-orange-500" />
+                        <Sparkles className="w-4 h-4 text-accent" />
                         Best_Practices
                     </h4>
                     <p className="text-xs text-zinc-500 leading-relaxed">

@@ -126,14 +126,14 @@ export default function FlagsAdmin() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto selection:bg-orange-500/30">
+        <div className="p-8 max-w-7xl mx-auto selection:bg-accent/30">
             <div className="flex justify-between items-center mb-12">
                 <div>
                     <h1 className="text-4xl font-black uppercase tracking-tighter italic">Flag_Control</h1>
                     <p className="text-zinc-500 mt-2 font-mono text-xs uppercase tracking-[0.3em]">System_Logic_Toggles_v1.0</p>
                 </div>
                 <Button
-                    className="bg-white text-black hover:bg-orange-600 hover:text-white font-black uppercase tracking-widest rounded-none"
+                    className="bg-white text-black hover:bg-accent hover:text-white font-black uppercase tracking-widest rounded-none"
                     onClick={() => {
                         resetForm()
                         setFormData({ enabled: true })

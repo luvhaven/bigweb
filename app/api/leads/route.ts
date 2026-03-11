@@ -23,16 +23,20 @@ export async function POST(req: NextRequest) {
             return new NextResponse('Email is required', { status: 400 })
         }
 
-        // 1. Save to Database
+        // 1. Save to cms_leads (primary Supabase table for all lead capture)
         const { data, error } = await supabaseAdmin
-            .from('contact_submissions')
+            .from('cms_leads')
             .insert({
+                type: source || 'ai_chat',
                 name: name || 'Anonymous Visitor',
                 email,
-                source,
                 message: notes || 'Lead captured via AI Chatbot',
                 status: 'new',
-                priority: 'medium'
+                metadata: {
+                    source,
+                    captured_at: new Date().toISOString(),
+                    notes,
+                }
             })
             .select()
             .single()

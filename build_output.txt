@@ -1,0 +1,50 @@
+   ▲ Next.js 15.5.7
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/components/ElitePortfolio.tsx
+Error:   [31mx[0m You're importing a component that needs `useRef`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+  [31m|[0m
+  [31m|[0m  Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+  [31m|[0m
+
+   ,-[[36;1;4mC:\Users\DELL\Desktop\bigweb-ff2\src\components\ElitePortfolio.tsx[0m:1:1]
+ [2m1[0m | import { useRef, useState, useEffect } from 'react'
+   : [35;1m         ^^^^^^[0m
+ [2m2[0m | import { motion } from 'framer-motion'
+ [2m3[0m | import Link from 'next/link'
+ [2m4[0m | import gsap from 'gsap'
+   `----
+  [31mx[0m You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+  [31m|[0m
+  [31m|[0m  Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+  [31m|[0m
+
+   ,-[[36;1;4mC:\Users\DELL\Desktop\bigweb-ff2\src\components\ElitePortfolio.tsx[0m:1:1]
+ [2m1[0m | import { useRef, useState, useEffect } from 'react'
+   : [35;1m                 ^^^^^^^^[0m
+ [2m2[0m | import { motion } from 'framer-motion'
+ [2m3[0m | import Link from 'next/link'
+ [2m4[0m | import gsap from 'gsap'
+   `----
+  [31mx[0m You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+  [31m|[0m
+  [31m|[0m  Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+  [31m|[0m
+
+   ,-[[36;1;4mC:\Users\DELL\Desktop\bigweb-ff2\src\components\ElitePortfolio.tsx[0m:1:1]
+ [2m1[0m | import { useRef, useState, useEffect } from 'react'
+   : [35;1m                           ^^^^^^^^^[0m
+ [2m2[0m | import { motion } from 'framer-motion'
+ [2m3[0m | import Link from 'next/link'
+ [2m4[0m | import gsap from 'gsap'
+   `----
+
+Import trace for requested module:
+./src/components/ElitePortfolio.tsx
+./app/page.tsx
+
+
+> Build failed because of webpack errors

@@ -20,7 +20,7 @@ import {
 
 const VITALS = [
     { id: 'heart', label: 'Heart Rate', value: 72, unit: 'bpm', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-500/10', status: 'Normal' },
-    { id: 'temp', label: 'Body Temp', value: 36.6, unit: '°C', icon: Thermometer, color: 'text-orange-500', bg: 'bg-orange-500/10', status: 'Normal' },
+    { id: 'temp', label: 'Body Temp', value: 36.6, unit: '°C', icon: Thermometer, color: 'text-accent', bg: 'bg-accent/10', status: 'Normal' },
     { id: 'sleep', label: 'Sleep', value: 7.5, unit: 'hrs', icon: Moon, color: 'text-indigo-500', bg: 'bg-indigo-500/10', status: 'Optimal' },
     { id: 'oxygen', label: 'SpO2', value: 98, unit: '%', icon: Wind, color: 'text-sky-500', bg: 'bg-sky-500/10', status: 'Excellent' },
 ]

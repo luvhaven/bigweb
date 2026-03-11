@@ -133,10 +133,10 @@ export default function ContactForm({
                 </p>
 
                 {formData.plan === 'revenue-system' && (
-                    <div className="mt-6 p-4 bg-orange-600/10 border border-orange-500/20 rounded-xl flex items-start gap-4">
-                        <Building className="w-5 h-5 text-orange-500 mt-1 shrink-0" />
+                    <div className="mt-6 p-4 bg-accent/10 border border-accent/20 rounded-xl flex items-start gap-4">
+                        <Building className="w-5 h-5 text-accent mt-1 shrink-0" />
                         <div>
-                            <div className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-1">Enterprise Application</div>
+                            <div className="text-xs font-bold uppercase tracking-widest text-accent mb-1">Enterprise Application</div>
                             <p className="text-xs text-zinc-400 font-medium">You are applying for a full system rebuild. This requires a preliminary architectural audit ($0).</p>
                         </div>
                     </div>
@@ -210,10 +210,11 @@ export default function ContactForm({
                                 <SelectValue placeholder="Select an Offer" />
                             </SelectTrigger>
                             <SelectContent className="bg-zinc-950 border-zinc-800 text-white">
-                                <SelectItem value="diagnostic" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Conversion Diagnostic ($500)</SelectItem>
-                                <SelectItem value="fix-sprint" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">7-Day Fix Sprint ($1,500)</SelectItem>
-                                <SelectItem value="revenue-system" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Full Revenue System ($25k+)</SelectItem>
-                                <SelectItem value="retainer" className="cursor-pointer font-medium focus:bg-orange-600 focus:text-white">Optimization Retainer ($2.5k/m)</SelectItem>
+                                <SelectItem value="revenue-roadmap" className="cursor-pointer font-medium focus:bg-accent focus:text-white">Revenue Roadmap (Strategy + Audit)</SelectItem>
+                                <SelectItem value="diagnostic" className="cursor-pointer font-medium focus:bg-accent focus:text-white">Conversion Diagnostic ($500)</SelectItem>
+                                <SelectItem value="fix-sprint" className="cursor-pointer font-medium focus:bg-accent focus:text-white">7-Day Fix Sprint ($1,500)</SelectItem>
+                                <SelectItem value="revenue-system" className="cursor-pointer font-medium focus:bg-accent focus:text-white">Full Revenue System ($25k+)</SelectItem>
+                                <SelectItem value="retainer" className="cursor-pointer font-medium focus:bg-accent focus:text-white">Optimization Retainer ($2.5k/m)</SelectItem>
                                 <SelectItem value="general" className="cursor-pointer font-medium focus:bg-zinc-800">General Inquiry</SelectItem>
                             </SelectContent>
                         </Select>
@@ -246,20 +247,20 @@ export default function ContactForm({
 
                 <Button
                     type="submit"
-                    className="w-full h-14 text-sm font-bold uppercase tracking-[0.2em] bg-white text-black hover:bg-orange-600 hover:text-white shadow-xl transition-all duration-300 rounded-xl group"
+                    className="w-full h-14 text-sm font-bold uppercase tracking-[0.2em] bg-white text-black hover:bg-accent hover:text-white shadow-xl transition-all duration-300 rounded-xl group"
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (
                         <>
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            ENCRYPTING_DATA...
+                            Sending...
                         </>
                     ) : (
                         <>
                             {formData.plan === 'revenue-system' ? 'SUBMIT APPLICATION' :
                                 formData.plan === 'diagnostic' ? 'REQUEST DIAGNOSTIC' :
                                     formData.plan === 'fix-sprint' ? 'CHECK SPRINT AVAILABILITY' :
-                                        'INITIATE TRANSMISSION'}
+                                        'START YOUR PROJECT'}
                             <Send className="w-4 h-4 ml-4 group-hover:translate-x-1 transition-transform" />
                         </>
                     )}

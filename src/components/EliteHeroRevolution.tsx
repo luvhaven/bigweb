@@ -53,10 +53,10 @@ export default function EliteHeroRevolution() {
                             className="inline-flex items-center gap-3 px-4 py-2 bg-zinc-950 border border-zinc-900 mb-8"
                         >
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-light opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                             </span>
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-orange-600">
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent">
                                 Operational Status: Active
                             </span>
                         </motion.div>
@@ -89,7 +89,7 @@ export default function EliteHeroRevolution() {
                             transition={{ delay: 0.5 }}
                         >
                             <Link href="/contact">
-                                <button className="group relative h-14 px-8 bg-white text-black hover:bg-orange-600 hover:text-white transition-all duration-300 font-bold uppercase tracking-widest text-[10px] flex items-center gap-4">
+                                <button className="group relative h-14 px-8 bg-white text-black hover:bg-accent hover:text-white transition-all duration-300 font-bold uppercase tracking-widest text-[10px] flex items-center gap-4">
                                     Start Project
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </button>
@@ -158,27 +158,27 @@ export default function EliteHeroRevolution() {
                         >
                             {/* Revealed Version (Energized) */}
                             <div className="absolute inset-0 bg-black flex items-center justify-center p-8">
-                                <div className="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-orange-600/50" />
+                                <div className="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-accent/50" />
                                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[size:20px_20px] opacity-[0.1]" />
 
-                                <div className="relative w-80 h-80 border-2 border-orange-600 rotate-45 flex items-center justify-center shadow-[0_0_50px_rgba(234,88,12,0.3)] bg-orange-900/5 backdrop-blur-sm">
-                                    <div className="w-[90%] h-[90%] border border-orange-500/50" />
-                                    <div className="w-[80%] h-[80%] border border-orange-500/30" />
+                                <div className="relative w-80 h-80 border-2 border-accent rotate-45 flex items-center justify-center shadow-[0_0_50px_rgba(234,88,12,0.3)] bg-accent/50/5 backdrop-blur-sm">
+                                    <div className="w-[90%] h-[90%] border border-accent/50" />
+                                    <div className="w-[80%] h-[80%] border border-accent/30" />
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="w-2 h-2 bg-white rounded-full shadow-[0_0_20px_white] animate-pulse" />
                                     </div>
-                                    <div className="absolute -inset-4 border border-orange-600/20 rounded-full animate-spin-slow" />
+                                    <div className="absolute -inset-4 border border-accent/20 rounded-full animate-spin-slow" />
                                 </div>
-                                <div className="absolute w-[500px] h-[500px] border border-orange-600/20 rounded-full animate-pulse" />
-                                <div className="absolute inset-0 bg-gradient-to-tr from-orange-950/20 via-transparent to-transparent pointer-events-none" />
+                                <div className="absolute w-[500px] h-[500px] border border-accent/20 rounded-full animate-pulse" />
+                                <div className="absolute inset-0 bg-gradient-to-tr from-accent/30/20 via-transparent to-transparent pointer-events-none" />
 
                                 {/* Floating Badges (Active) */}
-                                <div className="absolute top-10 right-10 bg-zinc-950 border border-orange-600 p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
-                                    <div className="text-xs font-mono text-orange-500 uppercase">System Performance</div>
+                                <div className="absolute top-10 right-10 bg-zinc-950 border border-accent p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
+                                    <div className="text-xs font-mono text-accent uppercase">System Performance</div>
                                     <div className="text-xl font-bold text-white">98.4%</div>
                                 </div>
-                                <div className="absolute bottom-20 left-10 bg-zinc-950 border border-orange-600 p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
-                                    <div className="text-xs font-mono text-orange-500 uppercase">Success Rate</div>
+                                <div className="absolute bottom-20 left-10 bg-zinc-950 border border-accent p-4 shadow-[0_0_30px_rgba(234,88,12,0.2)]">
+                                    <div className="text-xs font-mono text-accent uppercase">Success Rate</div>
                                     <div className="text-xl font-bold text-white">98%</div>
                                 </div>
                             </div>

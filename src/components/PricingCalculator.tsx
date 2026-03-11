@@ -125,7 +125,7 @@ export default function PricingCalculator() {
                                                 }
                                             }}
                                             className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${isSelected
-                                                ? 'border-orange-600 bg-orange-600/5'
+                                                ? 'border-accent bg-accent/5'
                                                 : 'border-white/5 hover:border-white/10 hover:bg-white/5'
                                                 }`}
                                             whileHover={{ scale: 1.01 }}
@@ -133,7 +133,7 @@ export default function PricingCalculator() {
                                         >
                                             <div className="flex justify-between items-start mb-2">
                                                 <span className="font-bold text-xs uppercase tracking-tighter">{option.label}</span>
-                                                {isSelected && <Check className="w-4 h-4 text-orange-600" />}
+                                                {isSelected && <Check className="w-4 h-4 text-accent" />}
                                             </div>
                                             <p className="text-[11px] text-zinc-500 mb-3 leading-tight font-medium">{option.description}</p>
                                             <div className="text-[10px] font-mono font-bold text-zinc-400">
@@ -155,7 +155,7 @@ export default function PricingCalculator() {
                         <div className="space-y-6 mb-12">
                             <div className="flex justify-between items-center group">
                                 <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 bg-orange-600" />
+                                    <div className="w-1.5 h-1.5 bg-accent" />
                                     Base Cost
                                 </span>
                                 <span className="text-[10px] font-mono font-bold text-white">
@@ -164,7 +164,7 @@ export default function PricingCalculator() {
                             </div>
                             <div className="flex justify-between items-center group">
                                 <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
+                                    <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-accent transition-colors" />
                                     Design Fee
                                 </span>
                                 <span className="text-[10px] font-mono font-bold text-white">
@@ -178,7 +178,7 @@ export default function PricingCalculator() {
                                 return (
                                     <div key={fid} className="flex justify-between items-center group">
                                         <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-3">
-                                            <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-orange-600 transition-colors" />
+                                            <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-accent transition-colors" />
                                             {feature?.label}
                                         </span>
                                         <span className="text-[10px] font-mono font-bold text-white">+${feature?.price.toLocaleString()}</span>
@@ -190,7 +190,7 @@ export default function PricingCalculator() {
                         <div className="pt-10 border-t border-white/5 mb-12">
                             <div className="flex justify-between items-end">
                                 <div>
-                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.6em] text-orange-600 block mb-4">Total Estimate</span>
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.6em] text-accent block mb-4">Total Estimate</span>
                                     <span className="text-6xl font-bold text-white tracking-tighter italic flex items-baseline gap-4">
                                         <span className="text-zinc-800 text-2xl font-mono not-italic">$</span>
                                         <AnimatedCounter value={total} />
@@ -204,12 +204,14 @@ export default function PricingCalculator() {
 
                         <Link href="/contact" className="block">
                             <Magnetic strength={0.3} className="w-full">
-                                <Button className="w-full h-28 bg-white text-black hover:bg-orange-600 hover:text-white rounded-2xl text-xs font-bold uppercase tracking-[0.6em] transition-all duration-700 relative group overflow-hidden shadow-2xl">
-                                    <div className="absolute inset-0 bg-orange-600 translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]" />
-                                    <span className="relative z-10 flex items-center justify-center gap-4">
-                                        Start Project
-                                        <ArrowRight className="w-6 h-6 group-hover:translate-x-4 transition-transform duration-700" />
-                                    </span>
+                                <Button className="w-full h-28 bg-white text-black hover:bg-accent hover:text-white rounded-2xl text-xs font-bold uppercase tracking-[0.6em] relative group overflow-hidden shadow-2xl">
+                                    <div className="relative overflow-hidden rounded-full">
+                                        <div className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out" />
+                                        <span className="relative z-10 px-8 py-4 inline-block text-sm font-bold tracking-[0.2em] uppercase text-white">
+                                            Start Project
+                                            <ArrowRight className="w-6 h-6 group-hover:translate-x-4 transition-transform duration-700" />
+                                        </span>
+                                    </div>
                                 </Button>
                             </Magnetic>
                         </Link>

@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card'
 import {
     Sparkles,
     Navigation,
-    FooterIcon,
+    PanelBottom,
     Settings,
     Users,
     HelpCircle,
@@ -49,7 +49,7 @@ const cmsModules = [
         description: 'Global configuration and branding',
         href: '/admin/cms/settings',
         icon: Settings,
-        color: 'text-orange-400'
+        color: 'text-accent-light'
     },
     {
         title: 'Team Members',

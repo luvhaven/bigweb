@@ -23,7 +23,7 @@ const techCategories = [
   },
   {
     category: "AI & Analytics",
-    color: "from-orange-500 to-red-500",
+    color: "from-accent to-red-500",
     tools: ["OpenAI", "TensorFlow", "Google Analytics", "Mixpanel", "Segment", "Hotjar"]
   },
 ];

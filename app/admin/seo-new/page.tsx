@@ -123,14 +123,14 @@ export default function SEOAdmin() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto selection:bg-orange-500/30">
+        <div className="p-8 max-w-7xl mx-auto selection:bg-accent/30">
             <div className="flex justify-between items-center mb-12">
                 <div>
                     <h1 className="text-4xl font-black uppercase tracking-tighter italic">SEO_Engine</h1>
                     <p className="text-zinc-500 mt-2 font-mono text-xs uppercase tracking-[0.3em]">Metadata_Registry_CRUD_v2.1</p>
                 </div>
                 <Button
-                    className="bg-white text-black hover:bg-orange-600 hover:text-white font-black uppercase tracking-widest rounded-none"
+                    className="bg-white text-black hover:bg-accent hover:text-white font-black uppercase tracking-widest rounded-none"
                     onClick={() => {
                         resetForm()
                         setFormData({})
