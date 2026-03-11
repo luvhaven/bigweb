@@ -89,7 +89,7 @@ export default async function HomePage() {
   const finalTestimonials = testimonials.length > 0 ? testimonials : cmsTestimonials
 
   return (
-    <main className="relative min-h-screen bg-[#040404] text-foreground overflow-x-hidden">
+    <main className="relative min-h-screen bg-[#040404] text-foreground overflow-clip max-w-[100vw]">
       <AdvancedNavigation />
 
       {/* 1. Hero */}

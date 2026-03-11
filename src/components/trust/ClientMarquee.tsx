@@ -164,7 +164,8 @@ export default function ClientMarquee({
     const [clients, setClients] = useState<ClientItem[]>(
         initialClients && initialClients.length > 0 ? initialClients : defaultClients
     )
-    const [stats, setStats] = useState(initialStats && initialStats.length > 0 ? initialStats : defaultStats)
+    // Ignore bloated DB stats. Force the 3 highest converting metrics.
+    const [stats] = useState(defaultStats)
 
     const sectionRef = useRef<HTMLElement>(null)
     const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
