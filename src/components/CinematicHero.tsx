@@ -394,6 +394,26 @@ export default function CinematicHero({
                 onMouseMove={handleMouseMove}
                 className="relative h-[100dvh] pt-24 pb-6 flex items-center justify-center overflow-hidden bg-[#050505]"
             >
+                {/* ─── Top Urgency/Scarcity Badge (Below Nav) ─── */}
+                <div className="absolute top-[100px] left-0 right-0 flex justify-center z-[50] pointer-events-none">
+                    {showUrgencyBadge && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                            animate={isLoaded ? { opacity: 1, y: 0, scale: 1 } : {}}
+                            transition={{ duration: 1, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-md pointer-events-auto"
+                        >
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                            </span>
+                            <span className="text-[11px] font-mono tracking-[0.2em] text-zinc-300 uppercase">
+                                Currently Accepting: <span className="text-shimmer font-semibold">2 New Clients</span> This Quarter
+                            </span>
+                        </motion.div>
+                    )}
+                </div>
+
                 {/* ─── Cinematic Background ─── */}
                 <div
                     ref={overlayRef}
@@ -504,24 +524,6 @@ export default function CinematicHero({
                     }}
                 >
                     <div className="max-w-5xl mx-auto text-center">
-                        {/* Urgency / Scarcity Badge */}
-                        {showUrgencyBadge && (
-                            <motion.div
-                                initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                                animate={isLoaded ? { opacity: 1, y: 0, scale: 1 } : {}}
-                                transition={{ duration: 1, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                                className="inline-flex items-center gap-3 mb-2 px-5 py-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-md"
-                            >
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                                </span>
-                                <span className="text-[11px] font-mono tracking-[0.2em] text-zinc-300 uppercase">
-                                    Currently Accepting: <span className="text-shimmer font-semibold">2 New Clients</span> This Quarter
-                                </span>
-                            </motion.div>
-                        )}
-
                         {/* Accent line */}
                         <motion.div
                             initial={{ scaleX: 0 }}
