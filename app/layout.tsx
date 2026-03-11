@@ -6,6 +6,7 @@ import Providers from '@/components/Providers'
 import { OrganizationSchema } from '@/components/seo/JsonLd'
 import '../src/index.css'
 import '../src/styles/accessibility.css'
+import SmoothScroll from '@/components/SmoothScroll'
 
 import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements'
@@ -74,7 +75,9 @@ if (typeof window !== 'undefined') {
               <AnalyticsAdvanced />
             </Suspense>
             <div id="main-content" className="page-transition">
-              {children}
+              <SmoothScroll>
+                {children}
+              </SmoothScroll>
             </div>
           </Providers>
         </GlobalContentProvider>

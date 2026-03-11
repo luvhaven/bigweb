@@ -551,11 +551,11 @@ export default function CinematicHero({
 
                         {/* Scrambled Subtitle + Kinetic Entrance */}
                         {subtitle && (
-                            <div className="hero-subtitle mb-8 max-w-xl mx-auto">
+                            <div className="hero-subtitle mb-6 max-w-lg mx-auto">
                                 <KineticTypography
                                     text={subtitle}
                                     as="p"
-                                    className="text-[clamp(1rem,2vw,1.25rem)] text-zinc-400 leading-relaxed font-light"
+                                    className="text-[clamp(0.95rem,1.8vw,1.15rem)] text-zinc-400 leading-relaxed font-light"
                                     delay={1.5}
                                     duration={1.2}
                                 />
@@ -593,6 +593,22 @@ export default function CinematicHero({
                                     <ArrowRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1" />
                                 </Link>
                             )}
+                        </div>
+                    </div>
+
+                    {/* ─── Hero Stat Strip ─── */}
+                    <div className="hero-cta mt-10 flex items-center justify-center">
+                        <div className="flex items-center gap-2 md:gap-6 divide-x divide-white/[0.06]">
+                            {[
+                                { value: '$2B+', label: 'Revenue Generated' },
+                                { value: '+340%', label: 'Avg. Conversion Uplift' },
+                                { value: '98%', label: 'Client Retention' },
+                            ].map((s, i) => (
+                                <div key={i} className={`flex flex-col items-center gap-0.5 ${i > 0 ? 'pl-6 md:pl-8' : ''}`}>
+                                    <span className="font-display font-black text-xl md:text-2xl tracking-tight text-white">{s.value}</span>
+                                    <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600">{s.label}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </motion.div>

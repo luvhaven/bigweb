@@ -413,23 +413,33 @@ export default function CompetitiveEdge({ initialServices }: { initialServices?:
                     </div>
                 </div>
 
-                {/* Services Grid — Editorial Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Featured card spans full height on left */}
+                {/* Services grid — editorial 3-column layout, no orphaned cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+                    {/* Featured large card — left column, spans 2 rows on lg */}
                     <motion.div
-                        className="md:row-span-2"
+                        className="lg:row-span-2"
                         initial={{ opacity: 0, x: -30 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ gridRow: 'span 2' }}
                     >
                         <FeaturedServiceCard service={featuredService} />
                     </motion.div>
 
-                    {/* Grid cards */}
-                    {gridServices.map((service, i) => (
+                    {/* Remaining services — always fills 2 columns cleanly */}
+                    {gridServices.slice(0, 4).map((service, i) => (
                         <ServiceCard key={service.slug} service={service} index={i} />
                     ))}
                 </div>
+
+                {/* Last row — remaining services in a 2-col or 3-col clean strip */}
+                {gridServices.length > 4 && (
+                    <div className={`grid gap-4 lg:gap-5 mt-4 lg:mt-5 grid-cols-1 md:grid-cols-${Math.min(gridServices.slice(4).length, 3)}`}>
+                        {gridServices.slice(4).map((service, i) => (
+                            <ServiceCard key={service.slug} service={service} index={i + 4} />
+                        ))}
+                    </div>
+                )}
 
                 {/* CTA Row */}
                 <ServicesCTA isInView={isInView} />
