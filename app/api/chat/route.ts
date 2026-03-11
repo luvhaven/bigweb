@@ -1,28 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { generateSystemPrompt, aiTools } from '@/lib/ai-service'
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { ratelimit } from '@/lib/rate-limit'
 
 // Use Node.js runtime for stability with database and AI SDKs
 export const runtime = 'nodejs'
 
-// Initialize Service Role Client (Bypasses RLS)
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || 'fallback-key',
-    {
-        auth: {
-            autoRefreshToken: false,
-            persistSession: false
-        }
-    }
-)
-
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || '')
 
-import { ratelimit } from '@/lib/rate-limit'
-
 export async function POST(req: NextRequest) {
+    const supabaseAdmin = getSupabaseAdmin()
     try {
         // --- 1. Rate Limiting ---
         const ip = req.headers.get('x-forwarded-for') || '127.0.0.1'
@@ -32,7 +20,7 @@ export async function POST(req: NextRequest) {
             return new NextResponse(JSON.stringify({ error: 'Rate limit exceeded. Try again later.' }), { status: 429 })
         }
 
-        const { messages, visitorId, sessionId } = await req.json()
+        const { messages } = await req.json()
 
         if (!messages || messages.length === 0) {
             return new NextResponse('Messages required', { status: 400 })
@@ -41,14 +29,13 @@ export async function POST(req: NextRequest) {
         // 1. Powerful Sales System Prompt
         const SYSTEM_PROMPT = await generateSystemPrompt()
 
-        // 2. AI Logic with Gemini 1.5 Flash (Optimized for performance/speed)
+        // 2. AI Logic with Gemini 1.5 Flash
         const model = genAI.getGenerativeModel({
             model: 'gemini-1.5-flash',
             systemInstruction: SYSTEM_PROMPT,
             tools: aiTools as any
         })
 
-        // Map 'user'/'assistant' roles to 'user'/'model'
         const history = messages.slice(0, -1).map((m: any) => ({
             role: m.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: m.content }],
@@ -71,31 +58,26 @@ export async function POST(req: NextRequest) {
                         for (const candidate of candidates) {
                             const parts = candidate.content?.parts || []
 
-                            // Check for Function Calls
                             const functionCallPart = parts.find(p => !!p.functionCall)
                             if (functionCallPart?.functionCall) {
                                 functionCallFound = true
                                 functionArgs = functionCallPart.functionCall.args
-
-                                // Send function call data to frontend
                                 controller.enqueue(encoder.encode(`data: ${JSON.stringify({
                                     functionCall: functionCallPart.functionCall,
-                                    text: "Strategic system executing..."
+                                    text: 'Strategic system executing...'
                                 })}\n\n`))
                             }
 
-                            // Check for Grounding / Sources
                             const groundingMetadata = candidate.groundingMetadata
                             const sources = groundingMetadata?.groundingChunks?.map((c: any) => ({
-                                title: c.web?.title || "Benchmark",
-                                uri: c.web?.uri || ""
-                            })).filter((s: any) => s.uri !== "")
+                                title: c.web?.title || 'Benchmark',
+                                uri: c.web?.uri || ''
+                            })).filter((s: any) => s.uri !== '')
 
                             if (sources && sources.length > 0) {
                                 controller.enqueue(encoder.encode(`data: ${JSON.stringify({ sources })}\n\n`))
                             }
 
-                            // Regular Text
                             const text = parts.find(p => !!p.text)?.text
                             if (text) {
                                 fullResponse += text
@@ -107,7 +89,6 @@ export async function POST(req: NextRequest) {
                         }
                     }
 
-                    // Handle Lead Capture if function was called
                     if (functionCallFound && functionArgs) {
                         try {
                             const { name, email, website, niche } = functionArgs
@@ -120,11 +101,10 @@ export async function POST(req: NextRequest) {
                                 priority: 'high'
                             })
 
-                            // Send confirmation to LLM to generate closing text
                             const followUp = await chat.sendMessage([{
                                 functionResponse: {
-                                    name: "bookGrowthAudit",
-                                    response: { status: "success", message: "Audit confirmed in neural system." }
+                                    name: 'bookGrowthAudit',
+                                    response: { status: 'success', message: 'Audit confirmed in neural system.' }
                                 }
                             }])
 
@@ -133,7 +113,6 @@ export async function POST(req: NextRequest) {
                                 content: finalMsg,
                                 choices: [{ delta: { content: finalMsg } }]
                             })}\n\n`))
-
                         } catch (dbError) {
                             console.error('Lead sync failed:', dbError)
                         }
@@ -155,7 +134,6 @@ export async function POST(req: NextRequest) {
                 'Connection': 'keep-alive',
             },
         })
-
     } catch (error) {
         console.error('Chat API Fatal Error:', error)
         return new NextResponse(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 })
@@ -166,6 +144,7 @@ export async function POST(req: NextRequest) {
  * GET /api/chat - Fetch chat history
  */
 export async function GET(req: NextRequest) {
+    const supabaseAdmin = getSupabaseAdmin()
     try {
         const { searchParams } = new URL(req.url)
         const sessionId = searchParams.get('sessionId')

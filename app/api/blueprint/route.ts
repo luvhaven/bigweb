@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-)
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 // Rate limit store (in-memory, resets on cold start)
 const rateLimit = new Map<string, number>()
 
 export async function POST(request: NextRequest) {
+    const supabaseAdmin = getSupabaseAdmin()
+
     try {
         const body = await request.json()
         const { email } = body
@@ -52,7 +48,6 @@ export async function POST(request: NextRequest) {
         }
 
         // Generate a signed URL to the PDF stored in Supabase Storage
-        // The PDF file should be uploaded to: storage bucket "assets" / path "blueprint/90-day-conversion-blueprint.pdf"
         const { data: signedUrlData, error: urlError } = await supabaseAdmin
             .storage
             .from('assets')
@@ -60,7 +55,6 @@ export async function POST(request: NextRequest) {
 
         if (urlError || !signedUrlData?.signedUrl) {
             console.error('Blueprint signed URL error:', urlError?.message)
-            // Fallback: redirect to a static page or send a direct link
             return NextResponse.json({
                 success: true,
                 downloadUrl: null,

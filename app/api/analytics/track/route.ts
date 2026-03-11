@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { parseUserAgent, getCountryFromHeaders, getCityFromHeaders } from '@/lib/analytics-utils'
 
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-)
-
 export async function POST(request: NextRequest) {
+  const supabaseAdmin = getSupabaseAdmin()
     try {
         const body = await request.json()
         const { type, data } = body
