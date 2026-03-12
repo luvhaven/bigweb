@@ -15,7 +15,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function seedFavicon() {
   try {
-    const filePath = path.join(process.cwd(), 'public', 'favicon-premium.svg');
+    const filePath = path.join(process.cwd(), 'public', 'favicon-bar-b.svg');
     const fileBuffer = fs.readFileSync(filePath);
     
     console.log("Uploading favicon to Supabase Storage...");
