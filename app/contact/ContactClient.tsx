@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import AdvancedNavigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/forms/ContactForm'
+import PremiumHero from '@/components/effects/PremiumHero'
 import {
     Mail, MapPin, Clock, ArrowUpRight, CheckCircle,
     Star, Shield, Users
@@ -35,157 +36,50 @@ function ContactPageContent({ hero }: { hero: any }) {
         <main className="min-h-screen bg-[#030303] text-white overflow-x-hidden">
             <AdvancedNavigation />
 
-            {/* ── HERO — fits inside one viewport ─────────────────────── */}
-            <section className="relative flex flex-col justify-center min-h-screen border-b border-white/[0.04] overflow-hidden">
-                {/* Static background decorations — no parallax to avoid hydration mismatch */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/[0.05] blur-[180px] rounded-full" />
-                    <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/[0.04] blur-[150px] rounded-full" />
-                    <div
-                        className="absolute inset-0 opacity-[0.022]"
-                        style={{
-                            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)',
-                            backgroundSize: '80px 80px',
-                        }}
-                    />
-                </div>
-
-                <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 pt-28 pb-16">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-                        {/* ── Left: copy ─────────────────────────────────── */}
-                        <div>
-                            {/* Availability pill */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/8 mb-7"
-                            >
-                                <span className="relative flex h-1.5 w-1.5">
-                                    <span className="animate-ping absolute inset-0 rounded-full bg-emerald-400 opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-                                </span>
-                                <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-emerald-300">
-                                    Currently Accepting New Clients
-                                </span>
-                            </motion.div>
-
-                            {/* Headline — tighter size to stay above fold */}
-                            <div className="overflow-hidden mb-1">
-                                <motion.h1
-                                    initial={{ y: '105%' }}
-                                    animate={{ y: '0%' }}
-                                    transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                                    className="font-display font-black tracking-tighter leading-[0.9] text-white uppercase text-[clamp(2.8rem,6vw,5.5rem)]"
-                                >
-                                    Let&apos;s build
-                                </motion.h1>
+            {/* ── HERO ─────────────────────────────────────── */}
+            <PremiumHero
+                eyebrow="Currently Accepting New Clients"
+                headline="Let's build"
+                headlineAccent="something real."
+                subheadline="Tell us about your situation. We review every inquiry personally and respond within 24 hours with a clear, honest perspective — and what it costs."
+            >
+                {/* Trust + stats inline in hero */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                    {/* Trust grid */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                        {TRUST.map((t, i) => (
+                            <div key={i} className="flex items-start gap-2.5 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.05] backdrop-blur-sm">
+                                <t.icon className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+                                <div>
+                                    <div className="text-white text-[13px] font-semibold leading-none mb-0.5">{t.label}</div>
+                                    <div className="text-zinc-600 text-[11px] leading-snug">{t.sub}</div>
+                                </div>
                             </div>
-                            <div className="overflow-hidden mb-8">
-                                <motion.h1
-                                    initial={{ y: '105%' }}
-                                    animate={{ y: '0%' }}
-                                    transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.07 }}
-                                    className="font-display font-black tracking-tighter leading-[0.9] text-accent italic uppercase text-[clamp(2.8rem,6vw,5.5rem)]"
-                                >
-                                    something real.
-                                </motion.h1>
-                            </div>
-
-                            <motion.p
-                                initial={{ opacity: 0, y: 16 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.35 }}
-                                className="text-zinc-400 text-lg leading-relaxed max-w-md mb-10"
-                            >
-                                Tell us about your situation. We review every inquiry personally and respond within 24 hours with a clear, honest perspective — and what it costs.
-                            </motion.p>
-
-                            {/* Trust grid — 2×2 */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 16 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.5 }}
-                                className="grid grid-cols-2 gap-2.5"
-                            >
-                                {TRUST.map((t, i) => (
-                                    <div key={i} className="flex items-start gap-2.5 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                                        <t.icon className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
-                                        <div>
-                                            <div className="text-white text-[13px] font-semibold leading-none mb-0.5">{t.label}</div>
-                                            <div className="text-zinc-600 text-[11px] leading-snug">{t.sub}</div>
-                                        </div>
+                        ))}
+                    </div>
+                    {/* Outcomes panel */}
+                    <div className="hidden lg:block p-6 rounded-2xl bg-[#060606]/80 border border-white/[0.06] backdrop-blur-sm relative overflow-hidden">
+                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+                        <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600 mb-4">Recent Results</div>
+                        <div className="space-y-3">
+                            {WINS.map((w, i) => (
+                                <div key={i} className="flex items-center justify-between pb-3 border-b border-white/[0.04] last:pb-0 last:border-0">
+                                    <div>
+                                        <div className="text-xl font-display font-black text-white tracking-tighter">{w.metric}</div>
+                                        <div className="text-zinc-500 text-xs">{w.label}</div>
                                     </div>
-                                ))}
-                            </motion.div>
+                                    <div className="text-zinc-700 text-[11px] font-mono text-right">{w.client}</div>
+                                </div>
+                            ))}
                         </div>
-
-                        {/* ── Right: stats card + contact info ─────────── */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 24 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, delay: 0.25 }}
-                            className="hidden lg:flex flex-col gap-3"
-                        >
-                            {/* Outcomes card */}
-                            <div className="p-7 rounded-2xl bg-[#060606] border border-white/[0.05] relative overflow-hidden">
-                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-                                <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600 mb-5">Recent Client Outcomes</div>
-                                <div className="space-y-4">
-                                    {WINS.map((w, i) => (
-                                        <div key={i} className="flex items-center justify-between pb-4 border-b border-white/[0.04] last:pb-0 last:border-0">
-                                            <div>
-                                                <div className="text-2xl font-display font-black text-white tracking-tighter mb-0.5">{w.metric}</div>
-                                                <div className="text-zinc-500 text-sm font-medium">{w.label}</div>
-                                            </div>
-                                            <div className="text-zinc-600 text-xs font-mono max-w-[130px] text-right leading-relaxed">{w.client}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="mt-5 pt-4 border-t border-white/[0.04] flex items-center justify-between">
-                                    <span className="text-zinc-600 text-sm">Full case studies</span>
-                                    <Link href="/case-studies" className="inline-flex items-center gap-1.5 text-accent text-sm font-semibold hover:gap-2.5 transition-all duration-300">
-                                        View Work <ArrowUpRight className="w-3.5 h-3.5" />
-                                    </Link>
-                                </div>
-                            </div>
-
-                            {/* Contact info row */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#060606] border border-white/[0.04]">
-                                    <Mail className="w-4 h-4 text-accent shrink-0" />
-                                    <div>
-                                        <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600 mb-1">Email</div>
-                                        <a href="mailto:hello@bigwebdigital.com" className="text-zinc-300 text-xs font-medium hover:text-white transition-colors">
-                                            hello@bigwebdigital.com
-                                        </a>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#060606] border border-white/[0.04]">
-                                    <MapPin className="w-4 h-4 text-accent shrink-0" />
-                                    <div>
-                                        <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-600 mb-1">Location</div>
-                                        <div className="text-zinc-300 text-xs font-medium">Global · Remote-first</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-
+                        <div className="mt-4 pt-3 border-t border-white/[0.04]">
+                            <Link href="/case-studies" className="inline-flex items-center gap-1.5 text-accent text-xs font-semibold hover:gap-2.5 transition-all duration-300">
+                                View all case studies <ArrowUpRight className="w-3 h-3" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
-
-                {/* Scroll hint */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 1.1 }}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                >
-                    <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-700">Start here</span>
-                    <div className="w-px h-8 bg-gradient-to-b from-zinc-700 to-transparent animate-pulse" />
-                </motion.div>
-            </section>
+            </PremiumHero>
 
             {/* ── FORM SECTION ─────────────────────────────────────────── */}
             <section id="contact-form" className="py-20 md:py-32">

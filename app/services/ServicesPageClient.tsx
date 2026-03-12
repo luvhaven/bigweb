@@ -11,6 +11,7 @@ import {
 import AdvancedNavigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
 import KineticTypography from '@/components/effects/KineticTypography'
+import PremiumHero from '@/components/effects/PremiumHero'
 import type { Capability } from '@/types/database'
 
 /* ── SERVICE DISCIPLINES DATA ── */
@@ -155,78 +156,38 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 /* ── HERO ── */
 function Hero() {
-    const heroRef = useRef<HTMLElement>(null)
-    const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-    const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
-    const fadeOut = useTransform(scrollYProgress, [0, 0.7], [1, 0])
-
     return (
-        <section ref={heroRef} className="relative min-h-screen flex flex-col justify-end pb-24 md:pb-36 overflow-hidden border-b border-white/[0.04]">
-            <motion.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/40 to-background z-10" />
-                <div className="absolute top-1/4 right-1/4 w-[700px] h-[700px] bg-accent/[0.04] blur-[220px] rounded-full" />
-                <div className="absolute bottom-1/3 left-1/4 w-[500px] h-[500px] bg-indigo-500/[0.03] blur-[180px] rounded-full" />
+        <PremiumHero
+            eyebrow="8 Core Disciplines"
+            headline="Engineering"
+            headlineAccent="unfair advantages"
+            subheadline="for ambitious brands."
+        >
+            <motion.div
+                initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.8 }}
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 max-w-5xl"
+            >
+                <p className="text-lg text-zinc-500 max-w-md leading-relaxed">
+                    These are our disciplines — the crafts we practice and the expertise we've compounded over years. Our <Link href="/#pricing" className="text-white underline-offset-4 underline hover:text-accent transition-colors">Packages</Link> are how you engage us.
+                </p>
+                <Link href="#disciplines" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 whitespace-nowrap">
+                    View Disciplines
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
             </motion.div>
-            <div className="absolute inset-0 pointer-events-none"
-                style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
-            <motion.div style={{ opacity: fadeOut }} className="container mx-auto px-6 lg:px-16 relative z-20 max-w-7xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-                    className="mb-16 pt-48"
-                >
-                    <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm">
-                        <Zap className="w-3 h-3 text-accent" />
-                        <span className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-400">8 Core Disciplines</span>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1 }}
+                className="flex flex-wrap gap-10 mt-14 pt-10 border-t border-white/[0.04] max-w-5xl"
+            >
+                {STATS.map((s, i) => (
+                    <div key={i}>
+                        <div className="text-2xl font-black text-white mb-0.5">{s.val}</div>
+                        <div className="text-[10px] text-zinc-600 uppercase tracking-wider font-bold">{s.label}</div>
                     </div>
-                </motion.div>
-
-                <div className="mb-12 max-w-5xl">
-                    {['Engineering', 'unfair advantages', 'for ambitious brands.'].map((line, i) => (
-                        <div key={i} className="overflow-hidden">
-                            <motion.div
-                                initial={{ y: '110%', opacity: 0 }}
-                                animate={{ y: '0%', opacity: 1 }}
-                                transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.3 + i * 0.1 }}
-                            >
-                                <span className={`block font-black font-display tracking-tighter leading-[0.9] ${
-                                    i === 0 ? 'text-[12vw] md:text-[9vw] xl:text-[8rem] text-white uppercase' :
-                                    i === 1 ? 'text-[12vw] md:text-[9vw] xl:text-[8rem] text-accent italic uppercase' :
-                                    'text-[6vw] md:text-[4.5vw] xl:text-[3.8rem] text-zinc-600 mt-4 normal-case not-italic'
-                                }`}>
-                                    {line}
-                                </span>
-                            </motion.div>
-                        </div>
-                    ))}
-                </div>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.8 }}
-                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 max-w-5xl"
-                >
-                    <p className="text-lg text-zinc-500 max-w-md leading-relaxed">
-                        These are our disciplines — the crafts we practice and the expertise we've compounded over years. Our <Link href="/#pricing" className="text-white underline-offset-4 underline hover:text-accent transition-colors">Packages</Link> are how you engage us.
-                    </p>
-                    <Link href="#disciplines" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 whitespace-nowrap">
-                        View Disciplines
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1 }}
-                    className="flex flex-wrap gap-10 mt-14 pt-10 border-t border-white/[0.04] max-w-5xl"
-                >
-                    {STATS.map((s, i) => (
-                        <div key={i}>
-                            <div className="text-2xl font-black text-white mb-0.5">{s.val}</div>
-                            <div className="text-[10px] text-zinc-600 uppercase tracking-wider font-bold">{s.label}</div>
-                        </div>
-                    ))}
-                </motion.div>
+                ))}
             </motion.div>
-        </section>
+        </PremiumHero>
     )
 }
 

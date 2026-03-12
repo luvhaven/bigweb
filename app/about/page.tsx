@@ -3,7 +3,7 @@ import { ArrowRight, Target, Gauge, BarChart3, Layers } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-import CinematicHero from '@/components/CinematicHero'
+import PremiumHero from '@/components/effects/PremiumHero'
 import AdvancedNavigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
 import Team from '@/components/Team'
@@ -51,19 +51,11 @@ export default async function AboutPage() {
         <main className="min-h-screen bg-[#0a0a0a] text-white">
             <AdvancedNavigation />
 
-            <CinematicHero
-                title={
-                    <>
-                        <span className="hero-line block">{hero?.title || 'Engineering growth'}</span>
-                        <span className="hero-line block text-zinc-600">
-                            for <em className="text-accent italic">{hero?.highlight_text || 'ambitious'}</em> brands.
-                        </span>
-                    </>
-                }
-                subtitle={hero?.description || 'A small, focused team of strategists, designers, and engineers who believe the web should work harder for your business.'}
-                ctaText={hero?.cta_primary_text || 'Discuss Potential'}
-                ctaLink={hero?.cta_primary_link || '/contact'}
-                showSecondaryCta={false}
+            <PremiumHero
+                eyebrow="About BIGWEB Digital"
+                headline={hero?.title || 'Engineering growth'}
+                headlineAccent={`for ${hero?.highlight_text || 'ambitious'} brands.`}
+                subheadline={hero?.description || 'A small, focused team of strategists, designers, and engineers who believe the web should work harder for your business.'}
             />
 
             <AboutScrollClient />
