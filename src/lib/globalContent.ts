@@ -18,7 +18,7 @@ export async function fetchGlobalContent() {
         let footerLinksRes: any;
 
         // Try primary table names first (Elite CMS 2026)
-        settingsRes = await supabase.from('cms_site_settings').select('*');
+        settingsRes = await supabase.from('cms_settings').select('*');
         if (settingsRes.error) {
             // Fallback to legacy naming
             settingsRes = await supabase.from('site_settings').select('*');
@@ -42,7 +42,7 @@ export async function fetchGlobalContent() {
         // Check for specific stream errors (log but don't crash)
         const logCmsError = (name: string, error: any) => {
             if (error && !error.message?.includes('Could not find the table')) {
-                console.error(`${name} Fetch Error:`, error.message || error);
+                console.warn(`${name} Fetch Warning:`, error.message || error);
             }
         };
 
@@ -51,14 +51,21 @@ export async function fetchGlobalContent() {
         logCmsError('Footer Sections', footerSectionsRes.error);
         logCmsError('Footer Links', footerLinksRes.error);
 
-        // 2. Process Settings (KV array to Object)
-        const settings: Record<string, any> = {};
-        if (settingsRes.data) {
-            settingsRes.data.forEach((row: any) => {
-                const key = row.setting_key || row.key;
-                const value = row.setting_value !== undefined ? row.setting_value : row.value;
-                if (key) settings[key] = value;
-            });
+        // 2. Process Settings (Columnar or KV support)
+        let settings: Record<string, any> = {};
+        if (settingsRes.data && settingsRes.data.length > 0) {
+            const firstRow = settingsRes.data[0];
+            if (firstRow.site_name !== undefined || firstRow.favicon_url !== undefined) {
+                // It's the new columnar schema (cms_settings)
+                settings = { ...firstRow };
+            } else {
+                // Fallback to old KV schema
+                settingsRes.data.forEach((row: any) => {
+                    const key = row.setting_key || row.key;
+                    const value = row.setting_value !== undefined ? row.setting_value : row.value;
+                    if (key) settings[key] = value;
+                });
+            }
         }
 
         // 3. Process Navigation (Build Tree)

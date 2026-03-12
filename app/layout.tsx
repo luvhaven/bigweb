@@ -35,9 +35,9 @@ export async function generateMetadata() {
     description: settings?.site_description || 'We engineer high-performance websites and growth systems for ambitious brands. Strategy, design, and development under one roof.',
     icons: {
       icon: [
-        { url: settings?.favicon_url || '/favicon-premium.svg' },
+        { url: settings?.favicon_url || '/favicon-bar-b.svg' },
       ],
-      apple: settings?.favicon_url || '/favicon-premium.svg',
+      apple: settings?.favicon_url || '/favicon-bar-b.svg',
     },
   }
 }
