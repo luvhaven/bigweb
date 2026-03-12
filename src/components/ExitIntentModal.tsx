@@ -217,7 +217,7 @@ export default function ExitIntentModal() {
                                                     <button
                                                         type="submit"
                                                         disabled={status === 'loading'}
-                                                        className="group relative px-6 py-3 bg-white rounded-xl text-[#0a0a0a] text-sm font-semibold flex items-center gap-2 hover:bg-accent transition-all duration-300 shrink-0 disabled:opacity-50"
+                                                        className="group relative px-6 py-3 bg-white rounded-xl text-[#0a0a0a] text-sm font-semibold flex items-center gap-2 hover:bg-accent hover:text-white transition-all duration-300 shrink-0 disabled:opacity-50"
                                                     >
                                                         {status === 'loading' ? (
                                                             <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />

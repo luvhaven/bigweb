@@ -327,7 +327,7 @@ function WorkHero() {
                     <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                         <Link
                             href="/offers/revenue-roadmap"
-                            className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)]"
+                            className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent hover:text-white transition-colors duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)]"
                         >
                             Start Your Project
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -906,7 +906,7 @@ function WorkPageCTA() {
                     >
                         <Link
                             href="/offers/revenue-roadmap"
-                            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.15em] hover:bg-accent transition-all duration-300 shadow-[0_0_50px_rgba(255,255,255,0.08)] hover:shadow-[0_0_60px_rgba(212,168,83,0.25)]"
+                            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.15em] hover:bg-accent hover:text-white transition-all duration-300 shadow-[0_0_50px_rgba(255,255,255,0.08)] hover:shadow-[0_0_60px_rgba(212,168,83,0.25)]"
                         >
                             <Target className="w-4 h-4" />
                             Get My Revenue Roadmap

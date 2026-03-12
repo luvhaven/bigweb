@@ -558,10 +558,10 @@ export default function CaseStudyDetailsClient({ study }: CaseStudyDetailsClient
                                 {/* CTA card */}
                                 <Link
                                     href="/offers/revenue-roadmap"
-                                    className="block p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-white hover:bg-accent transition-colors duration-500 group cursor-pointer"
+                                    className="block p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-white hover:bg-accent transition-colors duration-500 group cursor-pointer group-hover:text-white"
                                 >
                                     <div className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-500 group-hover:text-black/60 transition-colors mb-3">Apply This Framework</div>
-                                    <div className="text-xl font-black text-[#050505] italic tracking-tighter leading-tight mb-4">
+                                    <div className="text-xl font-black text-[#050505] group-hover:text-white italic tracking-tighter leading-tight mb-4 transition-colors">
                                         Get a Revenue Roadmap for your business
                                     </div>
                                     <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-zinc-600 group-hover:text-black/70 transition-colors">
@@ -606,7 +606,7 @@ export default function CaseStudyDetailsClient({ study }: CaseStudyDetailsClient
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Link
                                     href="/offers/revenue-roadmap"
-                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 md:px-14 py-5 md:py-6 rounded-2xl bg-white text-[#050505] font-black uppercase tracking-[0.15em] text-sm transition-all duration-300 hover:bg-accent hover:shadow-[0_0_60px_rgba(212,168,83,0.3)] hover:scale-[1.02] group"
+                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 md:px-14 py-5 md:py-6 rounded-2xl bg-white text-[#050505] font-black uppercase tracking-[0.15em] text-sm transition-all duration-300 hover:bg-accent hover:text-white hover:shadow-[0_0_60px_rgba(212,168,83,0.3)] hover:scale-[1.02] group"
                                 >
                                     <Target className="w-4 h-4" />
                                     Get My Revenue Roadmap

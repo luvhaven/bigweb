@@ -170,7 +170,7 @@ function Hero() {
                 <p className="text-lg text-zinc-500 max-w-md leading-relaxed">
                     These are our disciplines — the crafts we practice and the expertise we've compounded over years. Our <Link href="/#pricing" className="text-white underline-offset-4 underline hover:text-accent transition-colors">Packages</Link> are how you engage us.
                 </p>
-                <Link href="#disciplines" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 whitespace-nowrap">
+                <Link href="#disciplines" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent hover:text-white transition-colors duration-300 whitespace-nowrap">
                     View Disciplines
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -318,7 +318,7 @@ function PackagesBridge() {
                         <p className="text-zinc-500 text-lg leading-relaxed mt-8 max-w-lg">
                             Our disciplines show you <em className="text-white not-italic font-medium">what we know</em>. Our Packages define <em className="text-white not-italic font-medium">how we deliver it</em> — structured, priced engagements designed for specific business objectives.
                         </p>
-                        <Link href="/#pricing" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 mt-10">
+                        <Link href="/#pricing" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent hover:text-white transition-colors duration-300 mt-10">
                             View Packages & Pricing
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
@@ -381,7 +381,7 @@ function DifferentiatorsSection() {
                         <p className="text-zinc-500 text-lg leading-relaxed mt-8 max-w-lg">
                             A stunning website is useless if it doesn&apos;t convert. We build holistic digital ecosystems where design, engineering, and psychology compound together.
                         </p>
-                        <Link href="/contact" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 mt-10">
+                        <Link href="/contact" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent hover:text-white transition-colors duration-300 mt-10">
                             Start a Project
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
@@ -438,7 +438,7 @@ function FinalCTA() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-                        <Link href="/contact" className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.15em] hover:bg-accent transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.08)]">
+                        <Link href="/contact" className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.15em] hover:bg-accent hover:text-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.08)]">
                             Start a Conversation
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
