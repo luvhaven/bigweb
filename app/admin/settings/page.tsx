@@ -77,12 +77,12 @@ export default function SettingsPage() {
         try {
             const fileName = `settings/${Date.now()}-${file.name}`
             const { error: uploadError } = await supabase.storage
-                .from('cms_media')
+                .from('media')
                 .upload(fileName, file)
 
             if (uploadError) throw uploadError
 
-            const { data } = supabase.storage.from('cms_media').getPublicUrl(fileName)
+            const { data } = supabase.storage.from('media').getPublicUrl(fileName)
 
             setSettings({ ...settings, [field]: data.publicUrl })
             toast.success('Uploaded!', { id: toastId })
