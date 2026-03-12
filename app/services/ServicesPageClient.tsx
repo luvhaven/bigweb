@@ -1,89 +1,115 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
+import {
+    ArrowUpRight, Code2, Smartphone, Palette, Search, ShoppingBag,
+    BrainCircuit, BarChart3, Wrench, GaugeCircle, Users, Bot,
+    ArrowRight, ChevronRight, CheckCircle, Zap
+} from 'lucide-react'
 import AdvancedNavigation from '@/components/AdvancedNavigation'
 import Footer from '@/components/Footer'
-import {
-    ArrowUpRight, Code2, MousePointerClick, Search, BrainCircuit,
-    TrendingUp, Layers, Shield, Zap, Target, ArrowRight, ChevronRight,
-    CheckCircle
-} from 'lucide-react'
-import type { Capability } from '@/types/database'
 import KineticTypography from '@/components/effects/KineticTypography'
+import type { Capability } from '@/types/database'
 
-/* ── SERVICES DATA ── */
+/* ── SERVICE DISCIPLINES DATA ── */
 const SERVICES = [
     {
-        id: 'web-development',
         slug: 'web-development',
-        label: '01',
+        number: '01',
         title: 'Website Engineering',
         tagline: 'The Revenue Engine™',
-        description: 'Enterprise-grade web platforms engineered from the ground up for conversion velocity and compounding revenue. Not just a website — an automated sales machine.',
+        desc: 'Enterprise-grade web platforms built with Next.js 15, Edge rendering, and performance-first architecture. Every component engineered for conversion velocity.',
         icon: Code2,
         category: 'Build',
-        color: '#d4a853',
+        accent: '#d4a853',
         metric: '+347%', metricLabel: 'Avg. Conversion Lift',
-        tags: ['Next.js 15', 'Edge Runtime', 'Headless CMS'],
-        featured: true,
+        tags: ['Next.js 15', 'TypeScript', 'Edge CDN', 'Headless CMS'],
     },
     {
-        id: 'revenue-systems',
-        slug: 'revenue-systems',
-        label: '02',
-        title: 'Revenue Systems',
-        tagline: 'Commerce Core™',
-        description: 'We build the infrastructure that powers high-volume transactions and recurring revenue models. Frictionless billing, lifecycle automation, and real-time revenue intelligence.',
-        icon: TrendingUp,
-        category: 'Strategy',
-        color: '#10b981',
-        metric: '$47M+', metricLabel: 'Revenue Processed',
-        tags: ['Stripe', 'Subscriptions', 'LTV Optimization'],
-        featured: false,
+        slug: 'mobile-apps',
+        number: '02',
+        title: 'Mobile Applications',
+        tagline: 'The Pocket Empire™',
+        desc: 'Native iOS and Android apps — and cross-platform experiences with React Native — engineered for speed, retention, and monetization from day one.',
+        icon: Smartphone,
+        category: 'Build',
+        accent: '#6366f1',
+        metric: '4.8★', metricLabel: 'Avg. App Store Rating',
+        tags: ['React Native', 'Swift', 'Kotlin', 'App Store Optimization'],
     },
     {
-        id: 'funnel-architecture',
-        slug: 'funnel-architecture',
-        label: '03',
-        title: 'Funnel Architecture',
-        tagline: 'Pathway Design™',
-        description: 'We architect user journeys that move prospects from curiosity to commitment with clarity and intent. Every touchpoint is a calculated revenue trigger.',
-        icon: Layers,
-        category: 'Growth',
-        color: '#6366f1',
-        metric: '-45%', metricLabel: 'Drop-off Rate',
-        tags: ['Journey Mapping', 'Behavioral Triggers', 'Intent Architecture'],
-        featured: false,
+        slug: 'ui-ux-design',
+        number: '03',
+        title: 'UI/UX Product Design',
+        tagline: 'The Experience Engine™',
+        desc: 'Research-driven design systems and interaction models that guide users to action. We design for psychology, not just aesthetics.',
+        icon: Palette,
+        category: 'Design',
+        accent: '#ec4899',
+        metric: '-62%', metricLabel: 'Task Abandonment Rate',
+        tags: ['Figma Systems', 'User Research', 'Prototyping', 'Design Tokens'],
     },
     {
-        id: 'conversion-optimization',
-        slug: 'conversion-optimization',
-        label: '04',
-        title: 'Conversion Optimization',
-        tagline: 'The Revenue Multiplier™',
-        description: 'Systematic CRO that eliminates friction and multiplies revenue through forensic analytics, psychological triggers, and scientific A/B testing. 3X conversion rates guaranteed.',
-        icon: MousePointerClick,
-        category: 'Growth',
-        color: '#f59e0b',
-        metric: '3.2×', metricLabel: 'Avg. Action Rate',
-        tags: ['A/B Testing', 'Psychology', 'Funnel Engineering'],
-        featured: false,
+        slug: 'seo',
+        number: '04',
+        title: 'SEO & GAIO Authority',
+        tagline: 'The Authority System™',
+        desc: 'Compound organic growth through technical SEO, semantic content architecture, and pioneering Generative AI Optimization (GAIO) to dominate AI-powered search results.',
+        icon: Search,
+        category: 'Grow',
+        accent: '#10b981',
+        metric: '+280%', metricLabel: 'Organic Traffic Lift',
+        tags: ['Technical SEO', 'GAIO', 'Content Strategy', 'Link Authority'],
     },
     {
-        id: 'trust-optimization',
-        slug: 'trust-optimization',
-        label: '05',
-        title: 'Performance & Trust',
-        tagline: 'Invisible Factors™',
-        description: 'We optimize the invisible factors that determine whether users trust and act. Core Web Vitals, security hardening, and credibility stacking engineered to sub-500ms.',
-        icon: Shield,
-        category: 'Elevate',
-        color: '#00d4ff',
-        metric: '<500ms', metricLabel: 'Target Load Time',
-        tags: ['Core Web Vitals', 'Security', 'SEO Foundations'],
-        featured: false,
+        slug: 'ecommerce',
+        number: '05',
+        title: 'E-Commerce Infrastructure',
+        tagline: 'The Transaction Machine™',
+        desc: 'Full-stack e-commerce systems built for volume. Custom Shopify storefronts, headless commerce, and payment infrastructure designed to minimize drop-off at every step.',
+        icon: ShoppingBag,
+        category: 'Build',
+        accent: '#f97316',
+        metric: '+89%', metricLabel: 'Checkout Completion',
+        tags: ['Headless Commerce', 'Shopify Plus', 'Stripe', 'Multi-currency'],
+    },
+    {
+        slug: 'ai-automation',
+        number: '06',
+        title: 'AI Automation',
+        tagline: 'The Profit Autopilot™',
+        desc: 'Custom AI agent workflows that eliminate repetitive bottlenecks and create autonomous revenue pipelines. From LLM integrations to multi-agent orchestrations.',
+        icon: Bot,
+        category: 'Automate',
+        accent: '#8b5cf6',
+        metric: '80%', metricLabel: 'Manual Task Reduction',
+        tags: ['LLM Integration', 'AI Agents', 'n8n / Make', 'OpenAI API'],
+    },
+    {
+        slug: 'analytics',
+        number: '07',
+        title: 'Analytics & Intelligence',
+        tagline: 'The Intelligence Dashboard™',
+        desc: 'Forensic event tracking, behavioral analytics, and custom business intelligence dashboards. Turn raw data into clear revenue decisions.',
+        icon: BarChart3,
+        category: 'Optimize',
+        accent: '#06b6d4',
+        metric: '100%', metricLabel: 'Data Attribution Accuracy',
+        tags: ['GA4', 'Mixpanel', 'Metabase', 'BigQuery'],
+    },
+    {
+        slug: 'maintenance',
+        number: '08',
+        title: 'Managed Maintenance',
+        tagline: 'The Zero-Downtime Mesh™',
+        desc: '24/7 monitoring, proactive security patching, performance tuning, and content updates. Your site stays fast, safe, and aligned with your business as it scales.',
+        icon: Wrench,
+        category: 'Sustain',
+        accent: '#14b8a6',
+        metric: '99.99%', metricLabel: 'Guaranteed Uptime SLA',
+        tags: ['24/7 Monitoring', 'Security Audits', 'Core Updates', 'SLA Backed'],
     },
 ]
 
@@ -151,7 +177,7 @@ function Hero() {
                 >
                     <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm">
                         <Zap className="w-3 h-3 text-accent" />
-                        <span className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-400">Elite Capabilities</span>
+                        <span className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-400">8 Core Disciplines</span>
                     </div>
                 </motion.div>
 
@@ -163,10 +189,11 @@ function Hero() {
                                 animate={{ y: '0%', opacity: 1 }}
                                 transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.3 + i * 0.1 }}
                             >
-                                <span className={`block font-black font-display tracking-tighter leading-[0.9] ${i === 0 ? 'text-[12vw] md:text-[9vw] xl:text-[8rem] text-white uppercase' :
+                                <span className={`block font-black font-display tracking-tighter leading-[0.9] ${
+                                    i === 0 ? 'text-[12vw] md:text-[9vw] xl:text-[8rem] text-white uppercase' :
                                     i === 1 ? 'text-[12vw] md:text-[9vw] xl:text-[8rem] text-accent italic uppercase' :
-                                        'text-[6vw] md:text-[4.5vw] xl:text-[3.8rem] text-zinc-600 mt-4 normal-case not-italic'
-                                    }`}>
+                                    'text-[6vw] md:text-[4.5vw] xl:text-[3.8rem] text-zinc-600 mt-4 normal-case not-italic'
+                                }`}>
                                     {line}
                                 </span>
                             </motion.div>
@@ -179,10 +206,10 @@ function Hero() {
                     className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 max-w-5xl"
                 >
                     <p className="text-lg text-zinc-500 max-w-md leading-relaxed">
-                        We don&apos;t sell services. We engineer <span className="text-white font-medium">holistic revenue systems</span> — from architecture to acquisition to compounding optimization.
+                        These are our disciplines — the crafts we practice and the expertise we've compounded over years. Our <Link href="/#pricing" className="text-white underline-offset-4 underline hover:text-accent transition-colors">Packages</Link> are how you engage us.
                     </p>
-                    <Link href="#services" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 whitespace-nowrap">
-                        Explore Capabilities
+                    <Link href="#disciplines" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 whitespace-nowrap">
+                        View Disciplines
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </motion.div>
@@ -203,12 +230,11 @@ function Hero() {
     )
 }
 
-/* ── SERVICE ROWS ── */
-function ServiceRow({ service, index }: { service: typeof SERVICES[0]; index: number }) {
+/* ── SERVICE ROW ── */
+function ServiceRow({ svc, index }: { svc: typeof SERVICES[0]; index: number }) {
     const ref = useRef(null)
     const inView = useInView(ref, { once: true, margin: '-10%' })
-    const Icon = service.icon
-    const isEven = index % 2 === 0
+    const Icon = svc.icon
 
     return (
         <motion.div
@@ -218,14 +244,14 @@ function ServiceRow({ service, index }: { service: typeof SERVICES[0]; index: nu
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="border-b border-white/[0.04] last:border-b-0"
         >
-            <Link href={`/services/${service.slug}`} className="group block py-14 md:py-20">
+            <Link href={`/services/${svc.slug}`} className="group block py-14 md:py-20">
                 <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
                     <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                         {/* Left — number + category */}
                         <div className="lg:col-span-2 flex lg:flex-col items-center lg:items-start gap-4">
-                            <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-[0.3em]">{service.label}</span>
+                            <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-[0.3em]">{svc.number}</span>
                             <span className="text-[9px] font-mono text-accent/60 uppercase tracking-[0.2em] px-2.5 py-1 rounded-full border border-accent/10 bg-accent/[0.02]">
-                                {service.category}
+                                {svc.category}
                             </span>
                         </div>
 
@@ -233,21 +259,21 @@ function ServiceRow({ service, index }: { service: typeof SERVICES[0]; index: nu
                         <div className="lg:col-span-7">
                             <div className="flex items-start gap-5 mb-6">
                                 <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-1"
-                                    style={{ background: `${service.color}15`, border: `1px solid ${service.color}30` }}>
-                                    <Icon className="w-5 h-5" style={{ color: service.color }} />
+                                    style={{ background: `${svc.accent}15`, border: `1px solid ${svc.accent}30` }}>
+                                    <Icon className="w-5 h-5" style={{ color: svc.accent }} />
                                 </div>
                                 <div>
-                                    <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.25em] mb-1">{service.tagline}</div>
+                                    <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.25em] mb-1">{svc.tagline}</div>
                                     <h2 className="font-display text-3xl md:text-4xl xl:text-5xl font-black text-white tracking-tighter italic leading-[1.0] group-hover:text-accent transition-colors duration-500">
-                                        {service.title}
+                                        {svc.title}
                                     </h2>
                                 </div>
                             </div>
                             <p className="text-zinc-500 text-base md:text-lg leading-relaxed group-hover:text-zinc-400 transition-colors duration-400 mb-8 ml-16">
-                                {service.description}
+                                {svc.desc}
                             </p>
                             <div className="flex flex-wrap gap-2 ml-16">
-                                {service.tags.map(tag => (
+                                {svc.tags.map(tag => (
                                     <span key={tag} className="text-[10px] font-mono text-zinc-600 px-3 py-1.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
                                         {tag}
                                     </span>
@@ -258,13 +284,13 @@ function ServiceRow({ service, index }: { service: typeof SERVICES[0]; index: nu
                         {/* Right — metric + CTA */}
                         <div className="lg:col-span-3 flex lg:flex-col items-start lg:items-end gap-6 pt-1">
                             <div className="text-right">
-                                <div className="text-3xl font-black font-display tracking-tighter" style={{ color: service.color }}>
-                                    {service.metric}
+                                <div className="text-3xl font-black font-display tracking-tighter" style={{ color: svc.accent }}>
+                                    {svc.metric}
                                 </div>
-                                <div className="text-[9px] font-bold text-zinc-700 uppercase tracking-wider mt-0.5">{service.metricLabel}</div>
+                                <div className="text-[9px] font-bold text-zinc-700 uppercase tracking-wider mt-0.5">{svc.metricLabel}</div>
                             </div>
                             <div className="flex items-center gap-2 text-[12px] font-bold text-zinc-600 group-hover:text-white transition-colors duration-400 uppercase tracking-wider">
-                                View Service
+                                View Discipline
                                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                             </div>
                         </div>
@@ -272,34 +298,100 @@ function ServiceRow({ service, index }: { service: typeof SERVICES[0]; index: nu
 
                     {/* Bottom highlight bar on hover */}
                     <div className="mt-6 h-[1px] w-0 group-hover:w-full transition-all duration-700 ease-out"
-                        style={{ background: `linear-gradient(90deg, ${service.color}60, transparent)` }} />
+                        style={{ background: `linear-gradient(90deg, ${svc.accent}60, transparent)` }} />
                 </div>
             </Link>
         </motion.div>
     )
 }
 
-/* ── SERVICES SECTION ── */
-function ServicesSection() {
+/* ── DISCIPLINES SECTION ── */
+function DisciplinesSection() {
     return (
-        <section id="services" className="py-8 bg-card relative">
+        <section id="disciplines" className="py-8 bg-card relative">
             <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
                 <div className="pt-16 pb-10">
-                    <SectionLabel>All Capabilities</SectionLabel>
+                    <SectionLabel>All Disciplines</SectionLabel>
                     <KineticTypography
                         as="h2"
                         className="font-display text-4xl md:text-5xl font-black text-white tracking-tighter italic"
                         segments={[
-                            { text: "Five disciplines. " },
-                            { text: "One revenue machine.", className: "text-zinc-600" }
+                            { text: "Eight disciplines. " },
+                            { text: "One obsessive standard.", className: "text-zinc-600" }
                         ]}
                     />
+                    <p className="text-zinc-500 text-lg mt-5 max-w-2xl leading-relaxed">
+                        These are our areas of deep expertise — fields we've spent years mastering. Once you choose how to engage us (via a Package), we draw from these disciplines to solve your specific challenge.
+                    </p>
                 </div>
             </div>
             <div className="border-t border-white/[0.04]">
-                {SERVICES.map((service, i) => (
-                    <ServiceRow key={service.id} service={service} index={i} />
+                {SERVICES.map((svc, i) => (
+                    <ServiceRow key={svc.slug} svc={svc} index={i} />
                 ))}
+            </div>
+        </section>
+    )
+}
+
+/* ── PACKAGES BRIDGE CTA ── */
+function PackagesBridge() {
+    const ref = useRef(null)
+    const inView = useInView(ref, { once: true, margin: '-10%' })
+
+    return (
+        <section ref={ref} className="py-28 md:py-36 border-t border-white/[0.04] bg-[#020202] relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/[0.025] blur-[180px] rounded-full" />
+            <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <motion.div initial={{ opacity: 0, x: -30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.9 }}>
+                        <SectionLabel>How to Engage Us</SectionLabel>
+                        <KineticTypography
+                            as="h2"
+                            className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter italic leading-[1.0]"
+                            segments={[
+                                { text: "Expertise is the foundation. " },
+                                { text: "Packages are the vehicle.", className: "text-zinc-600" }
+                            ]}
+                        />
+                        <p className="text-zinc-500 text-lg leading-relaxed mt-8 max-w-lg">
+                            Our disciplines show you <em className="text-white not-italic font-medium">what we know</em>. Our Packages define <em className="text-white not-italic font-medium">how we deliver it</em> — structured, priced engagements designed for specific business objectives.
+                        </p>
+                        <Link href="/#pricing" className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-black text-[13px] uppercase tracking-[0.1em] hover:bg-accent transition-colors duration-300 mt-10">
+                            View Packages & Pricing
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </motion.div>
+
+                    <div className="grid gap-4">
+                        {[
+                            { name: 'Revenue Roadmap', price: '$4,997', note: 'one-time', desc: 'Strategy sprint — the blueprint before we build.', href: '/offers/revenue-roadmap', tag: 'Popular' },
+                            { name: 'The Monolith™ System', price: 'From $18,000', note: 'project-based', desc: 'Complete flagship website + conversion engine.', href: '/offers/revenue-system', tag: 'Best Value' },
+                            { name: 'Growth Retainer', price: 'From $6,000', note: '/ month', desc: 'Embedded senior team. Continuous growth.', href: '/offers/retainer', tag: undefined }
+                        ].map((pkg, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={inView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ duration: 0.6, delay: 0.1 + i * 0.1 }}
+                            >
+                                <Link href={pkg.href} className="group flex items-center justify-between p-6 rounded-2xl bg-[#050505] border border-white/[0.04] hover:border-accent/20 hover:bg-white/[0.02] transition-all duration-300">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-white font-bold tracking-tight">{pkg.name}</span>
+                                            {pkg.tag && <span className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">{pkg.tag}</span>}
+                                        </div>
+                                        <p className="text-zinc-600 text-sm">{pkg.desc}</p>
+                                    </div>
+                                    <div className="text-right shrink-0 ml-6">
+                                        <div className="text-white font-black font-display text-lg tracking-tight">{pkg.price}</div>
+                                        <div className="text-zinc-700 text-[10px] font-mono uppercase tracking-widest">{pkg.note}</div>
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     )
@@ -360,62 +452,25 @@ function DifferentiatorsSection() {
     )
 }
 
-/* ── TRUST STRIP ── */
-function TrustStrip() {
-    const ref = useRef(null)
-    const inView = useInView(ref, { once: true, margin: '-10%' })
-
-    return (
-        <section ref={ref} className="py-20 md:py-24 border-y border-white/[0.04] bg-card relative overflow-hidden">
-            <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7 }}>
-                        <KineticTypography
-                            as="h3"
-                            className="font-display text-3xl md:text-4xl font-black text-white tracking-tighter italic mb-3"
-                            segments={[
-                                { text: "Ready to build something " },
-                                { text: "permanent?", className: "text-accent" }
-                            ]}
-                        />
-                        <p className="text-zinc-600 text-sm">We accept 3 new client projects per month. Book your slot.</p>
-                    </motion.div>
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7, delay: 0.2 }} className="flex gap-4 shrink-0">
-                        <Link href="/offers/revenue-roadmap" className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-white text-black font-black text-[12px] uppercase tracking-[0.12em] hover:bg-accent transition-colors duration-300">
-                            Start with a Roadmap
-                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link href="/contact" className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl border border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/[0.16] font-bold text-[12px] uppercase tracking-[0.12em] transition-all duration-300">
-                            Contact
-                        </Link>
-                    </motion.div>
-                </div>
-            </div>
-        </section>
-    )
-}
-
 /* ── FINAL CTA ── */
 function FinalCTA() {
     const ref = useRef(null)
     const inView = useInView(ref, { once: true, margin: '-10%' })
 
     return (
-        <section ref={ref} className="py-36 md:py-48 relative overflow-hidden">
+        <section ref={ref} className="py-36 md:py-48 relative overflow-hidden border-t border-white/[0.04]">
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full"
                     style={{ background: 'radial-gradient(ellipse, rgba(212,168,83,0.05) 0%, transparent 70%)' }} />
                 <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
             </div>
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent" />
 
             <div className="container mx-auto px-6 lg:px-16 max-w-5xl text-center relative">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9 }}>
                     <SectionLabel>Let&apos;s Build</SectionLabel>
-                    <div className="font-display text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter italic leading-[0.9] uppercase mb-8">
-                        <KineticTypography as="div" text="Your Revenue" className="text-white" />
-                        <KineticTypography as="div" text="Machine" className="text-white" />
-                        <KineticTypography as="div" text="Awaits." className="text-accent" />
+                    <div className="font-display text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter italic leading-[0.9] uppercase mb-8 text-white">
+                        Your Revenue<br />
+                        <span className="text-accent">Machine Awaits.</span>
                     </div>
                     <p className="text-xl text-zinc-500 max-w-xl mx-auto mb-12 leading-relaxed">
                         Join 200+ ambitious brands who chose engineering over guesswork — and built something that actually compounds.
@@ -426,7 +481,7 @@ function FinalCTA() {
                             Start a Conversation
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <Link href="/offers" className="group inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-sm font-medium px-6 py-5">
+                        <Link href="/#pricing" className="group inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-sm font-medium px-6 py-5">
                             View Packages
                             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
@@ -452,9 +507,9 @@ export default function ServicesPageClient({ capabilities }: { capabilities: Cap
         <main className="min-h-screen bg-background text-white overflow-x-hidden selection:bg-accent/20">
             <AdvancedNavigation />
             <Hero />
-            <ServicesSection />
+            <DisciplinesSection />
+            <PackagesBridge />
             <DifferentiatorsSection />
-            <TrustStrip />
             <FinalCTA />
             <Footer />
         </main>

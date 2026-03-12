@@ -161,10 +161,13 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
                 <ul className="space-y-2.5">
                   {[
                     { label: 'Website Engineering', href: '/services/web-development' },
-                    { label: 'Revenue Systems', href: '/services/revenue-systems' },
-                    { label: 'Funnel Architecture', href: '/services/funnel-architecture' },
-                    { label: 'Conversion Optimization', href: '/services/conversion-optimization' },
-                    { label: 'Performance & Trust', href: '/services/trust-optimization' },
+                    { label: 'Mobile Applications', href: '/services/mobile-apps' },
+                    { label: 'UI/UX Product Design', href: '/services/ui-ux-design' },
+                    { label: 'SEO & GAIO Authority', href: '/services/seo' },
+                    { label: 'E-Commerce Systems', href: '/services/ecommerce' },
+                    { label: 'AI Automation', href: '/services/ai-automation' },
+                    { label: 'Analytics & Intelligence', href: '/services/analytics' },
+                    { label: 'Managed Maintenance', href: '/services/maintenance' },
                   ].map((link) => (
                     <li key={link.href}>
                       <Link href={link.href} className="link-shimmer text-sm text-zinc-500 hover:text-white transition-colors duration-200">
@@ -182,8 +185,7 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
                 <ul className="space-y-2.5">
                   {[
                     { label: 'Revenue Roadmap', href: '/offers/revenue-roadmap' },
-                    { label: 'Fix Sprint', href: '/offers/fix-sprint' },
-                    { label: 'Revenue System', href: '/offers/revenue-system' },
+                    { label: 'The Monolith™ System', href: '/offers/revenue-system' },
                     { label: 'Growth Retainer', href: '/offers/retainer' },
                   ].map((link) => (
                     <li key={link.href}>
