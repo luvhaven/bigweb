@@ -18,7 +18,7 @@ export async function getProjects(): Promise<Project[]> {
 
         return safeParseList<Project>(ProjectListSchema, data || [], 'Project')
     } catch (error: any) {
-        console.error('Failed to fetch projects:', error.message || error)
+        console.warn('Failed to fetch projects:', error.message || error)
         return []
     }
 }
@@ -38,7 +38,7 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 
         return safeParseList<Project>(ProjectListSchema, data || [], 'Project')
     } catch (error: any) {
-        console.error('Failed to fetch featured projects:', error.message || error)
+        console.warn('Failed to fetch featured projects:', error.message || error)
         return []
     }
 }
@@ -58,7 +58,7 @@ export async function getProjectBySlug(slug: string) {
         if (error) throw error
         return project
     } catch (error: any) {
-        console.error(`Failed to fetch project ${slug}:`, error.message || error)
+        console.warn(`Failed to fetch project ${slug}:`, error.message || error)
         return null
     }
 }

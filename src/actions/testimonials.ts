@@ -34,7 +34,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
         )
         return validated.map(mapTestimonial)
     } catch (error: any) {
-        console.error('Failed to fetch testimonials:', error.message || error)
+        console.warn('Failed to fetch testimonials:', error.message || error)
         return []
     }
 }
@@ -59,7 +59,7 @@ export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
         )
         return validated.map(mapTestimonial)
     } catch (error: any) {
-        console.error('Failed to fetch featured testimonials:', error.message || error)
+        console.warn('Failed to fetch featured testimonials:', error.message || error)
         return []
     }
 }

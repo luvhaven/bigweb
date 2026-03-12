@@ -18,7 +18,7 @@ export async function getServices(): Promise<Service[]> {
         if (error) throw error
         return safeParseList<Service>(ServiceListSchema, data || [], 'Service')
     } catch (error: any) {
-        console.error('Failed to fetch services:', error.message || error)
+        console.warn('Failed to fetch services:', error.message || error)
         return []
     }
 }
@@ -45,7 +45,7 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
         }
         return result.data
     } catch (error: any) {
-        console.error(`Failed to fetch service ${slug}:`, error.message || error)
+        console.warn(`Failed to fetch service ${slug}:`, error.message || error)
         return null
     }
 }

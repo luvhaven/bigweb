@@ -21,7 +21,7 @@ export async function getGlobalStats() {
             label: s.label
         }))
     } catch (error: any) {
-        console.error('Failed to fetch Global Stats:', error.message || error)
+        console.warn('Failed to fetch Global Stats:', error.message || error)
         return null
     }
 }

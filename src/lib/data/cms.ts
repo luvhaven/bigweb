@@ -14,7 +14,7 @@ export async function getCapabilities(): Promise<Capability[]> {
         .order('order_index', { ascending: true })
 
     if (error) {
-        console.error('[getCapabilities] Error fetching capabilities:', {
+        console.warn('[getCapabilities] Warning fetching capabilities:', {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -40,7 +40,7 @@ export async function getCapabilityBySlug(slug: string): Promise<Capability | nu
         .single()
 
     if (error) {
-        console.error(`[getCapabilityBySlug] Error fetching capability ${slug}:`, {
+        console.warn(`[getCapabilityBySlug] Warning fetching capability ${slug}:`, {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -65,7 +65,7 @@ export async function getEngagements(): Promise<Engagement[]> {
         .order('order_index', { ascending: true })
 
     if (error) {
-        console.error('[getEngagements] Error fetching engagements:', {
+        console.warn('[getEngagements] Warning fetching engagements:', {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -91,7 +91,7 @@ export async function getEngagementBySlug(slug: string): Promise<Engagement | nu
         .single()
 
     if (error) {
-        console.error(`[getEngagementBySlug] Error fetching engagement ${slug}:`, {
+        console.warn(`[getEngagementBySlug] Warning fetching engagement ${slug}:`, {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -116,7 +116,7 @@ export async function getProcessPhases(): Promise<ProcessPhase[]> {
         .order('order_index', { ascending: true })
 
     if (error) {
-        console.error('[getProcessPhases] Error fetching process phases:', {
+        console.warn('[getProcessPhases] Warning fetching process phases:', {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -141,7 +141,7 @@ export async function getPageMetadata(route: string): Promise<PageMetadata | nul
         .single()
 
     if (error) {
-        console.error(`[getPageMetadata] Error fetching metadata for ${route}:`, {
+        console.warn(`[getPageMetadata] Warning fetching metadata for ${route}:`, {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -165,7 +165,7 @@ export async function getFeatureFlags(): Promise<FeatureFlag[]> {
         .eq('enabled', true)
 
     if (error) {
-        console.error('Error fetching feature flags:', error)
+        console.warn('Warning fetching feature flags:', error)
         return []
     }
 
@@ -183,7 +183,7 @@ export async function getPageSections(route: string): Promise<PageSection[]> {
         .order('order_index', { ascending: true })
 
     if (error) {
-        console.error(`[getPageSections] Error fetching sections for route ${route}:`, {
+        console.warn(`[getPageSections] Warning fetching sections for route ${route}:`, {
             message: error.message,
             code: error.code,
             details: error.details,
@@ -205,7 +205,7 @@ export async function getPageMetadataByRoute(route: string): Promise<PageMetadat
         .single()
 
     if (error) {
-        console.error('Error fetching page metadata by route:', error)
+        console.warn('Warning fetching page metadata by route:', error)
         return null
     }
 
