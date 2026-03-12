@@ -1,14 +1,15 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath, unstable_noStore } from 'next/cache'
+import { publicClient } from '@/lib/supabase/public'
+import { revalidatePath } from 'next/cache'
 import { ProjectListSchema, safeParseList, type Project } from '@/lib/schemas'
 
 // Fetch all projects (NO CACHE)
 export async function getProjects(): Promise<Project[]> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('portfolio_projects')
             .select('*')
@@ -25,9 +26,9 @@ export async function getProjects(): Promise<Project[]> {
 
 // Fetch featured projects
 export async function getFeaturedProjects(): Promise<Project[]> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('portfolio_projects')
             .select('*')
@@ -46,9 +47,9 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 
 // Fetch single project by slug
 export async function getProjectBySlug(slug: string) {
-    unstable_noStore() // Prevent caching
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data: project, error } = await supabase
             .from('portfolio_projects')
             .select('*, results:project_results(*), testimonial:project_testimonials(*)')

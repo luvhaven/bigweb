@@ -1,14 +1,15 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath, unstable_noStore } from 'next/cache'
+import { publicClient } from '@/lib/supabase/public'
+import { revalidatePath } from 'next/cache'
 import { ServiceListSchema, ServiceSchema, safeParseList, type Service } from '@/lib/schemas'
 
 // Fetch all active services
 export async function getServices(): Promise<Service[]> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('services')
             .select('*')
@@ -25,9 +26,9 @@ export async function getServices(): Promise<Service[]> {
 
 // Fetch single service by slug
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('services')
             .select('*')

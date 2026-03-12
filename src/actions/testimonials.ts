@@ -1,7 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath, unstable_noStore } from 'next/cache'
+import { publicClient } from '@/lib/supabase/public'
+import { revalidatePath } from 'next/cache'
 import { TestimonialListSchema, safeParseList, type Testimonial } from '@/lib/schemas'
 
 function mapTestimonial(t: any) {
@@ -16,9 +17,9 @@ function mapTestimonial(t: any) {
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('testimonials')
             .select('*')
@@ -40,9 +41,9 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
-    unstable_noStore()
+
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data, error } = await supabase
             .from('testimonials')
             .select('*')

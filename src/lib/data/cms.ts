@@ -1,11 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
+import { publicClient } from '@/lib/supabase/public'
 import type { Capability, Engagement, ProcessPhase, PageMetadata, FeatureFlag, PageSection } from '@/types/database'
 
 /**
  * Fetch all published capabilities
  */
 export async function getCapabilities(): Promise<Capability[]> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('capabilities')
@@ -30,7 +31,7 @@ export async function getCapabilities(): Promise<Capability[]> {
  * Fetch single capability by slug
  */
 export async function getCapabilityBySlug(slug: string): Promise<Capability | null> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('capabilities')
@@ -56,7 +57,7 @@ export async function getCapabilityBySlug(slug: string): Promise<Capability | nu
  * Fetch all published engagements
  */
 export async function getEngagements(): Promise<Engagement[]> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('engagements')
@@ -81,7 +82,7 @@ export async function getEngagements(): Promise<Engagement[]> {
  * Fetch single engagement by slug
  */
 export async function getEngagementBySlug(slug: string): Promise<Engagement | null> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('engagements')
@@ -107,7 +108,7 @@ export async function getEngagementBySlug(slug: string): Promise<Engagement | nu
  * Fetch all published process phases
  */
 export async function getProcessPhases(): Promise<ProcessPhase[]> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('process_phases')
@@ -132,7 +133,7 @@ export async function getProcessPhases(): Promise<ProcessPhase[]> {
  * Fetch page metadata by route
  */
 export async function getPageMetadata(route: string): Promise<PageMetadata | null> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('page_metadata')
@@ -157,7 +158,7 @@ export async function getPageMetadata(route: string): Promise<PageMetadata | nul
  * Fetch all enabled feature flags
  */
 export async function getFeatureFlags(): Promise<FeatureFlag[]> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('feature_flags')
@@ -173,7 +174,7 @@ export async function getFeatureFlags(): Promise<FeatureFlag[]> {
 }
 
 export async function getPageSections(route: string): Promise<PageSection[]> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('page_sections')
@@ -196,7 +197,7 @@ export async function getPageSections(route: string): Promise<PageSection[]> {
 }
 
 export async function getPageMetadataByRoute(route: string): Promise<PageMetadata | null> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('page_metadata')
@@ -216,7 +217,7 @@ export async function getPageMetadataByRoute(route: string): Promise<PageMetadat
  * Check if a specific feature flag is enabled
  */
 export async function isFeatureEnabled(flagKey: string): Promise<boolean> {
-    const supabase = await createClient()
+    const supabase = publicClient
 
     const { data, error } = await supabase
         .from('feature_flags')

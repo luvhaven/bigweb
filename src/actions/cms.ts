@@ -1,11 +1,12 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { publicClient } from '@/lib/supabase/public'
 import { revalidatePath } from 'next/cache'
 
 export async function getCmsServiceBySlug(slug: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_services').select('*').eq('slug', slug).limit(1).single()
         return data || null
     } catch { return null }
@@ -15,7 +16,7 @@ export async function getCmsServiceBySlug(slug: string) {
 // SITE SETTINGS
 // ─────────────────────────────────────────────────────────────────────
 export async function getSiteSettings() {
-    const supabase = await createClient()
+    const supabase = publicClient
     const { data } = await supabase.from('cms_settings').select('*').limit(1).single()
     return data || {}
 }
@@ -33,14 +34,14 @@ export async function updateSiteSettings(settings: Record<string, any>) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsHero(slug = 'homepage') {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_heroes').select('*').eq('slug', slug).limit(1)
         return data?.[0] || null
     } catch { return null }
 }
 
 export async function getAllHeroSections() {
-    const supabase = await createClient()
+    const supabase = publicClient
     const { data } = await supabase.from('cms_heroes').select('*').order('created_at', { ascending: false })
     return data || []
 }
@@ -74,7 +75,7 @@ export async function deleteHero(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getVideoShowroom() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase
             .from('cms_video_showroom')
             .select('*')
@@ -113,14 +114,14 @@ export async function deleteVideo(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsServices() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_services').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         return data || []
     } catch { return [] }
 }
 
 export async function getAllServices() {
-    const supabase = await createClient()
+    const supabase = publicClient
     const { data } = await supabase.from('cms_services').select('*').order('sort_order', { ascending: true })
     return data || []
 }
@@ -154,7 +155,7 @@ export async function deleteService(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsProjects(featuredOnly = false) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         let q = supabase.from('cms_projects').select('*').eq('is_published', true).order('created_at', { ascending: false })
         if (featuredOnly) q = q.eq('is_featured', true)
         const { data } = await q
@@ -163,7 +164,7 @@ export async function getCmsProjects(featuredOnly = false) {
 }
 
 export async function getAllProjects() {
-    const supabase = await createClient()
+    const supabase = publicClient
     const { data } = await supabase.from('cms_projects').select('*').order('created_at', { ascending: false })
     return data || []
 }
@@ -198,7 +199,7 @@ export async function deleteProject(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsTestimonials(featuredOnly = false) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         let q = supabase.from('cms_testimonials').select('*').order('created_at', { ascending: false })
         if (featuredOnly) q = q.eq('is_featured', true)
         const { data } = await q
@@ -250,7 +251,7 @@ export async function deleteTestimonial(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsTeam() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_team_members').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         return data || []
     } catch { return [] }
@@ -285,7 +286,7 @@ export async function deleteTeamMember(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getEngagements() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('engagements').select('*').eq('status', 'published').order('order_index', { ascending: true })
         return data || []
     } catch { return [] }
@@ -293,7 +294,7 @@ export async function getEngagements() {
 
 export async function getEngagementBySlug(slug: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('engagements').select('*').eq('slug', slug).eq('status', 'published').limit(1).single()
         return data || null
     } catch { return null }
@@ -330,7 +331,7 @@ export async function deleteEngagement(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsGrowthPackages() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_growth_packages').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         return data || []
     } catch { return [] }
@@ -341,7 +342,7 @@ export async function getCmsGrowthPackages() {
 // ─────────────────────────────────────────────────────────────────────
 export async function getStatistics(displayLocation?: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         let q = supabase.from('statistics').select('*').eq('active', true).order('sort_order', { ascending: true })
         if (displayLocation) q = q.eq('display_location', displayLocation)
         const { data } = await q
@@ -384,7 +385,7 @@ export async function deleteStatistic(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getProcessPhases() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('process_phases').select('*').eq('status', 'published').order('order_index', { ascending: true })
         return data || []
     } catch { return [] }
@@ -418,7 +419,7 @@ export async function deleteProcessPhase(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsClients() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_clients').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         return (data || []).map((c: any) => ({
             name: c.name,
@@ -432,7 +433,7 @@ export async function getCmsClients() {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsFaqs(category?: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         let q = supabase.from('cms_faqs').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         if (category) q = q.eq('category', category)
         const { data } = await q
@@ -468,7 +469,7 @@ export async function deleteFaq(id: string) {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsNavigation() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_navigation').select('*').eq('is_active', true).order('sort_order', { ascending: true })
         return data || []
     } catch { return [] }
@@ -479,7 +480,7 @@ export async function getCmsNavigation() {
 // ─────────────────────────────────────────────────────────────────────
 export async function getCmsFooterData() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const [settingsRes, sectionsRes] = await Promise.all([
             supabase.from('cms_settings').select('*').limit(1),
             supabase.from('cms_footer_sections').select('*, links:cms_footer_links(*)').eq('is_active', true).order('sort_order', { ascending: true })
@@ -496,7 +497,7 @@ export async function getCmsFooterData() {
 // ─────────────────────────────────────────────────────────────────────
 export async function getPageMeta(slug: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data } = await supabase.from('cms_pages').select('*').eq('slug', slug).eq('is_published', true).limit(1)
         return data?.[0] || null
     } catch { return null }
@@ -504,7 +505,7 @@ export async function getPageMeta(slug: string) {
 
 export async function getPageSection(pageSlug: string, sectionType: string) {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const pageRes = await supabase.from('cms_pages').select('id').eq('slug', pageSlug).limit(1)
         if (!pageRes.data?.[0]) return null
         const { data } = await supabase.from('cms_page_sections')

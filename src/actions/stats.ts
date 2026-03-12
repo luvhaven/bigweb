@@ -1,10 +1,11 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { publicClient } from '@/lib/supabase/public'
 
 export async function getGlobalStats() {
     try {
-        const supabase = await createClient()
+        const supabase = publicClient
         const { data: stats, error } = await supabase
             .from('statistics')
             .select('*')

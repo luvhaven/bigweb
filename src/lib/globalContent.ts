@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { unstable_noStore as noStore } from 'next/cache';
+
 
 // Server-side client creation (avoids caching issues if needed, but simple is best)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -9,7 +9,7 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!; // or SERVICE_RO
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function fetchGlobalContent() {
-    noStore();
+
     try {
         // 1. Fetch all data with adaptive fallback for schema variations
         let settingsRes: any;
