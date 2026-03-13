@@ -19,7 +19,6 @@ export default function BrandLogo({
     animate = true,
     size = 'md',
 }: BrandLogoProps) {
-    // If a custom logo image is uploaded, show it
     if (logoUrl) {
         return (
             <div className={`flex items-center ${className}`}>
@@ -28,89 +27,103 @@ export default function BrandLogo({
         )
     }
 
-    // Symbol only — just the accent bar + B mark
     if (variant === 'symbol') {
         return (
-            <div className={`flex items-center gap-1 ${className}`}>
-                {/* Accent bar */}
-                <motion.span
-                    initial={animate ? { scaleY: 0 } : false}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="block w-[3px] h-5 rounded-full origin-bottom"
-                    style={{ background: 'hsl(38 56% 52%)' }}
-                />
-                <span
-                    className="font-black text-lg text-white tracking-[-0.04em] leading-none"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                    B
-                </span>
+            <div className={`flex items-center ${className}`}>
+                <BrandMark animate={animate} size={size} />
             </div>
         )
     }
 
-    const wordmarkSize = size === 'sm' ? '14px' : size === 'lg' ? '21px' : '17px'
-    const subtitleSize = size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9.5px'
-    const barHeight = size === 'sm' ? '18px' : size === 'lg' ? '28px' : '22px'
+    const wordmarkPx = size === 'sm' ? 14 : size === 'lg' ? 22 : 17
+    const subtitlePx = size === 'sm' ? 7.5 : size === 'lg' ? 11 : 9
+    const barH = size === 'sm' ? 17 : size === 'lg' ? 28 : 22
 
     return (
         <motion.div
-            className={`flex items-center gap-2.5 select-none ${className}`}
-            initial={animate ? { opacity: 0, x: -8 } : false}
+            className={`flex items-center gap-[9px] select-none ${className}`}
+            initial={animate ? { opacity: 0, x: -10 } : false}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         >
-            {/* The premium accent bar — lives just before the wordmark */}
-            <div className="flex items-center gap-[5px]">
-                {/* Vertical bar — the visual anchor, signals precision + authority */}
-                <motion.span
-                    initial={animate ? { scaleY: 0, opacity: 0 } : false}
-                    animate={{ scaleY: 1, opacity: 1 }}
-                    transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="block rounded-full origin-bottom shrink-0"
-                    style={{
-                        width: '3px',
-                        height: barHeight,
-                        background: 'linear-gradient(180deg, hsl(40 52% 65%), hsl(38 56% 52%) 60%, hsl(36 58% 38%))',
-                        boxShadow: '0 0 8px hsl(38 56% 52% / 0.6)',
-                    }}
-                />
+            {/* The B mark — geometric square with cut corner */}
+            <BrandMark animate={animate} size={size} />
 
-                {/* BIGWEB + DIGITAL stacked wordmark — mirrors Redstone Software pattern */}
-                <motion.div
-                    initial={animate ? { opacity: 0, x: -4 } : false}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.55, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex flex-col leading-none gap-[1.5px]"
+            {/* Wordmark block */}
+            <motion.div
+                initial={animate ? { opacity: 0, x: -6 } : false}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col leading-none"
+                style={{ gap: '2px' }}
+            >
+                {/* BIGWEB */}
+                <span
+                    className="text-white leading-none tracking-tighter"
+                    style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 900,
+                        fontSize: `${wordmarkPx}px`,
+                        letterSpacing: '-0.045em',
+                    }}
                 >
-                    {/* Primary wordmark */}
-                    <span
-                        className="text-white leading-none"
-                        style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontWeight: 800,
-                            fontSize: wordmarkSize,
-                            letterSpacing: '-0.04em',
-                        }}
-                    >
-                        BIGWEB
-                    </span>
-                    {/* Sub-label — exactly like REDSTONE / SOFTWARE */}
-                    <span
-                        className="leading-none tracking-[0.22em] uppercase"
-                        style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontWeight: 500,
-                            fontSize: subtitleSize,
-                            color: 'hsl(38 56% 52%)',
-                            letterSpacing: '0.22em',
-                        }}
-                    >
-                        DIGITAL
-                    </span>
-                </motion.div>
-            </div>
+                    BIGWEB
+                </span>
+                {/* DIGITAL — spaced accent underline */}
+                <span
+                    className="leading-none"
+                    style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 600,
+                        fontSize: `${subtitlePx}px`,
+                        letterSpacing: '0.32em',
+                        color: 'hsl(38 56% 52%)',
+                        textTransform: 'uppercase',
+                    }}
+                >
+                    DIGITAL
+                </span>
+            </motion.div>
+        </motion.div>
+    )
+}
+
+/** Isolated geometric brand mark — the "BW" diamond cut square */
+export function BrandMark({ animate = true, size = 'md' }: { animate?: boolean; size?: 'sm' | 'md' | 'lg' }) {
+    const s = size === 'sm' ? 22 : size === 'lg' ? 36 : 28
+
+    return (
+        <motion.div
+            initial={animate ? { opacity: 0, scale: 0.7 } : false}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            style={{ width: s, height: s, flexShrink: 0 }}
+        >
+            <svg
+                width={s}
+                height={s}
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                {/* Background square with cut top-right corner */}
+                <path
+                    d="M2 2 H20 L26 8 V26 H2 Z"
+                    fill="hsl(38 56% 52%)"
+                />
+                {/* Corner cut fold — depth triangle */}
+                <path
+                    d="M20 2 L26 8 L20 8 Z"
+                    fill="hsl(36 58% 38%)"
+                />
+                {/* BW letterform — two vertical bars + diagonal strike */}
+                <rect x="6" y="8" width="2.5" height="11" rx="0.5" fill="#0a0a0a" />
+                <rect x="11.5" y="8" width="2.5" height="11" rx="0.5" fill="#0a0a0a" />
+                <rect x="18" y="8" width="2.5" height="11" rx="0.5" fill="#0a0a0a" />
+                {/* The slanted cross bar connecting B and W */}
+                <line x1="8.5" y1="13.5" x2="20.5" y2="9" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" />
+                <line x1="8.5" y1="13.5" x2="20.5" y2="19" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" />
+            </svg>
         </motion.div>
     )
 }

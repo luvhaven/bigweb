@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring, useMotionTemplate, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -363,27 +363,7 @@ export default function CinematicHero({
         return () => ctx.revert()
     }, [isLoaded, title])
 
-    // ─── Scroll Parallax ───
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start start', 'end start'],
-    })
-
-    const scrollOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-    const scrollScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.92])
-    const scrollY = useTransform(scrollYProgress, [0, 1], [0, 200])
-    const scrollBlur = useTransform(scrollYProgress, [0, 0.4], [0, 12])
-    const scrollFilter = useMotionTemplate`blur(${scrollBlur}px)`
-    const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-
-    // Multi-depth Ambient Parallax
-    const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
-    const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%'])
-    const grainY = useTransform(scrollYProgress, [0, 1], ['0%', '5%'])
-
-    const springOpacity = useSpring(scrollOpacity, { stiffness: 60, damping: 30 })
-    const springScale = useSpring(scrollScale, { stiffness: 60, damping: 30 })
-    const springY = useSpring(scrollY, { stiffness: 60, damping: 30 })
+    // Parallax removed — static layers for clean, fast rendering
 
     // ─── Cursor Tracking ───
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
@@ -455,8 +435,8 @@ export default function CinematicHero({
                         opacity: showPreloader && !isLoaded ? 0 : 1
                     }}
                 >
-                    <motion.div className="absolute inset-0" style={{ scale: videoScale, y: backgroundY }}>
-                        {/* Primary cinematic background — always visible */}
+                    <div className="absolute inset-0">
+                        {/* Primary cinematic background */}
                         <div className="absolute inset-0">
                             <Image
                                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2400&auto=format&fit=crop"
@@ -480,7 +460,7 @@ export default function CinematicHero({
                             />
                         </div>
 
-                        {/* Try video too — if it exists, it will overlay */}
+                        {/* Video overlay if available */}
                         {!videoError && (
                             <video
                                 ref={videoRef}
@@ -492,23 +472,22 @@ export default function CinematicHero({
                                 <source src={videoSrc} type="video/mp4" />
                             </video>
                         )}
-                    </motion.div>
+                    </div>
 
                     {/* Golden accent light — lower left */}
-                    <motion.div
+                    <div
                         className="absolute bottom-0 left-0 w-[600px] h-[400px] pointer-events-none"
-                        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(212,168,83,0.08) 0%, transparent 70%)', y: overlayY }}
+                        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(212,168,83,0.08) 0%, transparent 70%)' }}
                     />
 
                     {/* Layered overlays for depth */}
                     <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/70 via-transparent to-[#030303]" />
-                    <motion.div className="absolute inset-0 bg-gradient-to-r from-[#030303]/80 via-transparent to-[#030303]/80" style={{ y: overlayY }} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#030303]/80 via-transparent to-[#030303]/80" />
 
-                    {/* Grain texture */}
-                    <motion.div
+                    {/* Grain texture — static */}
+                    <div
                         className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
                         style={{
-                            y: grainY,
                             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
                         }}
                     />
@@ -545,15 +524,9 @@ export default function CinematicHero({
                 </div>
 
                 {/* ─── Main Content ─── */}
-                <motion.div
+                <div
                     ref={contentRef}
                     className="container mx-auto px-6 lg:px-16 relative z-10 w-full"
-                    style={{
-                        opacity: springOpacity,
-                        scale: springScale,
-                        y: springY,
-                        filter: scrollFilter,
-                    }}
                 >
                     <div className="max-w-5xl mx-auto text-center">
                         {/* Accent line */}
@@ -645,7 +618,7 @@ export default function CinematicHero({
                             ))}
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* ─── Cinematic Vignette Edges ─── */}
                 <div className="absolute inset-0 pointer-events-none z-[15]">

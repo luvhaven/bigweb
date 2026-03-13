@@ -1,10 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Check, X, Minus } from 'lucide-react'
 import Link from 'next/link'
-import KineticTypography from './effects/KineticTypography'
 
 const rows = [
     { feature: 'Engineering Velocity', bigweb: 'yes', agencies: 'maybe', freelancers: 'no' },
@@ -19,46 +18,167 @@ const rows = [
     { feature: '30-Day Launch Guarantee', bigweb: 'yes', agencies: 'no', freelancers: 'no' },
 ]
 
-function CellIcon({ value }: { value: string }) {
+function CellIcon({ value, invert = false }: { value: string; invert?: boolean }) {
     if (value === 'yes') return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <Check className="w-4 h-4 text-emerald-400" />
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+            <Check className="w-4 h-4 text-emerald-600" />
         </span>
     )
     if (value === 'no') return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-500/5 border border-red-500/10 grayscale-[50%]">
-            <X className="w-4 h-4 text-red-400/50" />
+        <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${invert ? 'bg-red-50 border border-red-100' : 'bg-red-500/5 border border-red-500/10'}`}>
+            <X className="w-4 h-4 text-red-400" />
         </span>
     )
-    // maybe / sometimes / rarely / extra
     return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500/5 border border-yellow-500/10">
-            <Minus className="w-4 h-4 text-yellow-400/50" />
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-50 border border-amber-200">
+            <Minus className="w-4 h-4 text-amber-500" />
         </span>
     )
 }
 
+// Canvas-animated geometric shapes — bars, squares, L-brackets, diamonds in gold/amber
+function GeometricCanvas() {
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+
+    useEffect(() => {
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+        let raf: number
+        const dpr = window.devicePixelRatio || 1
+
+        const resize = () => {
+            canvas.width = canvas.offsetWidth * dpr
+            canvas.height = canvas.offsetHeight * dpr
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        }
+        resize()
+        window.addEventListener('resize', resize)
+
+        type ShapeType = 'bar' | 'square' | 'bracket' | 'diamond'
+        type Shape = {
+            x: number; y: number; w: number; h: number
+            type: ShapeType
+            rotation: number; rotV: number
+            vx: number; vy: number
+            alpha: number; alphaV: number
+            color: string
+        }
+
+        const COLORS = [
+            'rgba(212,168,83,',
+            'rgba(180,130,50,',
+            'rgba(234,197,123,',
+            'rgba(180,140,80,',
+            'rgba(200,175,130,',
+        ]
+
+        const W = () => canvas.width / dpr
+        const H = () => canvas.height / dpr
+
+        const mkShape = (): Shape => {
+            const types: ShapeType[] = ['bar', 'square', 'bracket', 'diamond']
+            const type = types[Math.floor(Math.random() * 4)]
+            const base = 14 + Math.random() * 36
+            return {
+                x: Math.random() * W(),
+                y: Math.random() * H(),
+                w: type === 'bar' ? base * 2.8 : base,
+                h: type === 'bar' ? base * 0.28 : base,
+                type,
+                rotation: Math.random() * Math.PI * 2,
+                rotV: (Math.random() - 0.5) * 0.003,
+                vx: (Math.random() - 0.5) * 0.2,
+                vy: (Math.random() - 0.5) * 0.2,
+                alpha: 0.05 + Math.random() * 0.1,
+                alphaV: (Math.random() - 0.5) * 0.0006,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            }
+        }
+
+        const shapes: Shape[] = Array.from({ length: 52 }, mkShape)
+
+        const drawShape = (s: Shape) => {
+            ctx.save()
+            ctx.translate(s.x, s.y)
+            ctx.rotate(s.rotation)
+            const a = Math.max(0.02, Math.min(0.18, s.alpha))
+            const fill = `${s.color}${a})`
+            const stroke = `${s.color}${Math.min(0.3, a * 2)})`
+            ctx.strokeStyle = stroke
+            ctx.lineWidth = 1
+
+            if (s.type === 'bar' || s.type === 'square') {
+                ctx.fillStyle = fill
+                ctx.fillRect(-s.w / 2, -s.h / 2, s.w, s.h)
+                ctx.strokeRect(-s.w / 2, -s.h / 2, s.w, s.h)
+            } else if (s.type === 'bracket') {
+                ctx.strokeStyle = stroke
+                ctx.beginPath()
+                ctx.moveTo(-s.w / 2, s.h / 2)
+                ctx.lineTo(-s.w / 2, -s.h / 2)
+                ctx.lineTo(s.w / 2, -s.h / 2)
+                ctx.stroke()
+            } else {
+                // diamond
+                const d = s.w * 0.55
+                ctx.fillStyle = fill
+                ctx.beginPath()
+                ctx.moveTo(0, -d)
+                ctx.lineTo(d * 0.6, 0)
+                ctx.lineTo(0, d)
+                ctx.lineTo(-d * 0.6, 0)
+                ctx.closePath()
+                ctx.fill()
+                ctx.stroke()
+            }
+            ctx.restore()
+        }
+
+        const tick = () => {
+            const w = W(), h = H()
+            ctx.clearRect(0, 0, w, h)
+            shapes.forEach(s => {
+                s.x += s.vx; s.y += s.vy
+                s.rotation += s.rotV
+                s.alpha += s.alphaV
+                if (s.alpha < 0.02 || s.alpha > 0.18) s.alphaV *= -1
+                if (s.x < -s.w) s.x = w + s.w
+                if (s.x > w + s.w) s.x = -s.w
+                if (s.y < -s.h) s.y = h + s.h
+                if (s.y > h + s.h) s.y = -s.h
+                drawShape(s)
+            })
+            raf = requestAnimationFrame(tick)
+        }
+        tick()
+
+        return () => {
+            cancelAnimationFrame(raf)
+            window.removeEventListener('resize', resize)
+        }
+    }, [])
+
+    return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+}
+
 export default function BrutalComparison() {
     const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: '-100px' })
+    const isInView = useInView(ref, { once: true, margin: '-80px' })
     const [hoveredRow, setHoveredRow] = useState<number | null>(null)
 
     return (
-        <section ref={ref} className="py-32 md:py-48 bg-[#040404] relative overflow-hidden border-t border-white/[0.04]">
-            {/* Ambient Background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent/[0.02] rounded-full blur-[150px] -translate-y-1/2 translate-x-1/3" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-500/[0.015] rounded-full blur-[150px] translate-y-1/3 -translate-x-1/3" />
-
-                {/* Micro-grid */}
-                <div
-                    className="absolute inset-0 opacity-[0.02]"
-                    style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
-                />
-            </div>
+        <section ref={ref} className="py-32 md:py-48 bg-white relative overflow-hidden">
+            {/* Animated geometric background */}
+            <GeometricCanvas />
+            {/* Edge fades */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent pointer-events-none z-[1]" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none z-[1]" />
 
             <div className="container mx-auto px-6 lg:px-16 relative z-10 max-w-6xl">
-                {/* Header Phase */}
+
+                {/* Header */}
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
@@ -66,21 +186,16 @@ export default function BrutalComparison() {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="max-w-2xl"
                     >
-                        <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.02] mb-6">
-                            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-200 bg-amber-50 mb-6">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-amber-700">
                                 The Uncomfortable Truth
                             </span>
                         </span>
-
-                        <KineticTypography
-                            segments={[
-                                { text: 'Why the world\'s best brands ' },
-                                { text: 'choose BIGWEB.', className: 'italic text-zinc-500' }
-                            ]}
-                            as="h2"
-                            className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6"
-                        />
+                        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 leading-[1.05] mb-6">
+                            Why the world&apos;s best brands{' '}
+                            <em className="not-italic text-zinc-400">choose BIGWEB.</em>
+                        </h2>
                     </motion.div>
 
                     <motion.p
@@ -93,102 +208,96 @@ export default function BrutalComparison() {
                     </motion.p>
                 </div>
 
-                {/* Table Phase */}
+                {/* Comparison table */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative rounded-3xl border border-white/[0.06] bg-[#070707] shadow-2xl overflow-hidden"
+                    className="relative rounded-3xl border border-zinc-200 bg-white/90 backdrop-blur-sm shadow-[0_20px_80px_rgba(0,0,0,0.08)] overflow-hidden"
                 >
-                    {/* The "BIGWEB" Column Highlight Layer */}
+                    {/* BIGWEB column amber highlight */}
                     <div className="absolute top-0 bottom-0 left-[25%] right-[50%] md:left-[33.33%] md:right-[33.33%] pointer-events-none z-0">
-                        <div className="absolute inset-0 bg-gradient-to-b from-accent/[0.05] to-transparent border-x border-accent/[0.1] opacity-60" />
-                        <div className="absolute top-0 left-0 right-0 h-px bg-accent/40" />
-                        {/* Glow at top */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-accent/20 blur-[40px] rounded-full" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 to-transparent border-x border-amber-200/60" />
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300" />
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-20 bg-amber-400/20 blur-[30px] rounded-full" />
                     </div>
 
-                    {/* Desktop Headers */}
-                    <div className="hidden md:grid grid-cols-4 border-b border-white/[0.06] relative z-10 bg-[#070707]/80 backdrop-blur-md">
-                        <div className="px-8 py-6 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-600 flex items-center">Evaluation Criteria</div>
+                    {/* Desktop column headers */}
+                    <div className="hidden md:grid grid-cols-4 border-b border-zinc-100 relative z-10 bg-white/80 backdrop-blur-sm">
+                        <div className="px-8 py-6 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400 flex items-center">Criteria</div>
                         {[
-                            { label: 'BIGWEB', subtitle: 'The Standard', highlight: true },
-                            { label: 'Traditional Agency', subtitle: 'Industry Standard', highlight: false },
-                            { label: 'Freelancer', subtitle: 'Solo Resource', highlight: false },
-                        ].map((col) => (
-                            <div
-                                key={col.label}
-                                className={`px-8 py-6 text-center flex flex-col items-center justify-center ${col.highlight ? 'text-white' : 'text-zinc-500'}`}
-                            >
-                                <span className={`text-sm font-bold tracking-[0.15em] mb-1 ${col.highlight ? 'text-accent' : ''}`}>
+                            { label: 'BIGWEB', subtitle: 'The Standard', gold: true },
+                            { label: 'Traditional Agency', subtitle: 'Industry Standard', gold: false },
+                            { label: 'Freelancer', subtitle: 'Solo Resource', gold: false },
+                        ].map(col => (
+                            <div key={col.label} className="px-8 py-6 text-center flex flex-col items-center justify-center">
+                                <span className={`text-sm font-bold tracking-[0.12em] mb-1 ${col.gold ? 'text-amber-600' : 'text-zinc-400'}`}>
                                     {col.label}
                                 </span>
-                                <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase">{col.subtitle}</span>
+                                <span className="text-[10px] font-mono tracking-wider text-zinc-400/60 uppercase">{col.subtitle}</span>
                             </div>
                         ))}
                     </div>
 
-                    {/* Mobile Headers (Simplified) */}
-                    <div className="grid md:hidden grid-cols-4 border-b border-white/[0.06] relative z-10 bg-[#070707]/80 backdrop-blur-md">
-                        <div className="px-4 py-4 text-[9px] font-mono uppercase tracking-widest text-zinc-600 flex items-center flex-col justify-center text-center">Criteria</div>
-                        <div className="px-2 py-4 text-center flex flex-col justify-center opacity-100 text-accent font-bold text-[10px] tracking-wide">BIGWEB</div>
-                        <div className="px-2 py-4 text-center flex flex-col justify-center text-zinc-500 font-bold text-[10px] tracking-wide">Agency</div>
-                        <div className="px-2 py-4 text-center flex flex-col justify-center text-zinc-500 font-bold text-[10px] tracking-wide">Free<br />lancer</div>
+                    {/* Mobile headers */}
+                    <div className="grid md:hidden grid-cols-4 border-b border-zinc-100 relative z-10 bg-white/80">
+                        <div className="px-3 py-4 text-[9px] font-mono uppercase tracking-widest text-zinc-400 text-center">Criteria</div>
+                        <div className="px-2 py-4 text-center font-bold text-[10px] text-amber-600 tracking-wide">BIGWEB</div>
+                        <div className="px-2 py-4 text-center font-bold text-[10px] text-zinc-400 tracking-wide">Agency</div>
+                        <div className="px-2 py-4 text-center font-bold text-[10px] text-zinc-400 tracking-wide">Free<br />lancer</div>
                     </div>
 
                     {/* Rows */}
-                    <div className="relative z-10 divide-y divide-white/[0.04]">
+                    <div className="relative z-10 divide-y divide-zinc-50/80">
                         {rows.map((row, i) => (
                             <motion.div
                                 key={row.feature}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.5, delay: 0.4 + i * 0.05 }}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                                transition={{ duration: 0.4, delay: 0.4 + i * 0.04 }}
                                 onMouseEnter={() => setHoveredRow(i)}
                                 onMouseLeave={() => setHoveredRow(null)}
-                                className={`grid grid-cols-4 transition-colors duration-300 relative ${hoveredRow === i ? 'bg-white/[0.025]' : ''}`}
+                                className={`grid grid-cols-4 relative transition-colors duration-200 ${hoveredRow === i ? 'bg-amber-50/50' : ''}`}
                             >
-                                {/* Left accent bar — appears on hover */}
                                 <motion.div
-                                    className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full bg-accent"
-                                    initial={{ scaleY: 0, opacity: 0 }}
+                                    className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full bg-amber-500"
                                     animate={{ scaleY: hoveredRow === i ? 1 : 0, opacity: hoveredRow === i ? 1 : 0 }}
-                                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={{ duration: 0.2 }}
                                     style={{ originY: 'center' }}
                                 />
-                                <div className={`px-4 md:px-8 py-5 md:py-6 text-xs md:text-sm font-medium transition-colors duration-300 flex items-center ${hoveredRow === i ? 'text-white pl-5 md:pl-10' : 'text-zinc-400'}`}>
+                                <div className={`px-4 md:px-8 py-5 text-xs md:text-sm font-medium flex items-center transition-all duration-200 ${hoveredRow === i ? 'text-zinc-900 pl-5 md:pl-10' : 'text-zinc-600'}`}>
                                     {row.feature}
                                 </div>
-                                <div className="px-2 md:px-8 py-5 md:py-6 flex items-center justify-center relative">
-                                    <CellIcon value={row.bigweb} />
+                                <div className="px-2 md:px-8 py-5 flex items-center justify-center">
+                                    <CellIcon value={row.bigweb} invert />
                                 </div>
-                                <div className="px-2 md:px-8 py-5 md:py-6 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
-                                    <CellIcon value={row.agencies} />
+                                <div className="px-2 md:px-8 py-5 flex items-center justify-center opacity-70">
+                                    <CellIcon value={row.agencies} invert />
                                 </div>
-                                <div className="px-2 md:px-8 py-5 md:py-6 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
-                                    <CellIcon value={row.freelancers} />
+                                <div className="px-2 md:px-8 py-5 flex items-center justify-center opacity-70">
+                                    <CellIcon value={row.freelancers} invert />
                                 </div>
                             </motion.div>
                         ))}
                     </div>
                 </motion.div>
 
-                {/* Bottom CTA */}
+                {/* CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.8, delay: 1 }}
                     className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6"
                 >
                     <Link
                         href="/contact"
-                        className="btn-magnetic pulse-ring group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold tracking-wide shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-zinc-900 text-white text-sm font-semibold tracking-wide shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:bg-zinc-800 transition-colors duration-300"
                     >
                         Start a Project
                         <span className="font-mono transition-transform duration-500 group-hover:translate-x-1 inline-block">→</span>
                     </Link>
                     <div className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-emerald-400" />
+                        <Check className="w-4 h-4 text-emerald-500" />
                         <span className="text-[12px] text-zinc-500 font-medium">Zero commitment discovery call.</span>
                     </div>
                 </motion.div>
