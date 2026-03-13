@@ -16,23 +16,28 @@ import {
 } from '@/actions/cms'
 import { getGlobalStats } from '@/actions/stats'
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 
+/* ─── Eagerly loaded: above the fold ─── */
 import HomepageHero from '@/components/HomepageHero'
-import CleanProcess from '@/components/CleanProcess'
-import FinalCTA from '@/components/FinalCTA'
-import Footer from '@/components/Footer'
 import AdvancedNavigation from '@/components/AdvancedNavigation'
 import ClientMarquee from '@/components/trust/ClientMarquee'
-import CompetitiveEdge from '@/components/CompetitiveEdge'
-import SimplePricing from '@/components/SimplePricing'
-import BrutalComparison from '@/components/BrutalComparison'
-import ElitePortfolio from '@/components/ElitePortfolio'
-import PremiumTestimonials from '@/components/PremiumTestimonials'
-import ImpactNumbers from '@/components/ImpactNumbers'
-import VideoShowroom from '@/components/VideoShowroom'
-import SocialProofToast from '@/components/SocialProofToast'
-import ExitIntentModal from '@/components/ExitIntentModal'
 import SectionBridge from '@/components/effects/SectionBridge'
+
+/* ─── Lazy loaded: below the fold — only fetched after hero paints ─── */
+const CompetitiveEdge = dynamic(() => import('@/components/CompetitiveEdge'))
+const ElitePortfolio = dynamic(() => import('@/components/ElitePortfolio'))
+const ImpactNumbers = dynamic(() => import('@/components/ImpactNumbers'))
+const CleanProcess = dynamic(() => import('@/components/CleanProcess'))
+const BrutalComparison = dynamic(() => import('@/components/BrutalComparison'))
+const VideoShowroom = dynamic(() => import('@/components/VideoShowroom'))
+const PremiumTestimonials = dynamic(() => import('@/components/PremiumTestimonials'))
+const SimplePricing = dynamic(() => import('@/components/SimplePricing'))
+const FinalCTA = dynamic(() => import('@/components/FinalCTA'))
+const Footer = dynamic(() => import('@/components/Footer'))
+
+/* ─── Non-critical UI overlays: fully deferred client-side only ─── */
+import ClientOverlays from '@/components/ClientOverlays'
 
 export const revalidate = 60
 
@@ -143,8 +148,7 @@ export default async function HomePage() {
 
       <Footer footerData={footerData} />
 
-      <SocialProofToast />
-      <ExitIntentModal />
+      <ClientOverlays />
     </main>
   )
 }

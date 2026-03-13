@@ -315,7 +315,7 @@ export default function SimplePricing({ initialPackages }: { initialPackages?: a
                 {/* Package Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {packages.map((pkg, i) => (
-                        <PackageCard key={pkg.name} pkg={pkg as any} index={i} />
+                        <PackageCard key={`${pkg.name}-${i}`} pkg={pkg as any} index={i} />
                     ))}
                 </div>
 
