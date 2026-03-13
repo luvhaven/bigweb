@@ -98,18 +98,21 @@ function PreloaderCounter({ onComplete }: { onComplete: () => void }) {
     const [count, setCount] = useState(0)
 
     useEffect(() => {
-        const duration = 1800 // ms
-        const steps = 60
-        const increment = 100 / steps
-        let current = 0
+        // Exponential easing: rushes early, decelerates near 100
+        const duration = 1200 // ms — snappy but intentional
+        const steps = 48
+        let frame = 0
         const interval = setInterval(() => {
-            current += increment
-            if (current >= 100) {
+            frame++
+            const t = frame / steps
+            // Ease out expo: fast start, smooth landing
+            const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+            const val = Math.floor(eased * 100)
+            setCount(val)
+            if (frame >= steps) {
                 setCount(100)
                 clearInterval(interval)
-                setTimeout(onComplete, 300)
-            } else {
-                setCount(Math.floor(current))
+                setTimeout(onComplete, 250)
             }
         }, duration / steps)
         return () => clearInterval(interval)
@@ -117,38 +120,67 @@ function PreloaderCounter({ onComplete }: { onComplete: () => void }) {
 
     return (
         <motion.div
-            exit={{ opacity: 0, filter: 'blur(20px)', scale: 1.15 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[100] bg-[#020202] flex items-center justify-center"
+            exit={{ opacity: 0, filter: 'blur(24px)', scale: 1.08 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[100] bg-[#020202] flex flex-col items-center justify-center gap-12"
         >
+            {/* BIGWEB DIGITAL brand mark — large, centered */}
+            <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center gap-1 select-none"
+            >
+                <span
+                    className="text-white leading-none"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 5vw, 4rem)', letterSpacing: '-0.04em' }}
+                >
+                    BIGWEB
+                </span>
+                <span
+                    className="tracking-[0.4em] uppercase"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 'clamp(0.6rem, 1vw, 0.85rem)', color: 'hsl(38 56% 52%)' }}
+                >
+                    DIGITAL
+                </span>
+            </motion.div>
+
+            {/* Progress arc + number */}
             <div className="relative">
-                {/* Progress arc */}
-                <svg className="w-32 h-32" viewBox="0 0 128 128">
+                <svg className="w-24 h-24" viewBox="0 0 128 128">
                     <circle cx="64" cy="64" r="56" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
                     <motion.circle
                         cx="64" cy="64" r="56"
                         fill="none"
-                        stroke="url(#gradient)"
+                        stroke="url(#preGradient)"
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeDasharray={`${count * 3.51} 351`}
                         transform="rotate(-90, 64, 64)"
                     />
                     <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient id="preGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stopColor="#d4a853" />
                             <stop offset="100%" stopColor="white" />
                         </linearGradient>
                     </defs>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-3xl font-mono font-light text-white tracking-tighter">
+                    <span
+                        className="font-mono font-light text-white tabular-nums"
+                        style={{ fontSize: '1.5rem', letterSpacing: '-0.04em' }}
+                    >
                         {count.toString().padStart(3, '0')}
                     </span>
                 </div>
             </div>
-            <div className="absolute bottom-16 text-[10px] font-mono uppercase tracking-[0.5em] text-zinc-700">
-                Loading Experience
+
+            {/* Horizontal progress line */}
+            <div className="w-48 h-px bg-white/[0.06] relative overflow-hidden rounded-full">
+                <motion.div
+                    className="absolute left-0 top-0 h-full rounded-full"
+                    style={{ width: `${count}%`, background: 'linear-gradient(90deg, hsl(38 56% 52%), white)' }}
+                />
             </div>
         </motion.div>
     )

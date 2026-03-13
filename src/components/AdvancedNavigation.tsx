@@ -110,26 +110,28 @@ export default function AdvancedNavigation() {
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrolled
-            ? 'py-2.5 bg-[#060606]/80 backdrop-blur-2xl border-b border-white/[0.05] shadow-[0_4px_40px_rgba(0,0,0,0.6)]'
-            : 'py-5 bg-transparent'
+            ? 'py-3 flex justify-center'
+            : 'py-5'
         }`}
       >
-        {/* Scroll-progress bar */}
+        {/* Scroll-progress bar — always at the very top edge */}
         <div
-          className="absolute top-0 left-0 h-[1.5px] bg-gradient-to-r from-transparent via-accent to-transparent z-50 transition-transform duration-100"
+          className="absolute top-0 left-0 h-[1.5px] bg-gradient-to-r from-transparent via-accent to-transparent z-50 transition-[width] duration-100"
           style={{ width: `${scrollProgress}%` }}
         />
 
-        {/* Frosted glow seam when scrolled */}
-        {scrolled && (
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-        )}
-
-        <div className="max-w-screen-xl mx-auto px-5 md:px-10 flex items-center gap-8">
+        {/* ── Floating island pill (scrolled state) / full-width bar (top) ── */}
+        <div
+          className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            scrolled
+              ? 'max-w-[900px] w-[calc(100%-2rem)] mx-4 px-5 md:px-6 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.6),0_1px_0_rgba(255,255,255,0.04)_inset]'
+              : 'max-w-screen-xl mx-auto px-5 md:px-10'
+          } flex items-center gap-6`}
+        >
 
           {/* ── Logo ─────────────────────────────────────────────────────── */}
-          <Link href="/" className="relative z-50 shrink-0 flex items-center">
-            <BrandLogo variant="full" />
+          <Link href="/" className="relative z-50 shrink-0 flex items-center py-2">
+            <BrandLogo variant="full" size={scrolled ? 'sm' : 'md'} />
           </Link>
 
           {/* ── Vertical divider ─────────────────────────────────────────── */}

@@ -121,18 +121,18 @@ function StackCard({
         index === 0 ? ['0%', '0%'] : ['100%', '0%']
     )
 
-    // Scale down from 1.15 to 0.65 as it's being scrolled over
+    // Scale down from 1.0 to 0.88 as it's scrolled over — clean deck-of-cards without collision
     const scale = useTransform(
         scrollYProgress,
         [shrinkStart, shrinkEnd],
-        isLast ? [1, 1] : [1.15, 0.65] 
+        isLast ? [1, 1] : [1, 0.88]
     )
 
     // Darken it as the next card covers it
     const opacityTransform = useTransform(
         scrollYProgress,
         [shrinkStart, shrinkEnd],
-        [1, isLast ? 1 : 0.4] 
+        [1, isLast ? 1 : 0.25]
     )
 
     return (

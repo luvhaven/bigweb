@@ -8,6 +8,7 @@ const ScrollProgressIndicator = dynamic(() => import('@/components/ui/ScrollProg
 const RippleEffect = dynamic(() => import('@/components/effects/RippleEffect'), { ssr: false })
 const LiveVisitorCounter = dynamic(() => import('@/components/trust/LiveVisitorCounter'), { ssr: false })
 const SiteLoader = dynamic(() => import('@/components/effects/SiteLoader'), { ssr: false })
+const GlobalCursor = dynamic(() => import('@/components/effects/GlobalCursor'), { ssr: false })
 
 export default function ClientLayoutEnhancements() {
     const pathname = usePathname()
@@ -15,6 +16,7 @@ export default function ClientLayoutEnhancements() {
 
     return (
         <>
+            <GlobalCursor />
             <SiteLoader />
             <ScrollProgressIndicator />
             <RippleEffect />
