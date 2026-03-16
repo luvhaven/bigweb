@@ -4,9 +4,10 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, Code2, Palette, BarChart3, Search, Smartphone, Zap, Brain, Shield, Layers, TrendingUp, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
+import AnimatedImage from './effects/AnimatedImage'
 import KineticTypography from './effects/KineticTypography'
 import SectionAtmosphere from './effects/SectionAtmosphere'
+import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 
 const services = [
     {
@@ -118,13 +119,15 @@ function FeaturedServiceCard({ service }: { service: typeof services[0] }) {
                         animate={{ scale: isHovered ? 1.06 : 1 }}
                         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <Image
+                        <AnimatedImage
                             src={service.image}
                             alt={service.title}
                             fill
                             className="object-cover"
                             style={{ filter: 'brightness(0.22) saturate(0.5)' }}
                             sizes="(max-width: 768px) 100vw, 50vw"
+                            parallaxSpeed={0.08}
+                            revealDirection="center"
                         />
                     </motion.div>
                     <motion.div
@@ -242,14 +245,15 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                         animate={{ scale: isHovered ? 1.08 : 1 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <Image
+                        <AnimatedImage
                             src={service.image}
                             alt={service.title}
                             fill
                             className="object-cover"
                             style={{ filter: 'brightness(0.3) saturate(0.6)' }}
                             sizes="(max-width: 768px) 100vw, 33vw"
-                            loading="lazy"
+                            parallaxSpeed={0.05}
+                            revealDirection="up"
                         />
                     </motion.div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c]/80 to-transparent" />
@@ -392,15 +396,15 @@ export default function CompetitiveEdge({ initialServices }: { initialServices?:
                     </motion.div>
 
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-                        <div className="max-w-2xl">
-                            <KineticTypography
-                                segments={[
-                                    { text: 'Digital interfaces ' },
-                                    { text: 'engineered for revenue.', className: 'italic text-zinc-400' }
-                                ]}
-                                as="h2"
-                                className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05]"
-                            />
+                        <div className="max-w-3xl">
+                            <h2 className="font-display text-4xl md:text-5xl lg:text-7xl tracking-tighter text-white leading-[0.95] mb-4">
+                                Digital interfaces <br />
+                                <span className="italic text-accent/90 font-medium">
+                                    engin
+                                    <AnimatedMissingLetter letter="e" dropDistance="-150vh" delay={0.2} />
+                                    ered
+                                </span> for revenue.
+                            </h2>
                         </div>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
@@ -415,20 +419,24 @@ export default function CompetitiveEdge({ initialServices }: { initialServices?:
 
                 {/* Services grid — editorial 3-column layout, no orphaned cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-                    {/* Featured large card — left column, spans 2 rows on lg */}
+                    {/* Featured large card — spans 2 rows and 2 columns on lg for architectural dominance */}
                     <motion.div
-                        className="lg:row-span-2"
+                        className="lg:col-span-2 lg:row-span-2"
                         initial={{ opacity: 0, x: -30 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        style={{ gridRow: 'span 2' }}
                     >
                         <FeaturedServiceCard service={featuredService} />
                     </motion.div>
 
-                    {/* Remaining services — always fills 2 columns cleanly */}
-                    {gridServices.slice(0, 4).map((service, i) => (
+                    {/* Remaining services — side column */}
+                    {gridServices.slice(0, 2).map((service, i) => (
                         <ServiceCard key={service.slug} service={service} index={i} />
+                    ))}
+
+                    {/* Bottom strip of services */}
+                    {gridServices.slice(2, 5).map((service, i) => (
+                        <ServiceCard key={service.slug} service={service} index={i + 2} />
                     ))}
                 </div>
 

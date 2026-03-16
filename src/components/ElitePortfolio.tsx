@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowUpRight, TrendingUp, ArrowRight } from 'lucide-react'
+import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 
 // ─── Shared Fallback Data ───
 const FALLBACK_PROJECTS = [
@@ -128,11 +129,11 @@ function StackCard({
         isLast ? [1, 1] : [1.15, 0.65] 
     )
 
-    // Darken it as the next card covers it
+    // Darken it completely as the next card covers it to prevent text overlap
     const opacityTransform = useTransform(
         scrollYProgress,
         [shrinkStart, shrinkEnd],
-        [1, isLast ? 1 : 0.4] 
+        [1, isLast ? 1 : 0] 
     )
 
     return (
@@ -159,16 +160,27 @@ function StackCard({
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
                 >
-                    {/* Full bg image */}
+                    {/* Full bg image with grain-wash overlay */}
                     {p.cover_image_url && (
-                        <div
-                            className="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-1000 ease-[0.16,1,0.3,1]"
-                            style={{
-                                backgroundImage: `url(${p.cover_image_url})`,
-                                transform: hovered ? 'scale(1.06)' : 'scale(1.01)',
-                                filter: hovered ? 'brightness(0.6) saturate(1.1)' : 'brightness(0.25) saturate(0.8)',
-                            }}
-                        />
+                        <div className="absolute inset-0 w-full h-full overflow-hidden">
+                            <div
+                                className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                                style={{
+                                    backgroundImage: `url(${p.cover_image_url})`,
+                                    transform: hovered ? 'scale(1.08)' : 'scale(1.01)',
+                                    filter: hovered ? 'brightness(0.5) saturate(1.1)' : 'brightness(0.25) saturate(0.8)',
+                                }}
+                            />
+                            {/* Grain wash on hover */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: hovered ? 0.08 : 0 }}
+                                className="absolute inset-0 pointer-events-none mix-blend-overlay"
+                                style={{
+                                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                                }}
+                            />
+                        </div>
                     )}
 
                     {/* Content panel */}
@@ -197,10 +209,14 @@ function StackCard({
 
                             {/* Center */}
                             <div className="flex-1 flex flex-col justify-center py-8">
-                                <h3 className="font-display text-4xl md:text-5xl lg:text-[72px] text-white leading-[1.05] tracking-tight mb-5 drop-shadow-2xl">
+                                <span className="text-[10px] font-mono uppercase tracking-[0.5em] text-zinc-600 mb-6 flex items-center gap-4">
+                                    <span className="w-12 h-px bg-zinc-800" />
+                                    Exhibit {String(index + 1).padStart(2, '0')}
+                                </span>
+                                <h3 className="font-display text-4xl md:text-5xl lg:text-[84px] text-white leading-[0.92] tracking-tighter mb-8 drop-shadow-2xl">
                                     {p.title}
                                 </h3>
-                                <p className="text-zinc-400 text-sm md:text-base lg:text-[17px] leading-relaxed max-w-sm hidden sm:block font-light">
+                                <p className="text-zinc-500 text-sm md:text-base lg:text-[18px] leading-relaxed max-w-sm hidden sm:block font-light italic border-l border-white/10 pl-6">
                                     {p.tagline}
                                 </p>
                             </div>
@@ -216,7 +232,7 @@ function StackCard({
                                 )}
                                 <div className="flex items-center gap-5 mt-2">
                                     <div
-                                        className="w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-700 ease-[0.16,1,0.3,1]"
+                                        className="w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
                                         style={{
                                             background: p.accent,
                                             transform: hovered ? 'scale(1.15) rotate(-5deg)' : 'scale(1)',
@@ -291,7 +307,9 @@ export default function ElitePortfolio({
                         </div>
                         <h2 className="font-display text-4xl md:text-5xl lg:text-[64px] tracking-tight leading-[1.05] text-white">
                             Engineered{' '}
-                            <em className="not-italic text-zinc-600 font-display">for impact.</em>
+                            <em className="not-italic text-zinc-600 font-display">
+                                f<AnimatedMissingLetter letter="o" dropDistance="-150vh" delay={0.1} />r impact.
+                            </em>
                         </h2>
                     </div>
                 </div>

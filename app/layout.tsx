@@ -11,6 +11,7 @@ import SmoothScroll from '@/components/SmoothScroll'
 
 import AnalyticsAdvanced from '@/components/analytics/AnalyticsAdvanced'
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements'
+import MagneticCursor from '@/components/effects/MagneticCursor'
 
 /* ─── Self-hosted fonts (zero layout shift, no external request) ─── */
 const inter = Inter({
@@ -88,6 +89,7 @@ if (typeof window !== 'undefined') {
         />
 
         <GlobalContentProvider {...globalContent}>
+          <MagneticCursor />
           <ClientLayoutEnhancements />
           <Providers>
             <Suspense fallback={null}>

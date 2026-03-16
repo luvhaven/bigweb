@@ -135,8 +135,8 @@ export default function ForensicComparison() {
                                 Engineering_Logic_v1
                             </h4>
                             <p className="text-xs text-zinc-400 leading-relaxed font-mono">
-                                // We design for quantifiable capital extraction. <br />
-                                // Every element is subjected to rigorous A/B stress testing.
+                                {'//'} We design for quantifiable capital extraction. <br />
+                                {'//'} Every element is subjected to rigorous A/B stress testing.
                             </p>
                         </div>
                     </div>

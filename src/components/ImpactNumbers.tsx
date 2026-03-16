@@ -5,7 +5,7 @@ import {
     motion, useInView, useScroll, useTransform,
     useSpring, useMotionValue,
 } from 'framer-motion'
-import Image from 'next/image'
+import AnimatedImage from './effects/AnimatedImage'
 import KineticTypography from './effects/KineticTypography'
 
 /* ─── Metrics ─── */
@@ -225,13 +225,14 @@ export default function ImpactNumbers({ initialStats }: { initialStats?: StatIte
                                     transition={{ duration: 0.8 }}
                                 >
                                     {metric.image ? (
-                                    <Image
+                                    <AnimatedImage
                                         src={metric.image}
                                         alt=""
                                         fill
                                         className="object-cover"
                                         sizes="25vw"
-                                        loading="lazy"
+                                        parallaxSpeed={0} // No parallax because it's mostly hidden behind overlay
+                                        revealDirection="center"
                                     />
                                     ) : null}
                                 </motion.div>

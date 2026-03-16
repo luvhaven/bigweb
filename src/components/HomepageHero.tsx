@@ -42,7 +42,7 @@ export default function HomepageHero({ stats, hero }: HomepageHeroProps) {
 
     return (
         <CinematicHero
-            showPreloader={true}
+            showPreloader={false}
             title={
                 <>
                     <span className="hero-line block" style={{ perspective: '1000px' }}>

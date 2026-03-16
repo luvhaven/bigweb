@@ -34,14 +34,23 @@ export default function ExitIntentModal() {
             }
         }, 45000)
 
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                handleDismiss()
+            }
+        }
+
         document.addEventListener('mouseleave', handleMouseLeave)
+        document.addEventListener('keydown', handleKeyDown)
         return () => {
             document.removeEventListener('mouseleave', handleMouseLeave)
+            document.removeEventListener('keydown', handleKeyDown)
             clearTimeout(timer)
         }
     }, [dismissed])
 
     const handleDismiss = () => {
+        if (!visible) return
         setVisible(false)
         setDismissed(true)
         sessionStorage.setItem('exit-modal-dismissed', '1')
@@ -125,8 +134,9 @@ export default function ExitIntentModal() {
                             <div className="relative p-10 md:p-12">
                                 {/* Close */}
                                 <button
+                                    type="button"
                                     onClick={handleDismiss}
-                                    className="absolute top-5 right-5 w-8 h-8 rounded-full border border-white/[0.06] flex items-center justify-center text-zinc-600 hover:text-white hover:border-white/[0.2] transition-all duration-300"
+                                    className="absolute top-5 right-5 w-8 h-8 rounded-full border border-white/[0.06] flex items-center justify-center text-zinc-600 hover:text-white hover:border-white/[0.2] transition-all duration-300 z-50"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -246,6 +256,7 @@ export default function ExitIntentModal() {
                                                     View our work first →
                                                 </Link>
                                                 <button
+                                                    type="button"
                                                     onClick={handleDismiss}
                                                     className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors"
                                                 >

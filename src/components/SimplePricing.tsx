@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { Check, ArrowRight, Zap, Compass, Shield, Star, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import KineticTypography from './effects/KineticTypography'
+import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 import { useEngagements } from '@/hooks/useCMS'
 import { PRICING_PACKAGES } from '@/lib/config/pricing'
 import type { PricingPackage } from '@/lib/config/pricing'
@@ -38,58 +39,69 @@ function ROICalculator() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="mb-16 rounded-2xl border border-white/[0.07] bg-[#0c0c0c] overflow-hidden"
         >
-            <div className="p-8 md:p-10 grid md:grid-cols-2 gap-10 items-center">
+            <div className="p-8 md:p-12 lg:p-16 grid lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <TrendingUp className="w-4 h-4 text-accent" />
-                        <span className="text-xs font-mono uppercase tracking-[0.2em] text-accent">ROI Estimator</span>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                            <TrendingUp className="w-5 h-5 text-accent" />
+                        </div>
+                        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-accent font-semibold">Revenue Logic V2.0</span>
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-1 tracking-tight">How much revenue are you leaving behind?</h3>
-                    <p className="text-xs text-zinc-500 mb-8 leading-relaxed">
-                        Based on our verified average 340% conversion rate uplift across 200+ client projects. Adjust your numbers below.
+                    <h3 className="text-3xl md:text-4xl font-display text-white mb-4 tracking-tighter leading-none">The cost of <span className="italic text-zinc-500 font-light">inaction.</span></h3>
+                    <p className="text-sm text-zinc-500 mb-10 leading-relaxed max-w-md">
+                        Our engineering protocol delivers a verified average 340% conversion uplift. Use the logic engine below to quantify your missing revenue.
                     </p>
 
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         {[
                             { label: 'Monthly website visitors', value: visitors, set: setVisitors, min: 500, max: 200000, step: 500, format: (v: number) => v.toLocaleString() },
                             { label: 'Current conversion rate', value: convRate, set: setConvRate, min: 0.1, max: 15, step: 0.1, format: (v: number) => `${v.toFixed(1)}%` },
                             { label: 'Average order / deal value', value: orderValue, set: setOrderValue, min: 10, max: 10000, step: 10, format: (v: number) => `$${v.toLocaleString()}` },
                         ].map(({ label, value, set, min, max, step, format }) => (
-                            <div key={label}>
-                                <div className="flex justify-between mb-2">
-                                    <span className="text-xs text-zinc-500">{label}</span>
-                                    <span className="text-xs text-white font-mono font-semibold">{format(value)}</span>
+                            <div key={label} className="group/slider">
+                                <div className="flex justify-between mb-4">
+                                    <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 transition-colors group-hover/slider:text-zinc-400">{label}</span>
+                                    <span className="text-sm text-white font-mono font-bold bg-white/5 px-2 py-0.5 rounded border border-white/10">{format(value)}</span>
                                 </div>
                                 <input
                                     type="range" min={min} max={max} step={step} value={value}
                                     onChange={e => set(Number(e.target.value))}
-                                    className="w-full h-px bg-white/[0.08] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:-webkit-appearance-none [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:cursor-pointer"
+                                    className="w-full h-1 bg-white/[0.05] rounded-full appearance-none cursor-pointer accent-accent hover:accent-accent/80 transition-all"
                                 />
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="p-6 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-                        <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600 mb-2">Current Monthly Revenue</div>
-                        <div className="text-3xl font-black tracking-tighter text-zinc-400">{fmt(current)}</div>
-                    </div>
-                    <div className="p-6 rounded-xl border border-accent/25 bg-accent/[0.05] relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
-                        <div className="relative">
-                            <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent mb-2">After BIGWEB</div>
-                            <div className="text-3xl font-black tracking-tighter text-white">{fmt(improved)}</div>
+                <div className="relative">
+                    <div className="absolute -inset-4 bg-accent/5 blur-3xl rounded-full opacity-30 pointer-events-none" />
+                    <div className="relative space-y-6">
+                        <div className="p-8 rounded-2xl border border-white/[0.05] bg-white/[0.01] backdrop-blur-sm">
+                            <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600 mb-3 underline decoration-zinc-800 underline-offset-4">Current Stasis Revenue</div>
+                            <div className="text-4xl font-black tracking-tighter text-zinc-500/80 italic">{fmt(current)}<span className="text-sm not-italic font-mono text-zinc-700 ml-2">/MO</span></div>
                         </div>
-                    </div>
-                    <div className="flex items-center justify-between py-2">
-                        <div>
-                            <div className="text-emerald-400 font-bold text-lg">+{fmt(gain)}/mo</div>
-                            <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-[0.2em]">~{fmt(annualGain)}/yr potential upside</div>
+                        <div className="p-8 rounded-2xl border border-accent/30 bg-accent/[0.03] relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent pointer-events-none transition-opacity group-hover:opacity-60" />
+                            <div className="relative">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-accent font-bold">Projected BIGWEB Velocity</div>
+                                    <div className="text-[9px] font-bold text-accent px-2 py-0.5 rounded bg-accent/10 border border-accent/20">+340% MODEL</div>
+                                </div>
+                                <div className="text-5xl font-black tracking-tighter text-white">{fmt(improved)}<span className="text-sm font-mono text-zinc-400 ml-2">/MO</span></div>
+                            </div>
                         </div>
-                        <Link href="/results" className="text-xs font-mono text-zinc-500 hover:text-white transition-colors underline underline-offset-2">
-                            Full calculator →
-                        </Link>
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-4">
+                            <div className="text-center sm:text-left">
+                                <div className="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+                                    <span className="text-emerald-500">+{fmt(gain)}</span>
+                                    <span className="text-xs font-mono text-zinc-600 uppercase tracking-widest">Monthly Surplus</span>
+                                </div>
+                                <div className="text-[11px] text-zinc-500 font-mono mt-1">~{fmt(annualGain)} Expected Annual Impact</div>
+                            </div>
+                            <Link href="/contact" className="group flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-bold text-xs tracking-wide transition-transform hover:scale-105 active:scale-95">
+                                Capture Upside <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,16 +156,16 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
 
             <div className="relative z-10 p-8 md:p-10 flex flex-col flex-1">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-10">
                     <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center mb-6"
-                        style={{ background: `${pkg.color}15`, border: `1px solid ${pkg.color}25` }}
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center mb-8"
+                        style={{ background: `${pkg.color}10`, border: `1px solid ${pkg.color}20` }}
                     >
-                        <Icon className="w-4 h-4" style={{ color: pkg.color }} />
+                        <Icon className="w-5 h-5" style={{ color: pkg.color }} />
                     </div>
 
-                    <h3 className="text-xl font-semibold text-white mb-1.5 tracking-tight">{pkg.name}</h3>
-                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-[0.1em]">{pkg.tagline}</p>
+                    <h3 className="text-2xl font-display text-white mb-2 tracking-tight group-hover:text-accent transition-colors duration-500">{pkg.name}</h3>
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-medium">{pkg.tagline}</p>
                 </div>
 
                 {/* Price */}
@@ -275,14 +287,13 @@ export default function SimplePricing({ initialPackages }: { initialPackages?: a
                             </span>
                         </motion.div>
 
-                        <KineticTypography
-                            segments={[
-                                { text: 'Choose how we ' },
-                                { text: 'work together.', className: 'italic text-zinc-400' }
-                            ]}
-                            as="h2"
-                            className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6"
-                        />
+                        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6">
+                            Choose how we<br/>
+                            <span className="italic text-zinc-400">
+                                w
+                                <AnimatedMissingLetter letter="o" dropDistance="-150vh" delay={0.2} />rk together.
+                            </span>
+                        </h2>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}

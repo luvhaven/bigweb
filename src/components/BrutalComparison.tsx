@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { Check, X, Minus } from 'lucide-react'
 import Link from 'next/link'
 import KineticTypography from './effects/KineticTypography'
+import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 
 const rows = [
     { feature: 'Engineering Velocity', bigweb: 'yes', agencies: 'maybe', freelancers: 'no' },
@@ -73,14 +74,13 @@ export default function BrutalComparison() {
                             </span>
                         </span>
 
-                        <KineticTypography
-                            segments={[
-                                { text: 'Why the world\'s best brands ' },
-                                { text: 'choose BIGWEB.', className: 'italic text-zinc-500' }
-                            ]}
-                            as="h2"
-                            className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6"
-                        />
+                        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6">
+                            Why the world's best brands<br/>
+                            <span className="italic text-zinc-500">
+                                choos
+                                <AnimatedMissingLetter letter="e" dropDistance="-150vh" delay={0.2} /> BIGWEB.
+                            </span>
+                        </h2>
                     </motion.div>
 
                     <motion.p

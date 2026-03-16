@@ -137,7 +137,7 @@ export default function ConversionOffers({ offers }: ConversionOffersProps) {
                             </div>
 
                             <div className="mb-8">
-                                <span className={`text-[10px] font-mono font-bold uppercase tracking-[0.5em] text-zinc-800`}>Option 0{index + 1} // {offer.subtitle}</span>
+                                <span className={`text-[10px] font-mono font-bold uppercase tracking-[0.5em] text-zinc-800`}>Option 0{index + 1} {'//'} {offer.subtitle}</span>
                                 <h3 className="text-3xl font-bold text-white mt-4 uppercase tracking-tighter italic leading-none group-hover:text-accent transition-colors">{offer.title}</h3>
                             </div>
 

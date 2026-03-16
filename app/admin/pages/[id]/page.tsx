@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { adminSupabase as supabase } from '@/utils/adminSupabase'
 import AdminSidebar from '@/components/admin/AdminSidebar'
@@ -11,8 +11,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Save, ArrowLeft } from 'lucide-react'
 
-export default async function EditContentPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params
+export default function EditContentPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params)
 
     // Client component for form functionality
     return <EditContentPageClient id={id} />

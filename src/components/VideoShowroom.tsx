@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'fra
 import { Play, Pause, X, Volume2, VolumeX, Maximize2, ArrowRight, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import SectionAtmosphere from '@/components/effects/SectionAtmosphere'
+import AnimatedImage from '@/components/effects/AnimatedImage'
+import AnimatedMissingLetter from '@/components/effects/AnimatedMissingLetter'
 
 interface VideoItem {
     id?: string
@@ -25,7 +27,7 @@ const fallbackVideo: VideoItem = {
     title: 'BIGWEB in Action',
     description: 'See how we engineer elite digital revenue machines — from discovery to launch in under 30 days.',
     video_url: '',
-    thumbnail_url: 'https://images.unsplash.com/photo-1536240478700-b869ad10a2eb?q=80&w=2000&auto=format&fit=crop',
+    thumbnail_url: 'https://images.unsplash.com/photo-1492691523567-6119201a3bb6?q=80&w=2000&auto=format&fit=crop',
     category: 'showcase',
     duration: '2:30',
     featured: true,
@@ -198,7 +200,11 @@ export default function VideoShowroom({ initialVideos }: VideoShowroomProps) {
                                 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05]"
                             >
                                 Execution that{' '}
-                                <em className="italic text-zinc-400">speaks for itself.</em>
+                                <em className="italic text-zinc-400">
+                                    speak
+                                    <AnimatedMissingLetter letter="s" dropDistance="-150vh" delay={0.25} />
+                                    {' '}for itself.
+                                </em>
                             </motion.h2>
                         </div>
 
@@ -231,11 +237,14 @@ export default function VideoShowroom({ initialVideos }: VideoShowroomProps) {
                                 className="absolute inset-0"
                                 style={{ y: bgY }}
                             >
-                                <img
-                                    src={featured.thumbnail_url || 'https://images.unsplash.com/photo-1536240478700-b869ad10a2eb?q=80&w=2000'}
+                                <AnimatedImage
+                                    src={featured.thumbnail_url || 'https://images.unsplash.com/photo-1492691523567-6119201a3bb6?q=80&w=2000'}
                                     alt={featured.title}
-                                    className="w-full h-full object-cover scale-110"
+                                    fill
+                                    className="object-cover scale-110"
                                     style={{ filter: 'brightness(0.55) saturate(0.7)' }}
+                                    parallaxSpeed={0}
+                                    revealDirection="down"
                                 />
                             </motion.div>
 
@@ -295,11 +304,14 @@ export default function VideoShowroom({ initialVideos }: VideoShowroomProps) {
                                     className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group"
                                     onClick={() => setActiveVideo(video)}
                                 >
-                                    <img
-                                        src={video.thumbnail_url || 'https://images.unsplash.com/photo-1536240478700-b869ad10a2eb?q=80&w=800'}
+                                    <AnimatedImage
+                                        src={video.thumbnail_url || 'https://images.unsplash.com/photo-1492691523567-6119201a3bb6?q=80&w=800'}
                                         alt={video.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                                         style={{ filter: 'brightness(0.5) saturate(0.6)' }}
+                                        parallaxSpeed={0}
+                                        revealDirection="up"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                                     <div className="absolute inset-0 flex flex-col justify-end p-5">

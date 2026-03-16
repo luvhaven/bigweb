@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import KineticTypography from '@/components/effects/KineticTypography'
 import SectionAtmosphere from '@/components/effects/SectionAtmosphere'
+import AnimatedImage from '@/components/effects/AnimatedImage'
+import AnimatedMissingLetter from '@/components/effects/AnimatedMissingLetter'
 
 /* ─── Testimonial Data with real-looking avatars ─── */
 const TESTIMONIALS = [
@@ -100,14 +102,14 @@ export default function PremiumTestimonials({ initialTestimonials = [] }: any) {
               Client Proof
             </span>
           </motion.div>
-          <KineticTypography
-            segments={[
-              { text: 'Results that speak ' },
-              { text: 'for themselves.', className: 'italic text-zinc-400' }
-            ]}
-            as="h2"
-            className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05]"
-          />
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05]">
+            Results that speak <br />
+            <span className="italic text-zinc-400">
+               f
+               <AnimatedMissingLetter letter="o" dropDistance="-100vh" delay={0.1} />
+               r themselves.
+            </span>
+          </h2>
         </div>
 
         {/* Main Testimonial Layout */}
@@ -131,11 +133,13 @@ export default function PremiumTestimonials({ initialTestimonials = [] }: any) {
                       className="relative w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2"
                       style={{ borderColor: `${activeTestimonial.color}40` }}
                     >
-                      <Image
+                      <AnimatedImage
                         src={activeTestimonial.image || activeTestimonial.avatar_url || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&h=300&auto=format&fit=crop'}
                         alt={activeTestimonial.author || activeTestimonial.client_name || activeTestimonial.name || 'Client testimonial'}
                         fill
                         className="object-cover grayscale-[0.3]"
+                        parallaxSpeed={0.05}
+                        revealDirection="center"
                       />
                     </div>
                     <div

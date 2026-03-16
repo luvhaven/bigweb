@@ -29,12 +29,32 @@ export default function AmbientCanvas({
     let raf: number
     let W = 0, H = 0
 
+    // Offscreen canvas for grid to prevent drawing 1000+ arc paths per frame
+    const gridCanvas = document.createElement('canvas')
+    const gridCtx = gridCanvas.getContext('2d')
+
     // ── Responsive resize ──
     const resize = () => {
       W = canvas.offsetWidth
       H = canvas.offsetHeight
       canvas.width = W
       canvas.height = H
+      
+      if (grid && gridCtx) {
+        gridCanvas.width = W
+        gridCanvas.height = H
+        gridCtx.clearRect(0, 0, W, H)
+        const step = 44
+        gridCtx.fillStyle = 'rgba(255,255,255,0.04)'
+        gridCtx.beginPath()
+        for (let gx = step / 2; gx < W; gx += step) {
+          for (let gy = step / 2; gy < H; gy += step) {
+             gridCtx.moveTo(gx, gy)
+             gridCtx.arc(gx, gy, 0.75, 0, Math.PI * 2)
+          }
+        }
+        gridCtx.fill()
+      }
     }
     resize()
     const ro = new ResizeObserver(resize)
@@ -62,17 +82,9 @@ export default function AmbientCanvas({
     const draw = () => {
       ctx.clearRect(0, 0, W, H)
 
-      // ─ Dot grid ─
+      // ─ Dot grid offscreen render ─
       if (grid) {
-        const step = 44
-        ctx.fillStyle = 'rgba(255,255,255,0.04)'
-        for (let gx = step / 2; gx < W; gx += step) {
-          for (let gy = step / 2; gy < H; gy += step) {
-            ctx.beginPath()
-            ctx.arc(gx, gy, 0.75, 0, Math.PI * 2)
-            ctx.fill()
-          }
-        }
+        ctx.drawImage(gridCanvas, 0, 0)
       }
 
       // ─ Orbs ─
@@ -84,12 +96,11 @@ export default function AmbientCanvas({
         grad.addColorStop(0, `${orbColor}${o.alpha})`)
         grad.addColorStop(1, `${orbColor}0)`)
         ctx.fillStyle = grad
-        ctx.beginPath()
-        ctx.arc(ox, oy, o.r * Math.min(W, H), 0, Math.PI * 2)
-        ctx.fill()
+        ctx.fillRect(0, 0, W, H) // Using fillRect with global gradient is faster than arc
       })
 
       // ─ Particles ─
+      ctx.beginPath()
       particles.forEach((p) => {
         p.x += p.vx
         p.y += p.vy
@@ -98,29 +109,29 @@ export default function AmbientCanvas({
         if (p.y < 0) p.y = H
         if (p.y > H) p.y = 0
 
-        ctx.beginPath()
+        ctx.moveTo(p.x, p.y)
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`
-        ctx.fill()
       })
+      ctx.fillStyle = `rgba(255,255,255,0.2)`
+      ctx.fill()
 
       // ─ Particle connections ─
       if (frame % 2 === 0) {
+        ctx.beginPath()
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x
             const dy = particles[i].y - particles[j].y
-            const dist = Math.sqrt(dx * dx + dy * dy)
-            if (dist < 120) {
-              ctx.beginPath()
+            const dist = dx * dx + dy * dy
+            if (dist < 14400) { // 120^2 = 14400, avoids unneeded sqrt cost
               ctx.moveTo(particles[i].x, particles[i].y)
               ctx.lineTo(particles[j].x, particles[j].y)
-              ctx.strokeStyle = `rgba(212,168,83,${0.04 * (1 - dist / 120)})`
-              ctx.lineWidth = 0.5
-              ctx.stroke()
             }
           }
         }
+        ctx.strokeStyle = `rgba(212,168,83,0.02)`
+        ctx.lineWidth = 0.5
+        ctx.stroke()
       }
 
       frame++

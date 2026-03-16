@@ -67,7 +67,7 @@ export default function SectionBridge({
         style={{
           background: variant !== 'none'
             ? `linear-gradient(90deg, transparent 0%, ${c}0.2) 20%, ${c}0.35) 50%, ${c}0.2) 80%, transparent 100%)`
-            : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
+            : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)'
         }}
       />
 

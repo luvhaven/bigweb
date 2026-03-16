@@ -1,6 +1,5 @@
 import { getFeaturedProjects } from '@/actions/portfolio'
 import { getFeaturedTestimonials } from '@/actions/testimonials'
-import { getServices } from '@/actions/services'
 import { getPageMetadata } from '@/lib/data/cms'
 import {
   getCmsProjects,
@@ -25,7 +24,7 @@ import ClientMarquee from '@/components/trust/ClientMarquee'
 import SectionBridge from '@/components/effects/SectionBridge'
 
 /* ─── Lazy loaded: below the fold — only fetched after hero paints ─── */
-const CompetitiveEdge = dynamic(() => import('@/components/CompetitiveEdge'))
+const NetflixHero = dynamic(() => import('@/components/NetflixHero'))
 const ElitePortfolio = dynamic(() => import('@/components/ElitePortfolio'))
 const ImpactNumbers = dynamic(() => import('@/components/ImpactNumbers'))
 const CleanProcess = dynamic(() => import('@/components/CleanProcess'))
@@ -35,6 +34,7 @@ const PremiumTestimonials = dynamic(() => import('@/components/PremiumTestimonia
 const SimplePricing = dynamic(() => import('@/components/SimplePricing'))
 const FinalCTA = dynamic(() => import('@/components/FinalCTA'))
 const Footer = dynamic(() => import('@/components/Footer'))
+const SplitRevealSection = dynamic(() => import('@/components/effects/SplitRevealSection'))
 
 /* ─── Non-critical UI overlays: fully deferred client-side only ─── */
 import ClientOverlays from '@/components/ClientOverlays'
@@ -61,7 +61,6 @@ export default async function HomePage() {
     cmsProjects,
     testimonials,
     cmsTestimonials,
-    services,
     stats,
     statistics,
     heroStats,
@@ -77,7 +76,6 @@ export default async function HomePage() {
     getCmsProjects(true).catch(() => []),
     getFeaturedTestimonials().catch(() => []),
     getCmsTestimonials(true).catch(() => []),
-    getServices().catch(() => []),
     getGlobalStats().catch(() => null),
     getStatistics().catch(() => []),
     getStatistics('homepage-hero').catch(() => []),
@@ -110,9 +108,9 @@ export default async function HomePage() {
         initialClients={clients}
       />
 
-      {/* 3. Services */}
-      <SectionBridge variant="gold" fromColor="#050505" toColor="#040404" label="Services" />
-      <CompetitiveEdge initialServices={services} />
+      {/* 3. Dynamic Digital Interfaces Showcase (Netflix Style) */}
+      <SectionBridge variant="gold" fromColor="#050505" toColor="#040404" label="What We Build" />
+      <NetflixHero />
 
       {/* 4. Selected Work */}
       <SectionBridge variant="indigo" fromColor="#040404" toColor="#050505" label="Portfolio" />
@@ -124,7 +122,9 @@ export default async function HomePage() {
 
       {/* 6. Process */}
       <SectionBridge variant="neutral" fromColor="#040404" toColor="#060606" label="Process" />
-      <CleanProcess initialPhases={processPhases} />
+      <SplitRevealSection zIndex={20}>
+        <CleanProcess initialPhases={processPhases} />
+      </SplitRevealSection>
 
       {/* 7. Comparison */}
       <SectionBridge variant="gold" fromColor="#060606" toColor="#040404" label="Why BIGWEB" />
@@ -132,7 +132,9 @@ export default async function HomePage() {
 
       {/* 8. Video Showroom */}
       <SectionBridge variant="emerald" fromColor="#040404" toColor="#050505" label="In Action" />
-      <VideoShowroom initialVideos={videos} />
+      <SplitRevealSection zIndex={15} splitDirection="horizontal">
+        <VideoShowroom initialVideos={videos} />
+      </SplitRevealSection>
 
       {/* 9. Testimonials */}
       <SectionBridge variant="emerald" fromColor="#050505" toColor="#060606" label="Client Proof" />

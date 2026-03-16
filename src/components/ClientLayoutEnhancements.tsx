@@ -3,11 +3,8 @@
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 
-// Lazy loaded — no SSR
+// Only lightweight scroll indicator - heavy effects removed for performance
 const ScrollProgressIndicator = dynamic(() => import('@/components/ui/ScrollProgressIndicator'), { ssr: false })
-const RippleEffect = dynamic(() => import('@/components/effects/RippleEffect'), { ssr: false })
-const LiveVisitorCounter = dynamic(() => import('@/components/trust/LiveVisitorCounter'), { ssr: false })
-const SiteLoader = dynamic(() => import('@/components/effects/SiteLoader'), { ssr: false })
 
 export default function ClientLayoutEnhancements() {
     const pathname = usePathname()
@@ -15,10 +12,8 @@ export default function ClientLayoutEnhancements() {
 
     return (
         <>
-            <SiteLoader />
             <ScrollProgressIndicator />
-            <RippleEffect />
-            <LiveVisitorCounter />
         </>
     )
 }
+

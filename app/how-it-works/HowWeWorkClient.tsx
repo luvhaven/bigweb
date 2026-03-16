@@ -89,7 +89,7 @@ export default function HowWeWorkClient({ steps }: HowWeWorkClientProps) {
                                             <div className="relative z-10">
                                                 <div className="flex items-center gap-4 mb-6">
                                                     <span className={`text-[10px] font-mono font-bold px-3 py-1 rounded-full border ${step.border_color} ${step.bg_color} ${step.color} uppercase tracking-[0.2em]`}>
-                                                        {step.phase_id} // {step.subtitle}
+                                                        {step.phase_id} {'//'} {step.subtitle}
                                                     </span>
                                                 </div>
 
