@@ -6,7 +6,7 @@ import { Play, Pause, X, Volume2, VolumeX, Maximize2, ArrowRight, ChevronRight }
 import Link from 'next/link'
 import SectionAtmosphere from '@/components/effects/SectionAtmosphere'
 import AnimatedImage from '@/components/effects/AnimatedImage'
-import AnimatedMissingLetter from '@/components/effects/AnimatedMissingLetter'
+
 
 interface VideoItem {
     id?: string
@@ -201,8 +201,7 @@ export default function VideoShowroom({ initialVideos }: VideoShowroomProps) {
                             >
                                 Execution that{' '}
                                 <em className="italic text-zinc-400">
-                                    speak
-                                    <AnimatedMissingLetter letter="s" dropDistance="-150vh" delay={0.25} />
+                                    speaks
                                     {' '}for itself.
                                 </em>
                             </motion.h2>

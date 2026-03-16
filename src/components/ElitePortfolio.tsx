@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowUpRight, TrendingUp, ArrowRight } from 'lucide-react'
-import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
+
 
 // ─── Shared Fallback Data ───
 const FALLBACK_PROJECTS = [
@@ -308,7 +308,7 @@ export default function ElitePortfolio({
                         <h2 className="font-display text-4xl md:text-5xl lg:text-[64px] tracking-tight leading-[1.05] text-white">
                             Engineered{' '}
                             <em className="not-italic text-zinc-600 font-display">
-                                f<AnimatedMissingLetter letter="o" dropDistance="-150vh" delay={0.1} />r impact.
+                                for impact.
                             </em>
                         </h2>
                     </div>

@@ -1,0 +1,358 @@
+﻿
+> bigweb-nextjs@1.0.0 lint
+> next lint
+
+node.exe : `next lint` 
+is deprecated and will 
+be removed in Next.js 
+16.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (`next lint` i   
+ s ... in Next.js 1    
+6.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+For new projects, use 
+create-next-app to 
+choose your preferred 
+linter.
+For existing projects, 
+migrate to the ESLint 
+CLI:
+npx 
+@next/codemod@canary ne
+xt-lint-to-eslint-cli .
+
+
+./app/admin/analytics/p
+age.tsx
+74:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'supabase'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/admin/contacts/[i
+d]/page.tsx
+19:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'loadMessage'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/admin/navigation/
+page.tsx
+31:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'fetchNavigation'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exh
+austive-deps
+
+./app/admin/pages/[id]/
+page.tsx
+14:1  Warning: Prevent 
+Client Components from 
+being async functions. 
+See: https://nextjs.org
+/docs/messages/no-async
+-client-component  @nex
+t/next/no-async-client-
+component
+38:8  Warning: React 
+Hook useEffect has 
+missing dependencies: 
+'isNew' and 
+'loadPage'. Either 
+include them or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/admin/pricing/[id
+]/EditPricingClient.tsx
+35:8  Warning: React 
+Hook useEffect has 
+missing dependencies: 
+'isNew' and 
+'loadTier'. Either 
+include them or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/admin/sections/pa
+ge.tsx
+33:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'fetchSections'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exh
+austive-deps
+
+./app/admin/services/[i
+d]/EditServiceClient.ts
+x
+44:8  Warning: React 
+Hook useEffect has 
+missing dependencies: 
+'isNew' and 
+'loadService'. Either 
+include them or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/admin/settings/pa
+ge.tsx
+34:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'fetchSettings'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exh
+austive-deps
+
+./app/admin/team/[id]/E
+ditTeamPageClient.tsx
+36:8  Warning: React 
+Hook useEffect has 
+missing dependencies: 
+'isNew' and 
+'loadMember'. Either 
+include them or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./app/how-it-works/HowW
+eWorkClient.tsx
+92:72  Error: Comments 
+inside children 
+section of tag should 
+be placed inside 
+braces  react/jsx-no-co
+mment-textnodes
+
+./src/components/admin/
+GenericAdminTable.tsx
+57:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'fetchData'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/admin/
+HeroSlidesManager.tsx
+36:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'loadSlides'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Carous
+elCinematic.tsx
+97:6  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'startTimer'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Carous
+elTestimonials.tsx
+72:6  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'startTimer'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Carous
+elTestimonialsBookfold.
+tsx
+74:6  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'startTimer'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Conver
+sionOffers.tsx
+140:145  Error: 
+Comments inside 
+children section of 
+tag should be placed 
+inside braces  react/js
+x-no-comment-textnodes
+
+./src/components/Cursor
+Glow.tsx
+84:6  Warning: React 
+Hook useEffect has 
+missing dependencies: 
+'isTouch' and 
+'isVisible'. Either 
+include them or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/demos/
+StrategyMatrixDemo.tsx
+42:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'nodes.length'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/ExitIn
+tentModal.tsx
+50:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'handleDismiss'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exh
+austive-deps
+
+./src/components/Featur
+edWorkNext.tsx
+105:6  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'supabase'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Forens
+icComparison.tsx
+137:92  Error: 
+Comments inside 
+children section of 
+tag should be placed 
+inside braces  react/js
+x-no-comment-textnodes
+138:89  Error: 
+Comments inside 
+children section of 
+tag should be placed 
+inside braces  react/js
+x-no-comment-textnodes
+
+./src/components/Premiu
+mTestimonials.tsx
+69:6  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'navigate'. Either 
+include it or remove 
+the dependency array.  
+react-hooks/exhaustive-
+deps
+
+./src/components/Proble
+mSolution.tsx
+330:138  Error: 
+Comments inside 
+children section of 
+tag should be placed 
+inside braces  react/js
+x-no-comment-textnodes
+
+./src/components/transi
+tions/LiquidReveal.tsx
+66:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'onComplete'. Either 
+include it or remove 
+the dependency array. 
+If 'onComplete' 
+changes too often, 
+find the parent 
+component that defines 
+it and wrap that 
+definition in 
+useCallback.  react-hoo
+ks/exhaustive-deps
+
+./src/components/ui/Amb
+ientMusicPlayer.tsx
+76:26  Warning: The 
+ref value 
+'audioRef.current' 
+will likely have 
+changed by the time 
+this effect cleanup 
+function runs. If this 
+ref points to a node 
+rendered by React, 
+copy 
+'audioRef.current' to 
+a variable inside the 
+effect, and use that 
+variable in the 
+cleanup function.  reac
+t-hooks/exhaustive-deps
+
+./src/components/ui/Bac
+kgroundTelemetry.tsx
+81:94  Error: Comments 
+inside children 
+section of tag should 
+be placed inside 
+braces  react/jsx-no-co
+mment-textnodes
+
+info  - Need to 
+disable some ESLint 
+rules? Learn more 
+here: https://nextjs.or
+g/docs/app/api-referenc
+e/config/eslint#disabli
+ng-rules

@@ -5,7 +5,6 @@ import { motion, useInView } from 'framer-motion'
 import { Check, ArrowRight, Zap, Compass, Shield, Star, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import KineticTypography from './effects/KineticTypography'
-import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 import { useEngagements } from '@/hooks/useCMS'
 import { PRICING_PACKAGES } from '@/lib/config/pricing'
 import type { PricingPackage } from '@/lib/config/pricing'
@@ -290,8 +289,7 @@ export default function SimplePricing({ initialPackages }: { initialPackages?: a
                         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mb-6">
                             Choose how we<br/>
                             <span className="italic text-zinc-400">
-                                w
-                                <AnimatedMissingLetter letter="o" dropDistance="-150vh" delay={0.2} />rk together.
+                                work together.
                             </span>
                         </h2>
                         <motion.p

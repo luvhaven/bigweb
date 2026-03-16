@@ -7,7 +7,6 @@ import Link from 'next/link'
 import AnimatedImage from './effects/AnimatedImage'
 import KineticTypography from './effects/KineticTypography'
 import SectionAtmosphere from './effects/SectionAtmosphere'
-import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
 
 const services = [
     {
@@ -400,9 +399,7 @@ export default function CompetitiveEdge({ initialServices }: { initialServices?:
                             <h2 className="font-display text-4xl md:text-5xl lg:text-7xl tracking-tighter text-white leading-[0.95] mb-4">
                                 Digital interfaces <br />
                                 <span className="italic text-accent/90 font-medium">
-                                    engin
-                                    <AnimatedMissingLetter letter="e" dropDistance="-150vh" delay={0.2} />
-                                    ered
+                                    engineered
                                 </span> for revenue.
                             </h2>
                         </div>

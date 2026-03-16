@@ -7,7 +7,6 @@ import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import KineticTypography from '@/components/effects/KineticTypography'
 import SectionAtmosphere from '@/components/effects/SectionAtmosphere'
 import AnimatedImage from '@/components/effects/AnimatedImage'
-import AnimatedMissingLetter from '@/components/effects/AnimatedMissingLetter'
 
 /* ─── Testimonial Data with real-looking avatars ─── */
 const TESTIMONIALS = [
@@ -102,14 +101,10 @@ export default function PremiumTestimonials({ initialTestimonials = [] }: any) {
               Client Proof
             </span>
           </motion.div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05]">
-            Results that speak <br />
-            <span className="italic text-zinc-400">
-               f
-               <AnimatedMissingLetter letter="o" dropDistance="-100vh" delay={0.1} />
-               r themselves.
-            </span>
-          </h2>
+            <h2 className="font-display text-4xl md:text-5xl lg:text-7xl tracking-tighter text-white leading-tight mb-4">
+              Results that <span className="italic text-zinc-500 font-medium">speak f<span className="text-accent underline decoration-[2px] underline-offset-[12px]">or</span></span><br />
+              <span className="text-accent/90">themselves.</span>
+            </h2>
         </div>
 
         {/* Main Testimonial Layout */}

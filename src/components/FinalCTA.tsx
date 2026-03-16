@@ -3,9 +3,9 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import KineticTypography from './effects/KineticTypography'
-import AnimatedMissingLetter from './effects/AnimatedMissingLetter'
+
 import { InfiniteMarquee } from './effects/InfiniteMarquee'
-import SplitTextReveal from './effects/SplitTextReveal'
+
 import Link from 'next/link'
 import { ArrowRight, Calendar, MessageSquare, Zap, Compass, Shield } from 'lucide-react'
 import { PRICING_PACKAGES } from '@/lib/config/pricing'
@@ -172,27 +172,16 @@ export default function FinalCTA() {
                             </span>
                         </motion.div>
 
-                        {/* Main headline - Split text reveal */}
+                        {/* Main headline */}
                         <div className="overflow-hidden mb-8">
-                            <SplitTextReveal
-                                text="Command your market."
-                                as="h2"
-                                className="font-display text-5xl md:text-7xl lg:text-[6.5rem] tracking-tight text-white leading-[0.95] block"
-                                mode="slide"
-                                delay={0.2}
-                                staggerChildren={0.06}
-                            />
+                            <h2 className="font-display text-5xl md:text-7xl lg:text-[6.5rem] tracking-tight text-white leading-[0.95] block">
+                                Command your market.
+                            </h2>
                         </div>
                         <div className="overflow-hidden mb-12">
-                            <SplitTextReveal
-                                text="Let's architect your monopoly."
-                                as="h2"
-                                className="font-display text-5xl md:text-7xl lg:text-[6.5rem] tracking-tight leading-[0.95] block italic"
-                                wordClassName="text-accent/80"
-                                mode="slide"
-                                delay={0.4}
-                                staggerChildren={0.06}
-                            />
+                            <h2 className="font-display text-5xl md:text-7xl lg:text-[6.5rem] tracking-tight leading-[0.95] block italic text-accent/80">
+                                Let's architect your monopoly.
+                            </h2>
                         </div>
 
                         {/* Sub-copy */}
