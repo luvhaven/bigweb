@@ -1,0 +1,148 @@
+/* Playbook Specific Styles */
+.playbook-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 24px;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.playbook-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.playbook-title {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.playbook-subtitle {
+  color: var(--color-gold-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.playbook-chapter {
+  margin-top: 80px;
+  padding-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.playbook-chapter-number {
+  color: var(--color-gold-muted);
+  font-family: monospace;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.playbook-chapter-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+
+.playbook-content p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin-bottom: 24px;
+}
+
+.playbook-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: 40px 0 20px;
+  color: var(--color-text-primary);
+}
+
+.playbook-insight {
+  background: rgba(212, 175, 106, 0.05);
+  border-left: 4px solid var(--color-gold-bright);
+  padding: 32px;
+  margin: 48px 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.playbook-insight p {
+  color: var(--color-gold-bright);
+  font-size: 1.25rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.playbook-action {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 100;
+}
+
+/* --- PRINT STYLES FOR PDF EXPORT --- */
+@media print {
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide UI elements not meant for the document */
+  nav, footer, .playbook-action, .nav, .mobile-menu, #cmdk-root, .custom-cursor, .noise-field {
+    display: none !important;
+  }
+
+  .playbook-container {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .playbook-title, .print-logo-text {
+    color: black !important;
+  }
+  .playbook-title {
+    font-size: 3rem;
+  }
+
+  .playbook-subtitle {
+    color: #888 !important;
+  }
+
+  .playbook-content p {
+    color: #333 !important;
+  }
+
+  .playbook-chapter {
+    page-break-before: always;
+    border-top: 1px solid #eee !important;
+    padding-top: 40px;
+    margin-top: 40px;
+  }
+
+  .playbook-chapter-title {
+    color: black !important;
+  }
+
+  .playbook-insight {
+    background: #f9f9f9 !important;
+    border-left-color: #333 !important;
+  }
+
+  .playbook-insight p {
+    color: #333 !important;
+  }
+}

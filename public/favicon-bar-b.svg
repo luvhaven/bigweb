@@ -1,0 +1,48 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgHead" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a" />
+      <stop offset="100%" stop-color="#050505" />
+    </linearGradient>
+
+    <!-- Accent Gradient (Gold) -->
+    <linearGradient id="goldAcc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEAAD" />
+      <stop offset="50%" stop-color="#D4A853" />
+      <stop offset="100%" stop-color="#9C7726" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Rectangle -->
+  <rect width="120" height="120" rx="30" fill="url(#bgHead)" />
+  <rect x="2" y="2" width="116" height="116" rx="28" fill="none" stroke="url(#goldAcc)" stroke-width="2" stroke-opacity="0.3" />
+
+  <!-- Floating Logo mark (Left: Pulse 'bar', Right: stylized 'B' built out of sharp geometric corners) -->
+  <g filter="url(#softShadow)" transform="translate(15, 20)">
+    <!-- High-tech pulse motif / bar -->
+    <path
+      d="M 10 40 L 25 40 L 35 70 L 45 30"
+      stroke="url(#goldAcc)"
+      stroke-width="12"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+      fill="none"
+    />
+    
+    <!-- Stylized, Sharp 'B' constructed of geometric lines -->
+    <path 
+      d="M 55 30 L 75 30 C 85 30 90 35 90 40 C 90 45 85 50 75 50 L 55 50 Z M 55 50 L 80 50 C 90 50 95 55 95 62 C 95 70 85 75 75 75 L 55 75 Z"
+      stroke="url(#goldAcc)"
+      stroke-width="10"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+      fill="none"
+    />
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+{
+    "name": "BIGWEB Digital",
+    "short_name": "BIGWEB",
+    "description": "Transform your digital presence with BIGWEB Digital.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#FF6B35",
+    "icons": [
+        {
+            "src": "/logo_pulse.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

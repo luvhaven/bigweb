@@ -1,0 +1,57 @@
+<svg width="1500" height="500" viewBox="0 0 1500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="bgGradient" x1="0" y1="0" x2="1500" y2="500" gradientUnits="userSpaceOnUse">
+<stop offset="0%" stop-color="#121212"/>
+<stop offset="100%" stop-color="#0a0a0a"/>
+</linearGradient>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+<feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+<feMerge>
+<feMergeNode in="coloredBlur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+
+<!-- Background -->
+<rect width="1500" height="500" fill="url(#bgGradient)"/>
+
+<!-- Container for Content (Centered) -->
+<g transform="translate(350, 150)">
+
+    <!-- Logo Icon (Left) -->
+    <g transform="translate(0, 20)">
+        <rect width="160" height="160" rx="30" fill="#1a1a1a" fill-opacity="0.5" stroke="#333" stroke-width="2"/>
+        <!-- Pulse Path recreating the M shape from the user image -->
+        <!-- M shape: Starts mid, goes up-right, down-right deep, up-right high, down-right, ends mid -->
+        <path d="M 30 100 Q 40 100 50 80 L 70 40 L 90 120 L 110 50 L 130 100 H 140" 
+              stroke="#F55527" 
+              stroke-width="12" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+              fill="none"
+              filter="url(#glow)"/>
+    </g>
+
+    <!-- Vertical Divider -->
+    <line x1="220" y1="30" x2="220" y2="170" stroke="#333" stroke-width="2"/>
+
+    <!-- Text Group (Right) -->
+    <g transform="translate(280, 50)">
+        <!-- BIGWEB DIGITAL -->
+        <text y="70" font-family="Arial, sans-serif" font-weight="900" font-size="100" letter-spacing="-2">
+            <tspan fill="#FFFFFF">BIGWEB</tspan>
+            <tspan fill="#F55527" dx="10" font-weight="400">DIGITAL</tspan>
+        </text>
+
+        <!-- REVENUE SYSTEMS -->
+        <g transform="translate(5, 120)">
+            <line x1="0" y1="-8" x2="30" y2="-8" stroke="#F55527" stroke-width="2" opacity="0.7"/>
+            <text x="45" y="0" font-family="Courier New, monospace" font-weight="700" font-size="24" fill="#666" letter-spacing="8">REVENUE SYSTEMS</text>
+            <!-- Line width approx based on text length -->
+            <line x1="420" y1="-8" x2="450" y2="-8" stroke="#F55527" stroke-width="2" opacity="0.7"/>
+        </g>
+    </g>
+
+</g>
+</svg>

@@ -1,0 +1,15 @@
+<svg width="1000" height="1000" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#080706"/>
+  <!-- Mark -->
+  <g transform="translate(89, 65)">
+    <rect x="1" y="1" width="9" height="9" stroke="#D4AF6A" stroke-width="1.5"/>
+    <rect x="12" y="1" width="9" height="9" fill="#D4AF6A" opacity="0.8"/>
+    <rect x="1" y="12" width="9" height="9" fill="#D4AF6A" opacity="0.4"/>
+    <rect x="12" y="12" width="9" height="9" stroke="#D4AF6A" stroke-width="1.5" stroke-dasharray="2 2"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="100" y="115" font-family="'Playfair Display', serif" font-size="28" fill="#FFFFFF" text-anchor="middle">
+    <tspan font-weight="900" letter-spacing="-1">BIG</tspan><tspan font-weight="400" letter-spacing="1">WEB</tspan>
+  </text>
+  <text x="100" y="135" font-family="'DM Sans', sans-serif" font-weight="500" font-size="11" fill="#D4AF6A" letter-spacing="4" text-transform="uppercase" text-anchor="middle">Digital</text>
+</svg>

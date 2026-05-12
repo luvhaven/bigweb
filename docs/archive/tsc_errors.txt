@@ -1,0 +1,11 @@
+﻿.next/types/app/services/[slug]/page.ts(34,29): error TS2344: Type '{ params: { slug: string; }; }' does not satisfy the constraint 'PageProps'.
+  Types of property 'params' are incompatible.
+    Type '{ slug: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+app/api/analytics/track/route.ts(3,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/auth/login/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/blog/posts/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/careers/apply/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/careers/openings/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/contact/general/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/contact/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
+app/api/portfolio/projects/route.ts(2,24): error TS2307: Cannot find module '@/lib/prisma' or its corresponding type declarations.
