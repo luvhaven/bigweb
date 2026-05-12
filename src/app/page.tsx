@@ -19,14 +19,21 @@ import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSetti
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [caseStudies, testimonials, articles, services, aboutSettings] = await Promise.allSettled([
+  const [caseStudies, testimonials, articles, services, aboutSettings, mediaSettings] = await Promise.allSettled([
     getCaseStudies(),
     getTestimonials(),
     getArticles(),
     getServices(),
     getSiteSettingsByCategory('about'),
     getSiteSettingsByCategory('media'),
-  ]).then(results => results.map(r => r.status === 'fulfilled' ? r.value : (Array.isArray((r as PromiseRejectedResult)) ? [] : {})));
+  ]).then(results => [
+    results[0].status === 'fulfilled' ? results[0].value : [],
+    results[1].status === 'fulfilled' ? results[1].value : [],
+    results[2].status === 'fulfilled' ? results[2].value : [],
+    results[3].status === 'fulfilled' ? results[3].value : [],
+    results[4].status === 'fulfilled' ? results[4].value : {},
+    results[5].status === 'fulfilled' ? results[5].value : {}
+  ]);
 
   return (
     <>

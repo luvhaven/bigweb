@@ -51,7 +51,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 export default function ServicesOverview({ services }: { services: Service[] }) {
   const [active, setActive] = useState(1);
 
-  if (!services || services.length === 0) {
+  if (!Array.isArray(services) || services.length === 0) {
     return null;
   }
 
