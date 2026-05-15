@@ -195,10 +195,10 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)' }}>
             {[
               {
-                name: 'Tobi Adeyemi',
-                role: 'Founder & Lead Strategist',
-                bio: 'Spent a decade watching businesses pour money into websites that converted at 0.8%. Built BIGWEB to fix that. Obsessed with revenue math, conversion physics, and the point where design and data collide.',
-                initials: 'TA',
+                name: 'Daniel Oriazowan',
+                role: 'Founder & Lead Frontend Developer',
+                bio: 'Precision-focused engineer treating every platform as high-stakes digital infrastructure. Ex-enterprise architect.',
+                initials: 'DO',
               },
               {
                 name: 'Chidi Okonkwo',
