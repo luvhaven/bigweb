@@ -212,6 +212,24 @@ export default function AboutPage() {
                 bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
                 initials: 'TL',
               },
+              {
+                name: 'Elena Vance',
+                role: 'Director of Conversion Design',
+                bio: 'Ph.D. in Cognitive Load Theory. Elena maps the hidden neurological friction points in your user journey.',
+                initials: 'EV',
+              },
+              {
+                name: 'Victoria Alabi',
+                role: 'Lead AI & Automation Engineer',
+                bio: 'Pioneering intelligent automation and custom AI agents that scale client operations effortlessly. Believes AI is the ultimate revenue multiplier.',
+                initials: 'VA',
+              },
+              {
+                name: 'James Chen',
+                role: 'Head of Analytics & SEO',
+                bio: 'Data scientist who builds the attribution models and search strategies that dictate exactly where your next dollar comes from.',
+                initials: 'JC',
+              },
             ].map((member, i) => (
               <AnimateIn key={member.name} delay={i + 1}>
                 <div className="card" style={{ padding: 'var(--space-8)', height: '100%', display: 'flex', flexDirection: 'column' }}>

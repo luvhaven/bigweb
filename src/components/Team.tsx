@@ -30,10 +30,10 @@ const MOCK_TEAM: TeamMemberType[] = [
   },
   {
     id: '3',
-    name: 'Julian Reed',
-    role: 'VP of Engineering',
-    bio: 'Performance engineer obsessed with milliseconds. Specializes in edge-runtime architectures and headless scale.',
-    avatar_url: '/images/team/julian.png',
+    name: 'Chidi Okonkwo',
+    role: 'Head of Engineering',
+    bio: 'Architect of every BIGWEB platform — from sub-second Next.js deployments to custom AI agents. Believes that performance is not a feature; it is the product.',
+    avatar_url: '/images/team/chidi.png',
     is_active: true,
     sort_order: 3,
     linkedin_url: '#'
@@ -46,6 +46,26 @@ const MOCK_TEAM: TeamMemberType[] = [
     avatar_url: '/images/team/tomiwa.png',
     is_active: true,
     sort_order: 4,
+    linkedin_url: '#'
+  },
+  {
+    id: '5',
+    name: 'Victoria Alabi',
+    role: 'Lead AI & Automation Engineer',
+    bio: 'Pioneering intelligent automation and custom AI agents that scale client operations effortlessly. Believes AI is the ultimate revenue multiplier.',
+    avatar_url: '/images/team/victoria.png',
+    is_active: true,
+    sort_order: 5,
+    linkedin_url: '#'
+  },
+  {
+    id: '6',
+    name: 'James Chen',
+    role: 'Head of Analytics & SEO',
+    bio: 'Data scientist who builds the attribution models and search strategies that dictate exactly where your next dollar comes from.',
+    avatar_url: '/images/team/james.png',
+    is_active: true,
+    sort_order: 6,
     linkedin_url: '#'
   }
 ]
@@ -189,8 +209,8 @@ export default function Team({ members: initialMembers }: { members?: TeamMember
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {members.slice(0, 4).map((member, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {members.map((member, index) => (
             <TeamMember key={member.id || index} member={member} index={index} />
           ))}
         </div>
