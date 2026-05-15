@@ -4,9 +4,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
 const IMAGES = [
-  '/projects/marketsreporters.png',
-  '/projects/townandgownconsult.png',
-  '/projects/soartimes.png',
   '/projects/luxury-ecommerce.png',
   '/projects/fintech-banking.png',
   '/projects/ai-agent-platform.png',
