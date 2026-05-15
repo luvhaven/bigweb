@@ -207,16 +207,16 @@ export default function AboutPage() {
                 initials: 'CO',
               },
               {
-                name: 'Tomiwa Lawal',
-                role: 'Head of Human Resources',
-                bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
-                initials: 'TL',
+                name: 'Edeghonghon Daniel',
+                role: 'Lead Backend Developer',
+                bio: 'Specialises in building robust, scalable server-side systems and APIs that power high-traffic revenue platforms without missing a beat.',
+                initials: 'ED',
               },
               {
-                name: 'Elena Vance',
+                name: 'Elohor Odjegba',
                 role: 'Director of Conversion Design',
-                bio: 'Ph.D. in Cognitive Load Theory. Elena maps the hidden neurological friction points in your user journey.',
-                initials: 'EV',
+                bio: 'Expert in cognitive load and UX psychology. Elohor maps the hidden friction points in your user journey that silently kill conversions.',
+                initials: 'EO',
               },
               {
                 name: 'Victoria Alabi',
@@ -225,10 +225,22 @@ export default function AboutPage() {
                 initials: 'VA',
               },
               {
-                name: 'James Chen',
+                name: 'Tonye Briggs',
                 role: 'Head of Analytics & SEO',
-                bio: 'Data scientist who builds the attribution models and search strategies that dictate exactly where your next dollar comes from.',
-                initials: 'JC',
+                bio: 'Data scientist and search strategist who builds attribution models that reveal exactly where your next dollar comes from.',
+                initials: 'TB',
+              },
+              {
+                name: 'Tomiwa Lawal',
+                role: 'Head of Human Resources',
+                bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
+                initials: 'TL',
+              },
+              {
+                name: 'Efosa Omoruyi',
+                role: 'Lead Digital Marketing Strategist',
+                bio: 'Growth specialist bridging paid media, content strategy, and funnel optimization to drive qualified traffic that actually converts.',
+                initials: 'EO',
               },
             ].map((member, i) => (
               <AnimateIn key={member.name} delay={i + 1}>

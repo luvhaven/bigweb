@@ -20,10 +20,10 @@ const MOCK_TEAM: TeamMemberType[] = [
   },
   {
     id: '2',
-    name: 'Elena Vance',
+    name: 'Elohor Odjegba',
     role: 'Director of Conversion Design',
-    bio: 'Ph.D. in Cognitive Load Theory. Elena maps the hidden neurological friction points in your user journey.',
-    avatar_url: '/images/team/elena.png',
+    bio: 'Expert in cognitive load and UX psychology. Elohor maps the hidden friction points in your user journey that silently kill conversions.',
+    avatar_url: '/images/team/elohor.png',
     is_active: true,
     sort_order: 2,
     linkedin_url: '#'
@@ -60,12 +60,32 @@ const MOCK_TEAM: TeamMemberType[] = [
   },
   {
     id: '6',
-    name: 'James Chen',
+    name: 'Tonye Briggs',
     role: 'Head of Analytics & SEO',
-    bio: 'Data scientist who builds the attribution models and search strategies that dictate exactly where your next dollar comes from.',
-    avatar_url: '/images/team/james.png',
+    bio: 'Data scientist and search strategist who builds attribution models that reveal exactly where your next dollar comes from.',
+    avatar_url: '/images/team/tonye.png',
     is_active: true,
     sort_order: 6,
+    linkedin_url: '#'
+  },
+  {
+    id: '7',
+    name: 'Edeghonghon Daniel',
+    role: 'Lead Backend Developer',
+    bio: 'Specialises in building robust, scalable server-side systems and APIs that power high-traffic revenue platforms without missing a beat.',
+    avatar_url: '/images/team/edeghonghon.png',
+    is_active: true,
+    sort_order: 7,
+    linkedin_url: '#'
+  },
+  {
+    id: '8',
+    name: 'Efosa Omoruyi',
+    role: 'Lead Digital Marketing Strategist',
+    bio: 'Growth specialist bridging paid media, content strategy, and funnel optimization to drive qualified traffic that actually converts.',
+    avatar_url: '/images/team/efosa.png',
+    is_active: true,
+    sort_order: 8,
     linkedin_url: '#'
   }
 ]
