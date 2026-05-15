@@ -40,10 +40,10 @@ const MOCK_TEAM: TeamMemberType[] = [
   },
   {
     id: '4',
-    name: 'Sarah Jenkins',
-    role: 'Head of Growth Strategy',
-    bio: 'Data scientist turned strategist. She builds the attribution models that dictate exactly where your next dollar goes.',
-    avatar_url: '/images/team/sarah.png',
+    name: 'Tomiwa Lawal',
+    role: 'Head of Human Resources',
+    bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
+    avatar_url: '/images/team/tomiwa.png',
     is_active: true,
     sort_order: 4,
     linkedin_url: '#'

@@ -207,10 +207,10 @@ export default function AboutPage() {
                 initials: 'CO',
               },
               {
-                name: 'Amara Nwosu',
-                role: 'Lead CRO Strategist',
-                bio: 'Has run over 300 A/B tests across B2B and e-commerce funnels. Specialises in the psychological friction points that steal conversions. Does not accept "it looks nice" as a metric.',
-                initials: 'AN',
+                name: 'Tomiwa Lawal',
+                role: 'Head of Human Resources',
+                bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
+                initials: 'TL',
               },
             ].map((member, i) => (
               <AnimateIn key={member.name} delay={i + 1}>
