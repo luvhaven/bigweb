@@ -11,7 +11,7 @@ const MOCK_TEAM: TeamMemberType[] = [
   {
     id: '1',
     name: 'Daniel Oriazowan',
-    role: 'Founder & Chief Architect',
+    role: 'Founder & Lead Frontend Developer',
     bio: 'Precision-focused engineer treating every platform as high-stakes digital infrastructure. Ex-enterprise architect.',
     avatar_url: '/images/team/daniel.jpg',
     is_active: true,
