@@ -74,7 +74,7 @@ async function seed() {
     ];
 
     for (const service of services) {
-        const { error } = await supabase.from('cms_services').upsert(service, { onConflict: 'slug' });
+        const { error } = await supabase.from('cms_services').upsert(service as any, { onConflict: 'slug' });
         if (error) console.error(`Error syncing service ${service.slug}:`, error.message);
     }
 
@@ -120,7 +120,7 @@ async function seed() {
     ];
 
     for (const study of caseStudies) {
-        const { error } = await supabase.from('cms_case_studies').upsert(study, { onConflict: 'slug' });
+        const { error } = await supabase.from('cms_case_studies').upsert(study as any, { onConflict: 'slug' });
         if (error) console.error(`Error syncing case study ${study.slug}:`, error.message);
     }
 
@@ -174,7 +174,7 @@ async function seed() {
 
         if (links.length > 0) {
             const linksWithSection = links.map(l => ({ ...l, section_id: sectionId }));
-            const { error: lError } = await supabase.from('cms_footer_links').insert(linksWithSection);
+            const { error: lError } = await supabase.from('cms_footer_links').insert(linksWithSection as any);
             if (lError) console.error(`Error syncing links for ${section.title}:`, lError.message);
         }
     }

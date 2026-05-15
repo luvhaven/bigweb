@@ -1,0 +1,63 @@
+# Deployment and DNS Setup Guide for Bigweb Reimagined
+
+This guide outlines the steps to deploy the project to Vercel, configure the necessary environment variables, and set up your custom domain (bigwebdigital.com).
+
+## Phase 1: Preparation
+1. Ensure your latest code is pushed to your Git repository (GitHub, GitLab, or Bitbucket).
+2. Have your production environment variables ready (from your local `.env` file).
+3. Have the login credentials for your domain registrar (where you purchased bigwebdigital.com) ready.
+
+## Phase 2: Adding the Project to Vercel
+1. Log in to your Vercel account at [https://vercel.com](https://vercel.com).
+2. From your Vercel dashboard, click the **"Add New..."** button in the top right and select **"Project"**.
+3. In the "Import Git Repository" section, locate your Bigweb Reimagined repository and click **"Import"**.
+4. **Configure Project:**
+   - **Project Name:** You can leave it as the repository name or change it (e.g., `bigweb-reimagined`).
+   - **Framework Preset:** Vercel should automatically detect the framework you are using (e.g., Next.js or Vite). Confirm it is correct.
+   - **Root Directory:** Leave this as `./` unless your main application code is nested in a subdirectory.
+
+## Phase 3: Setting Up Environment Variables
+*Before you click Deploy, you need to add your environment variables so the build process and application work correctly.*
+
+1. On the same "Configure Project" page, expand the **"Environment Variables"** section.
+2. Open your local `.env` file.
+3. For each variable (e.g., your Supabase URLs and Keys), copy the Key and the Value.
+4. Paste them into the Vercel Environment Variables inputs and click **"Add"**.
+   - *Tip: If you have a `.env` file, you can often copy the entire contents of the file and paste it into the first "Key" input on Vercel, and it will automatically parse and add all of them.*
+5. Once all necessary variables are added, click the **"Deploy"** button.
+6. Wait for Vercel to build and deploy your project. Once it says "Congratulations!", your app is live on a `.vercel.app` subdomain.
+
+## Phase 4: Setting Up DNS for bigwebdigital.com
+*Now that the site is live, let's connect your custom domain.*
+
+1. Click **"Continue to Dashboard"** on the Vercel deployment success screen.
+2. Navigate to the **"Settings"** tab for your project.
+3. In the left sidebar, click on **"Domains"**.
+4. In the input field, type `bigwebdigital.com` and click **"Add"**.
+5. Vercel will ask how you want to handle the `www` subdomain. It is highly recommended to select the option to add `www.bigwebdigital.com` and redirect it to `bigwebdigital.com` (or vice versa, depending on your preference).
+6. **Configure DNS Records:** Vercel will now show you the DNS records you need to configure. You generally have two choices:
+
+   **Option A: Vercel Nameservers (Recommended for easiest management)**
+   - Log in to your domain registrar (e.g., GoDaddy, Namecheap).
+   - Find the "Nameservers" or "DNS Management" section for `bigwebdigital.com`.
+   - Change your nameservers to "Custom" and enter the ones Vercel provides:
+     - `ns1.vercel-dns.com`
+     - `ns2.vercel-dns.com`
+   - Save the changes. Note: This removes DNS management from your registrar and moves it to Vercel.
+
+   **Option B: A Record & CNAME (Use this if you use custom email like Google Workspace on this domain)**
+   - Keep your current nameservers at your registrar.
+   - Go to your registrar's DNS Records page.
+   - Add/Update the **A Record** for the root domain:
+     - Type: `A`
+     - Name/Host: `@` (or leave blank)
+     - Value: `76.76.21.21`
+   - Add/Update the **CNAME Record** for the www subdomain:
+     - Type: `CNAME`
+     - Name/Host: `www`
+     - Value: `cname.vercel-dns.com`
+
+7. Return to the Vercel Domains settings page. Vercel will actively check the DNS propagation.
+8. Once the DNS changes propagate (which can take a few minutes to a few hours), Vercel will show a valid configuration and automatically provision a free SSL certificate. 
+
+Your website is now successfully deployed and accessible at `https://bigwebdigital.com`!
