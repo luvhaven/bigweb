@@ -234,6 +234,19 @@ export async function getSiteSettingsByCategory(category: string) {
 }
 
 // ============================================
+// TEAM MEMBERS
+// ============================================
+export async function getTeamMembers() {
+  const { data, error } = await supabase
+    .from('team_members')
+    .select('*')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true });
+  if (error) { console.warn('[getTeamMembers]', error.message); return []; }
+  return data ?? [];
+}
+
+// ============================================
 // LEADS
 // ============================================
 export async function captureLead(email: string, source: string) {

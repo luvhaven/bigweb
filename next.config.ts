@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'prngeuaxahrnuqniueld.supabase.co' },
+      { protocol: 'https', hostname: 'daniel-orz.vercel.app' },
+      { protocol: 'https', hostname: 'krstrtqdnvxzvmiphhwm.supabase.co' },
     ],
   },
   turbopack: {},

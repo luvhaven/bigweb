@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
 import MagneticButton from '@/components/ui/MagneticButton';
 import LiquidGradient from '@/components/ui/LiquidGradient';
 import GridDistortion from '@/components/ui/GridDistortion';
+import { getTeamMembers } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'About \u2014 BIGWEB Digital',
@@ -41,7 +43,8 @@ const TEAM_STATS = [
   { num: '94%', label: 'Client retention rate' },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const teamMembers = await getTeamMembers();
   return (
     <>
       {/* Hero */}
@@ -193,68 +196,36 @@ export default function AboutPage() {
             </p>
           </AnimateIn>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)' }}>
-            {[
-              {
-                name: 'Daniel Oriazowan',
-                role: 'Founder & Lead Frontend Developer',
-                bio: 'Precision-focused engineer treating every platform as high-stakes digital infrastructure. Ex-enterprise architect.',
-                initials: 'DO',
-              },
-              {
-                name: 'Chidi Okonkwo',
-                role: 'Head of Engineering',
-                bio: 'Architect of every BIGWEB platform — from sub-second Next.js deployments to custom AI agents. Believes that performance is not a feature; it is the product.',
-                initials: 'CO',
-              },
-              {
-                name: 'Edeghonghon Daniel',
-                role: 'Lead Backend Developer',
-                bio: 'Specialises in building robust, scalable server-side systems and APIs that power high-traffic revenue platforms without missing a beat.',
-                initials: 'ED',
-              },
-              {
-                name: 'Elohor Odjegba',
-                role: 'Director of Conversion Design',
-                bio: 'Expert in cognitive load and UX psychology. Elohor maps the hidden friction points in your user journey that silently kill conversions.',
-                initials: 'EO',
-              },
-              {
-                name: 'Victoria Alabi',
-                role: 'Lead AI & Automation Engineer',
-                bio: 'Pioneering intelligent automation and custom AI agents that scale client operations effortlessly. Believes AI is the ultimate revenue multiplier.',
-                initials: 'VA',
-              },
-              {
-                name: 'Tonye Briggs',
-                role: 'Head of Analytics & SEO',
-                bio: 'Data scientist and search strategist who builds attribution models that reveal exactly where your next dollar comes from.',
-                initials: 'TB',
-              },
-              {
-                name: 'Tomiwa Lawal',
-                role: 'Head of Human Resources',
-                bio: 'Dedicated HR professional ensuring the team stays aligned and performing at its best.',
-                initials: 'TL',
-              },
-              {
-                name: 'Efosa Omoruyi',
-                role: 'Lead Digital Marketing Strategist',
-                bio: 'Growth specialist bridging paid media, content strategy, and funnel optimization to drive qualified traffic that actually converts.',
-                initials: 'EO',
-              },
-            ].map((member, i) => (
-              <AnimateIn key={member.name} delay={i + 1}>
+            {teamMembers.map((member: { id: string; name: string; role: string; bio: string; initials: string; image: string | null }, i: number) => (
+              <AnimateIn key={member.id} delay={i + 1}>
                 <div className="card" style={{ padding: 'var(--space-8)', height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }}>
+                    {/* Avatar: real photo if available, initials fallback */}
                     <div style={{
-                      width: 52, height: 52, borderRadius: '50%',
-                      background: 'linear-gradient(135deg, rgba(212,175,106,0.2), rgba(212,175,106,0.05))',
-                      border: '1px solid rgba(212,175,106,0.3)',
+                      width: 60, height: 60, borderRadius: '50%',
+                      flexShrink: 0, overflow: 'hidden', position: 'relative',
+                      border: '2px solid rgba(212,175,106,0.35)',
+                      background: 'linear-gradient(135deg, rgba(212,175,106,0.15), rgba(212,175,106,0.03))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 800, color: 'var(--color-gold-bright)',
-                      letterSpacing: '0.05em', flexShrink: 0,
                     }}>
-                      {member.initials}
+                      {member.image ? (
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          sizes="60px"
+                          style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                          unoptimized={member.image.includes('daniel-orz.vercel.app')}
+                        />
+                      ) : (
+                        <span style={{
+                          fontSize: 14, fontWeight: 800,
+                          color: 'var(--color-gold-bright)',
+                          letterSpacing: '0.05em',
+                        }}>
+                          {member.initials}
+                        </span>
+                      )}
                     </div>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)' }}>{member.name}</div>
