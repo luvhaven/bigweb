@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { createBrowserClient } from '@/lib/supabase';
-import { LayoutDashboard, Users, Mail, Briefcase, FolderOpen, FileText, MessageSquare, Settings, LogOut, Menu, X, BarChart } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, Briefcase, FolderOpen, FileText, MessageSquare, Settings, LogOut, Menu, X, BarChart, UserSquare2 } from 'lucide-react';
 import { ToastProvider } from '@/components/admin/ToastProvider';
 
 const NAV_ITEMS = [
@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: '/admin/case-studies', label: 'Case Studies', icon: FolderOpen },
   { href: '/admin/articles', label: 'Articles', icon: FileText },
   { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
+  { href: '/admin/team', label: 'Team Members', icon: UserSquare2 },
   { href: '/admin/settings', label: 'Site Settings', icon: Settings },
 ];
 
