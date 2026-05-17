@@ -202,7 +202,7 @@ export default async function AboutPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }}>
                     {/* Avatar: real photo if available, initials fallback */}
                     <div style={{
-                      width: 90, height: 90, borderRadius: '50%',
+                      width: 120, height: 120, borderRadius: '50%',
                       flexShrink: 0, overflow: 'hidden', position: 'relative',
                       border: '2px solid rgba(212,175,106,0.35)',
                       background: 'linear-gradient(135deg, rgba(212,175,106,0.15), rgba(212,175,106,0.03))',
@@ -214,13 +214,13 @@ export default async function AboutPage() {
                           src={member.image}
                           alt={member.name}
                           fill
-                          sizes="90px"
+                          sizes="120px"
                           style={{ objectFit: 'cover', objectPosition: 'center top' }}
                           unoptimized={member.image.includes('daniel-orz.vercel.app')}
                         />
                       ) : (
                         <span style={{
-                          fontSize: 20, fontWeight: 800,
+                          fontSize: 26, fontWeight: 800,
                           color: 'var(--color-gold-bright)',
                           letterSpacing: '0.05em',
                         }}>
