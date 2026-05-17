@@ -215,7 +215,10 @@ export default async function AboutPage() {
                           alt={member.name}
                           fill
                           sizes="120px"
-                          style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                          style={{ 
+                            objectFit: 'cover', 
+                            objectPosition: member.name === 'Daniel Oriazowan' ? 'center 18%' : 'center top' 
+                          }}
                           unoptimized={member.image.includes('daniel-orz.vercel.app')}
                         />
                       ) : (
