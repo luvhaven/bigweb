@@ -202,24 +202,25 @@ export default async function AboutPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }}>
                     {/* Avatar: real photo if available, initials fallback */}
                     <div style={{
-                      width: 60, height: 60, borderRadius: '50%',
+                      width: 90, height: 90, borderRadius: '50%',
                       flexShrink: 0, overflow: 'hidden', position: 'relative',
                       border: '2px solid rgba(212,175,106,0.35)',
                       background: 'linear-gradient(135deg, rgba(212,175,106,0.15), rgba(212,175,106,0.03))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
                     }}>
                       {member.image ? (
                         <Image
                           src={member.image}
                           alt={member.name}
                           fill
-                          sizes="60px"
+                          sizes="90px"
                           style={{ objectFit: 'cover', objectPosition: 'center top' }}
                           unoptimized={member.image.includes('daniel-orz.vercel.app')}
                         />
                       ) : (
                         <span style={{
-                          fontSize: 14, fontWeight: 800,
+                          fontSize: 20, fontWeight: 800,
                           color: 'var(--color-gold-bright)',
                           letterSpacing: '0.05em',
                         }}>
