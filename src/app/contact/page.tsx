@@ -25,8 +25,8 @@ export default function ContactPage() {
             </h1>
           </AnimateIn>
           <AnimateIn delay={2}>
-            <p style={{ maxWidth: 600, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--color-text-secondary)' }}>
-              The diagnostic call is free. In 20 minutes, we&apos;ll tell you exactly where your revenue is leaking and give you a clear path to fixing it — whether you hire us or not.
+            <p style={{ maxWidth: 640, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--color-text-secondary)' }}>
+              Our $500 Revenue Diagnostic is currently waived for qualified applicants. In 20 minutes, we&apos;ll tell you exactly where your revenue is leaking and give you a clear path to fixing it — whether you hire us or not.
             </p>
           </AnimateIn>
         </div>
@@ -40,10 +40,10 @@ export default function ContactPage() {
           <div>
             <AnimateIn>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', fontWeight: 700, marginBottom: 'var(--space-3)' }}>
-                Book your free diagnostic
+                Apply for a Strategy Session
               </h2>
               <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-base)', marginBottom: 'var(--space-8)', lineHeight: 1.6, maxWidth: 440 }}>
-                Fill out the form and we&apos;ll reach out within 4 hours to schedule your 20-minute call.
+                Fill out the application below. If qualified, we&apos;ll reach out within 4 hours to schedule your strategy session.
               </p>
             </AnimateIn>
             <TerminalQualifier />
@@ -103,7 +103,7 @@ export default function ContactPage() {
                   <MapPin size={18} className="info-icon" />
                   <div>
                     <span className="info-detail-label">Location</span>
-                    <span className="info-detail-value">Lagos, Nigeria</span>
+                    <span className="info-detail-value">Global / Fully Remote</span>
                   </div>
                 </div>
                 <div className="info-detail">
@@ -119,10 +119,10 @@ export default function ContactPage() {
             <AnimateIn delay={4}>
               <div style={{ padding: 'var(--space-7)', border: '1px solid var(--color-gold-muted)', borderRadius: '6px', background: 'rgba(212,175,106,0.04)' }}>
                 <p style={{ fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold-bright)', marginBottom: 'var(--space-3)' }}>
-                  ⚡ Limited availability
+                  ⚡ Strict Capacity
                 </p>
                 <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>
-                  We take on a limited number of new clients per quarter to ensure quality. Current availability: accepting new clients for Q3 2026.
+                  We are a boutique firm that prioritizes immense quality. We take on a maximum of 4 new clients per quarter. Currently vetting partnerships for Q3 2026.
                 </p>
               </div>
             </AnimateIn>

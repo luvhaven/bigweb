@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "BIGWEB Digital — We Don't Build Websites. We Build Revenue.",
   description:
     "BIGWEB Digital is a revenue-focused digital agency. We find where your website is losing money — and we fix it. Conversion audits, AI sales agents, revenue funnel systems, and more.",
-  keywords: "digital agency, conversion optimization, AI sales agent, revenue growth, web design, Lagos, Nigeria",
+  keywords: "global digital agency, conversion optimization, AI sales agent, revenue growth, web design, enterprise ecommerce",
   openGraph: {
     title: "BIGWEB Digital — We Don't Build Websites. We Build Revenue.",
     description: "Most businesses have traffic. Most are bleeding revenue at the conversion layer. We fix that.",
