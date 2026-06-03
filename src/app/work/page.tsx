@@ -42,7 +42,7 @@ export default async function WorkPage() {
             <div className="work-hero-stats">
               {[
                 { num: '288%', label: 'Avg revenue increase' },
-                { num: '$140K+', label: 'Avg annual revenue lift per client' },
+                { num: '$3.4M+', label: 'Avg annual revenue lift per client' },
                 { num: '94%', label: 'Client retention rate' },
               ].map((s) => (
                 <div key={s.label} className="work-stat">

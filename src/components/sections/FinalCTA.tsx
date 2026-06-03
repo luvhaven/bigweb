@@ -27,7 +27,7 @@ export default function FinalCTA({ image }: { image?: string }) {
   return (
     <section ref={sectionRef} className="section final-cta-section" id="final-cta" style={{ position: 'relative', overflow: 'hidden' }}>
       {image && (
-        <div 
+        <div
           style={{
             position: 'absolute',
             inset: 0,
@@ -96,7 +96,7 @@ export default function FinalCTA({ image }: { image?: string }) {
           <p className="final-email">
             Or reach us at{' '}
             <a href="mailto:hello@bigwebdigital.com" className="final-email-link">
-              hello@bigweb.digital
+              hello@bigwebdigital.com
             </a>
           </p>
         </div>
@@ -124,7 +124,7 @@ export default function FinalCTA({ image }: { image?: string }) {
         </p>
       </div>
 
-      
+
     </section>
   );
 }

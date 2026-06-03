@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 function Logo() {
   const pathname = usePathname();
   const lenis = useLenis();
-  
+
   const handleClick = (e: React.MouseEvent) => {
     if (pathname === '/') {
       e.preventDefault();
@@ -29,10 +29,10 @@ function Logo() {
       {/* Geometric mark */}
       <span className="logo-gem" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="9" height="9" stroke="currentColor" strokeWidth="1.5"/>
-          <rect x="12" y="1" width="9" height="9" fill="currentColor" opacity="0.8"/>
-          <rect x="1" y="12" width="9" height="9" fill="currentColor" opacity="0.4"/>
-          <rect x="12" y="12" width="9" height="9" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 2"/>
+          <rect x="1" y="1" width="9" height="9" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="12" y="1" width="9" height="9" fill="currentColor" opacity="0.8" />
+          <rect x="1" y="12" width="9" height="9" fill="currentColor" opacity="0.4" />
+          <rect x="12" y="12" width="9" height="9" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 2" />
         </svg>
       </span>
       {/* Wordmark */}
@@ -47,7 +47,7 @@ function Logo() {
 export default function Navigation() {
   const { scrollDirection, scrollY } = useScrollDirection();
   const pathname = usePathname();
-  
+
   // Do not render global navigation in the admin dashboard
   if (pathname.startsWith('/admin')) {
     return null;
@@ -61,12 +61,12 @@ export default function Navigation() {
   const isScrolled = scrollY > 60;
   const isHidden = scrollDirection === 'down' && scrollY > 200 && !menuOpen && !megaMenuOpen;
 
-  useEffect(() => { 
-    setMenuOpen(false); 
+  useEffect(() => {
+    setMenuOpen(false);
     setMegaMenuOpen(false);
     setMobileServicesOpen(false);
   }, [pathname]);
-  
+
   useEffect(() => {
     document.body.style.overflow = (menuOpen || megaMenuOpen) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -83,8 +83,8 @@ export default function Navigation() {
 
   return (
     <>
-      <nav 
-        className={`nav ${isScrolled ? 'scrolled' : ''} ${isHidden ? 'hidden' : ''}`} 
+      <nav
+        className={`nav ${isScrolled ? 'scrolled' : ''} ${isHidden ? 'hidden' : ''}`}
         style={{
           borderBottom: (isScrolled || megaMenuOpen) ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid transparent',
           transition: 'border-color 0.3s ease',
@@ -99,8 +99,8 @@ export default function Navigation() {
             {NAV_LINKS.map(link => {
               if (link.label === 'Services') {
                 return (
-                  <div 
-                    key={link.href} 
+                  <div
+                    key={link.href}
                     className={`nav-link nav-services-trigger ${pathname.includes('/services') ? 'active' : ''} ${megaMenuOpen ? 'menu-open' : ''}`}
                     style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', userSelect: 'none' }}
                     onMouseEnter={() => setMegaMenuOpen(true)}
@@ -109,7 +109,7 @@ export default function Navigation() {
                     aria-expanded={megaMenuOpen}
                   >
                     {link.label}
-                    <motion.div 
+                    <motion.div
                       initial={false}
                       animate={{ rotate: megaMenuOpen ? 180 : 0 }}
                       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -120,7 +120,7 @@ export default function Navigation() {
                   </div>
                 );
               }
-              
+
               return (
                 <Link
                   key={link.href}
@@ -132,7 +132,7 @@ export default function Navigation() {
                 </Link>
               );
             })}
-            <button 
+            <button
               className="nav-cmd-hint"
               onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
               style={{
@@ -143,11 +143,11 @@ export default function Navigation() {
               }}
               title="Press Cmd+K to Search"
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
               <span style={{ fontFamily: 'monospace', opacity: 0.7 }}>⌘K</span>
             </button>
             <Link href="/contact" className="btn btn-primary nav-cta">
-              Book a Free Call <ArrowRight size={14} />
+              Apply for Strategy Session <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -169,17 +169,17 @@ export default function Navigation() {
             }}
           >
             <motion.svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <motion.line 
+              <motion.line
                 x1="4" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                 animate={menuOpen ? { x1: 6, y1: 6, x2: 18, y2: 18 } : { x1: 4, y1: 6, x2: 20, y2: 6 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
               />
-              <motion.line 
+              <motion.line
                 x1="4" y1="12" x2="20" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                 animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
                 transition={{ duration: 0.2 }}
               />
-              <motion.line 
+              <motion.line
                 x1="4" y1="18" x2="20" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                 animate={menuOpen ? { x1: 6, y1: 18, x2: 18, y2: 6 } : { x1: 4, y1: 18, x2: 20, y2: 18 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
@@ -213,21 +213,21 @@ export default function Navigation() {
               }}
             >
               {/* Left Column: Service List */}
-              <div 
+              <div
                 data-lenis-prevent="true"
-                style={{ 
-                flex: '1', 
-                padding: 'var(--space-16) var(--space-24)', 
-                borderRight: '1px solid rgba(255,255,255,0.05)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--space-8)',
-                overflowY: 'auto'
-              }}>
+                style={{
+                  flex: '1',
+                  padding: 'var(--space-16) var(--space-24)',
+                  borderRight: '1px solid rgba(255,255,255,0.05)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--space-8)',
+                  overflowY: 'auto'
+                }}>
                 <p className="section-label" style={{ marginBottom: 0 }}>Select a Service</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                   {SERVICES.map((service, index) => (
-                    <Link 
+                    <Link
                       key={service.slug}
                       href={`/services/${service.slug}`}
                       onMouseEnter={() => setActiveServiceHover(service.slug)}
@@ -285,7 +285,7 @@ export default function Navigation() {
                       {activeServiceData?.heroSubtitle}
                     </p>
 
-                    <Link 
+                    <Link
                       href={`/services/${activeServiceData?.slug}`}
                       onClick={() => setMegaMenuOpen(false)}
                       className="btn btn-outline group"
@@ -304,9 +304,9 @@ export default function Navigation() {
       {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div 
+          <motion.div
             className="mobile-menu-overlay"
-            role="dialog" 
+            role="dialog"
             aria-modal="true"
             data-lenis-prevent="true"
             initial={{ x: '100%' }}
@@ -352,7 +352,7 @@ export default function Navigation() {
                         }}
                       >
                         {link.label}
-                        <motion.div 
+                        <motion.div
                           initial={false}
                           animate={{ rotate: mobileServicesOpen ? 180 : 0 }}
                           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -440,7 +440,7 @@ export default function Navigation() {
               </motion.div>
             </div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -460,7 +460,7 @@ export default function Navigation() {
                 <Mail size={14} /> hello@bigwebdigital.com
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <MapPin size={14} /> Lagos, NG
+                <MapPin size={14} /> Global / Remote
               </div>
             </motion.div>
           </motion.div>

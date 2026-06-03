@@ -55,7 +55,7 @@ export default function PhilosophyShift() {
               Every agency will show you a beautiful portfolio. We&apos;ll show you
               conversion rates before and after. We&apos;ll show you cost-per-acquisition
               dropping. We&apos;ll show you a client who was generating $40,000 a month
-              who is now generating $140,000 — from the same traffic.
+              who is now generating $3,400,000+ — from the same traffic.
             </p>
           </AnimateIn>
           <AnimateIn delay={4}>
@@ -167,7 +167,7 @@ export default function PhilosophyShift() {
         </div>
       </div>
 
-      
+
     </section>
   );
 }

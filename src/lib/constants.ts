@@ -270,7 +270,7 @@ export const SERVICES = [
     results: [
       { metric: '+250%', label: 'Average revenue increase' },
       { metric: '12 weeks', label: 'Average engagement duration' },
-      { metric: '$140K+', label: 'Average client annual revenue lift' },
+      { metric: '$3.4M+', label: 'Average client annual revenue lift' },
     ],
     process: [
       { step: '01', title: 'Audit', desc: 'Complete digital presence audit and opportunity analysis.' },

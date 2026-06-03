@@ -12,7 +12,7 @@ import { usePersonalization } from '@/hooks/usePersonalization';
 const TICKER_ITEMS = [
   'Conversion Audit', '288% Revenue Growth', 'Landing Page Engine',
   'AI Sales Agent', 'Core Web Vitals Fix', 'Authority Redesign',
-  'Revenue Funnel System', '$140K+ Per Client', 'CRO Retainer',
+  'Revenue Funnel System', '$3.4M+ Per Client', 'CRO Retainer',
   'Business Intelligence', 'SaaS MVP Build', '94% Retention',
 ];
 
