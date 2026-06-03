@@ -9,6 +9,7 @@ import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import CommandMenu from "@/components/layout/CommandMenu";
 import ExitIntent from "@/components/ui/ExitIntent";
+import TrustTicker from "@/components/ui/TrustTicker";
 import { ToastProvider } from "@/components/admin/ToastProvider";
 import { OrganizationSchema } from "@/components/seo/JsonLd";
 import FluidBackground from "@/components/ui/FluidBackground";
@@ -50,6 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${dmSans.variable}`}>
       <head>
+        {/* Core Web Vitals: Preload critical fonts to avoid Layout Shift */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" as="style" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" as="style" />
         <OrganizationSchema />
       </head>
       <body>
@@ -72,6 +76,7 @@ export default function RootLayout({
             <MobileCTABar />
             <CookieConsent />
             <AIQualifier />
+            <TrustTicker />
             <FooterWrapper>
               <Footer />
             </FooterWrapper>

@@ -82,6 +82,7 @@ export default async function Footer() {
             <Link href="/services">Services</Link>
             <Link href="/insights">Insights</Link>
             <Link href="/work">Work</Link>
+            <Link href="/state-of-conversion-2026" style={{ color: 'var(--color-gold-bright)' }}>2026 Report</Link>
           </div>
           <div className="footer-col">
             <h4 className="footer-col-title">Contact</h4>
