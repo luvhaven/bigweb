@@ -1,4 +1,3 @@
-import { StreamingTextResponse, Message } from 'ai';
 import { generateText, streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
@@ -36,11 +35,11 @@ export async function POST(req: Request) {
     const result = await streamText({
       model: openai('gpt-4o'), // assuming the user provides their OPENAI_API_KEY env via Supabase or local env
       system: SYSTEM_PROMPT,
-      messages: messages as Message[],
+      messages: messages as any,
       temperature: 0.2, // precise, confident, no hallucinating
     });
 
-    return result.toAIStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error('Chat API Error:', error);
     return new Response('Unable to process the request at this time. Please book a diagnostic directly.', { status: 500 });
