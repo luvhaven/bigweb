@@ -74,7 +74,7 @@ export default function Pricing() {
         <AnimateIn delay={2}>
           <p style={{ maxWidth: 600, marginBottom: 'var(--space-12)', fontSize: 'var(--text-lg)', lineHeight: 1.75, color: 'var(--color-text-secondary)' }}>
             Most agencies make you jump on a call before you hear a number. We think
-            that&apos;s disrespectful of your time. Here&apos;s what things cost â€” real ranges, real scopes.
+            that&apos;s disrespectful of your time. Here&apos;s what things cost — real ranges, real scopes.
           </p>
         </AnimateIn>
 
@@ -122,7 +122,7 @@ export default function Pricing() {
                     {tier.cta} <ArrowRight size={16} />
                   </MagneticButton>
                   <p style={{ fontSize: '0.58rem', color: 'var(--color-text-tertiary)', textAlign: 'center', marginTop: 'var(--space-2)', letterSpacing: '0.04em', lineHeight: 1.5 }}>
-                    {tier.featured ? '94% client retention Â· Most requested tier' : tier.num === '01' ? 'No retainer Â· No lock-in commitment' : 'Strategic partnership Â· By application'}
+                    {tier.featured ? '94% client retention · Most requested tier' : tier.num === '01' ? 'No retainer · No lock-in commitment' : 'Strategic partnership · By application'}
                   </p>
                 </ProximityCard>
               </TiltCard>
@@ -133,7 +133,7 @@ export default function Pricing() {
         {/* Footer note */}
         <AnimateIn delay={4}>
           <p className="pricing-footer-note" style={{ maxWidth: 700, margin: 'var(--space-12) auto 0', textAlign: 'center', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-            All engagements begin with our $500 Revenue Diagnostic strategy session, <strong style={{ color: 'var(--color-text-primary)' }}>currently waived for qualified applicants.</strong> We&apos;ll tell you exactly which service fits â€” and if none of them do, we&apos;ll tell you that too.
+            All engagements begin with our $500 Revenue Diagnostic strategy session, <strong style={{ color: 'var(--color-text-primary)' }}>currently waived for qualified applicants.</strong> We&apos;ll tell you exactly which service fits — and if none of them do, we&apos;ll tell you that too.
           </p>
         </AnimateIn>
       </div>
