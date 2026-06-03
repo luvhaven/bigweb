@@ -3,6 +3,7 @@ import { Mail, MapPin, Clock } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
 import TerminalQualifier from '@/components/sections/TerminalQualifier';
 import LiquidGradient from '@/components/ui/LiquidGradient';
+import CalEmbed from '@/components/ui/CalEmbed';
 
 export const metadata: Metadata = {
   title: 'Book a Call — BIGWEB Digital',
@@ -47,6 +48,7 @@ export default function ContactPage() {
               </p>
             </AnimateIn>
             <TerminalQualifier />
+            <CalEmbed />
           </div>
 
           {/* Info column */}

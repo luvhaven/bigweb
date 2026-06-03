@@ -10,9 +10,12 @@ import SmoothScroll from "@/components/layout/SmoothScroll";
 import CommandMenu from "@/components/layout/CommandMenu";
 import ExitIntent from "@/components/ui/ExitIntent";
 import { ToastProvider } from "@/components/admin/ToastProvider";
+import { OrganizationSchema } from "@/components/seo/JsonLd";
 import FluidBackground from "@/components/ui/FluidBackground";
 import PageTransition from "@/components/layout/PageTransition";
 import MobileCTABar from "@/components/layout/MobileCTABar";
+import CookieConsent from "@/components/ui/CookieConsent";
+import AIQualifier from "@/components/ui/AIQualifier";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -46,6 +49,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${dmSans.variable}`}>
+      <head>
+        <OrganizationSchema />
+      </head>
       <body>
         <FluidBackground />
         <SmoothScroll>
@@ -64,6 +70,8 @@ export default function RootLayout({
             </PageTransition>
             <ExitIntent />
             <MobileCTABar />
+            <CookieConsent />
+            <AIQualifier />
             <FooterWrapper>
               <Footer />
             </FooterWrapper>
