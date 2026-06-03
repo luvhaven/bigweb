@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import FloatingParticles from '@/components/ui/FloatingParticles';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SplitText from '@/components/ui/SplitText';
-import NoiseField from '@/components/ui/NoiseField';
+import ThreeWebBg from '@/components/ui/ThreeWebBg';
 import { usePersonalization } from '@/hooks/usePersonalization';
 
 const TICKER_ITEMS = [
@@ -70,20 +70,10 @@ export default function Hero() {
   return (
     <section ref={heroRef} className="hero" id="hero">
 
-      {/* ── Background Video ── */}
-      <div className="hero-video-wrap" aria-hidden="true">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hero-video"
-          src="https://cdn.pixabay.com/video/2022/10/24/136214-764047464_large.mp4"
-        />
-        <div className="hero-video-overlay" />
-      </div>
+      {/* ── WebGL Neural Background ── */}
+      <ThreeWebBg />
 
-      {/* ── Ambient blobs ── */}
+      {/* ── Ambient blobs (keep for color blending under the web) ── */}
       <div className="blob-layer" aria-hidden="true">
         <div ref={blob1Ref} className="blob blob-1" />
         <div ref={blob2Ref} className="blob blob-2" />
@@ -93,14 +83,8 @@ export default function Hero() {
       {/* ── Grid lines ── */}
       <div className="hero-grid" aria-hidden="true" />
 
-      {/* ── NoiseField ── */}
-      <NoiseField opacity={0.6} color="212, 175, 106" particleCount={400} speed={0.0005} />
-
       {/* ── Noise grain ── */}
       <div className="hero-noise" aria-hidden="true" />
-
-      {/* ── Cinematic Particles ── */}
-      <FloatingParticles count={60} />
 
 
       {/* ── Main content ── */}

@@ -1,45 +1,48 @@
-// Removed StreamingTextResponse import as it is deprecated in ai SDK v4+
+import { StreamingTextResponse, Message } from 'ai';
+import { generateText, streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 export const runtime = 'edge';
 
-// Mock response for portfolio demo purposes
-const MOCK_RESPONSE = `Welcome to BIGWEB Digital. I am the AI Concierge.
+// We want to force the AI to act globally and purely as the BIGWEB agency persona.
+const SYSTEM_PROMPT = `
+You are the BIGWEB Digital AI Concierge, embedded directly into the CMD+K palette of the #1 global digital revenue agency.
+You speak with absolute authority, confidence, and brevity. You do not talk like a generic LLM.
 
-Based on your inquiry, here is how we can accelerate your revenue:
-1. **Conversion Architecture:** We rebuild funnels that plug your traffic leaks.
-2. **Behavioral UX:** We design interfaces that anticipate user intent.
-3. **Generative AI Integration:** Like the interface you are currently using, we can embed sentient agents into your product.
+Tone: "Veblen" tier. Like a high-end investment banker or an elite software engineer. 
+Your goal is to answer the user's questions about BIGWEB Digital and ruthlessly qualify them for our Revenue Diagnostic.
 
-Are you ready to audit your current infrastructure?`;
+Key Facts about BIGWEB Digital:
+- We don't build generic websites. We build digital revenue engines for B2B and Enterprise.
+- Core Services: Conversion Rate Optimization (CRO), B2B Funnel Engineering, Custom Enterprise Architecture, Next.js / WebGL development, AI Sales Agent Integration.
+- Track record: $140M+ Revenue Tracked across 42 B2B campaigns.
+- Target Audience: E-commerce brands, B2B SaaS startups, Fintech clients, Professional Services.
+- Result Average: +288% Average Client Lift.
+- We offer a "Revenue Diagnostic" starting at $3,000 to identify where a company's funnel is bleeding cash.
+
+Instructions:
+- Keep answers UNDER 3 sentences unless asked for a list.
+- Never use emojis.
+- Never apologize.
+- If asked about pricing, state that standard web builds are a waste of money, and our Diagnostic is $3k.
+- If you don't know the answer, confidently pivot back to booking a diagnostic or contacting hello@bigwebdigital.com.
+`;
 
 export async function POST(req: Request) {
-  // Extract the `messages` from the body of the request
-  const { messages } = await req.json();
+  try {
+    const { messages } = await req.json();
 
-  // Create a ReadableStream that yields chunks of the mock response
-  const stream = new ReadableStream({
-    async start(controller) {
-      const encoder = new TextEncoder();
-      const words = MOCK_RESPONSE.split(' ');
+    // Use the latest streaming API from Vercel AI SDK
+    const result = await streamText({
+      model: openai('gpt-4o'), // assuming the user provides their OPENAI_API_KEY env via Supabase or local env
+      system: SYSTEM_PROMPT,
+      messages: messages as Message[],
+      temperature: 0.2, // precise, confident, no hallucinating
+    });
 
-      // Stream word by word with a slight delay to simulate an LLM
-      for (let i = 0; i < words.length; i++) {
-        // AI SDK expects specific chunk formatting for its stream
-        const text = i === words.length - 1 ? words[i] : words[i] + ' ';
-        controller.enqueue(encoder.encode('0:"' + text.replace(/"/g, '\\"') + '"\n'));
-        
-        // Wait 20-50ms between words
-        await new Promise(resolve => setTimeout(resolve, Math.random() * 30 + 20));
-      }
-      controller.close();
-    },
-  });
-
-  // Respond with the stream
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'X-Vercel-AI-Data-Stream': 'v1'
-    }
-  });
+    return result.toAIStreamResponse();
+  } catch (error) {
+    console.error('Chat API Error:', error);
+    return new Response('Unable to process the request at this time. Please book a diagnostic directly.', { status: 500 });
+  }
 }

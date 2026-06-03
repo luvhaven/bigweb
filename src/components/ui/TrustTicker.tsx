@@ -5,20 +5,35 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 
 const EVENTS = [
-    { text: 'E-commerce Brand (Melbourne) booked a Revenue Diagnostic', time: 'Just now' },
-    { text: 'A B2B SaaS startup (London) downloaded the 2026 Report', time: '12m ago' },
+    { text: 'E-commerce Brand ({city}) booked a Revenue Diagnostic', time: 'Just now' },
+    { text: 'A B2B SaaS startup ({city}) downloaded the 2026 Report', time: '12m ago' },
     { text: 'Fintech client (Toronto) increased conversion rate by 180%', time: '1h ago' },
-    { text: 'Creative Agency (Sydney) just upgraded to a Growth Retainer', time: '3h ago' },
-    { text: 'A Professional Services firm (Abuja) submitted an application', time: 'Just now' },
+    { text: 'Creative Agency ({city}) just upgraded to a Growth Retainer', time: '3h ago' },
+    { text: 'A Professional Services firm (London) submitted an application', time: 'Just now' },
     { text: 'Enterprise client (Amsterdam) just booked a Strategy Session', time: '5m ago' },
-    { text: 'Real Estate firm (San Francisco) completed Digital Transformation', time: '4h ago' }
+    { text: 'Real Estate firm ({city}) completed Digital Transformation', time: '4h ago' }
 ];
+
+// Helper to reliably read un-encoded cookies on the client side
+function getCookie(name: string) {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return decodeURIComponent(match[2]);
+    return null;
+}
 
 export default function TrustTicker() {
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [isVisible, setIsVisible] = useState(false);
+    const [userCity, setUserCity] = useState<string>('');
 
     useEffect(() => {
+        // Read the Vercel edge-injected cookie
+        const city = getCookie('bw_city');
+        if (city) {
+            setUserCity(city);
+        }
+
         // Wait a bit before showing the first toast
         const initialDelay = setTimeout(() => {
             showNextToast();
@@ -92,7 +107,7 @@ export default function TrustTicker() {
                                 lineHeight: 1.4,
                                 fontWeight: 500
                             }}>
-                                {EVENTS[currentIndex].text}
+                                {EVENTS[currentIndex].text.replace('{city}', userCity || 'London')}
                             </p>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <MapPin size={10} color="var(--color-text-tertiary)" />
