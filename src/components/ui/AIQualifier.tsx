@@ -66,6 +66,14 @@ const SCRIPT = [
     },
 ];
 
+// ── Service recommendation map keyed off budget tags ──────────────────────────
+const SERVICE_MAP: Record<string, { name: string; price: string; slug: string; desc: string }> = {
+    tier1: { name: 'Diagnostic Blueprint', price: '$2,500', slug: '/services', desc: 'Precision conversion audit. Exactly where revenue is leaking and how to plug it.' },
+    tier2: { name: 'Growth Engine Retainer', price: 'from $8,000/mo', slug: '/services', desc: 'Full-stack revenue retainer. CRO, funnel engineering, and AI automation.' },
+    tier3: { name: 'Digital Transformation', price: 'from $25,000', slug: '/contact', desc: 'End-to-end architecture overhaul. Built for scale. Delivered in 8–14 weeks.' },
+    enterprise: { name: 'Enterprise Engagement', price: 'Custom Scope', slug: '/contact', desc: 'Dedicated team. Custom SLAs. Zero cap on ambition or budget.' },
+};
+
 export default function AIQualifier() {
     const [open, setOpen] = useState(false);
     const [step, setStep] = useState<string>('welcome');
@@ -144,6 +152,10 @@ export default function AIQualifier() {
     };
 
     const currentNode = !done ? SCRIPT.find(s => s.id === step) : null;
+
+    // Derive recommended service for the result panel
+    const budgetTag = tags.find(t => ['tier1', 'tier2', 'tier3', 'enterprise'].includes(t)) ?? 'tier2';
+    const rec = SERVICE_MAP[budgetTag];
 
     return (
         <>
@@ -302,8 +314,21 @@ export default function AIQualifier() {
                         <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
                             {done && !isLoading && completion ? (
                                 <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                    {/* Recommended Service Pill */}
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, rgba(212,175,106,0.12) 0%, rgba(212,175,106,0.04) 100%)',
+                                        border: '1px solid rgba(212,175,106,0.35)',
+                                        borderRadius: 8,
+                                        padding: '10px 12px',
+                                    }}>
+                                        <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-gold-muted)', marginBottom: 4 }}>Recommended Service</p>
+                                        <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--color-gold-bright)', lineHeight: 1.2 }}>{rec.name}</p>
+                                        <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: 3, lineHeight: 1.4 }}>{rec.desc}</p>
+                                        <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-text-primary)', marginTop: 6 }}>{rec.price}</p>
+                                    </div>
+                                    {/* Primary booking CTA */}
                                     <a
-                                        href="/contact"
+                                        href={rec.slug}
                                         style={{
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                                             background: 'var(--color-gold-bright)', color: '#0a0a0b',
@@ -311,7 +336,7 @@ export default function AIQualifier() {
                                             fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                                         }}
                                     >
-                                        Execute the Roadmap <ArrowRight size={14} />
+                                        Book {rec.name} <ArrowRight size={14} />
                                     </a>
                                     <button
                                         onClick={() => { setMessages([]); setTags([]); setAnswers({}); setDone(false); setCompletion(''); setHasOpened(false); setStep('welcome'); setTimeout(handleOpen, 50); }}
