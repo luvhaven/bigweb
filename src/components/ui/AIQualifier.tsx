@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, Sparkles, ChevronRight } from 'lucide-react';
 import { useCompletion } from '@ai-sdk/react';
 import ReactMarkdown from 'react-markdown';
+import AnimatedAILogo from '@/components/branding/AnimatedAILogo';
 
 // ── Conversation script ──────────────────────────────────────────────────────
 const SCRIPT = [
@@ -173,7 +174,7 @@ export default function AIQualifier() {
                             boxShadow: '0 4px 30px rgba(212,175,106,0.4)',
                         }}
                     >
-                        <Sparkles size={22} color="#0a0a0b" />
+                        <AnimatedAILogo size={22} color="#0a0a0b" isProcessing={thinking || isLoading} />
                         <span style={{
                             position: 'absolute', inset: -4, borderRadius: '50%',
                             border: '2px solid rgba(212,175,106,0.4)',
@@ -223,7 +224,7 @@ export default function AIQualifier() {
                                 background: 'linear-gradient(135deg, var(--color-gold-bright), #b8943f)',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                             }}>
-                                <Sparkles size={15} color="#0a0a0b" />
+                                <AnimatedAILogo size={16} color="#0a0a0b" isProcessing={thinking || isLoading} />
                             </div>
                             <div style={{ flex: 1 }}>
                                 <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1 }}>BIGWEB AI</p>
