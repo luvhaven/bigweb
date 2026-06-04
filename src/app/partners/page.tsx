@@ -40,9 +40,9 @@ const BENEFITS = [
 ];
 
 const TIERS = [
-    { label: 'Diagnostic Blueprint', value: '$4,200', commission: '$420', badge: 'Entry', color: '#9B9793' },
-    { label: 'Growth Engine', value: '$12,000', commission: '$1,200', badge: 'Popular', color: '#D4AF6A' },
-    { label: 'Digital Transformation', value: '$38,000+', commission: '$3,800+', badge: 'Enterprise', color: '#5B8DEF' },
+    { label: 'Conversion Audit + Fix Sprint', value: '$4,200', commission: '$420', badge: 'Entry', color: '#9B9793' },
+    { label: 'Authority Redesign Package', value: '$12,000', commission: '$1,200', badge: 'Popular', color: '#D4AF6A' },
+    { label: 'Digital Revenue Transformation', value: '$38,000+', commission: '$3,800+', badge: 'Enterprise', color: '#5B8DEF' },
 ];
 
 export default function PartnersPage() {

@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { createBrowserClient } from '@/lib/supabase';
-import { LayoutDashboard, Users, Mail, Briefcase, FolderOpen, FileText, MessageSquare, Settings, LogOut, Menu, X, BarChart, UserSquare2 } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, Briefcase, FolderOpen, FileText, MessageSquare, Settings, LogOut, Menu, X, BarChart, UserSquare2, Share2 } from 'lucide-react';
 import { ToastProvider } from '@/components/admin/ToastProvider';
 
 const NAV_ITEMS = [
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { href: '/admin/articles', label: 'Articles', icon: FileText },
   { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
   { href: '/admin/team', label: 'Team Members', icon: UserSquare2 },
+  { href: '/admin/affiliates', label: 'Affiliates', icon: Share2 },
   { href: '/admin/settings', label: 'Site Settings', icon: Settings },
 ];
 
@@ -74,10 +75,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div style={{ padding: '0 20px 20px', borderBottom: '1px solid #262630', marginBottom: 8 }}>
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
             <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-              <rect x="1" y="1" width="9" height="9" stroke="#D4AF6A" strokeWidth="1.5"/>
-              <rect x="12" y="1" width="9" height="9" fill="#D4AF6A" opacity="0.8"/>
-              <rect x="1" y="12" width="9" height="9" fill="#D4AF6A" opacity="0.4"/>
-              <rect x="12" y="12" width="9" height="9" stroke="#D4AF6A" strokeWidth="1.5" strokeDasharray="2 2"/>
+              <rect x="1" y="1" width="9" height="9" stroke="#D4AF6A" strokeWidth="1.5" />
+              <rect x="12" y="1" width="9" height="9" fill="#D4AF6A" opacity="0.8" />
+              <rect x="1" y="12" width="9" height="9" fill="#D4AF6A" opacity="0.4" />
+              <rect x="12" y="12" width="9" height="9" stroke="#D4AF6A" strokeWidth="1.5" strokeDasharray="2 2" />
             </svg>
             <span style={{ color: '#F2F0EB', fontWeight: 700, fontSize: 14 }}>BIGWEB Admin</span>
           </Link>

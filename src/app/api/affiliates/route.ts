@@ -36,17 +36,16 @@ export async function POST(req: NextRequest) {
         const referralCode = generateReferralCode(firstName, lastName);
 
         const { data, error } = await supabase.from('affiliates').insert({
-            first_name: firstName.trim(),
-            last_name: lastName.trim(),
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
             email: email.toLowerCase().trim(),
-            company_name: companyName?.trim() || null,
+            companyName: companyName?.trim() || null,
             website: website?.trim() || null,
-            payout_email: payoutEmail?.trim() || null,
-            referral_code: referralCode,
-            referral_source: referralSource || null,
-            commission_rate: 0.10,
-            status: 'pending',
-        }).select('referral_code').single();
+            payoutEmail: payoutEmail?.trim() || null,
+            referralCode: referralCode,
+            commissionRate: 0.10,
+            status: 'PENDING',
+        }).select('referralCode').single();
 
         if (error) {
             console.error('[Affiliates API] Supabase error:', error);
@@ -55,7 +54,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            referralCode: data.referral_code,
+            referralCode: data.referralCode,
             message: 'Application received. Our team will review and approve your account within 48 hours.',
         });
     } catch (err) {
