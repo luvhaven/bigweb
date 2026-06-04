@@ -115,13 +115,7 @@ export default function Hero() {
           {/* Sub + CTA row */}
           <div className={`hero-bottom-row ${loaded ? 'show' : ''}`}>
             <div className="hero-sub-block">
-              <p className="hero-sub">
-                <SplitText type="words" delay={0.6}>
-                  Most businesses have traffic. Most are bleeding revenue at the
-                  conversion layer. We find exactly where you're losing
-                  money — and we fix it.
-                </SplitText>
-              </p>
+              {/* Sub copy removed per user request */}
               <div className="hero-ctas">
                 <MagneticButton href="/contact" className="btn btn-primary btn-lg hero-btn-main">
                   Apply for Strategy Session <ArrowRight size={16} />
