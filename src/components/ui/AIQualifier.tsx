@@ -82,6 +82,7 @@ export default function AIQualifier() {
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [thinking, setThinking] = useState(false);
     const [done, setDone] = useState(false);
+    const [hasFinishedGenerating, setHasFinishedGenerating] = useState(false);
     const [hasOpened, setHasOpened] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -90,6 +91,12 @@ export default function AIQualifier() {
         api: '/api/diagnostic',
         onFinish: () => {
             setThinking(false);
+            setHasFinishedGenerating(true);
+        },
+        onError: (err) => {
+            setThinking(false);
+            setHasFinishedGenerating(true);
+            setMessages(m => [...m, { from: 'ai', text: 'Diagnostic generation encountered an error. However, based on your inputs, I have generated your service roadmap below.' }]);
         }
     });
 
@@ -98,7 +105,7 @@ export default function AIQualifier() {
     // Auto-scroll
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, thinking, done, completion]);
+    }, [messages, thinking, done, completion, hasFinishedGenerating]);
 
     // Push opener message on first open
     const handleOpen = useCallback(() => {
@@ -312,7 +319,7 @@ export default function AIQualifier() {
 
                         {/* Choices or result CTA */}
                         <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
-                            {done && !isLoading && completion ? (
+                            {hasFinishedGenerating ? (
                                 <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                     {/* Recommended Service Pill */}
                                     <div style={{
@@ -339,7 +346,7 @@ export default function AIQualifier() {
                                         Book {rec.name} <ArrowRight size={14} />
                                     </a>
                                     <button
-                                        onClick={() => { setMessages([]); setTags([]); setAnswers({}); setDone(false); setCompletion(''); setHasOpened(false); setStep('welcome'); setTimeout(handleOpen, 50); }}
+                                        onClick={() => { setMessages([]); setTags([]); setAnswers({}); setDone(false); setHasFinishedGenerating(false); setCompletion(''); setHasOpened(false); setStep('welcome'); setTimeout(handleOpen, 50); }}
                                         style={{ background: 'none', border: 'none', color: 'var(--color-text-tertiary)', fontSize: '11px', cursor: 'pointer', textAlign: 'center' }}
                                     >
                                         Start over
