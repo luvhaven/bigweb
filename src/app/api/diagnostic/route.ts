@@ -22,8 +22,12 @@ Key Facts about BIGWEB Digital:
 Output Format:
 Return your diagnostic response strictly using Markdown. 
 Start with a brutal but insightful one-sentence summary of their bottleneck (e.g., "At $50K MRR, your primary bottleneck is no longer traffic; it's conversion friction and a weak technical foundation.").
-Then provide a 3-point architecture plan on exactly how BIGWEB will solve their problem.
-End by instructing them to fill out the form below or close the dialogue to book their diagnostic call with us.
+Next, you MUST explicitly recommend one of our specific service tiers based on their budget and inputs:
+- Under $5k: Recommend the 'Diagnostic Blueprint' ($2,500).
+- $5k - $15k or AI: Recommend the 'Growth Engine' (starts at $8,000/mo).
+- $15k - $50k or Enterprise: Recommend the 'Digital Transformation' engagement (starts at $25,000).
+Then provide a sharp 3-point architecture plan on exactly how BIGWEB will solve their problem using that specific service.
+End by instructing them to execute the roadmap below to book their Strategy Session with us.
 
 NEVER apologize. NEVER use emojis. KEEP it under 250 words.
 `;
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
         const promptText = `Prospect Information:\n${contextStr}\n\nTags: ${tags.join(', ')}\n\nGenerate the diagnostic roadmap.`;
 
         const result = await streamText({
-            model: openai('gpt-4o'), // assuming OPENAI_API_KEY is available
+            model: openai('gpt-4o-mini'), // Switched to mini for ultra-fast TTFT streaming
             system: SYSTEM_PROMPT,
             prompt: promptText,
             temperature: 0.3, // precise, confident, no hallucinating

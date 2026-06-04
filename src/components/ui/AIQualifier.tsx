@@ -139,7 +139,7 @@ export default function AIQualifier() {
                 setMessages(m => [...m, { from: 'ai', text: nextNode.text }]);
                 setStep(choice.next);
             }
-        }, 600);
+        }, 350);
     };
 
     const currentNode = !done ? SCRIPT.find(s => s.id === step) : null;
@@ -204,7 +204,7 @@ export default function AIQualifier() {
                             backdropFilter: 'blur(30px)',
                             border: '1px solid rgba(212, 175, 106, 0.2)',
                             borderRadius: '12px',
-                            boxShadow: '0 24px 80px rgba(0,0,0,0.7)',
+                            boxShadow: '0 0 0 1px rgba(212,175,106,0.1), 0 30px 100px -10px rgba(0,0,0,0.8), 0 0 80px rgba(212,175,106,0.15)',
                             overflow: 'hidden',
                         }}
                     >
