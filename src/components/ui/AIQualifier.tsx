@@ -335,7 +335,7 @@ export default function AIQualifier() {
                                     </div>
                                     {/* Primary booking CTA */}
                                     <a
-                                        href={rec.slug}
+                                        href={`/contact?serviceslug=${encodeURIComponent(rec.slug || '')}&name=${encodeURIComponent(rec.name || '')}&price=${encodeURIComponent(rec.price || '')}`}
                                         style={{
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                                             background: 'var(--color-gold-bright)', color: '#0a0a0b',

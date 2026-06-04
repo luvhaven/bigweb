@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
 
 // Generate a short, memorable, uppercase referral code
 function generateReferralCode(firstName: string, lastName: string): string {

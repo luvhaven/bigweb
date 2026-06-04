@@ -78,7 +78,7 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
                 <span className="detail-meta-label">Timeline</span>
                 <span className="detail-meta-value">{service.timeline}</span>
               </div>
-              <MagneticButton href="/contact" className="btn btn-primary btn-lg">
+              <MagneticButton href={`/contact?serviceslug=${encodeURIComponent(service.slug || '')}&name=${encodeURIComponent(service.name || '')}&price=${encodeURIComponent(service.price || '')}`} className="btn btn-primary btn-lg">
                 Start This Engagement <ArrowRight size={16} />
               </MagneticButton>
             </div>
@@ -96,9 +96,9 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
               <span className="section-label">THE CHALLENGE</span>
             </AnimateIn>
             <AnimateIn delay={1}>
-              <div 
-                className="detail-description" 
-                dangerouslySetInnerHTML={{ __html: service.description || '' }} 
+              <div
+                className="detail-description"
+                dangerouslySetInnerHTML={{ __html: service.description || '' }}
               />
             </AnimateIn>
           </div>
@@ -169,7 +169,7 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
               <h2 className="section-headline" style={{ margin: '0 auto' }}>Who this is actually for.</h2>
             </AnimateIn>
           </div>
-          
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-8)' }}>
             <AnimateIn delay={1}>
               <div className="card" style={{ borderTop: '4px solid var(--color-gold-bright)', height: '100%' }}>
@@ -196,7 +196,7 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
                 </ul>
               </div>
             </AnimateIn>
-            
+
             <AnimateIn delay={2}>
               <div className="card" style={{ borderTop: '4px solid var(--color-bg-border)', height: '100%', opacity: 0.8 }}>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-6)', display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--color-text-tertiary)' }}>
@@ -231,14 +231,14 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
       {/* The Methodology / BIGWEB Difference */}
       <section className="section" style={{ background: 'var(--color-bg-secondary)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--color-gold-muted), transparent)', opacity: 0.3 }} />
-        
+
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
             <AnimateIn>
               <span className="section-label">THE BIGWEB DIFFERENCE</span>
               <h2 className="section-headline" style={{ margin: '0 auto var(--space-8)' }}>We don't build deliverables. We engineer assets.</h2>
             </AnimateIn>
-            
+
             <AnimateIn delay={1}>
               <div style={{ textAlign: 'left', background: 'var(--color-bg-primary)', padding: 'var(--space-8)', borderRadius: '0', border: '1px solid var(--color-bg-border)' }}>
                 <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 'var(--space-6)' }}>
@@ -271,21 +271,21 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
               {[
-                { 
-                  q: "How quickly can we start?", 
-                  a: "Depending on our current bandwidth and your Tier level, we can typically onboard and initiate discovery within 7-14 days of contract signature." 
+                {
+                  q: "How quickly can we start?",
+                  a: "Depending on our current bandwidth and your Tier level, we can typically onboard and initiate discovery within 7-14 days of contract signature."
                 },
-                { 
-                  q: "Do you require long-term retainers?", 
-                  a: "For foundational builds, we operate on a project basis. For revenue scaling and AI systems, we require a minimum 6-month commitment to ensure we have the time to iterate and generate verifiable ROI." 
+                {
+                  q: "Do you require long-term retainers?",
+                  a: "For foundational builds, we operate on a project basis. For revenue scaling and AI systems, we require a minimum 6-month commitment to ensure we have the time to iterate and generate verifiable ROI."
                 },
-                { 
-                  q: "What is expected from our team?", 
-                  a: "We require a single point of contact with decision-making authority. We do the heavy lifting, but we need your domain expertise during the discovery phase and prompt approvals during sprints." 
+                {
+                  q: "What is expected from our team?",
+                  a: "We require a single point of contact with decision-making authority. We do the heavy lifting, but we need your domain expertise during the discovery phase and prompt approvals during sprints."
                 },
-                { 
-                  q: "Are the timelines guaranteed?", 
-                  a: `Yes. We guarantee the ${service.timeline} timeline for this specific engagement, provided that your team meets the 24-hour SLA for necessary feedback and asset delivery.` 
+                {
+                  q: "Are the timelines guaranteed?",
+                  a: `Yes. We guarantee the ${service.timeline} timeline for this specific engagement, provided that your team meets the 24-hour SLA for necessary feedback and asset delivery.`
                 }
               ].map((faq, idx) => (
                 <AnimateIn key={idx} delay={idx + 1}>
@@ -317,7 +317,7 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
           </AnimateIn>
           <AnimateIn delay={2}>
             <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <MagneticButton href="/contact" className="btn btn-primary btn-lg">
+              <MagneticButton href={`/contact?serviceslug=${encodeURIComponent(service.slug || '')}&name=${encodeURIComponent(service.name || '')}&price=${encodeURIComponent(service.price || '')}`} className="btn btn-primary btn-lg">
                 Book Your Free Diagnostic <ArrowRight size={16} />
               </MagneticButton>
               <Link href="/services" className="btn btn-outline btn-lg">
@@ -358,7 +358,7 @@ export default function ServiceDetailClient({ service, relatedServices }: { serv
         </section>
       )}
 
-      
+
     </>
   );
 }
