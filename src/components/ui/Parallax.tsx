@@ -24,7 +24,7 @@ export default function Parallax({ children, offset = 50, className = '' }: Para
 
     return (
         <div ref={ref} className={className} style={{ overflow: 'visible', willChange: 'transform' }}>
-            <motion.div style={{ y: smoothY, willChange: 'transform' }}>
+            <motion.div style={{ y: smoothY, willChange: 'transform', width: '100%', height: '100%' }}>
                 {children}
             </motion.div>
         </div>

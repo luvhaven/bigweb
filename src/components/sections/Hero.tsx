@@ -72,7 +72,7 @@ export default function Hero() {
     <section ref={heroRef} className="hero" id="hero">
 
       {/* ── WebGL Neural Background (Heavy Downward Inertia) ── */}
-      <Parallax offset={150}>
+      <Parallax offset={150} className="absolute inset-0 w-full h-full -z-10">
         <ThreeWebBg />
       </Parallax>
 
