@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, Sparkles, ChevronRight } from 'lucide-react';
+import { useCompletion } from '@ai-sdk/react';
+import ReactMarkdown from 'react-markdown';
 
 // ── Conversation script ──────────────────────────────────────────────────────
 const SCRIPT = [
@@ -17,6 +19,7 @@ const SCRIPT = [
         id: 'q1',
         from: 'ai',
         text: 'What best describes your current situation?',
+        questionKey: 'Goal',
         choices: [
             { label: 'We have traffic but poor conversion', next: 'q2', tag: 'cro' },
             { label: 'We need a new website or platform', next: 'q2', tag: 'build' },
@@ -28,6 +31,7 @@ const SCRIPT = [
         id: 'q2',
         from: 'ai',
         text: "What's your approximate monthly online revenue (or target)?",
+        questionKey: 'Revenue',
         choices: [
             { label: 'Under $20K / mo', next: 'q3', tag: 'smb' },
             { label: '$20K – $100K / mo', next: 'q3', tag: 'growth' },
@@ -39,6 +43,7 @@ const SCRIPT = [
         id: 'q3',
         from: 'ai',
         text: 'How quickly do you need to see results?',
+        questionKey: 'Urgency',
         choices: [
             { label: 'Within 30 days — urgent', next: 'q4', tag: 'urgent' },
             { label: '1–3 months is fine', next: 'q4', tag: 'planned' },
@@ -50,6 +55,7 @@ const SCRIPT = [
         id: 'q4',
         from: 'ai',
         text: "Last one. What's your budget range for this engagement?",
+        questionKey: 'Budget',
         choices: [
             { label: 'Under $5,000', next: 'result', tag: 'tier1' },
             { label: '$5,000 – $15,000', next: 'result', tag: 'tier2' },
@@ -59,50 +65,31 @@ const SCRIPT = [
     },
 ];
 
-function getRecommendation(tags: string[]) {
-    if (tags.includes('enterprise') || tags.includes('tier3')) {
-        return {
-            tier: 'Digital Transformation',
-            price: 'From $25,000',
-            headline: 'You qualify for a full Digital Transformation engagement.',
-            body: "Based on your profile, you're a strong candidate for our Tier 03 partnership. We'll architect your entire digital revenue layer from the ground up.",
-            cta: 'Apply for Strategy Session',
-        };
-    }
-    if (tags.includes('ai') || tags.includes('tier2')) {
-        return {
-            tier: 'Growth Engine',
-            price: 'From $8,000 / mo',
-            headline: 'The Growth Engine is the right fit for where you are.',
-            body: "You have the foundation — what you need is compounding, systematic optimisation. We'll act as your embedded revenue team month over month.",
-            cta: 'Apply for Strategy Session',
-        };
-    }
-    return {
-        tier: 'Diagnostic Blueprint',
-        price: 'From $2,500',
-        headline: 'Start with a Diagnostic Blueprint.',
-        body: "Before anything else, we'll run a full revenue audit and hand you a prioritised fix list. Most clients recoup this cost in the first week of implementation.",
-        cta: 'Book Your Diagnostic',
-    };
-}
-
 export default function AIQualifier() {
     const [open, setOpen] = useState(false);
     const [step, setStep] = useState<string>('welcome');
-    const [messages, setMessages] = useState<{ from: 'ai' | 'user'; text: string }[]>([]);
+    const [messages, setMessages] = useState<{ from: 'ai' | 'user'; text: string; isCompletion?: boolean }[]>([]);
     const [tags, setTags] = useState<string[]>([]);
+    const [answers, setAnswers] = useState<Record<string, string>>({});
     const [thinking, setThinking] = useState(false);
     const [done, setDone] = useState(false);
     const [hasOpened, setHasOpened] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
+
+    // Set up Vercel AI useCompletion to stream the diagnostic roadmap
+    const { completion, complete, isLoading, setCompletion } = useCompletion({
+        api: '/api/diagnostic',
+        onFinish: () => {
+            setThinking(false);
+        }
+    });
 
     const current = SCRIPT.find(s => s.id === step);
 
     // Auto-scroll
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, thinking, done]);
+    }, [messages, thinking, done, completion]);
 
     // Push opener message on first open
     const handleOpen = useCallback(() => {
@@ -120,23 +107,27 @@ export default function AIQualifier() {
     const handleChoice = (choice: { label: string; next: string; tag: string }) => {
         const userMsg = { from: 'user' as const, text: choice.label };
         setMessages(m => [...m, userMsg]);
-        setTags(t => [...t, choice.tag]);
+
+        const newTags = [...tags, choice.tag];
+        setTags(newTags);
+
+        // Store the answer context for the generative AI
+        const newAnswers = { ...answers };
+        if (current && 'questionKey' in current && current.questionKey) {
+            newAnswers[current.questionKey] = choice.label;
+            setAnswers(newAnswers);
+        }
 
         if (choice.next === 'result') {
             setThinking(true);
-            setTimeout(() => {
-                setThinking(false);
-                setDone(true);
-                const nextNode = SCRIPT.find(s => s.id === 'q4');
-                if (nextNode) {
-                    const rec = getRecommendation([...tags, choice.tag]);
-                    setMessages(m => [
-                        ...m,
-                        { from: 'ai', text: `✦ ${rec.headline}` },
-                        { from: 'ai', text: rec.body },
-                    ]);
+            setDone(true);
+            // Trigger the generative AI endpoint with the collected inputs
+            complete('', {
+                body: {
+                    tags: newTags,
+                    answers: newAnswers
                 }
-            }, 1400);
+            });
             return;
         }
 
@@ -148,10 +139,9 @@ export default function AIQualifier() {
                 setMessages(m => [...m, { from: 'ai', text: nextNode.text }]);
                 setStep(choice.next);
             }
-        }, 900);
+        }, 600);
     };
 
-    const recommendation = done ? getRecommendation(tags) : null;
     const currentNode = !done ? SCRIPT.find(s => s.id === step) : null;
 
     return (
@@ -184,7 +174,6 @@ export default function AIQualifier() {
                         }}
                     >
                         <Sparkles size={22} color="#0a0a0b" />
-                        {/* Pulse ring */}
                         <span style={{
                             position: 'absolute', inset: -4, borderRadius: '50%',
                             border: '2px solid rgba(212,175,106,0.4)',
@@ -246,7 +235,7 @@ export default function AIQualifier() {
                         </div>
 
                         {/* Message thread */}
-                        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        <div className="custom-scrollbar" style={{ flex: 1, overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
                             {messages.map((m, i) => (
                                 <motion.div
                                     key={i}
@@ -269,6 +258,34 @@ export default function AIQualifier() {
                                 </motion.div>
                             ))}
 
+                            {/* Streaming Diagnostic Node */}
+                            {(completion || isLoading) && done && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    style={{
+                                        alignSelf: 'flex-start',
+                                        maxWidth: '92%',
+                                        padding: '14px 16px',
+                                        borderRadius: '4px 12px 12px 12px',
+                                        background: 'rgba(212,175,106,0.08)',
+                                        border: '1px solid rgba(212,175,106,0.3)',
+                                        fontSize: '13px',
+                                        lineHeight: 1.6,
+                                        color: 'var(--color-text-primary)',
+                                    }}
+                                >
+                                    <h4 style={{ color: 'var(--color-gold-bright)', marginBottom: 8, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                                        <Sparkles size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
+                                        Calculated Diagnostic Roadmap
+                                    </h4>
+                                    <div className="prose prose-sm prose-invert" style={{ margin: 0 }}>
+                                        <ReactMarkdown>{completion}</ReactMarkdown>
+                                    </div>
+                                </motion.div>
+                            )}
+
                             {/* Thinking indicator */}
                             {thinking && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ alignSelf: 'flex-start', display: 'flex', gap: 4, padding: '10px 13px', background: 'rgba(255,255,255,0.04)', borderRadius: '4px 12px 12px 12px', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -282,15 +299,8 @@ export default function AIQualifier() {
 
                         {/* Choices or result CTA */}
                         <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
-                            {done && recommendation ? (
+                            {done && !isLoading && completion ? (
                                 <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 10px', background: 'rgba(212,175,106,0.08)', border: '1px solid rgba(212,175,106,0.2)', borderRadius: 6 }}>
-                                        <div>
-                                            <p style={{ fontSize: '11px', color: 'var(--color-gold-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{recommendation.tier}</p>
-                                            <p style={{ fontSize: '15px', fontWeight: 700, color: 'var(--color-gold-bright)', fontFamily: 'var(--font-display)' }}>{recommendation.price}</p>
-                                        </div>
-                                        <ChevronRight size={16} color="var(--color-gold-muted)" />
-                                    </div>
                                     <a
                                         href="/contact"
                                         style={{
@@ -300,17 +310,17 @@ export default function AIQualifier() {
                                             fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                                         }}
                                     >
-                                        {recommendation.cta} <ArrowRight size={14} />
+                                        Execute the Roadmap <ArrowRight size={14} />
                                     </a>
                                     <button
-                                        onClick={() => { setMessages([]); setTags([]); setDone(false); setHasOpened(false); setStep('welcome'); setTimeout(handleOpen, 50); }}
+                                        onClick={() => { setMessages([]); setTags([]); setAnswers({}); setDone(false); setCompletion(''); setHasOpened(false); setStep('welcome'); setTimeout(handleOpen, 50); }}
                                         style={{ background: 'none', border: 'none', color: 'var(--color-text-tertiary)', fontSize: '11px', cursor: 'pointer', textAlign: 'center' }}
                                     >
                                         Start over
                                     </button>
                                 </motion.div>
                             ) : (
-                                !thinking && currentNode?.choices && (
+                                !thinking && currentNode?.choices && !done && (
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                                         {currentNode.choices.map((c) => (
                                             <motion.button
@@ -362,6 +372,23 @@ export default function AIQualifier() {
           0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
           40% { transform: translateY(-5px); opacity: 1; }
         }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.1);
+          border-radius: 6px;
+        }
+        
+        .prose p { margin-bottom: 0.5em; }
+        .prose ul, .prose ol { padding-left: 1.25em; margin-bottom: 0.5em; }
+        .prose li { margin-bottom: 0.25em; }
+        .prose code { background: rgba(212,175,106,0.15); padding: 2px 4px; border-radius: 4px; color: var(--color-gold-bright); font-size: 0.9em; }
+        .prose strong { color: var(--color-text-primary); font-weight: 700; }
       `}</style>
         </>
     );
