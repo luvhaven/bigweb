@@ -464,3 +464,71 @@ model CmsSiteSettings {
 
   @@map("cms_site_settings")
 }
+
+// ============================================
+// PARTNERS & AFFILIATES
+// ============================================
+
+model Affiliate {
+  id              String      @id @default(cuid())
+  userId          String?     @unique
+  firstName       String
+  lastName        String
+  email           String      @unique
+  companyName     String?
+  website         String?
+  payoutEmail     String?     // PayPal/Stripe email
+  referralCode    String      @unique
+  commissionRate  Float       @default(0.10) // 10% Commission
+  status          AffiliateStatus @default(PENDING)
+  totalEarned     Float       @default(0)
+  totalPaid       Float       @default(0)
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  referrals       Referral[]
+  
+  @@index([status])
+  @@index([referralCode])
+  @@map("affiliates")
+}
+
+model Referral {
+  id              String      @id @default(cuid())
+  clientName      String
+  clientEmail     String
+  clientCompany   String?
+  contractValue   Float?
+  commissionAmount Float?
+  status          ReferralStatus @default(PENDING)
+  
+  affiliateId     String
+  affiliate       Affiliate   @relation(fields: [affiliateId], references: [id])
+  
+  convertedAt     DateTime?
+  paidAt          DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@index([status])
+  @@index([affiliateId])
+  @@map("referrals")
+}
+
+enum AffiliateStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  REJECTED
+}
+
+enum ReferralStatus {
+  PENDING       // Lead caught, not closed
+  QUALIFIED     // Valid lead
+  CONVERTED     // Client signed and paid
+  PAID          // Commission explicitly paid out to partner
+  REJECTED      // Fraud or non-qualified
+  CLAWBACK      // Client requested refund, commission clawed back
+}
