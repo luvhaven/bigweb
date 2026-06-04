@@ -22,8 +22,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid email address.' }, { status: 400 });
         }
 
-        const supabase = createServerClient();
-
         // Check for duplicate
         const { data: existing } = await supabase
             .from('affiliates')
@@ -68,7 +66,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     // Admin-only route to list affiliates (protected by middleware)
-    const supabase = createServerClient();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
 
@@ -100,7 +97,6 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid status.' }, { status: 400 });
     }
 
-    const supabase = createServerClient();
     const { error } = await supabase.from('affiliates').update({ status }).eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
