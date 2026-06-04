@@ -126,19 +126,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Stats column */}
-            <div className="hero-stats-col">
-              {[
-                { n: '288%', l: 'Avg revenue lift' },
-                { n: '2 wks', l: 'To first results' },
-                { n: '$140M+', l: 'Revenue generated' },
-              ].map(({ n, l }) => (
-                <div key={l} className="hero-stat">
-                  <span className="hero-stat-n">{n}</span>
-                  <span className="hero-stat-l">{l}</span>
-                </div>
-              ))}
-            </div>
+            {/* Stats column removed per user request */}
           </div>
 
         </div>
