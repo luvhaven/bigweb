@@ -1,6 +1,7 @@
 ﻿import AnimateIn from '@/components/ui/AnimateIn';
 import AsciiArt from '@/components/ui/AsciiArt';
 import ParallaxImage from '@/components/ui/ParallaxImage';
+import Parallax from '@/components/ui/Parallax';
 
 export default function AboutPreview({ image }: { image?: string }) {
   const mediaUrl = image || "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80";
@@ -42,7 +43,8 @@ export default function AboutPreview({ image }: { image?: string }) {
           </div>
         </div>
 
-        <div className="about-text">
+        {/* ── Parallax Typographic Engine ── */}
+        <Parallax offset={-50} className="about-text">
           <AnimateIn>
             <span className="section-label">WHO WE ARE</span>
           </AnimateIn>
@@ -73,10 +75,10 @@ export default function AboutPreview({ image }: { image?: string }) {
               </div>
             </div>
           </AnimateIn>
-        </div>
+        </Parallax>
       </div>
 
 
-    </section>
+    </section >
   );
 }

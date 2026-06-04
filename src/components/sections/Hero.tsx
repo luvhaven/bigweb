@@ -7,6 +7,7 @@ import FloatingParticles from '@/components/ui/FloatingParticles';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SplitText from '@/components/ui/SplitText';
 import ThreeWebBg from '@/components/ui/ThreeWebBg';
+import Parallax from '@/components/ui/Parallax';
 import { usePersonalization } from '@/hooks/usePersonalization';
 
 const TICKER_ITEMS = [
@@ -70,8 +71,10 @@ export default function Hero() {
   return (
     <section ref={heroRef} className="hero" id="hero">
 
-      {/* ── WebGL Neural Background ── */}
-      <ThreeWebBg />
+      {/* ── WebGL Neural Background (Heavy Downward Inertia) ── */}
+      <Parallax offset={150}>
+        <ThreeWebBg />
+      </Parallax>
 
       {/* ── Ambient blobs (keep for color blending under the web) ── */}
       <div className="blob-layer" aria-hidden="true">
@@ -87,63 +90,65 @@ export default function Hero() {
       <div className="hero-noise" aria-hidden="true" />
 
 
-      {/* ── Main content ── */}
-      <div ref={headlineRef} className="hero-stage container">
+      {/* ── Main content (Upward Drift) ── */}
+      <Parallax offset={-80} className="relative z-10 w-full h-full">
+        <div ref={headlineRef} className="hero-stage container">
 
 
-        <h1 className="hero-h1">
-          <span className={`hero-reveal hero-word-row ${loaded ? 'show' : ''}`}
-            style={{ transitionDelay: '200ms' }}>
-            Your {personalization.headlineNoun}
-          </span>
-          <span className={`hero-reveal hero-word-row hero-row-mid ${loaded ? 'show' : ''}`}
-            style={{ transitionDelay: '380ms' }}>
-            is&nbsp;
-            <span className="hero-stroke-text">costing</span>
-            &nbsp;you
-          </span>
-          <span className={`hero-reveal hero-word-row hero-row-gold text-gold-breathing ${loaded ? 'show' : ''}`}
-            style={{ transitionDelay: '560ms' }}>
-            money.
-          </span>
-        </h1>
+          <h1 className="hero-h1">
+            <span className={`hero-reveal hero-word-row ${loaded ? 'show' : ''}`}
+              style={{ transitionDelay: '200ms' }}>
+              Your {personalization.headlineNoun}
+            </span>
+            <span className={`hero-reveal hero-word-row hero-row-mid ${loaded ? 'show' : ''}`}
+              style={{ transitionDelay: '380ms' }}>
+              is&nbsp;
+              <span className="hero-stroke-text">costing</span>
+              &nbsp;you
+            </span>
+            <span className={`hero-reveal hero-word-row hero-row-gold text-gold-breathing ${loaded ? 'show' : ''}`}
+              style={{ transitionDelay: '560ms' }}>
+              money.
+            </span>
+          </h1>
 
-        {/* Sub + CTA row */}
-        <div className={`hero-bottom-row ${loaded ? 'show' : ''}`}>
-          <div className="hero-sub-block">
-            <p className="hero-sub">
-              <SplitText type="words" delay={0.6}>
-                Most businesses have traffic. Most are bleeding revenue at the
-                conversion layer. We find exactly where you're losing
-                money — and we fix it.
-              </SplitText>
-            </p>
-            <div className="hero-ctas">
-              <MagneticButton href="/contact" className="btn btn-primary btn-lg hero-btn-main">
-                Apply for Strategy Session <ArrowRight size={16} />
-              </MagneticButton>
-              <Link href="/work" className="hero-ghost-link" data-cursor-hover>
-                See Client Outcomes <ArrowRight size={14} />
-              </Link>
+          {/* Sub + CTA row */}
+          <div className={`hero-bottom-row ${loaded ? 'show' : ''}`}>
+            <div className="hero-sub-block">
+              <p className="hero-sub">
+                <SplitText type="words" delay={0.6}>
+                  Most businesses have traffic. Most are bleeding revenue at the
+                  conversion layer. We find exactly where you're losing
+                  money — and we fix it.
+                </SplitText>
+              </p>
+              <div className="hero-ctas">
+                <MagneticButton href="/contact" className="btn btn-primary btn-lg hero-btn-main">
+                  Apply for Strategy Session <ArrowRight size={16} />
+                </MagneticButton>
+                <Link href="/work" className="hero-ghost-link" data-cursor-hover>
+                  See Client Outcomes <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Stats column */}
+            <div className="hero-stats-col">
+              {[
+                { n: '288%', l: 'Avg revenue lift' },
+                { n: '2 wks', l: 'To first results' },
+                { n: '$140M+', l: 'Revenue generated' },
+              ].map(({ n, l }) => (
+                <div key={l} className="hero-stat">
+                  <span className="hero-stat-n">{n}</span>
+                  <span className="hero-stat-l">{l}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Stats column */}
-          <div className="hero-stats-col">
-            {[
-              { n: '288%', l: 'Avg revenue lift' },
-              { n: '2 wks', l: 'To first results' },
-              { n: '$140M+', l: 'Revenue generated' },
-            ].map(({ n, l }) => (
-              <div key={l} className="hero-stat">
-                <span className="hero-stat-n">{n}</span>
-                <span className="hero-stat-l">{l}</span>
-              </div>
-            ))}
-          </div>
         </div>
-
-      </div>
+      </Parallax>
 
       {/* ── Bottom ticker ── */}
       <div className={`hero-ticker-wrap ${loaded ? 'show' : ''}`} aria-hidden="true">
