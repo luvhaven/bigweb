@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 // Generate a short, memorable, uppercase referral code
 function generateReferralCode(firstName: string, lastName: string): string {
     const base = `${firstName.slice(0, 2)}${lastName.slice(0, 2)}`.toUpperCase();
@@ -15,6 +10,10 @@ function generateReferralCode(firstName: string, lastName: string): string {
 
 export async function POST(req: NextRequest) {
     try {
+        const supabaseService = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!
+        );
         const body = await req.json();
         const { firstName, lastName, email, companyName, website, payoutEmail, referralSource, agreeToTerms } = body;
 
@@ -28,7 +27,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Check for duplicate
-        const { data: existing } = await supabaseAdmin
+        const { data: existing } = await supabaseService
             .from('affiliates')
             .select('id')
             .eq('email', email.toLowerCase().trim())
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
 
         const referralCode = generateReferralCode(firstName, lastName);
 
-        const { data, error } = await supabaseAdmin.from('affiliates').insert({
+        const { data, error } = await supabaseService.from('affiliates').insert({
             first_name: firstName.trim(),
             last_name: lastName.trim(),
             email: email.toLowerCase().trim(),
@@ -71,10 +70,14 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     // Admin-only route to list affiliates (protected by middleware)
+    const supabaseService = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
 
-    let query = supabaseAdmin
+    let query = supabaseService
         .from('affiliates')
         .select('*, referrals(id, status, contract_value, commission_amount)')
         .order('created_at', { ascending: false });
@@ -90,6 +93,10 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
     // Admin: approve/reject/suspend an affiliate
+    const supabaseService = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
     const body = await req.json();
     const { id, status } = body;
 
@@ -102,7 +109,7 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid status.' }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.from('affiliates').update({ status }).eq('id', id);
+    const { error } = await supabaseService.from('affiliates').update({ status }).eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     return NextResponse.json({ success: true });
