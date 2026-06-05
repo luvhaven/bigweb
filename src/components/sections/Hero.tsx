@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import FloatingParticles from '@/components/ui/FloatingParticles';
+import HeroCanvas from '@/components/ui/HeroCanvas';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SplitText from '@/components/ui/SplitText';
 import ThreeWebBg from '@/components/ui/ThreeWebBg';
@@ -71,10 +71,8 @@ export default function Hero() {
   return (
     <section ref={heroRef} className="hero" id="hero">
 
-      {/* ── WebGL Neural Background (Floating Particles) ── */}
-      <Parallax offset={150} className="absolute inset-0 w-full h-full -z-10">
-        <FloatingParticles />
-      </Parallax>
+      {/* ── Abstract Geometry Background (enhanced, mouse-reactive) ── */}
+      <HeroCanvas />
 
       {/* ── Ambient blobs (keep for color blending under the web) ── */}
       <div className="blob-layer" aria-hidden="true">
