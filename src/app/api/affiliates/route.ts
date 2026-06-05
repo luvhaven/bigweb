@@ -71,14 +71,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
 
-    let query = supabaseService
-        .from('affiliates')
-        .select('*, referrals(id, status, contract_value, commission_amount)')
-        .order('created_at', { ascending: false });
-
-    if (status && status !== 'all') {
-        query = query.eq('status', status);
-    }
+    let query = supabaseService.rpc('admin_get_affiliates', {
+        p_secret: 'bigweb_admin_secret_2026',
+        p_status: status || 'all'
+    });
 
     const { data, error } = await query;
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -103,7 +99,11 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid status.' }, { status: 400 });
     }
 
-    const { error } = await supabaseService.from('affiliates').update({ status }).eq('id', id);
+    const { error } = await supabaseService.rpc('admin_update_affiliate', {
+        p_secret: 'bigweb_admin_secret_2026',
+        p_id: id,
+        p_status: status
+    });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     return NextResponse.json({ success: true });
