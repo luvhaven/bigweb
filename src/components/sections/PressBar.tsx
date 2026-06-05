@@ -89,56 +89,33 @@ export default function PressBar() {
                 </AnimateIn>
 
                 <AnimateIn delay={1}>
-                    {/* Continuous marquee scroll */}
-                    <div style={{ position: 'relative', overflow: 'hidden' }}>
-                        {/* Fade edges */}
-                        <div style={{
-                            position: 'absolute', left: 0, top: 0, bottom: 0, width: 120,
-                            background: 'linear-gradient(to right, var(--color-bg-secondary), transparent)',
-                            zIndex: 2, pointerEvents: 'none',
-                        }} />
-                        <div style={{
-                            position: 'absolute', right: 0, top: 0, bottom: 0, width: 120,
-                            background: 'linear-gradient(to left, var(--color-bg-secondary), transparent)',
-                            zIndex: 2, pointerEvents: 'none',
-                        }} />
-
-                        <div style={{
-                            display: 'flex',
-                            gap: 'clamp(40px, 6vw, 80px)',
-                            alignItems: 'center',
-                            animation: 'press-scroll 28s linear infinite',
-                            width: 'max-content',
-                        }}>
-                            {/* Double the array to create seamless loop */}
-                            {[...PUBLICATIONS, ...PUBLICATIONS].map((pub, i) => (
-                                <div
-                                    key={`${pub.name}-${i}`}
-                                    title={pub.name}
-                                    style={{
-                                        color: 'rgba(255,255,255,0.18)',
-                                        transition: 'color 0.3s',
-                                        cursor: 'default',
-                                        flexShrink: 0,
-                                        userSelect: 'none',
-                                    }}
-                                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.color = 'rgba(212,175,106,0.7)'; }}
-                                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.color = 'rgba(255,255,255,0.18)'; }}
-                                >
-                                    {pub.svg}
-                                </div>
-                            ))}
-                        </div>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        gap: 'clamp(30px, 5vw, 60px)',
+                        alignItems: 'center',
+                    }}>
+                        {PUBLICATIONS.map((pub, i) => (
+                            <div
+                                key={`${pub.name}-${i}`}
+                                title={pub.name}
+                                style={{
+                                    color: 'rgba(255,255,255,0.18)',
+                                    transition: 'color 0.3s',
+                                    cursor: 'default',
+                                    flexShrink: 0,
+                                    userSelect: 'none',
+                                }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.color = 'rgba(212,175,106,0.7)'; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.color = 'rgba(255,255,255,0.18)'; }}
+                            >
+                                {pub.svg}
+                            </div>
+                        ))}
                     </div>
                 </AnimateIn>
             </div>
-
-            <style>{`
-        @keyframes press-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
         </section>
     );
 }
