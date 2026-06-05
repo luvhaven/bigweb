@@ -162,7 +162,7 @@ export default function HeroCanvas() {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: 0,
+                zIndex: 2,
             }}
         />
     );
