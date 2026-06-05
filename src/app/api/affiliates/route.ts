@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     try {
         const supabaseService = createClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_ROLE_KEY!
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
         );
         const body = await req.json();
         const { firstName, lastName, email, companyName, website, payoutEmail, referralSource, agreeToTerms } = body;
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
     // Admin-only route to list affiliates (protected by middleware)
     const supabaseService = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
@@ -95,7 +95,7 @@ export async function PATCH(req: NextRequest) {
     // Admin: approve/reject/suspend an affiliate
     const supabaseService = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
     const body = await req.json();
     const { id, status } = body;

@@ -97,11 +97,11 @@ function Particles() {
                         positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
                     );
 
-                    // Deep gold color for lines
+                    // Deep gold color for lines with lowered opacity (low-opacity constellation)
                     const color = new THREE.Color('#D4AF6A');
                     lineColors.push(
-                        color.r, color.g, color.b, alpha * 0.3,
-                        color.r, color.g, color.b, alpha * 0.3
+                        color.r, color.g, color.b, alpha * 0.12,
+                        color.r, color.g, color.b, alpha * 0.12
                     );
                 }
             }
@@ -117,8 +117,8 @@ function Particles() {
     return (
         <>
             <instancedMesh ref={particlesRef} args={[undefined, undefined, PARTICLE_COUNT]}>
-                <circleGeometry args={[0.03, 8]} />
-                <meshBasicMaterial color="#F2F0EB" transparent opacity={0.6} />
+                <circleGeometry args={[0.02, 8]} />
+                <meshBasicMaterial color="#F2F0EB" transparent opacity={0.25} />
             </instancedMesh>
             <lineSegments ref={linesRef} geometry={lineGeometry}>
                 <lineBasicMaterial vertexColors transparent depthWrite={false} blending={THREE.AdditiveBlending} />
