@@ -71,10 +71,8 @@ export default function Hero() {
   return (
     <section ref={heroRef} className="hero" id="hero">
 
-      {/* ── WebGL Neural Background (Heavy Downward Inertia) ── */}
-      <Parallax offset={150} className="absolute inset-0 w-full h-full -z-10">
-        <ThreeWebBg />
-      </Parallax>
+      {/* ── WebGL Neural Background (Network Constellation) ── */}
+      <ThreeWebBg />
 
       {/* ── Ambient blobs (keep for color blending under the web) ── */}
       <div className="blob-layer" aria-hidden="true">

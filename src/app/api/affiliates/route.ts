@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 // Generate a short, memorable, uppercase referral code
 function generateReferralCode(firstName: string, lastName: string): string {
@@ -23,7 +28,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Check for duplicate
-        const { data: existing } = await supabase
+        const { data: existing } = await supabaseAdmin
             .from('affiliates')
             .select('id')
             .eq('email', email.toLowerCase().trim())
@@ -35,7 +40,7 @@ export async function POST(req: NextRequest) {
 
         const referralCode = generateReferralCode(firstName, lastName);
 
-        const { data, error } = await supabase.from('affiliates').insert({
+        const { data, error } = await supabaseAdmin.from('affiliates').insert({
             first_name: firstName.trim(),
             last_name: lastName.trim(),
             email: email.toLowerCase().trim(),
@@ -69,7 +74,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
 
-    let query = supabase
+    let query = supabaseAdmin
         .from('affiliates')
         .select('*, referrals(id, status, contract_value, commission_amount)')
         .order('created_at', { ascending: false });
@@ -97,7 +102,7 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid status.' }, { status: 400 });
     }
 
-    const { error } = await supabase.from('affiliates').update({ status }).eq('id', id);
+    const { error } = await supabaseAdmin.from('affiliates').update({ status }).eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     return NextResponse.json({ success: true });
