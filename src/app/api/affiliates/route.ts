@@ -26,16 +26,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid email address.' }, { status: 400 });
         }
 
-        // Check for duplicate
-        const { data: existing } = await supabaseService
-            .from('affiliates')
-            .select('id')
-            .eq('email', email.toLowerCase().trim())
-            .single();
 
-        if (existing) {
-            return NextResponse.json({ error: 'An affiliate account with this email already exists.' }, { status: 409 });
-        }
 
         const referralCode = generateReferralCode(firstName, lastName);
 
@@ -50,16 +41,19 @@ export async function POST(req: NextRequest) {
             referral_source: referralSource || null,
             commission_rate: 0.10,
             status: 'pending',
-        }).select('referral_code').single();
+        });
 
         if (error) {
+            if (error.code === '23505') { // Postgres distinctive code for unique constraint violation
+                return NextResponse.json({ error: 'An affiliate account with this email already exists.' }, { status: 409 });
+            }
             console.error('[Affiliates API] Supabase error:', error);
             return NextResponse.json({ error: 'Failed to create affiliate account.' }, { status: 500 });
         }
 
         return NextResponse.json({
             success: true,
-            referralCode: data.referral_code,
+            referralCode: referralCode,
             message: 'Application received. Our team will review and approve your account within 48 hours.',
         });
     } catch (err) {
