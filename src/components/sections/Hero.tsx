@@ -6,8 +6,8 @@ import { ArrowRight } from 'lucide-react';
 import HeroCanvas from '@/components/ui/HeroCanvas';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SplitText from '@/components/ui/SplitText';
-import ThreeWebBg from '@/components/ui/ThreeWebBg';
 import Parallax from '@/components/ui/Parallax';
+import NoiseField from '@/components/ui/NoiseField';
 import { usePersonalization } from '@/hooks/usePersonalization';
 
 const TICKER_ITEMS = [
@@ -69,25 +69,13 @@ export default function Hero() {
   const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
   return (
-    <section ref={heroRef} className="hero" id="hero">
+    <section ref={heroRef} className="hero" id="hero" style={{ background: '#050505', position: 'relative' }}>
 
-      {/* ── Three.js WebGL particle network ── */}
-      <ThreeWebBg />
+      {/* ── Rich Black Noise Background ── */}
+      <NoiseField opacity={0.6} color="255, 255, 255" particleCount={300} speed={0.0004} />
 
-      {/* ── Aurora orb 1: deep violet, slow breathing ── */}
-      <div aria-hidden="true" className="hero-aurora-orb hero-aurora-orb-1" />
-
-      {/* ── Aurora orb 2: amber/coral sweep ── */}
-      <div aria-hidden="true" className="hero-aurora-orb hero-aurora-orb-2" />
-
-      {/* ── Plasma shimmer: thin horizontal scan lines ── */}
-      <div aria-hidden="true" className="hero-plasma" />
-
-      {/* ── Abstract Geometry Background (enhanced, mouse-reactive) ── */}
-      <HeroCanvas />
-
-      {/* ── Ambient blobs (keep for color blending under the web) ── */}
-      <div className="blob-layer" aria-hidden="true">
+      {/* ── Ambient blobs (keep for subtle highlight behind text) ── */}
+      <div className="blob-layer" aria-hidden="true" style={{ opacity: 0.5 }}>
         <div ref={blob1Ref} className="blob blob-1" />
         <div ref={blob2Ref} className="blob blob-2" />
         <div className="blob blob-3" />
