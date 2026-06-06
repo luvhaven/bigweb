@@ -94,7 +94,7 @@ function VideoModal({ url, onClose }: { url: string; onClose: () => void }) {
   );
 }
 
-export default function Results({ caseStudies, testimonials }: { caseStudies: CaseStudy[]; testimonials: Testimonial[] }) {
+export default function Results({ caseStudies }: { caseStudies: CaseStudy[] }) {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeCaseStudy, setActiveCaseStudy] = useState<CaseStudy | null>(null);
   useEffect(() => {
@@ -203,59 +203,6 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
                   </div>
                 </TiltCard>
               </motion.div>
-            </AnimateIn>
-          ))}
-        </div>
-
-        {/* Testimonials */}
-        <div className="testimonials-strip">
-          {testimonials.map((t, i) => (
-            <AnimateIn key={i} delay={i + 1}>
-              <div className="testimonial-card" style={{ position: 'relative' }}>
-                {/* Stars */}
-                <div className="testimonial-stars">
-                  {[...Array(5)].map((_, s) => (
-                    <span key={s} className="testimonial-star">★</span>
-                  ))}
-                </div>
-                <span className="testimonial-quote-mark">&ldquo;</span>
-                <p className="testimonial-text">{t.quote}</p>
-                <div className="testimonial-author">
-                  {/* Avatar with initials fallback */}
-                  <div className="testimonial-avatar" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(212,175,106,0.15)', flexShrink: 0 }}>
-                    {t.avatar ? (
-                      <img src={t.avatar} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--color-gold-bright)', fontFamily: 'var(--font-display)' }}>
-                        {t.initials || t.name.split(' ').map(n => n[0]).join('')}
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <span className="testimonial-name">{t.name}</span>
-                    <span className="testimonial-role">{t.role}, {t.company}</span>
-                  </div>
-                  {/* Video play button */}
-                  {t.video_url && (
-                    <button
-                      onClick={() => setActiveVideo(t.video_url!)}
-                      title="Watch video testimonial"
-                      style={{
-                        width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-                        background: 'linear-gradient(135deg, var(--color-gold-bright), var(--color-gold-mid))',
-                        border: 'none', cursor: 'pointer',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: '0 2px 12px rgba(212,175,106,0.3)',
-                        transition: 'transform 0.2s, box-shadow 0.2s',
-                      }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'; }}
-                    >
-                      <Play size={14} fill="#0a0a0b" color="#0a0a0b" style={{ marginLeft: 2 }} />
-                    </button>
-                  )}
-                </div>
-              </div>
             </AnimateIn>
           ))}
         </div>

@@ -14,6 +14,7 @@ import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
+import GodTierTestimonials from '@/components/ui/GodTierTestimonials';
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 import PressBar from '@/components/sections/PressBar';
 import { FAQSchema } from '@/components/seo/JsonLd';
@@ -60,7 +61,8 @@ export default async function HomePage() {
       <div className="section-divider" />
       <GrowthPath />
       <div className="section-divider" />
-      <Results caseStudies={caseStudies} testimonials={testimonials} />
+      <Results caseStudies={caseStudies} />
+      <GodTierTestimonials />
       <div className="section-divider" />
       <AIAdvantage />
       <div className="section-divider" />
