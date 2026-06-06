@@ -85,6 +85,7 @@ export default function RootLayout({
                 <FooterWrapper>
                   <Footer />
                 </FooterWrapper>
+              </ToastProvider>
             </ReferralProvider>
           </AudioProvider>
         </SmoothScroll>
