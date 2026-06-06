@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Generate a short, memorable, uppercase referral code
 function generateReferralCode(firstName: string, lastName: string): string {
@@ -105,6 +108,40 @@ export async function PATCH(req: NextRequest) {
         p_status: status
     });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    // -- Activation Email Injection --
+    if (status === 'approved') {
+        const { data: affiliate } = await supabaseService
+            .from('affiliates')
+            .select('email, first_name, referral_code')
+            .eq('id', id)
+            .single();
+
+        if (affiliate && process.env.RESEND_API_KEY) {
+            await resend.emails.send({
+                from: 'BIGWEB Partners <partners@bigwebdigital.com>',
+                to: [affiliate.email],
+                subject: 'Welcome to Elite Partners — Your Code is Live',
+                html: `
+                <div style="font-family: sans-serif; max-w: 600px; margin: 0 auto; color: #111;">
+                    <h1 style="color: #FF6B35;">You're Approved, ${affiliate.first_name}.</h1>
+                    <p>Your application for the BIGWEB Elite Partner Program has been reviewed and approved by our engineering team.</p>
+                    <p>Your permanent, unique referral tracked code is:</p>
+                    <div style="background: #111; color: #fff; padding: 15px; border-radius: 4px; font-weight: bold; font-size: 20px; font-family: monospace; letter-spacing: 2px;">
+                        ${affiliate.referral_code}
+                    </div>
+                    <p><strong>How to use it:</strong></p>
+                    <p>Send prospects to our site by appending your referral code to our website URL:</p>
+                    <p><code>https://bigwebdigital.com?ref=${affiliate.referral_code}</code></p>
+                    <p>Our global pipeline automatically intercepts this, locks the lead to your ID directly in our Postgres core, and ensures you receive 10% commission on any converted contracts.</p>
+                    <hr />
+                    <p>Visit your dashboard to track your live numbers anytime.</p>
+                    <p>Regards,<br/>The BIGWEB Executive Team</p>
+                </div>
+                `
+            });
+        }
+    }
 
     return NextResponse.json({ success: true });
 }

@@ -27,7 +27,7 @@ export type ContactFormState = {
 import { createClient } from '@/lib/supabase/server'
 import { parseContactForm } from '@/lib/schemas'
 
-import { headers } from 'next/headers'
+import { headers, cookies } from 'next/headers'
 import { ratelimit } from '@/lib/rate-limit'
 
 export async function sendContactEmail(prevState: ContactFormState, formData: FormData): Promise<ContactFormState> {
@@ -35,7 +35,9 @@ export async function sendContactEmail(prevState: ContactFormState, formData: Fo
         // --- 1. Rate Limiting ---
         // Get client IP for rate limiting
         const headersList = await headers()
+        const cookieStore = await cookies()
         const ip = headersList.get('x-forwarded-for') || '127.0.0.1'
+        const referralCode = cookieStore.get('bigweb_ref')?.value
         const { success } = await ratelimit.limit(`contact_${ip}`)
 
         if (!success) {
@@ -77,6 +79,7 @@ export async function sendContactEmail(prevState: ContactFormState, formData: Fo
             message,
             lead_score: score,
             lead_tier: tier,
+            referral_code: referralCode || null,
             metadata: { inspiration }
         })
 

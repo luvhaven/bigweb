@@ -231,11 +231,13 @@ model ContactSubmission {
   message     String
   subject     String?
   source      String?
+  referralCode String?    @map("referral_code")
   status      ContactStatus     @default(NEW)
   submittedAt DateTime          @default(now())
   
   @@index([status])
   @@index([email])
+  @@index([referralCode])
   @@map("contact_submissions")
 }
 
@@ -258,12 +260,14 @@ model EstimateRequest {
   description     String
   features        String
   additionalInfo  String?
+  referralCode    String?         @map("referral_code")
   status          ContactStatus   @default(NEW)
   estimatedCost   Json?
   submittedAt     DateTime        @default(now())
   
   @@index([status])
   @@index([email])
+  @@index([referralCode])
   @@map("estimate_requests")
 }
 
