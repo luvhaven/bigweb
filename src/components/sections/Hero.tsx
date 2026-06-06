@@ -69,22 +69,13 @@ export default function Hero() {
   const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
   return (
-    <section ref={heroRef} className="hero" id="hero" style={{ background: '#050505', position: 'relative' }}>
+    <section ref={heroRef} className="hero" id="hero" style={{ background: '#010101', position: 'relative' }}>
 
       {/* ── Rich Black Noise Background ── */}
-      <NoiseField opacity={0.6} color="255, 255, 255" particleCount={300} speed={0.0004} />
+      <NoiseField opacity={0.5} color="255, 255, 255" particleCount={300} speed={0.0004} />
 
-      {/* ── Ambient blobs (keep for subtle highlight behind text) ── */}
-      <div className="blob-layer" aria-hidden="true" style={{ opacity: 0.5 }}>
-        <div ref={blob1Ref} className="blob blob-1" />
-        <div ref={blob2Ref} className="blob blob-2" />
-        <div className="blob blob-3" />
-      </div>
-
-      {/* ── Grid lines ── */}
-      <div className="hero-grid" aria-hidden="true" />
-
-      {/* ── Noise grain ── */}
+      {/* ── Pure, Dark Stacking ── */}
+      <div className="hero-grid" aria-hidden="true" style={{ opacity: 0.05 }} />
       <div className="hero-noise" aria-hidden="true" />
 
 

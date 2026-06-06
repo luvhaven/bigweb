@@ -49,12 +49,9 @@ export default async function HomePage() {
         { question: 'How does your pricing work?', answer: 'We publish all prices upfront. All engagements begin with a $500 Revenue Diagnostic strategy session, currently waived for qualified applicants.' },
       ]} />
       <ScrollSpy />
-      <div className="relative">
-        <div className="sticky top-0 h-screen w-full">
-          {/* Add a wrapper with lower z-index so Hero is behind AgencyReveal */}
-          <div className="absolute inset-0 z-0">
-            <Hero />
-          </div>
+      <div className="relative h-[300vh]">
+        <div className="sticky top-0 h-screen w-full z-0">
+          <Hero />
         </div>
         <div className="relative z-10 -mt-[100vh]">
           <AgencyReveal />

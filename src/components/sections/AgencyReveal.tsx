@@ -46,47 +46,51 @@ export default function AgencyReveal() {
         offset: ['start end', 'end start'],
     })
 
-    const spring = useSpring(scrollYProgress, { stiffness: 80, damping: 25, restDelta: 0.0005 })
+    const spring = useSpring(scrollYProgress, { stiffness: 60, damping: 20, restDelta: 0.0005 })
 
-    // Clip-path morphs: starts as a thin horizontal bar at center, opens to full reveal
-    const clipTop = useTransform(spring, [0, 0.35], ['50%', '0%'])
-    const clipBottom = useTransform(spring, [0, 0.35], ['50%', '0%'])
+    // Clip-path morph: Starts as a horizontal slit in the center, expands to 100%
+    // inset(top right bottom left)
+    const clipVal = useTransform(spring, [0, 0.4], [50, 0])
+    const clipPath = useTransform(clipVal, (v) => `inset(${v}% 0% ${v}% 0%)`)
 
-    // Content fades in slightly after clip opens
+    // Opacity reveal starts later and completes with the clip
+    const opacity = useTransform(spring, [0.05, 0.35], [0, 1])
+    const scale = useTransform(spring, [0, 0.4], [1.1, 1])
+
+    // Content animations synced to the clip progress
     const contentOpacity = useTransform(spring, [0.15, 0.45], [0, 1])
-    const contentY = useTransform(spring, [0.15, 0.45], [60, 0])
+    const contentY = useTransform(spring, [0.15, 0.45], [40, 0])
 
-    // Stats stagger-in
-    const statsOpacity = useTransform(spring, [0.3, 0.55], [0, 1])
-    const statsY = useTransform(spring, [0.3, 0.55], [40, 0])
+    const statsOpacity = useTransform(spring, [0.35, 0.65], [0, 1])
+    const statsY = useTransform(spring, [0.35, 0.65], [30, 0])
 
-    // Grid items
-    const gridOpacity = useTransform(spring, [0.45, 0.7], [0, 1])
-    const gridY = useTransform(spring, [0.45, 0.7], [50, 0])
+    const gridOpacity = useTransform(spring, [0.55, 0.85], [0, 1])
+    const gridY = useTransform(spring, [0.55, 0.85], [30, 0])
 
     return (
-        <div ref={containerRef} className="relative h-[300vh]">
+        <div ref={containerRef} className="relative h-[300vh] bg-transparent">
             <div className="sticky top-0 h-screen overflow-hidden">
                 {/* The reveal panel — clips open from center */}
                 <motion.div
-                    className="absolute inset-x-0 bg-[#0a0a0b] flex flex-col justify-center overflow-hidden"
+                    className="absolute inset-0 bg-[#000000] flex flex-col justify-center overflow-hidden z-20"
                     style={{
-                        top: clipTop,
-                        bottom: clipBottom,
+                        clipPath,
+                        opacity,
+                        scale,
                     }}
                 >
                     {/* Ambient noise overlay */}
                     <div
-                        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+                        className="absolute inset-0 opacity-[0.04] pointer-events-none"
                         style={{
                             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
                             backgroundSize: '128px 128px',
                         }}
                     />
 
-                    {/* Gradient orbs */}
-                    <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#FF6B35] opacity-[0.04] blur-[120px] pointer-events-none" />
-                    <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600 opacity-[0.06] blur-[100px] pointer-events-none" />
+                    {/* Subtle accent orbs */}
+                    <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-[#FF6B35] opacity-[0.04] blur-[150px] pointer-events-none" />
+                    <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-violet-600 opacity-[0.06] blur-[120px] pointer-events-none" />
 
                     <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
                         {/* Headline */}
