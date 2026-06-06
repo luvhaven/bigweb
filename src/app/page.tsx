@@ -15,6 +15,7 @@ import ScrollSpy from '@/components/layout/ScrollSpy';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
 import GodTierTestimonials from '@/components/ui/GodTierTestimonials';
+import AgencyReveal from '@/components/sections/AgencyReveal';
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 import PressBar from '@/components/sections/PressBar';
 import { FAQSchema } from '@/components/seo/JsonLd';
@@ -49,6 +50,7 @@ export default async function HomePage() {
       ]} />
       <ScrollSpy />
       <Hero />
+      <AgencyReveal />
       <PressBar />
       <ClientLogos />
       <ProjectSlideshow />

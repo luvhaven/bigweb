@@ -3624,6 +3624,111 @@ a.info-detail-value:hover {
   }
 }
 
+/* ── Hero Aurora Orbs ── */
+.hero-aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: blur(100px);
+  mix-blend-mode: screen;
+}
+
+.hero-aurora-orb-1 {
+  width: 900px;
+  height: 900px;
+  top: -30%;
+  left: -20%;
+  background: radial-gradient(circle, hsla(270, 80%, 50%, 0.18) 0%, hsla(280, 70%, 40%, 0.06) 50%, transparent 80%);
+  animation: auroraOrb1 22s ease-in-out infinite alternate;
+}
+
+.hero-aurora-orb-2 {
+  width: 700px;
+  height: 700px;
+  bottom: -20%;
+  right: -10%;
+  background: radial-gradient(circle, hsla(20, 90%, 60%, 0.12) 0%, hsla(35, 80%, 50%, 0.05) 50%, transparent 80%);
+  animation: auroraOrb2 28s ease-in-out infinite alternate;
+}
+
+@keyframes auroraOrb1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    filter: blur(100px) hue-rotate(0deg);
+    opacity: 0.7;
+  }
+
+  33% {
+    transform: translate(120px, 80px) scale(1.12);
+    filter: blur(120px) hue-rotate(30deg);
+    opacity: 0.9;
+  }
+
+  66% {
+    transform: translate(60px, 160px) scale(0.95);
+    filter: blur(100px) hue-rotate(-20deg);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translate(180px, 40px) scale(1.15);
+    filter: blur(130px) hue-rotate(50deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes auroraOrb2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    filter: blur(100px) hue-rotate(0deg);
+    opacity: 0.6;
+  }
+
+  40% {
+    transform: translate(-80px, -60px) scale(1.1);
+    filter: blur(110px) hue-rotate(-25deg);
+    opacity: 0.9;
+  }
+
+  70% {
+    transform: translate(-140px, 40px) scale(0.9);
+    filter: blur(90px) hue-rotate(15deg);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(-60px, -100px) scale(1.2);
+    filter: blur(120px) hue-rotate(-40deg);
+    opacity: 0.8;
+  }
+}
+
+/* ── Hero Plasma shimmer ── */
+.hero-plasma {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.008) 2px,
+      rgba(255, 255, 255, 0.008) 4px);
+  animation: plasmaMove 8s linear infinite;
+  will-change: transform;
+  mix-blend-mode: overlay;
+}
+
+@keyframes plasmaMove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(40px);
+  }
+}
+
 /* -- Grid -- */
 .hero-grid {
   position: absolute;

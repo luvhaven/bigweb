@@ -71,6 +71,18 @@ export default function Hero() {
   return (
     <section ref={heroRef} className="hero" id="hero">
 
+      {/* ── Three.js WebGL particle network ── */}
+      <ThreeWebBg />
+
+      {/* ── Aurora orb 1: deep violet, slow breathing ── */}
+      <div aria-hidden="true" className="hero-aurora-orb hero-aurora-orb-1" />
+
+      {/* ── Aurora orb 2: amber/coral sweep ── */}
+      <div aria-hidden="true" className="hero-aurora-orb hero-aurora-orb-2" />
+
+      {/* ── Plasma shimmer: thin horizontal scan lines ── */}
+      <div aria-hidden="true" className="hero-plasma" />
+
       {/* ── Abstract Geometry Background (enhanced, mouse-reactive) ── */}
       <HeroCanvas />
 
