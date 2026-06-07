@@ -15,7 +15,6 @@ import ScrollSpy from '@/components/layout/ScrollSpy';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
 import GodTierTestimonials from '@/components/ui/GodTierTestimonials';
-import MorphingHeroStack from '@/components/sections/MorphingHeroStack';
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 import PressBar from '@/components/sections/PressBar';
 import { FAQSchema } from '@/components/seo/JsonLd';
@@ -49,7 +48,7 @@ export default async function HomePage() {
         { question: 'How does your pricing work?', answer: 'We publish all prices upfront. All engagements begin with a $500 Revenue Diagnostic strategy session, currently waived for qualified applicants.' },
       ]} />
       <ScrollSpy />
-      <MorphingHeroStack />
+      <Hero />
       <PressBar />
       <ClientLogos />
       <ProjectSlideshow />
