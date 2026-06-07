@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 
-// Initialize Resend with a dummy key if env var is missing during build time
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_to_pass_build');
+// Initialize Resend lazily to prevent build-time crashes
+const getResend = () => new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 
 // Generate a short, memorable, uppercase referral code
 function generateReferralCode(firstName: string, lastName: string): string {
@@ -129,6 +129,7 @@ export async function PATCH(req: NextRequest) {
                 } else if (!process.env.RESEND_API_KEY) {
                     console.warn('[Affiliates PATCH] RESEND_API_KEY not set — skipping email.');
                 } else {
+                    const resend = getResend();
                     const emailResult = await resend.emails.send({
                         from: 'BIGWEB Partners <partners@bigwebdigital.com>',
                         to: [affiliate.email],

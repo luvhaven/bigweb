@@ -4,7 +4,8 @@ import { Resend } from 'resend'
 import { z } from 'zod'
 import { calculateLeadScore } from '@/lib/lead-scoring'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend lazily to prevent build-time crashes when env vars are missing
+const getResend = () => new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 
 const ContactFormSchema = z.object({
     firstName: z.string().min(2),
@@ -96,6 +97,7 @@ export async function sendContactEmail(prevState: ContactFormState, formData: Fo
         }
 
         // 1. Send Admin Notification
+        const resend = getResend()
         const adminEmail = await resend.emails.send({
             from: 'BigWeb Contact <contact@bigwebdigital.com>',
             to: ['your-email@example.com'], // Replace with actual admin email
