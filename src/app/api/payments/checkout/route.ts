@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export async function POST(req: Request) {
@@ -11,58 +10,65 @@ export async function POST(req: Request) {
         }
 
         // 1. Determine Pricing Model
-        let amount = 50000; // Default $500.00 for Diagnostic
+        let amount = 50000; // $500.00
         let title = 'Revenue Diagnostic Strategy Session';
-        let description = 'One-on-one deep dive into your business growth metrics.';
 
         if (type === 'deposit') {
             amount = 500000; // $5,000.00 Deposit
             title = 'Project Initiation Deposit (50%)';
-            description = 'Secures your spot in our engineering sprint and initiates onboarding.';
         }
 
-        // 2. Create Stripe Checkout Session
+        // 2. Initialize Paystack Transaction
+        // Note: Amount in Paystack is expected in the lowest denomination (cents)
         const origin = req.headers.get('origin');
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: title,
-                            description: description,
-                            images: ['https://prngeuaxahrnuqniueld.supabase.co/storage/v1/object/public/media/logo_dark.png'],
-                        },
-                        unit_amount: amount,
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: 'payment',
-            success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${origin}/payment/cancel`,
-            customer_email: email,
-            metadata: {
-                leadId,
-                referralId,
-                type,
+        const paystackSecret = process.env.PAYSTACK_SECRET_KEY || '';
+
+        const response = await fetch('https://api.paystack.co/transaction/initialize', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${paystackSecret}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                email,
+                amount: amount,
+                currency: 'USD', // Assumes USD pricing for global B2B
+                callback_url: `${origin}/payment/success`,
+                metadata: {
+                    leadId,
+                    referralId,
+                    type,
+                    custom_fields: [
+                        {
+                            display_name: 'Payment Description',
+                            variable_name: 'description',
+                            value: title
+                        }
+                    ]
+                }
+            }),
         });
 
-        // 3. Create Pending Payment Record (Optional/Fire-and-forget for now)
+        const paystackData = await response.json();
+
+        if (!paystackData.status) {
+            throw new Error(paystackData.message || 'Failed to initialize transaction');
+        }
+
+        // 3. Create Pending Payment Record
         const supabase = getSupabaseAdmin();
         await supabase.from('payments').insert([{
             lead_id: leadId,
             referral_id: referralId,
-            stripe_session_id: session.id,
+            stripe_session_id: paystackData.data.reference, // Using the same column name to avoid DB schema changes
             amount: amount / 100,
             status: 'pending',
-            gateway: 'stripe',
+            gateway: 'paystack',
             metadata: { type }
         }]);
 
-        return NextResponse.json({ url: session.url });
+        // Paystack returns an authorization_url
+        return NextResponse.json({ url: paystackData.data.authorization_url });
     } catch (err: any) {
         console.error('Checkout Error:', err);
         return NextResponse.json({ error: err.message }, { status: 500 });

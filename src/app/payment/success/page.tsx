@@ -9,7 +9,7 @@ import NoiseField from '@/components/ui/NoiseField';
 
 function SuccessContent() {
     const searchParams = useSearchParams();
-    const sessionId = searchParams.get('session_id');
+    const sessionId = searchParams.get('session_id') || searchParams.get('reference');
     const [confetti, setConfetti] = useState(false);
 
     useEffect(() => {
