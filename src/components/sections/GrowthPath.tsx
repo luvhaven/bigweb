@@ -37,7 +37,7 @@ const steps = [
     price: '$8,000/mo',
     type: 'Partnership',
     desc: 'We become your embedded digital team. Strategy, execution, analytics, and iteration — every month. Not a vendor. A growth partner.',
-    outcome: '12-month value: ~$3,400,000+ generated.',
+    outcome: '12-month value: ~$140,000+ generated.',
     color: 'var(--color-gold-bright)',
   },
 ];
@@ -73,7 +73,7 @@ export default function GrowthPath() {
         <AnimateIn delay={1}>
           <h2 className="section-headline" style={{ maxWidth: 700 }}>
             How a $4,000 project becomes a{' '}
-            <span className="text-gold">$3,400,000/year partnership.</span>
+            <span className="text-gold">$140,000/year partnership.</span>
           </h2>
         </AnimateIn>
         <AnimateIn delay={2}>
@@ -123,13 +123,13 @@ export default function GrowthPath() {
         <div className={`gp-value-strip ${activeStep >= steps.length - 1 ? 'gp-value-strip-show' : ''}`}>
           <div className="gp-value-strip-inner">
             <span className="gp-value-label">12-month compounded value</span>
-            <span className="gp-value-num">~$3,400,000+</span>
+            <span className="gp-value-num">~$140,000+</span>
             <span className="gp-value-arrow">generated for clients who complete the full path</span>
           </div>
         </div>
       </div>
 
-
+      
     </section>
   );
 }

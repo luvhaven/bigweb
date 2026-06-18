@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Calendar, Mail, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Calendar, Mail } from 'lucide-react';
 import { ContactForm } from '@/components/sections/ContactForm';
-import { useCompletion } from '@ai-sdk/react';
-import ReactMarkdown from 'react-markdown';
 
 type Step = 'goal' | 'revenue' | 'qualified' | 'disqualified';
 
@@ -13,10 +11,6 @@ export default function DynamicQualifier() {
   const [step, setStep] = useState<Step>('goal');
   const [goal, setGoal] = useState<string | null>(null);
   const [revenue, setRevenue] = useState<string | null>(null);
-
-  const { completion, complete, isLoading } = useCompletion({
-    api: '/api/diagnostic',
-  });
 
   const handleGoalSelect = (selectedGoal: string) => {
     setGoal(selectedGoal);
@@ -29,16 +23,6 @@ export default function DynamicQualifier() {
       setStep('disqualified');
     } else {
       setStep('qualified');
-      // Trigger AI Diagnostic stream
-      complete('', {
-        body: {
-          tags: ['inline'],
-          answers: {
-            'Goal': goal,
-            'Revenue': selectedRevenue
-          }
-        }
-      });
     }
   };
 
@@ -57,7 +41,7 @@ export default function DynamicQualifier() {
   return (
     <div style={{ position: 'relative', minHeight: '400px' }}>
       <AnimatePresence mode="wait">
-
+        
         {step === 'goal' && (
           <motion.div key="goal" variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }}>
             <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 600, marginBottom: 'var(--space-6)', fontFamily: 'var(--font-display)' }}>
@@ -138,7 +122,7 @@ export default function DynamicQualifier() {
 
         {step === 'disqualified' && (
           <motion.div key="disqualified" variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }}>
-            <button onClick={reset} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: 'var(--space-6)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+             <button onClick={reset} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: 'var(--space-6)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               <ArrowLeft size={14} /> Start Over
             </button>
             <div style={{ padding: 'var(--space-8)', background: 'rgba(212, 175, 106, 0.05)', border: '1px solid rgba(212, 175, 106, 0.2)', borderRadius: '12px' }}>
@@ -160,10 +144,10 @@ export default function DynamicQualifier() {
 
         {step === 'qualified' && (
           <motion.div key="qualified" variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }}>
-            <button onClick={() => setStep('revenue')} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: 'var(--space-6)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+             <button onClick={() => setStep('revenue')} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: 'var(--space-6)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               <ArrowLeft size={14} /> Back
             </button>
-            <div style={{ marginBottom: 'var(--space-8)', paddingBottom: 'var(--space-6)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ marginBottom: 'var(--space-8)', paddingBottom: 'var(--space-6)', borderBottom: '1px solid var(--color-border)' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', background: 'rgba(52, 211, 153, 0.1)', color: '#34d399', borderRadius: '20px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 'var(--space-4)' }}>
                 <Calendar size={14} /> Fast-Track Available
               </span>
@@ -171,43 +155,10 @@ export default function DynamicQualifier() {
                 You qualify for a priority diagnostic.
               </h3>
               <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
-                Skip the waitlist. We are streaming your preliminary AI assessment below.
+                Skip the waitlist. Fill out your details below and we will send you a direct calendar link to book your call.
               </p>
             </div>
-
-            {/* AI Roadmap Output */}
-            {(completion || isLoading) && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                style={{
-                  background: 'rgba(212,175,106,0.05)',
-                  border: '1px solid rgba(212,175,106,0.2)',
-                  padding: 'var(--space-6)',
-                  borderRadius: '12px',
-                  marginBottom: 'var(--space-8)'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-4)', color: 'var(--color-gold-bright)', fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  <Sparkles size={14} /> Real-Time Diagnostic Strategy
-                </div>
-                <div className="prose prose-sm prose-invert" style={{ margin: 0, maxWidth: '100%' }}>
-                  <ReactMarkdown>{completion}</ReactMarkdown>
-                </div>
-                {isLoading && (
-                  <div style={{ marginTop: 'var(--space-4)', display: 'flex', gap: '4px' }}>
-                    {[0, 1, 2].map(i => (
-                      <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-muted)', animation: `aiq-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            <div style={{ padding: 'var(--space-6)', background: 'var(--color-bg-secondary)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <h4 style={{ fontSize: 'var(--text-lg)', fontWeight: 600, marginBottom: 'var(--space-2)' }}>Ready to execute?</h4>
-              <p style={{ color: 'var(--color-text-tertiary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>Drop your details to claim your Strategy Session slot.</p>
-              <ContactForm />
-            </div>
+            <ContactForm />
           </motion.div>
         )}
 

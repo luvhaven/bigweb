@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useSpring } from 'framer-motion';
-import { useAudio } from '@/components/ui/AudioProvider';
 
 interface MagneticButtonProps {
   href?: string;
@@ -18,7 +17,6 @@ export default function MagneticButton({ href, onClick, children, className = ''
   const buttonRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
-  const { playClick, playConfirm } = useAudio();
 
   // Framer Motion Springs for silky smooth haptic physics
   const x = useSpring(0, { stiffness: 400, damping: 25, mass: 0.5 });
@@ -33,13 +31,13 @@ export default function MagneticButton({ href, onClick, children, className = ''
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { left, top, width, height } = btn.getBoundingClientRect();
-
+      
       const centerX = left + width / 2;
       const centerY = top + height / 2;
-
+      
       const distanceX = clientX - centerX;
       const distanceY = clientY - centerY;
-
+      
       if (glowRef.current) {
         const glowX = clientX - left;
         const glowY = clientY - top;
@@ -55,11 +53,8 @@ export default function MagneticButton({ href, onClick, children, className = ''
       y.set(Math.max(-strength, Math.min(strength, pullY)));
     };
 
-    const handleMouseEnter = () => {
-      setHovering(true);
-      playClick();
-    };
-
+    const handleMouseEnter = () => setHovering(true);
+    
     const handleMouseLeave = () => {
       setHovering(false);
       x.set(0);
@@ -78,7 +73,7 @@ export default function MagneticButton({ href, onClick, children, className = ''
   }, [x, y]);
 
   const glowContent = (
-    <div
+    <div 
       ref={glowRef}
       style={{
         position: 'absolute',
@@ -110,11 +105,7 @@ export default function MagneticButton({ href, onClick, children, className = ''
       whileTap={{ scale: 0.95 }}
       className={`magnetic-btn ${className}`}
       data-cursor-hover
-      data-magnetic="true"
-      onClick={(e) => {
-        playConfirm();
-        if (onClick) onClick();
-      }}
+      onClick={onClick}
     >
       {glowContent}
       <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 'inherit', width: '100%', justifyContent: 'inherit', pointerEvents: 'none' }}>
@@ -132,8 +123,8 @@ export default function MagneticButton({ href, onClick, children, className = ''
   }
 
   return (
-    <button
-      type={type}
+    <button 
+      type={type} 
       style={{ padding: 0, border: 'none', background: 'none' }}
       onClick={(e) => {
         if (onClick) onClick();

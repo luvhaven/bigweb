@@ -3,7 +3,6 @@ export const NAV_LINKS = [
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
   { label: 'Insights', href: '/insights' },
-  { label: 'Research', href: '/state-of-conversion-2026' },
 ];
 
 export const SERVICES = [
@@ -271,7 +270,7 @@ export const SERVICES = [
     results: [
       { metric: '+250%', label: 'Average revenue increase' },
       { metric: '12 weeks', label: 'Average engagement duration' },
-      { metric: '$3.4M+', label: 'Average client annual revenue lift' },
+      { metric: '$140K+', label: 'Average client annual revenue lift' },
     ],
     process: [
       { step: '01', title: 'Audit', desc: 'Complete digital presence audit and opportunity analysis.' },

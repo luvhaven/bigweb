@@ -5,7 +5,7 @@ const BASE_URL = 'https://bigweb.digital';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
-  const staticPages = ['', '/about', '/services', '/work', '/insights', '/partners', '/contact', '/privacy', '/terms', '/affiliate-agreement'].map(
+  const staticPages = ['', '/about', '/services', '/work', '/insights', '/contact', '/privacy', '/terms'].map(
     (route) => ({
       url: `${BASE_URL}${route}`,
       lastModified: new Date(),

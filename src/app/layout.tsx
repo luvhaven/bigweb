@@ -9,17 +9,10 @@ import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import CommandMenu from "@/components/layout/CommandMenu";
 import ExitIntent from "@/components/ui/ExitIntent";
-import TrustTicker from "@/components/ui/TrustTicker";
-import { AudioProvider } from "@/components/ui/AudioProvider";
 import { ToastProvider } from "@/components/admin/ToastProvider";
-import { OrganizationSchema } from "@/components/seo/JsonLd";
 import FluidBackground from "@/components/ui/FluidBackground";
 import PageTransition from "@/components/layout/PageTransition";
 import MobileCTABar from "@/components/layout/MobileCTABar";
-import CookieConsent from "@/components/ui/CookieConsent";
-import AIQualifier from "@/components/ui/AIQualifier";
-
-import ReferralProvider from "@/components/providers/ReferralProvider";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -37,7 +30,7 @@ export const metadata: Metadata = {
   title: "BIGWEB Digital — We Don't Build Websites. We Build Revenue.",
   description:
     "BIGWEB Digital is a revenue-focused digital agency. We find where your website is losing money — and we fix it. Conversion audits, AI sales agents, revenue funnel systems, and more.",
-  keywords: "global digital agency, conversion optimization, AI sales agent, revenue growth, web design, enterprise ecommerce",
+  keywords: "digital agency, conversion optimization, AI sales agent, revenue growth, web design, Lagos, Nigeria",
   openGraph: {
     title: "BIGWEB Digital — We Don't Build Websites. We Build Revenue.",
     description: "Most businesses have traffic. Most are bleeding revenue at the conversion layer. We fix that.",
@@ -53,41 +46,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${dmSans.variable}`}>
-      <head>
-        {/* Core Web Vitals: Preload critical fonts to avoid Layout Shift */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" as="style" />
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" as="style" />
-        <OrganizationSchema />
-      </head>
       <body>
         <FluidBackground />
         <SmoothScroll>
-          <AudioProvider>
-            <ReferralProvider>
-              <ToastProvider>
-                <CommandMenu />
-                <ScrollProgress />
-                <CustomCursor />
-                <Navigation />
-                <PageTransition>
-                  {/* Global Structural Grid Anchors */}
-                  <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
-                  <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
-                  <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
-                  <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
-                  <main>{children}</main>
-                </PageTransition>
-                <ExitIntent />
-                <MobileCTABar />
-                <CookieConsent />
-                <AIQualifier />
-                <TrustTicker />
-                <FooterWrapper>
-                  <Footer />
-                </FooterWrapper>
-              </ToastProvider>
-            </ReferralProvider>
-          </AudioProvider>
+          <ToastProvider>
+            <CommandMenu />
+            <ScrollProgress />
+            <CustomCursor />
+            <Navigation />
+            <PageTransition>
+              {/* Global Structural Grid Anchors */}
+              <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
+              <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
+              <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
+              <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
+              <main>{children}</main>
+            </PageTransition>
+            <ExitIntent />
+            <MobileCTABar />
+            <FooterWrapper>
+              <Footer />
+            </FooterWrapper>
+          </ToastProvider>
         </SmoothScroll>
       </body>
     </html>

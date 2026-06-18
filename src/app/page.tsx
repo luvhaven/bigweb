@@ -14,10 +14,7 @@ import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
-import GodTierTestimonials from '@/components/ui/GodTierTestimonials';
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
-import PressBar from '@/components/sections/PressBar';
-import { FAQSchema } from '@/components/seo/JsonLd';
 
 export const revalidate = 0;
 
@@ -40,16 +37,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <FAQSchema faqs={[
-        { question: 'How long does a typical engagement take?', answer: 'Tier 1 diagnostic engagements take 1–2 weeks. Tier 2 growth retainers run month-to-month. Tier 3 digital transformation projects take 8–14 weeks.' },
-        { question: 'What is your minimum engagement size?', answer: 'Our Diagnostic Blueprint starts at $2,500. Growth Engine retainers start at $8,000/month. Digital Transformation engagements start at $25,000.' },
-        { question: 'Do you work with clients outside the USA?', answer: 'Yes. BIGWEB Digital is a fully remote global agency working with clients across the US, Canada, UK, Australia, New Zealand, and Europe.' },
-        { question: 'What results can I expect?', answer: 'Our clients see an average 288% revenue increase. Across 42 campaigns in 2025, we generated $140M in additional revenue. Average client lift is $3.4M+ annually.' },
-        { question: 'How does your pricing work?', answer: 'We publish all prices upfront. All engagements begin with a $500 Revenue Diagnostic strategy session, currently waived for qualified applicants.' },
-      ]} />
       <ScrollSpy />
       <Hero />
-      <PressBar />
       <ClientLogos />
       <ProjectSlideshow />
       <div className="section-divider" />
@@ -61,8 +50,7 @@ export default async function HomePage() {
       <div className="section-divider" />
       <GrowthPath />
       <div className="section-divider" />
-      <Results caseStudies={caseStudies} />
-      <GodTierTestimonials />
+      <Results caseStudies={caseStudies} testimonials={testimonials} />
       <div className="section-divider" />
       <AIAdvantage />
       <div className="section-divider" />
