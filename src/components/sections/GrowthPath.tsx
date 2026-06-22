@@ -95,12 +95,12 @@ export default function GrowthPath() {
 
   return (
     <section ref={sectionRef} id="growth-path" style={{ padding: 'var(--space-32) 0', background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
-      
+
       {/* Background radial gradient fixed to section center */}
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'radial-gradient(circle, rgba(212,175,106,0.03) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        
+
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-20)' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-gold-bright)', marginBottom: 'var(--space-6)' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', boxShadow: '0 0 10px var(--color-gold-bright)' }} />
@@ -113,45 +113,46 @@ export default function GrowthPath() {
 
         {/* The Circuit Board UI */}
         <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto', paddingBottom: 'var(--space-10)' }}>
-          
+
           {/* Base Track */}
           <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50px', width: 2, background: 'rgba(255,255,255,0.05)', marginLeft: -1 }} />
-          
+
           {/* Glowing Laser Tracer */}
-          <div 
+          <div
             ref={lineRef}
-            style={{ 
+            className="growth-morph-laser"
+            style={{
               position: 'absolute', top: 0, bottom: 0, left: '50px', width: 2, marginLeft: -1,
               background: 'linear-gradient(to bottom, transparent, var(--color-gold-bright), #FFF)',
               transformOrigin: 'top center',
               boxShadow: '0 0 20px var(--color-gold-bright)',
               zIndex: 1
-            }} 
+            }}
           />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-16)' }}>
             {steps.map((step, i) => (
               <div key={i} className="circuit-node-wrapper" style={{ display: 'flex', alignItems: 'flex-start', position: 'relative', zIndex: 2 }}>
-                
+
                 {/* Node Tracker Column */}
                 <div style={{ width: 100, display: 'flex', justifyContent: 'center', position: 'relative', marginTop: 30, flexShrink: 0 }}>
-                  
+
                   {/* Outer Ambient Glow */}
                   <div className="circuit-glow" style={{ position: 'absolute', top: '50%', left: '50%', width: 40, height: 40, transform: 'translate(-50%, -50%) scale(0.5)', background: step.activeColor, borderRadius: '50%', filter: 'blur(20px)', opacity: 0, pointerEvents: 'none' }} />
-                  
+
                   {/* Physical Node Dot */}
                   <div className="circuit-dot" style={{ width: 14, height: 14, borderRadius: '50%', background: step.color, border: '2px solid var(--color-bg-primary)', position: 'relative', zIndex: 3, transition: 'background 0.3s' }} />
-                  
+
                   <span style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', fontSize: 10, fontWeight: 800, color: 'var(--color-text-tertiary)', letterSpacing: '0.2em' }}>
                     {step.num}
                   </span>
                 </div>
 
                 {/* Cyber Card Payload */}
-                <div 
-                  className="circuit-card" 
-                  style={{ 
-                    flex: 1, background: 'rgba(10,10,11,0.6)', backdropFilter: 'blur(10px)', 
+                <div
+                  className="circuit-card"
+                  style={{
+                    flex: 1, background: 'rgba(10,10,11,0.6)', backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(255,255,255,0.05)', padding: 'var(--space-8)',
                     opacity: 0.4, transform: 'translateX(-30px)', filter: 'blur(4px)',
                     borderLeft: `2px solid ${step.color}`
