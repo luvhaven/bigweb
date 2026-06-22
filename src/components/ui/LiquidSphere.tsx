@@ -167,7 +167,7 @@ export default function LiquidSphere() {
         window.addEventListener('resize', onResize);
 
         // ANIMATION LOOP
-        const clock = new THREE.Clock();
+        const startTime = performance.now();
         let animationId: number;
 
         const animate = () => {
@@ -176,7 +176,7 @@ export default function LiquidSphere() {
             sphere.rotation.x += 0.002 + (targetY * 0.05);
             sphere.rotation.y += 0.002 + (targetX * 0.05);
 
-            material.uniforms.uTime.value = clock.getElapsedTime();
+            material.uniforms.uTime.value = (performance.now() - startTime) / 1000;
 
             renderer.render(scene, camera);
         };

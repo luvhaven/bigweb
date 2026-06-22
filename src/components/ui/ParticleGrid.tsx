@@ -148,12 +148,12 @@ export default function ParticleGrid({ color = '#D4AF6A', gridSize = 40, spacing
         window.addEventListener('resize', onResize);
 
         // ANIMATION LOOP
-        const clock = new THREE.Clock();
+        const startTime = performance.now();
         let animationId: number;
 
         const animate = () => {
             animationId = requestAnimationFrame(animate);
-            const elapsedTime = clock.getElapsedTime();
+            const elapsedTime = (performance.now() - startTime) / 1000;
 
             // Lerp mouse for smooth wave displacement
             mouse.x += (targetMouse.x - mouse.x) * 0.05;
