@@ -8,7 +8,7 @@ export const config = {
     ],
 };
 
-export function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const response = NextResponse.next();
 
     // On Vercel, x-vercel-ip-city and x-vercel-ip-country are populated at the edge

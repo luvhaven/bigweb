@@ -4,9 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
 import ParticleGrid from '@/components/ui/ParticleGrid';
 import NoiseField from '@/components/ui/NoiseField';
-import dynamic from 'next/dynamic';
-
-const ParticleGridClient = dynamic(() => import('@/components/ui/ParticleGrid'), { ssr: false });
+import ParticleGridClient from '@/components/ui/ParticleGridClient';
 import { getServicesByTier } from '@/lib/data';
 
 export const revalidate = 0;
