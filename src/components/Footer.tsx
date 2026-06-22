@@ -83,7 +83,7 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
           <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-transparent rounded-[2.5rem] blur-3xl opacity-30 pointer-events-none" />
           <div className="relative p-10 md:p-16 rounded-[2.5rem] border border-white/[0.05] bg-white/[0.02] backdrop-blur-md overflow-hidden group">
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-[100px] -mr-48 -mt-48 transition-transform duration-1000 group-hover:scale-110" />
-            
+
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 relative z-10">
               <div className="max-w-2xl">
                 <div className="flex items-center gap-2 mb-6">
@@ -100,7 +100,7 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
 
               <form onSubmit={handleSubscribe} className="w-full lg:w-auto min-w-[380px]">
                 {subStatus === 'success' ? (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col items-center justify-center p-8 bg-emerald-500/5 border border-emerald-500/10 rounded-3xl text-center"
@@ -171,12 +171,12 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
             </div>
 
             <div className="space-y-4 max-w-sm">
-               <h4 className="text-white font-display text-2xl tracking-tight leading-snug">
-                 Engineering elite platforms for the <em className="text-accent font-medium">digital-first era.</em>
-               </h4>
-               <p className="text-sm text-zinc-500 leading-relaxed font-light">
-                 We bridge the gap between high-performance engineering and breathtaking design to create revenue-generating assets for the world&apos;s most ambitious brands.
-               </p>
+              <h4 className="text-white font-display text-2xl tracking-tight leading-snug">
+                Engineering elite platforms for the <em className="text-accent font-medium">digital-first era.</em>
+              </h4>
+              <p className="text-sm text-zinc-500 leading-relaxed font-light">
+                We bridge the gap between high-performance engineering and breathtaking design to create revenue-generating assets for the world&apos;s most ambitious brands.
+              </p>
             </div>
 
             {/* Global Reach / Technical Status */}
@@ -330,7 +330,7 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-xs text-zinc-600">
-            © {year || '2026'} BIGWEB Digital. All rights reserved.
+            © 2018-{year || '2026'} BIGWEB Digital. All rights reserved.
           </span>
           <div className="flex items-center gap-6">
             {[
