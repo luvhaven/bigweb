@@ -6021,3 +6021,181 @@ a.info-detail-value:hover {
     opacity: 0;
   }
 }
+
+/* =============================================
+   GLOBAL MOBILE RESPONSIVENESS OVERHAUL
+   Covers every pixel from 320px to 767px
+   ============================================= */
+
+/* Prevent horizontal scroll globally */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Fix any element that might cause horizontal bleed */
+* {
+  min-width: 0;
+}
+
+/* ---- NAV: tighten mobile ---- */
+@media (max-width: 1023px) {
+  .nav-inner {
+    padding: 0 var(--space-4);
+  }
+}
+
+/* ---- SECTION PADDING: reduce on mobile ---- */
+@media (max-width: 767px) {
+  .section {
+    padding: var(--space-16) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .section-headline {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+
+  /* Body bottom padding for mobile sticky bar */
+  body {
+    padding-bottom: 72px;
+  }
+}
+
+/* ---- BUTTONS: full-width on very small screens ---- */
+@media (max-width: 479px) {
+  .btn-lg {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  /* Prevent buttons from overflowing their flex container */
+  .btn {
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* ---- FOOTER: stack on mobile ---- */
+@media (max-width: 767px) {
+  .footer-top {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer-legal {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+}
+
+/* ---- CARD GRID: single col on mobile ---- */
+@media (max-width: 639px) {
+  .card {
+    padding: var(--space-6);
+  }
+}
+
+/* ---- MOBILE MENU OVERLAY ---- */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-primary);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-height) + var(--space-8)) var(--space-6) var(--space-8);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ---- IMAGES: never overflow ---- */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- TABLE OVERFLOW ---- */
+table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---- PREVENT TEXT OVERFLOW IN HEADINGS ---- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* ---- PROSE: large containers can shrink ---- */
+@media (max-width: 767px) {
+  p {
+    font-size: clamp(0.9rem, 4vw, 1rem);
+  }
+}
+
+/* ---- HERO SECTION: explicit mobile overrides ---- */
+@media (max-width: 767px) {
+  #hero {
+    min-height: 100dvh !important;
+    padding-bottom: var(--space-8) !important;
+    justify-content: flex-end !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.25rem, 9vw, 3.5rem) !important;
+    margin-bottom: var(--space-5) !important;
+  }
+
+  #hero .container {
+    padding-bottom: var(--space-4);
+  }
+}
+
+/* ---- STATS BAR: 2-col on mobile ---- */
+@media (max-width: 767px) {
+  .hero-stat-item-kin {
+    padding: var(--space-3) var(--space-2) !important;
+  }
+}
+
+/* ---- Large elements that bleed on mobile ---- */
+@media (max-width: 767px) {
+
+  /* Slideshow cards */
+  [style*="500px"] {
+    width: 85vw !important;
+  }
+
+  /* Kill perspective-heavy transforms that may overflow */
+  [style*="perspective: 1500px"],
+  [style*="perspective: 1200px"] {
+    perspective: none;
+  }
+}
+
+/* ---- MOBILE: prevent fixed 3D elements from breaching layout ---- */
+@media (max-width: 767px) {
+  canvas {
+    max-width: 100vw !important;
+  }
+}
