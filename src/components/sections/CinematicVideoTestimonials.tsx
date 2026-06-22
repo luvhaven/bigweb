@@ -7,21 +7,21 @@ import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 const mockVideos = [
   {
     id: 1,
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    url: '/videos/sample.mp4',
     name: 'Sarah Chen',
     role: 'VP Marketing @ DataPulse',
     duration: 15,
   },
   {
     id: 2,
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    url: '/videos/sample.mp4',
     name: 'Marcus Rodriguez',
     role: 'CEO @ LuxeWear',
     duration: 15,
   },
   {
     id: 3,
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    url: '/videos/sample.mp4',
     name: 'Lena Sokolov',
     role: 'CMO @ Vanguard',
     duration: 15,
