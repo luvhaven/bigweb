@@ -104,22 +104,6 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* Organic Morph Target Blob */}
-        <div className="morph-hero-blob" style={{
-          position: 'absolute',
-          top: '20%',
-          left: '10%',
-          width: '400px',
-          height: '400px',
-          background: 'var(--color-gold-bright)',
-          filter: 'blur(80px)',
-          opacity: 0.25,
-          borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%',
-          pointerEvents: 'none',
-          willChange: 'transform, clip-path, border-radius',
-          zIndex: 1,
-        }} />
-
         {/* Cinematic Kinetic Headline */}
         <h1 style={{
           fontSize: 'clamp(3rem, 6.5vw, 6.5rem)',

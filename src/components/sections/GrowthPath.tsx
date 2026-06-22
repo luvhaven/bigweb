@@ -120,7 +120,6 @@ export default function GrowthPath() {
           {/* Glowing Laser Tracer */}
           <div
             ref={lineRef}
-            className="growth-morph-laser"
             style={{
               position: 'absolute', top: 0, bottom: 0, left: '50px', width: 2, marginLeft: -1,
               background: 'linear-gradient(to bottom, transparent, var(--color-gold-bright), #FFF)',
