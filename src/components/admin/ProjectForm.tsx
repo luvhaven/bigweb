@@ -260,7 +260,7 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
                             <CardTitle>Featured Image</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:bg-accent/5 transition-colors cursor-pointer">
+                            <div className="border-2 border-solid border-border rounded-xl p-6 text-center hover:bg-accent/5 transition-colors cursor-pointer">
                                 {formData.image_url ? (
                                     <div className="relative aspect-video rounded-lg overflow-hidden group">
                                         <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />

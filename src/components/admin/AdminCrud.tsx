@@ -219,7 +219,7 @@ export default function AdminCrud({ tableName, title, fields, displayColumns, or
                         <button onClick={() => updateField(f.key, '')} style={{ position: 'absolute', top: 2, right: 2, background: 'rgba(0,0,0,0.6)', border: 'none', borderRadius: '50%', padding: 2, cursor: 'pointer', color: '#fff' }}><X size={12} /></button>
                       </div>
                     ) : (
-                      <div style={{ width: 60, height: 60, borderRadius: 6, border: '1px dashed #262630', background: '#18181C', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5A5753' }}>
+                      <div style={{ width: 60, height: 60, borderRadius: 6, border: '1px solid #262630', background: '#18181C', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5A5753' }}>
                         <ImageIcon size={20} />
                       </div>
                     )}

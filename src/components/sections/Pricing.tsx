@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
 import MagneticButton from '@/components/ui/MagneticButton';
@@ -82,7 +82,7 @@ export default function Pricing() {
         <div className="pricing-grid">
           {tiers.map((tier, i) => (
               <AnimateIn key={i} delay={i + 1}>
-                <TiltCard maxTilt={6}>
+                <TiltCard>
                   <ProximityCard 
                     className="card" 
                     innerClassName={`pricing-card ${tier.featured ? 'pricing-featured' : ''}`}

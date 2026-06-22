@@ -74,7 +74,7 @@ export default function JsonListEditor({ items, onChange, fields, title }: JsonL
                 ))}
 
                 {items?.length === 0 && (
-                    <div className="text-center py-6 border-2 border-dashed rounded-lg text-muted-foreground text-sm">
+                    <div className="text-center py-6 border-2 border-solid rounded-lg text-muted-foreground text-sm">
                         No items added.
                     </div>
                 )}

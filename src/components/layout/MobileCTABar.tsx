@@ -1,12 +1,38 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function MobileCTABar() {
   const pathname = usePathname();
-  // Hide on admin, contact (already has form), and playbook pages
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!barRef.current) return;
+
+    // Hide bar when scrolling down, show when scrolling up
+    const st = ScrollTrigger.create({
+      start: 'top top',
+      end: 99999,
+      onUpdate: (self) => {
+        if (!barRef.current) return;
+        if (self.direction === 1 && self.scroll() > 200) {
+          gsap.to(barRef.current, { y: '100%', duration: 0.3, ease: 'power2.in' });
+        } else {
+          gsap.to(barRef.current, { y: '0%', duration: 0.3, ease: 'power2.out' });
+        }
+      }
+    });
+
+    return () => st.kill();
+  }, [pathname]);
+
   if (
     pathname.startsWith('/admin') ||
     pathname === '/contact' ||
@@ -17,7 +43,7 @@ export default function MobileCTABar() {
 
   return (
     <>
-      <div className="mobile-cta-bar">
+      <div ref={barRef} className="mobile-cta-bar">
         <Link href="/contact" className="mobile-cta-link">
           Book Your Free Diagnostic
           <ArrowRight size={16} />
@@ -36,6 +62,7 @@ export default function MobileCTABar() {
           border-top: 1px solid var(--color-bg-border);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
+          will-change: transform;
         }
         .mobile-cta-link {
           display: flex;
@@ -50,7 +77,7 @@ export default function MobileCTABar() {
           font-weight: 700;
           letter-spacing: 0.02em;
           padding: 14px 20px;
-          border-radius: 8px;
+          border-radius: 0; /* Match geometric button style */
           transition: opacity 0.2s ease;
         }
         .mobile-cta-link:hover {

@@ -282,7 +282,7 @@ const VortexPayDemo = () => {
                                 <motion.div
                                     animate={{ rotate: isScanning ? 360 : 0 }}
                                     transition={{ duration: isScanning ? 2 : 20, repeat: isScanning ? Infinity : 0, ease: "linear" }}
-                                    className={`absolute inset-0 border-2 border-dashed rounded-full transition-colors duration-500 ${isVerified ? 'border-emerald-500/40' : 'border-accent/20'}`}
+                                    className={`absolute inset-0 border-2 border-solid rounded-full transition-colors duration-500 ${isVerified ? 'border-emerald-500/40' : 'border-accent/20'}`}
                                 />
 
                                 <div

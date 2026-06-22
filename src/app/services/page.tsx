@@ -2,8 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
-import GridDistortion from '@/components/ui/GridDistortion';
+import ParticleGrid from '@/components/ui/ParticleGrid';
 import NoiseField from '@/components/ui/NoiseField';
+import dynamic from 'next/dynamic';
+
+const ParticleGridClient = dynamic(() => import('@/components/ui/ParticleGrid'), { ssr: false });
 import { getServicesByTier } from '@/lib/data';
 
 export const revalidate = 0;
@@ -84,14 +87,14 @@ export default async function ServicesPage() {
     <>
       {/* Hero */}
       <section className="section" style={{ paddingTop: 'calc(var(--nav-height) + var(--space-20))', background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
-        <GridDistortion opacity={0.2} gridSize={40} />
+        <ParticleGridClient />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <AnimateIn>
             <span className="section-label">OUR SERVICES</span>
           </AnimateIn>
           <AnimateIn delay={1}>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, var(--text-7xl))', fontFamily: 'var(--font-display)', fontWeight: 900, lineHeight: 1.1, marginBottom: 'var(--space-6)', maxWidth: 800 }}>
-              12 engagements.<br /><span className="text-gold">$2M+ in client revenue.</span>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, var(--text-7xl))', lineHeight: 1.1, marginBottom: 'var(--space-6)', maxWidth: 800 }}>
+              12 engagements.<br /><span className="accent-italic">$2M+ in client revenue.</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={2}>

@@ -243,7 +243,16 @@ export async function getTeamMembers() {
     .eq('is_published', true)
     .order('sort_order', { ascending: true });
   if (error) { console.warn('[getTeamMembers]', error.message); return []; }
-  return data ?? [];
+
+  // Intercept and override Daniel's image with the locally uploaded asset
+  const mappedData = data?.map(member => {
+    if (member.name === 'Daniel Oriazowan') {
+      return { ...member, image: '/team/daniel-oriazowan.jpg' };
+    }
+    return member;
+  });
+
+  return mappedData ?? [];
 }
 
 // ============================================

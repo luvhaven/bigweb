@@ -131,7 +131,7 @@ export default function LiveChatWidget() {
                         className="fixed bottom-10 right-10 z-50 w-20 h-20 bg-zinc-950/80 backdrop-blur-xl border border-zinc-800 text-zinc-400 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-accent hover:text-white hover:border-accent transition-all duration-300 rounded-full shadow-2xl"
                     >
                         <MessageCircle className="w-8 h-8 mb-1" />
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest">RELAY_v1</span>
+
                         {onlineAgents > 0 && (
                             <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                         )}

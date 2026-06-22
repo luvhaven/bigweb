@@ -93,7 +93,7 @@ export default function MediaUploader({
             <div
                 {...getRootProps()}
                 className={`
-          border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer
+          border-2 border-solid rounded-2xl p-12 text-center cursor-pointer
           transition-all duration-300
           ${isDragActive
                         ? 'border-accent bg-accent/5 scale-105'

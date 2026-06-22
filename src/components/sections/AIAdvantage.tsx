@@ -188,7 +188,7 @@ export default function AIAdvantage() {
           <div className="ai-caps">
             {capabilities.map((cap, i) => (
               <AnimateIn key={i} delay={i + 1}>
-                <TiltCard maxTilt={8}>
+                <TiltCard>
                   <div className="ai-cap-card card">
                     <div className="ai-cap-icon">{cap.icon}</div>
                     <div>

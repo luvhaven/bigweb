@@ -1,18 +1,15 @@
-import AnimateIn from '@/components/ui/AnimateIn';
+'use client';
+
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TiltCard from '@/components/ui/TiltCard';
-import GridDistortion from '@/components/ui/GridDistortion';
-import AbstractGeometry from '@/components/ui/AbstractGeometry';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const cards = [
   {
     num: '01',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 8L28 8L24 18H16L12 8Z" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M16 18L18 32H22L24 18" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <circle cx="20" cy="35" r="2" fill="currentColor" opacity="0.5" />
-      </svg>
-    ),
     stat: '0.4%',
     statLabel: 'avg. conversion rate',
     headline: '5,000 visitors. 12 sales.',
@@ -20,13 +17,6 @@ const cards = [
   },
   {
     num: '02',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 6L8 14V26L20 34L32 26V14L20 6Z" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M14 18L20 28L26 18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
-        <line x1="20" y1="12" x2="20" y2="18" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
     stat: '7s',
     statLabel: 'avg. decision time',
     headline: 'Your website looks 2019.',
@@ -34,13 +24,6 @@ const cards = [
   },
   {
     num: '03',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <circle cx="20" cy="20" r="3" fill="currentColor" />
-        <line x1="12" y1="28" x2="28" y2="12" stroke="currentColor" strokeWidth="2" />
-      </svg>
-    ),
     stat: 'P3',
     statLabel: 'google ranking penalty',
     headline: "You can't be found.",
@@ -48,15 +31,6 @@ const cards = [
   },
   {
     num: '04',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="12" y="10" width="16" height="20" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <circle cx="20" cy="17" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <line x1="16" y1="24" x2="24" y2="24" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="28" cy="12" r="4" fill="currentColor" opacity="0.3" />
-        <path d="M26 12L28 14L31 10" stroke="currentColor" strokeWidth="1" />
-      </svg>
-    ),
     stat: '24/7',
     statLabel: 'competitor AI is live',
     headline: 'Your competitor just got an AI sales team.',
@@ -65,45 +39,127 @@ const cards = [
 ];
 
 export default function RealityCheck() {
-  return (
-    <section className="section" id="reality-check" style={{ background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
-      <GridDistortion opacity={0.25} />
-      <AbstractGeometry size={800} opacity={0.03} stroke="var(--color-gold-bright)" style={{ top: -80, left: -80 }} />
-      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        {/* Centred pull quote */}
-        <AnimateIn>
-          <div className="rc-quote-wrap">
-            <div className="rc-quote-rule" />
-            <blockquote className="rc-quote">
-              &ldquo;We have traffic. Why aren&apos;t we getting sales?&rdquo;
-            </blockquote>
-            <p className="rc-quote-attr">— Every business owner we&apos;ve ever spoken to</p>
-            <div className="rc-quote-rule" />
-          </div>
-        </AnimateIn>
+  const sectionRef = useRef<HTMLElement>(null);
+  const quoteRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
-        {/* Diagnosis grid */}
-        <div className="rc-grid">
-          {cards.map((card, i) => (
-            <AnimateIn key={i} delay={i + 1}>
-              <TiltCard maxTilt={10}>
-                <div className="rc-card card">
-                  {/* Top: icon + stat */}
-                  <div className="rc-card-top">
-                    <div className="rc-icon">{card.icon}</div>
-                    <div className="rc-stat-block">
-                      <span className="rc-stat">{card.stat}</span>
-                      <span className="rc-stat-label">{card.statLabel}</span>
-                    </div>
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Quote mask reveal
+      if (quoteRef.current) {
+        const q = quoteRef.current;
+        gsap.fromTo(q,
+          { opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' },
+          {
+            opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)',
+            duration: 1.2, ease: 'expo.out',
+            scrollTrigger: { trigger: q, start: 'top 80%', end: 'top 40%', toggleActions: 'play none none none' },
+          }
+        );
+      }
+
+      // Cards stagger
+      if (gridRef.current) {
+        const cardEls = gridRef.current.querySelectorAll('.rc-card-new');
+        gsap.fromTo(cardEls,
+          { opacity: 0, y: 80, scale: 0.95 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.9, stagger: 0.15, ease: 'expo.out',
+            scrollTrigger: { trigger: gridRef.current, start: 'top 75%', toggleActions: 'play none none none' },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="reality-check"
+      style={{ padding: 'var(--space-24) 0', position: 'relative', overflow: 'hidden' }}
+    >
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+        <div ref={quoteRef} style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto var(--space-20)' }}>
+          <div style={{ width: 60, height: 1, background: 'var(--color-gold-bright)', margin: '0 auto var(--space-8)' }} />
+          <blockquote style={{
+            fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, var(--text-4xl))',
+            fontWeight: 700, fontStyle: 'italic', lineHeight: 1.3, color: 'var(--color-text-primary)',
+            marginBottom: 'var(--space-4)',
+          }}>
+            &ldquo;We have traffic. Why aren&apos;t we getting sales?&rdquo;
+          </blockquote>
+          <p style={{
+            fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)',
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+          }}>
+            — Every business owner we&apos;ve ever spoken to
+          </p>
+          <div style={{ width: 60, height: 1, background: 'var(--color-gold-bright)', margin: 'var(--space-8) auto 0' }} />
+        </div>
+
+        <div
+          ref={gridRef}
+          style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1px', background: 'var(--color-bg-border)', border: '1px solid var(--color-bg-border)',
+          }}
+        >
+          {cards.map((card) => (
+            <TiltCard key={card.num} className="rc-card-new">
+              <div
+                style={{
+                  height: '100%',
+                  background: 'var(--color-bg-primary)', padding: 'var(--space-10)',
+                  display: 'flex', flexDirection: 'column', position: 'relative',
+                  transition: 'background 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#111114')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--color-bg-primary)')}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute', top: 'var(--space-6)', right: 'var(--space-6)',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-6xl)',
+                    fontWeight: 900, color: 'var(--color-bg-border)', opacity: 0.3,
+                    lineHeight: 1, pointerEvents: 'none',
+                  }}
+                >
+                  {card.num}
+                </span>
+
+                <div style={{ marginBottom: 'var(--space-8)' }}>
+                  <div style={{
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)',
+                    fontWeight: 800, color: 'var(--color-gold-bright)', lineHeight: 1, marginBottom: 4,
+                  }}>
+                    {card.stat}
                   </div>
-                  {/* Number watermark */}
-                  <span className="rc-num" aria-hidden="true">{card.num}</span>
-                  {/* Content */}
-                  <h3 className="rc-headline">{card.headline}</h3>
-                  <p className="rc-body">{card.body}</p>
+                  <span style={{
+                    fontSize: 'var(--text-xs)', textTransform: 'uppercase',
+                    letterSpacing: '0.15em', color: 'var(--color-text-tertiary)',
+                  }}>
+                    {card.statLabel}
+                  </span>
                 </div>
-              </TiltCard>
-            </AnimateIn>
+
+                <h3 style={{
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)',
+                  fontWeight: 700, lineHeight: 1.25, marginBottom: 'var(--space-4)',
+                  color: 'var(--color-text-primary)', paddingRight: 'var(--space-8)',
+                }}>
+                  {card.headline}
+                </h3>
+                <p style={{
+                  fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--color-text-secondary)',
+                }}>
+                  {card.body}
+                </p>
+              </div>
+            </TiltCard>
           ))}
         </div>
       </div>

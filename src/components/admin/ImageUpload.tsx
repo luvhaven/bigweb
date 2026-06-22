@@ -125,7 +125,7 @@ export default function ImageUpload({
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
                     onClick={() => fileRef.current?.click()}
-                    className="relative border-2 border-dashed border-white/[0.1] rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-accent/40 hover:bg-accent/5 transition-all group"
+                    className="relative border-2 border-solid border-white/[0.1] rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-accent/40 hover:bg-accent/5 transition-all group"
                 >
                     <input
                         ref={fileRef}

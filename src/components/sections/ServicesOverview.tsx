@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AnimateIn from '@/components/ui/AnimateIn';
 import TiltCard from '@/components/ui/TiltCard';
 import GridDistortion from '@/components/ui/GridDistortion';
@@ -21,9 +22,33 @@ export interface Service {
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   return (
-    <TiltCard maxTilt={10}>
-      <Link href={`/services/${service.slug}`} className="svc-card card" data-cursor-hover>
-        <div className="svc-card-inner">
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(5px)' }}
+      transition={{ duration: 0.5, delay: index * 0.1, type: 'spring', damping: 20, stiffness: 100 }}
+      layout
+      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+    >
+      <Link href={`/services/${service.slug}`} className="svc-card card"
+        style={{
+          borderRadius: '24px', overflow: 'hidden', boxShadow: 'var(--shadow-card)', background: 'var(--color-bg-primary)', border: '1px solid rgba(255,255,255,0.02)',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1
+        }}
+        data-cursor-hover
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
+          e.currentTarget.style.borderColor = 'rgba(212,175,106,0.2)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'var(--shadow-card)';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.02)';
+        }}
+      >
+        <div className="svc-card-inner" style={{ padding: 'var(--space-8)', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           {/* Background watermark number */}
           <span className="svc-card-watermark" aria-hidden="true">0{index + 1}</span>
 
@@ -44,7 +69,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           </div>
         </div>
       </Link>
-    </TiltCard>
+    </motion.div>
   );
 }
 
@@ -59,16 +84,20 @@ export default function ServicesOverview({ services }: { services: Service[] }) 
   const tiersMap = new Map();
   services.forEach(s => {
     if (!tiersMap.has(s.tier)) {
+      let rawLabel = s.tier_label || `TIER 0${s.tier}`;
+      // Strip out the "TIER 0X - " prefix to leave only the semantic name (e.g. REVENUE TRANSFORMATION)
+      const cleanLabel = rawLabel.replace(/^TIER\s*\d+\s*-\s*/i, '');
+
       tiersMap.set(s.tier, {
         id: s.tier,
         tab: s.tier === 1 ? 'Quick Wins' : s.tier === 2 ? 'Growth Engine' : 'Transformation', // short tab name
-        label: s.tier_label || `TIER 0${s.tier}`,
+        label: cleanLabel,
         headline: s.tier_headline || 'Service Tier',
         desc: s.tier_description || '',
       });
     }
   });
-  
+
   const TIERS = Array.from(tiersMap.values()).sort((a, b) => a.id - b.id);
   const activeTier = TIERS.find(t => t.id === active) || TIERS[0];
   const activeServices = services.filter((s: Service) => s.tier === active);
@@ -126,16 +155,18 @@ export default function ServicesOverview({ services }: { services: Service[] }) 
             </Link>
           </div>
 
-          <div className="svc-grid">
-            {activeServices.map((service, i) => (
-              <ServiceCard key={service.slug} service={service} index={i} />
-            ))}
-          </div>
+          <motion.div layout className="svc-grid">
+            <AnimatePresence mode="popLayout">
+              {activeServices.map((service, i) => (
+                <ServiceCard key={service.slug} service={service} index={i} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
 
       </div>
 
-      
+
     </section>
   );
 }

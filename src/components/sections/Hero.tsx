@@ -1,181 +1,194 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
-import FloatingParticles from '@/components/ui/FloatingParticles';
+import gsap from 'gsap';
 import MagneticButton from '@/components/ui/MagneticButton';
-import SplitText from '@/components/ui/SplitText';
-import NoiseField from '@/components/ui/NoiseField';
-import { usePersonalization } from '@/hooks/usePersonalization';
+import KineticText from '@/components/ui/KineticText';
 
-const TICKER_ITEMS = [
-  'Conversion Audit', '288% Revenue Growth', 'Landing Page Engine',
-  'AI Sales Agent', 'Core Web Vitals Fix', 'Authority Redesign',
-  'Revenue Funnel System', '$140K+ Per Client', 'CRO Retainer',
-  'Business Intelligence', 'SaaS MVP Build', '94% Retention',
+const HeroScene = dynamic(() => import('@/components/ui/HeroScene'), { ssr: false });
+
+const STATS = [
+  { value: '2018', label: 'Founded' },
+  { value: '$140M+', label: 'Revenue tracked' },
+  { value: '42', label: 'Clients served' },
+  { value: '4', label: 'Countries' },
 ];
 
 export default function Hero() {
-  const [loaded, setLoaded] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
-  const blob1Ref = useRef<HTMLDivElement>(null);
-  const blob2Ref = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
-  const personalization = usePersonalization();
+  const labelRef = useRef<HTMLDivElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 60);
-    return () => clearTimeout(t);
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+      // Label
+      tl.fromTo(labelRef.current,
+        { opacity: 0, filter: 'blur(4px)', y: 20 },
+        { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.2 },
+        0.8 // Wait for page transition svg to lift
+      );
+
+      // Sub text
+      tl.fromTo(subRef.current,
+        { opacity: 0, y: 30, filter: 'blur(4px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 },
+        1.8
+      );
+
+      // CTAs
+      tl.fromTo(ctaRef.current,
+        { opacity: 0, y: 20, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'back.out(1.2)' },
+        2.2
+      );
+
+      // Stats stagger
+      if (statsRef.current) {
+        const items = statsRef.current.querySelectorAll('.hero-stat-item-kin');
+        tl.fromTo(items,
+          { opacity: 0, y: 40, rotateX: -20 },
+          { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1 },
+          2.4
+        );
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
   }, []);
-
-  useEffect(() => {
-    let raf: number;
-    let mx = 0, my = 0, cx = 0.5, cy = 0.5;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX / window.innerWidth;
-      my = e.clientY / window.innerHeight;
-    };
-
-    const tick = () => {
-      cx += (mx - cx) * 0.06;
-      cy += (my - cy) * 0.06;
-
-      if (blob1Ref.current) {
-        blob1Ref.current.style.transform =
-          `translate(${(cx - 0.5) * -60}px, ${(cy - 0.5) * -40}px)`;
-      }
-      if (blob2Ref.current) {
-        blob2Ref.current.style.transform =
-          `translate(${(cx - 0.5) * 80}px, ${(cy - 0.5) * 60}px)`;
-      }
-      if (headlineRef.current) {
-        headlineRef.current.style.transform =
-          `translate(${(cx - 0.5) * -8}px, ${(cy - 0.5) * -5}px)`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener('mousemove', onMove, { passive: true });
-    raf = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
   return (
-    <section ref={heroRef} className="hero" id="hero">
+    <section
+      ref={heroRef}
+      id="hero"
+      style={{
+        position: 'relative',
+        minHeight: '85dvh', // Tightened to prevent massive vertical empty spaces on tall screens
+        maxHeight: '1000px', // Caps expansion so it feels incredibly tight and framed
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        overflow: 'hidden',
+        paddingBottom: 'var(--space-16)', // Gives it a bit of breathing room near footer
+        paddingTop: 'calc(var(--nav-height) + var(--space-8))',
+      }}
+    >
+      <HeroScene />
 
-      {/* ── Background Video ── */}
-      <div className="hero-video-wrap" aria-hidden="true">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hero-video"
-          src="https://cdn.pixabay.com/video/2022/10/24/136214-764047464_large.mp4"
-        />
-        <div className="hero-video-overlay" />
-      </div>
+      {/* Darkened overlay to ensure text is highly legible against the gold anomaly */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(circle at center, rgba(10,10,11,0.6) 0%, rgba(10,10,11,0.95) 100%)', mixBlendMode: 'multiply' }} />
 
-      {/* ── Ambient blobs ── */}
-      <div className="blob-layer" aria-hidden="true">
-        <div ref={blob1Ref} className="blob blob-1" />
-        <div ref={blob2Ref} className="blob blob-2" />
-        <div className="blob blob-3" />
-      </div>
-
-      {/* ── Grid lines ── */}
-      <div className="hero-grid" aria-hidden="true" />
-
-      {/* ── NoiseField ── */}
-      <NoiseField opacity={0.6} color="212, 175, 106" particleCount={400} speed={0.0005} />
-
-      {/* ── Noise grain ── */}
-      <div className="hero-noise" aria-hidden="true" />
-
-      {/* ── Cinematic Particles ── */}
-      <FloatingParticles count={60} />
-
-
-      {/* ── Main content ── */}
-      <div ref={headlineRef} className="hero-stage container">
-
-
-        <h1 className="hero-h1">
-          <span className={`hero-reveal hero-word-row ${loaded ? 'show' : ''}`}
-                style={{ transitionDelay: '200ms' }}>
-            Your {personalization.headlineNoun}
+      <div className="container" style={{ position: 'relative', zIndex: 3 }}>
+        {/* Label */}
+        <div ref={labelRef} style={{ opacity: 0, marginBottom: 'var(--space-8)' }}>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '8px 20px',
+            border: '1px solid rgba(212, 175, 106, 0.3)',
+            borderRadius: '20px',
+            background: 'rgba(212, 175, 106, 0.05)',
+            backdropFilter: 'blur(10px)',
+            fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: 'var(--color-gold-bright)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', boxShadow: '0 0 10px var(--color-gold-bright)' }} />
+            Revenue-First Digital Agency
           </span>
-          <span className={`hero-reveal hero-word-row hero-row-mid ${loaded ? 'show' : ''}`}
-                style={{ transitionDelay: '380ms' }}>
-            is&nbsp;
-            <span className="hero-stroke-text">costing</span>
-            &nbsp;you
-          </span>
-          <span className={`hero-reveal hero-word-row hero-row-gold text-gold-breathing ${loaded ? 'show' : ''}`}
-                style={{ transitionDelay: '560ms' }}>
-            money.
-          </span>
+        </div>
+
+        {/* Cinematic Kinetic Headline */}
+        <h1 style={{
+          fontSize: 'clamp(3rem, 6.5vw, 6.5rem)',
+          maxWidth: 1000,
+          marginBottom: 'var(--space-8)',
+          perspective: '1200px',
+        }}>
+          <span className="scramble-init">R</span>evenue <br />
+          <span className="blur-in-init accent-italic">monopolies.</span>
         </h1>
 
-        {/* Sub + CTA row */}
-        <div className={`hero-bottom-row ${loaded ? 'show' : ''}`}>
-          <div className="hero-sub-block">
-            <p className="hero-sub">
-              <SplitText type="words" delay={0.6}>
-                Most businesses have traffic. Most are bleeding revenue at the
-                conversion layer. We find exactly where you're losing
-                money — and we fix it.
-              </SplitText>
-            </p>
-            <div className="hero-ctas">
-              <MagneticButton href="/contact" className="btn btn-primary btn-lg hero-btn-main">
-                Request Revenue Audit <ArrowRight size={16} />
-              </MagneticButton>
-              <Link href="/work" className="hero-ghost-link" data-cursor-hover>
-                See Client Outcomes <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
+        {/* Sub */}
+        <p
+          ref={subRef}
+          style={{
+            fontSize: 'clamp(1rem, 2vw, var(--text-2xl))',
+            color: 'var(--color-text-secondary)',
+            maxWidth: 800,
+            marginBottom: 'var(--space-10)',
+            lineHeight: 1.6,
+            fontWeight: 500,
+            position: 'relative',
+            zIndex: 3
+          }}
+        >
+          We don&apos;t build websites. We engineer absolute market dominance. <br style={{ display: 'none' }} className="md:block" />
+          Elite kinetic design meets aggressive conversion architecture.
+        </p>
 
-          {/* Stats column */}
-          <div className="hero-stats-col">
-            {[
-              { n: '288%', l: 'Avg revenue lift' },
-              { n: '2 wks', l: 'To first results' },
-              { n: '94%', l: 'Client retention' },
-            ].map(({ n, l }) => (
-              <div key={l} className="hero-stat">
-                <span className="hero-stat-n">{n}</span>
-                <span className="hero-stat-l">{l}</span>
+        {/* CTAs */}
+        <div ref={ctaRef} style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', alignItems: 'center', marginBottom: 'var(--space-16)' }}>
+          <MagneticButton href="/contact" className="btn btn-primary btn-lg">
+            Book Strategy Call <ArrowRight size={16} style={{ transition: 'transform 0.3s' }} />
+          </MagneticButton>
+          <MagneticButton href="/work" className="btn btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            See Our Work <ArrowRight size={14} />
+          </MagneticButton>
+        </div>
+
+        {/* Extreme Grid Stats Bar */}
+        <div ref={statsRef} style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gap: '1px',
+          background: 'rgba(212, 175, 106, 0.1)',
+          border: '1px solid rgba(212, 175, 106, 0.2)',
+          backdropFilter: 'blur(10px)',
+        }}>
+          {STATS.map((s) => (
+            <div
+              key={s.label}
+              className="hero-stat-item-kin"
+              style={{
+                opacity: 0,
+                background: 'rgba(10, 10, 11, 0.7)',
+                padding: 'var(--space-6) var(--space-6)',
+                textAlign: 'center',
+                transition: 'background 0.3s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(212, 175, 106, 0.05)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(10, 10, 11, 0.7)')}
+            >
+              <div style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-3xl)',
+                fontWeight: 900,
+                color: 'var(--color-gold-bright)',
+                marginBottom: 4,
+                textShadow: '0 0 20px rgba(212, 175, 106, 0.3)',
+              }}>
+                {s.value}
               </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
-      {/* ── Bottom ticker ── */}
-      <div className={`hero-ticker-wrap ${loaded ? 'show' : ''}`} aria-hidden="true">
-        <div className="hero-ticker-rule" />
-        <div className="hero-ticker">
-          <div className="hero-ticker-track">
-            {doubled.map((item, i) => (
-              <span key={i} className="hero-ticker-item">
-                {item} <span className="hero-ticker-sep">·</span>
-              </span>
-            ))}
-          </div>
+              <div style={{
+                fontSize: '0.65rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.25em',
+                color: 'var(--color-text-secondary)',
+                fontWeight: 700,
+              }}>
+                {s.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      
     </section>
   );
 }

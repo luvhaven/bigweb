@@ -8,7 +8,6 @@ import AIAdvantage from '@/components/sections/AIAdvantage';
 import Process from '@/components/sections/Process';
 import AboutPreview from '@/components/sections/AboutPreview';
 import ROISimulator from '@/components/sections/ROISimulator';
-import Pricing from '@/components/sections/Pricing';
 import InsightsPreview from '@/components/sections/InsightsPreview';
 import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
@@ -59,8 +58,6 @@ export default async function HomePage() {
       <AboutPreview image={aboutSettings.about_image} />
       <div className="section-divider" />
       <ROISimulator />
-      <div className="section-divider" />
-      <Pricing />
       <div className="section-divider" />
       <InsightsPreview articles={articles} />
       <div className="section-divider" />

@@ -13,6 +13,8 @@ import { ToastProvider } from "@/components/admin/ToastProvider";
 import FluidBackground from "@/components/ui/FluidBackground";
 import PageTransition from "@/components/layout/PageTransition";
 import MobileCTABar from "@/components/layout/MobileCTABar";
+import ReferralProvider from "@/components/providers/ReferralProvider";
+import LiveChatWidget from "@/components/LiveChatWidget";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -48,27 +50,30 @@ export default function RootLayout({
     <html lang="en" className={`${playfairDisplay.variable} ${dmSans.variable}`}>
       <body>
         <FluidBackground />
-        <SmoothScroll>
-          <ToastProvider>
-            <CommandMenu />
-            <ScrollProgress />
-            <CustomCursor />
-            <Navigation />
-            <PageTransition>
-              {/* Global Structural Grid Anchors */}
-              <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
-              <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
-              <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
-              <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
-              <main>{children}</main>
-            </PageTransition>
-            <ExitIntent />
-            <MobileCTABar />
-            <FooterWrapper>
-              <Footer />
-            </FooterWrapper>
-          </ToastProvider>
-        </SmoothScroll>
+        <ReferralProvider>
+          <SmoothScroll>
+            <ToastProvider>
+              <CommandMenu />
+              <ScrollProgress />
+              <CustomCursor />
+              <Navigation />
+              <PageTransition>
+                {/* Global Structural Grid Anchors */}
+                <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
+                <div className="grid-anchor" style={{ position: 'fixed', top: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
+                <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', left: 'var(--space-8)', opacity: 0.3 }} />
+                <div className="grid-anchor" style={{ position: 'fixed', bottom: 'var(--space-8)', right: 'var(--space-8)', opacity: 0.3 }} />
+                <main>{children}</main>
+              </PageTransition>
+              <ExitIntent />
+              <MobileCTABar />
+              <LiveChatWidget />
+              <FooterWrapper>
+                <Footer />
+              </FooterWrapper>
+            </ToastProvider>
+          </SmoothScroll>
+        </ReferralProvider>
       </body>
     </html>
   );

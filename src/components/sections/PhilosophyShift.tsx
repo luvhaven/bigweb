@@ -1,173 +1,150 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import AnimateIn from '@/components/ui/AnimateIn';
-import NoiseField from '@/components/ui/NoiseField';
-import VelocityText from '@/components/ui/VelocityText';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Check, X } from 'lucide-react';
+import KineticText from '@/components/ui/KineticText';
 
-const COMPARISON = [
-  { label: 'Accountability', old: 'Best effort', now: 'Revenue targets' },
-  { label: 'Success metric', old: 'Client approval', now: 'Conversion rate' },
-  { label: 'Pricing model', old: 'Time & materials', now: 'Fixed scope' },
-  { label: 'Reporting', old: 'Vanity metrics', now: 'Revenue delta' },
-];
+gsap.registerPlugin(ScrollTrigger);
 
 export default function PhilosophyShift() {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const [draw, setDraw] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const comparisonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setDraw(true); observer.disconnect(); } },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const ctx = gsap.context(() => {
+      // Scale entry for the comparison table
+      if (comparisonRef.current) {
+        gsap.fromTo(comparisonRef.current,
+          { opacity: 0, scale: 0.95, y: 50 },
+          {
+            opacity: 1, scale: 1, y: 0,
+            duration: 1.2, ease: 'expo.out',
+            scrollTrigger: {
+              trigger: comparisonRef.current,
+              start: 'top 80%',
+            },
+          }
+        );
+
+        // Stagger list items inside table
+        const rows = comparisonRef.current.querySelectorAll('.comp-row');
+        gsap.fromTo(rows,
+          { opacity: 0, x: -20 },
+          {
+            opacity: 1, x: 0,
+            duration: 0.6, stagger: 0.1, ease: 'power2.out',
+            scrollTrigger: {
+              trigger: comparisonRef.current,
+              start: 'top 65%',
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section className="section" id="philosophy" style={{ background: 'var(--color-bg-secondary)', position: 'relative', overflow: 'hidden' }}>
-      <NoiseField opacity={0.4} color="255, 255, 255" particleCount={250} speed={0.0003} />
-      <div className="container philosophy-grid" ref={containerRef} style={{ position: 'relative', zIndex: 2 }}>
-        <div className="philosophy-text">
-          <AnimateIn>
-            <span className="section-label">OUR PHILOSOPHY</span>
-          </AnimateIn>
-          <AnimateIn>
-            <h2 className="section-headline" style={{ lineHeight: 1.1 }}>
-              <VelocityText>We don&apos;t build websites.</VelocityText><br />
-              <VelocityText>We build revenue.</VelocityText>
-            </h2>
-          </AnimateIn>
-          <AnimateIn delay={2}>
-            <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 'var(--space-5)' }}>
-              A website is infrastructure. So is plumbing. You don&apos;t brag about your
-              plumbing — but you definitely notice when it&apos;s broken. What you actually
-              care about is revenue, leads, and growth. So that&apos;s what we&apos;re
-              accountable for.
+    <section ref={sectionRef} id="philosophy" style={{ padding: 'var(--space-32) 0', background: 'var(--color-bg-primary)', overflow: 'hidden' }}>
+      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'var(--space-16)', alignItems: 'center' }}>
+        
+        {/* Left narrative */}
+        <div>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: 'var(--color-gold-bright)',
+            marginBottom: 'var(--space-6)',
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)' }} />
+            The Paradigm
+          </span>
+          
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2.5rem, 5vw, var(--text-6xl))',
+            fontWeight: 900,
+            lineHeight: 1.05,
+            letterSpacing: '-0.03em',
+            marginBottom: 'var(--space-8)',
+          }}>
+            <div style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.1em' }}>
+              <KineticText animation="skew" scrollTrigger>Aesthetics</KineticText> <span style={{ color: 'var(--color-text-secondary)', textDecoration: 'line-through' }}>don&apos;t</span>
+            </div>
+            <div style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.1em' }}>
+              <KineticText animation="skew" delay={0.1} scrollTrigger>pay the bills.</KineticText>
+            </div>
+            <div style={{ display: 'block', color: 'var(--color-gold-bright)', overflow: 'hidden', paddingBottom: '0.1em' }}>
+              <KineticText animation="scramble" scrollTrigger duration={1.2}>Conversions do.</KineticText>
+            </div>
+          </h2>
+
+          <div style={{ paddingLeft: 'var(--space-6)', borderLeft: '1px solid var(--color-gold-muted)' }}>
+            <p style={{
+              fontSize: 'var(--text-lg)',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.8,
+              marginBottom: 'var(--space-6)',
+            }}>
+              Most digital agencies sell you a pretty website. We sell you a revenue machine. If a design element doesn&apos;t increase trust, reduce friction, or drive a conversion—we delete it.
             </p>
-          </AnimateIn>
-          <AnimateIn delay={3}>
-            <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 'var(--space-5)' }}>
-              Every agency will show you a beautiful portfolio. We&apos;ll show you
-              conversion rates before and after. We&apos;ll show you cost-per-acquisition
-              dropping. We&apos;ll show you a client who was generating $40,000 a month
-              who is now generating $140,000 — from the same traffic.
+            <p style={{
+              fontSize: 'var(--text-base)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.7,
+              fontWeight: 500,
+            }}>
+              Your website is your best salesperson. It should be working 24/7, answering objections, and closing deals. If it isn&apos;t, you don&apos;t need a rebrand—you need a rebuild.
             </p>
-          </AnimateIn>
-          <AnimateIn delay={4}>
-            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--color-text-primary)', fontWeight: 500, borderLeft: '2px solid var(--color-gold-muted)', paddingLeft: 'var(--space-5)' }}>
-              That&apos;s not a service offering. That&apos;s a different business
-              relationship entirely.
-            </p>
-          </AnimateIn>
+          </div>
         </div>
 
-        <div className="philosophy-visual" ref={containerRef}>
-          {/* Chart card */}
-          <AnimateIn delay={2}>
-            <div className="philosophy-chart-card">
-              {/* Chart header */}
-              <div className="philosophy-chart-header">
-                <span className="philosophy-chart-title">Revenue vs. Traffic (same client, 6 months)</span>
-                <div className="philosophy-legend">
-                  <span className="legend-item">
-                    <span className="legend-dot" style={{ background: 'var(--color-text-tertiary)' }} />
-                    Traffic
-                  </span>
-                  <span className="legend-item">
-                    <span className="legend-dot" style={{ background: 'var(--color-gold-bright)' }} />
-                    Revenue
-                  </span>
+        {/* Right Comparison Table */}
+        <div ref={comparisonRef} style={{
+          border: '1px solid var(--color-gold-muted)',
+          background: 'rgba(212, 175, 106, 0.03)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: 0,
+        }}>
+          {/* Table Header */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid var(--color-gold-muted)' }}>
+            <div style={{ padding: 'var(--space-6)', borderRight: '1px solid var(--color-gold-muted)', textAlign: 'center' }}>
+              <span style={{ fontSize: 'var(--text-xs)', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: 'var(--color-text-tertiary)' }}>Standard Agencies</span>
+            </div>
+            <div style={{ padding: 'var(--space-6)', textAlign: 'center', background: 'rgba(212, 175, 106, 0.08)' }}>
+              <span style={{ fontSize: 'var(--text-xs)', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 800, color: 'var(--color-gold-bright)' }}>BIGWEB Digital</span>
+            </div>
+          </div>
+
+          {/* Table Rows */}
+          {[
+            { old: 'Optimize for awards', new: 'Optimize for revenue' },
+            { old: 'Sell hours & retainers', new: 'Sell measurable outcomes' },
+            { old: 'Guess based on trends', new: 'Build based on data' },
+            { old: 'Scope creep & delays', new: 'Fixed price, strict timeline' },
+            { old: 'You manage them', new: 'We integrate with you' },
+          ].map((row, i) => (
+            <div key={i} className="comp-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i === 4 ? 'none' : '1px solid rgba(212, 175, 106, 0.1)' }}>
+              <div style={{ padding: 'var(--space-5)', borderRight: '1px solid rgba(212, 175, 106, 0.1)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(122, 42, 42, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-danger)', flexShrink: 0 }}>
+                  <X size={12} strokeWidth={3} />
                 </div>
+                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>{row.old}</span>
               </div>
-
-              {/* SVG Chart */}
-              <svg
-                ref={svgRef}
-                viewBox="0 0 400 240"
-                xmlns="http://www.w3.org/2000/svg"
-                className={`philosophy-chart ${draw ? 'draw' : ''}`}
-              >
-                {/* Y-axis labels */}
-                <text x="8" y="50" fill="var(--color-text-tertiary)" fontSize="9" fontFamily="var(--font-body)">High</text>
-                <text x="8" y="130" fill="var(--color-text-tertiary)" fontSize="9" fontFamily="var(--font-body)">Mid</text>
-                <text x="8" y="210" fill="var(--color-text-tertiary)" fontSize="9" fontFamily="var(--font-body)">Low</text>
-
-                {/* Grid lines */}
-                <line x1="40" y1="30" x2="40" y2="220" stroke="var(--color-bg-border)" strokeWidth="0.5" />
-                <line x1="40" y1="220" x2="390" y2="220" stroke="var(--color-bg-border)" strokeWidth="0.5" />
-                {[80, 130, 175].map((y) => (
-                  <line key={y} x1="40" y1={y} x2="390" y2={y} stroke="var(--color-bg-border)" strokeWidth="0.3" strokeDasharray="4 4" />
-                ))}
-
-                {/* X-axis labels */}
-                {['M1', 'M2', 'M3', 'M4', 'M5', 'M6'].map((m, i) => (
-                  <text key={m} x={55 + i * 60} y={234} fill="var(--color-text-tertiary)" fontSize="9" fontFamily="var(--font-body)" textAnchor="middle">{m}</text>
-                ))}
-
-                {/* Traffic line (flat) */}
-                <polyline
-                  points="55,155 115,150 175,153 235,151 295,154 355,152"
-                  fill="none"
-                  stroke="var(--color-text-tertiary)"
-                  strokeWidth="2"
-                  className="chart-line traffic-line"
-                />
-
-                {/* Revenue line (climbing) — area fill */}
-                <defs>
-                  <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--color-gold-bright)" stopOpacity="0.18" />
-                    <stop offset="100%" stopColor="var(--color-gold-bright)" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <polygon
-                  points="55,200 55,190 115,170 175,140 235,105 295,70 355,42 355,220"
-                  fill="url(#revenueGrad)"
-                  className="chart-area"
-                />
-                <polyline
-                  points="55,190 115,170 175,140 235,105 295,70 355,42"
-                  fill="none"
-                  stroke="var(--color-gold-bright)"
-                  strokeWidth="2.5"
-                  className="chart-line revenue-line"
-                />
-
-                {/* Data dots - Revenue */}
-                {[
-                  [55, 190], [115, 170], [175, 140], [235, 105], [295, 70], [355, 42]
-                ].map(([cx, cy], i) => (
-                  <circle key={`r${i}`} cx={cx} cy={cy} r="4" fill="var(--color-gold-bright)" stroke="var(--color-bg-secondary)" strokeWidth="2" className="chart-dot" style={{ animationDelay: `${1.5 + i * 0.1}s` }} />
-                ))}
-
-                {/* End label: Revenue */}
-                <text x="362" y="46" fill="var(--color-gold-bright)" fontSize="10" fontFamily="var(--font-body)" fontWeight="700">+288%</text>
-              </svg>
-
-              {/* Comparison table */}
-              <div className="philosophy-comparison">
-                {COMPARISON.map((row, i) => (
-                  <div key={row.label} className="philosophy-cmp-row" style={{ animationDelay: `${i * 0.12}s` }}>
-                    <span className="philosophy-cmp-label">{row.label}</span>
-                    <span className="philosophy-cmp-old">
-                      <span className="philosophy-cmp-old-text">{row.old}</span>
-                    </span>
-                    <span className="philosophy-cmp-arrow">→</span>
-                    <span className="philosophy-cmp-new">{row.now}</span>
-                  </div>
-                ))}
+              <div style={{ padding: 'var(--space-5)', background: 'rgba(212, 175, 106, 0.03)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(212, 175, 106, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-gold-bright)', flexShrink: 0, boxShadow: '0 0 10px rgba(212,175,106,0.2)' }}>
+                  <Check size={12} strokeWidth={3} />
+                </div>
+                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', fontWeight: 500 }}>{row.new}</span>
               </div>
             </div>
-          </AnimateIn>
+          ))}
         </div>
       </div>
-
-      
     </section>
   );
 }

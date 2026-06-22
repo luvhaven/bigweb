@@ -13,7 +13,7 @@ export default function AdminTestimonialsPage() {
         { key: 'role', label: 'Role / Title', type: 'text' },
         { key: 'company', label: 'Company', type: 'text' },
         { key: 'initials', label: 'Initials', type: 'text', placeholder: 'AO' },
-        { key: 'avatar', label: 'Avatar/Profile Image', type: 'media' },
+        { key: 'avatar', label: 'Media (Image / MP4 Video)', type: 'media' },
         { key: 'sort_order', label: 'Sort Order', type: 'number' },
         { key: 'is_published', label: 'Published', type: 'boolean' },
       ]}

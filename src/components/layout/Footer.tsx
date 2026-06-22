@@ -82,6 +82,7 @@ export default async function Footer() {
             <Link href="/services">Services</Link>
             <Link href="/insights">Insights</Link>
             <Link href="/work">Work</Link>
+            <Link href="/partners" style={{ color: 'var(--color-gold-bright)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '0.1em' }}>Partners</Link>
           </div>
           <div className="footer-col">
             <h4 className="footer-col-title">Contact</h4>

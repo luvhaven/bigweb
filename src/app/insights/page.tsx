@@ -4,6 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 import AnimateIn from '@/components/ui/AnimateIn';
 import AsciiArt from '@/components/ui/AsciiArt';
 import TopographyField from '@/components/ui/TopographyField';
+import NoiseField from '@/components/ui/NoiseField';
 import { getArticles } from '@/lib/data';
 import { NewsletterForm } from '@/components/sections/ContactForm';
 
@@ -22,15 +23,19 @@ export default async function InsightsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="section" style={{ paddingTop: 'calc(var(--nav-height) + var(--space-16))', background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
+      <section className="section" style={{ paddingTop: 'calc(var(--nav-height) + var(--space-20))', background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
+        <NoiseField opacity={0.5} color="212, 175, 106" particleCount={300} speed={0.001} />
+        <div style={{ position: 'absolute', right: '-10%', top: '-20%', opacity: 0.15, transform: 'scale(1.5)', pointerEvents: 'none' }}>
+          <AsciiArt />
+        </div>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <AnimateIn>
             <span className="section-label">INSIGHTS</span>
           </AnimateIn>
           <AnimateIn delay={1}>
-            <h1 className="insights-h1">
+            <h1 className="insights-h1" style={{ fontSize: 'clamp(2.5rem, 5vw, var(--text-7xl))', lineHeight: 1.1, marginBottom: 'var(--space-6)', maxWidth: 900 }}>
               Our thinking on revenue,<br />
-              digital, and the <span className="text-gold text-gold-breathing">AI shift.</span>
+              digital, and the <span className="accent-italic">AI shift.</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={2}>
@@ -134,8 +139,8 @@ export default async function InsightsPage() {
         <div className="container" style={{ maxWidth: 640 }}>
           <AnimateIn>
             <span className="section-label">REVENUE INTELLIGENCE</span>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, var(--text-4xl))', fontFamily: 'var(--font-display)', fontWeight: 900, lineHeight: 1.15, margin: 'var(--space-4) 0 var(--space-4)' }}>
-              One email. One insight.<br /><span className="text-gold">Every week.</span>
+            <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, var(--text-5xl))', lineHeight: 1.15, margin: 'var(--space-4) 0 var(--space-4)' }}>
+              One email. One insight.<br /><span className="accent-italic">Every week.</span>
             </h2>
           </AnimateIn>
           <AnimateIn delay={1}>
