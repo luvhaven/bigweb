@@ -13,6 +13,7 @@ import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
+import StickyMaskMorph from '@/components/layout/StickyMaskMorph';
 
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 
@@ -40,7 +41,9 @@ export default async function HomePage() {
       <ScrollSpy />
       <Hero />
       <ClientLogos />
-      <ProjectSlideshow />
+      <StickyMaskMorph>
+        <ProjectSlideshow />
+      </StickyMaskMorph>
       <div className="section-divider" />
       <PhilosophyShift />
       <div className="section-divider" />
