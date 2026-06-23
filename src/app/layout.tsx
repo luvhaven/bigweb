@@ -14,7 +14,6 @@ import FluidBackground from "@/components/ui/FluidBackground";
 import PageTransition from "@/components/layout/PageTransition";
 import MobileCTABar from "@/components/layout/MobileCTABar";
 import ReferralProvider from "@/components/providers/ReferralProvider";
-import LiveChatWidget from "@/components/LiveChatWidget";
 import BigwebAI from "@/components/BigwebAI";
 
 const playfairDisplay = Playfair_Display({
@@ -68,7 +67,6 @@ export default function RootLayout({
               </PageTransition>
               <ExitIntent />
               <MobileCTABar />
-              <LiveChatWidget />
               <BigwebAI />
               <FooterWrapper>
                 <Footer />
