@@ -40,48 +40,40 @@ export default function ObsidianMorph({ children }: { children: React.ReactNode 
     const shadowAlpha = useTransform(smoothProgress, [0, 0.8, 1], [0, 0.25, 0]);
     const glowValue = useTransform(shadowAlpha, a => `0 -30px 100px rgba(212, 175, 106, ${a}), inset 0 2px 0px rgba(212, 175, 106, ${a * 2.5})`);
 
-    // Ensure hydration safety by returning an unstyled wrapper on the server
-    if (!mounted) return <div style={{ width: '100%', position: 'relative' }}>{children}</div>;
-
-    // Mobile fallbacks to a subtle fade without the heavy GPU curvature calculations
-    if (isMobile) {
-        return (
-            <motion.div
-                ref={containerRef}
-                style={{ position: 'relative', zIndex: 10, opacity: smoothProgress }}
-            >
-                {children}
-            </motion.div>
-        );
-    }
+    // Guarantee perfectly identical DOM structures during SSR and Client passes
+    // to prevent React hydration mismatches and ensure `useScroll` attaches properly.
+    const isDesktopEnabled = mounted && !isMobile;
 
     return (
         <div ref={containerRef} style={{ position: 'relative', width: '100%', zIndex: 10 }}>
             {/* The monolithic morphing hull */}
             <motion.div
                 style={{
-                    borderTopLeftRadius: borderRadius,
-                    borderTopRightRadius: borderRadius,
-                    scale,
-                    filter,
-                    boxShadow: glowValue,
+                    borderTopLeftRadius: isDesktopEnabled ? borderRadius : 0,
+                    borderTopRightRadius: isDesktopEnabled ? borderRadius : 0,
+                    scale: isDesktopEnabled ? scale : 1,
+                    filter: isDesktopEnabled ? filter : 'none',
+                    boxShadow: isDesktopEnabled ? glowValue : 'none',
                     width: '100%',
-                    background: '#050505', // Deep obsidian core
+                    background: isDesktopEnabled ? '#050505' : 'transparent',
                     position: 'relative',
                     overflow: 'hidden',
                     transformOrigin: 'bottom center',
-                    willChange: 'transform, border-radius, filter'
+                    willChange: 'transform, border-radius, filter',
+                    opacity: (mounted && isMobile) ? smoothProgress : 1
                 }}
             >
                 {/* Immersive Edge Bleed (Inner organic glow) */}
                 <motion.div
+                    aria-hidden="true"
                     style={{
                         position: 'absolute',
                         top: 0, left: 0, right: 0, height: '4px',
                         background: 'linear-gradient(90deg, transparent, var(--color-gold-bright), transparent)',
-                        opacity: shadowAlpha,
+                        opacity: isDesktopEnabled ? shadowAlpha : 0,
                         filter: 'blur(3px)',
-                        zIndex: 20
+                        zIndex: 20,
+                        pointerEvents: 'none'
                     }}
                 />
 
