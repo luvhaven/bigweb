@@ -561,6 +561,9 @@ export default function BigwebAI() {
                 )}
             </AnimatePresence>
 
+            {/* Sub-modal: Booking overlay renders above all widgets */}
+            <BookingModal isOpen={isBookingOpen} onClose={() => setBookingOpen(false)} />
+
             {/* ── Keyframes ──────────────────────────────────────────────── */}
             <style dangerouslySetInnerHTML={{
                 __html: `

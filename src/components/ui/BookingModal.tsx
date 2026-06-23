@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Cal, { getCalApi } from '@calcom/embed-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 export default function BookingModal({
@@ -12,7 +13,10 @@ export default function BookingModal({
     isOpen: boolean;
     onClose: () => void;
 }) {
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        setMounted(true);
         (async function () {
             const cal = await getCalApi();
             cal('ui', {
@@ -24,7 +28,9 @@ export default function BookingModal({
         })();
     }, []);
 
-    return (
+    if (!mounted) return null;
+
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <motion.div
@@ -89,6 +95,7 @@ export default function BookingModal({
                     </motion.div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }
