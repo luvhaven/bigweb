@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Mail, MapPin, Clock } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import TerminalQualifier from '@/components/sections/TerminalQualifier';
+import ContactWizard from '@/components/sections/ContactWizard';
 import TrackingRadar from '@/components/ui/TrackingRadar';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -74,7 +74,7 @@ export default function ContactClient() {
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-base)', marginBottom: 'var(--space-8)', lineHeight: 1.6, maxWidth: 440 }}>
                             Fill out the form and we&apos;ll reach out within 4 hours to schedule your 20-minute call.
                         </p>
-                        <TerminalQualifier />
+                        <ContactWizard />
                     </div>
 
                     {/* Info */}

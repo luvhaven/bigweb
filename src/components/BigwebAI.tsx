@@ -1,8 +1,18 @@
-'use client';
-
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Bot, ChevronRight, CheckCircle, Loader2, Sparkles, ArrowLeft } from 'lucide-react';
+import { X, ChevronRight, CheckCircle, Loader2, Bot, Send } from 'lucide-react';
+
+// BIGWEB Digital logo mark (matches Navigation)
+function BigwebMark({ size = 22 }: { size?: number }) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="9" height="9" stroke="#0A0A0B" strokeWidth="1.5" />
+            <rect x="12" y="1" width="9" height="9" fill="#0A0A0B" opacity="0.8" />
+            <rect x="1" y="12" width="9" height="9" fill="#0A0A0B" opacity="0.4" />
+            <rect x="12" y="12" width="9" height="9" stroke="#0A0A0B" strokeWidth="1.5" strokeDasharray="2 2" />
+        </svg>
+    );
+}
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface ServiceRec {
@@ -278,7 +288,7 @@ export default function BigwebAI() {
                             color: '#0A0A0B',
                         }}
                     >
-                        <Sparkles size={24} />
+                        <BigwebMark size={22} />
                         {unread > 0 && (
                             <span style={{
                                 position: 'absolute', top: 0, right: 0, width: 16, height: 16,
@@ -486,7 +496,7 @@ export default function BigwebAI() {
                                         Proposal sent to <strong style={{ color: '#D4AF6A' }}>{form.email}</strong>.<br />
                                         We'll follow up within 24 hours.
                                     </p>
-                                    <a href="/contact" style={{
+                                    <a href="https://cal.com/bigwebdigital/revenue-diagnostic" target="_blank" rel="noopener noreferrer" style={{
                                         width: '100%', display: 'block', background: 'rgba(212,175,106,0.08)',
                                         border: '1px solid rgba(212,175,106,0.25)', borderRadius: 10,
                                         padding: '11px 16px', fontSize: 13, fontWeight: 700,

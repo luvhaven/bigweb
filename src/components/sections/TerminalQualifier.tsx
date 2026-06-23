@@ -57,7 +57,7 @@ function DecodeText({ text, onComplete }: { text: string; onComplete?: () => voi
     if (!inView || hasDecoded) return;
 
     let iteration = 0;
-    
+
     const interval = setInterval(() => {
       setDisplayed(text.split('').map((letter, index) => {
         if (index < iteration) {
@@ -73,7 +73,7 @@ function DecodeText({ text, onComplete }: { text: string; onComplete?: () => voi
         setHasDecoded(true);
         if (onComplete) setTimeout(onComplete, 300);
       }
-      
+
       iteration += 1 / 2; // Speed of decoding
     }, 30);
 
@@ -117,7 +117,7 @@ export default function TerminalQualifier() {
     setOptionsActive(false);
     if (sound === 'success') playSuccess();
     else playSelect();
-    
+
     // Add a slight delay for dramatic effect
     setTimeout(() => {
       setStep(nextStep);
@@ -151,42 +151,30 @@ export default function TerminalQualifier() {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      style={{ 
-        position: 'relative', 
-        minHeight: '500px', 
-        background: 'var(--color-bg-primary)', 
-        border: '1px solid rgba(212, 175, 106, 0.1)', 
+      style={{
+        position: 'relative',
+        minHeight: '500px',
+        background: 'var(--color-bg-primary)',
+        border: '1px solid rgba(212, 175, 106, 0.1)',
         borderRadius: '16px',
         overflow: 'hidden',
         boxShadow: '0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)'
       }}
     >
       {/* Spatial Glow Effect */}
-      <div 
+      <div
         style={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: `radial-gradient(circle 400px at ${localMouse.x}px ${localMouse.y}px, rgba(212, 175, 106, 0.08), transparent 80%)`,
-          pointerEvents: 'none',
-          zIndex: 0
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          background: `radial-gradient(circle 400px at ${localMouse.x}px ${localMouse.y}px, rgba(212,175,106,0.08), transparent 80%)`,
+          pointerEvents: 'none', zIndex: 0,
         }}
       />
 
-      {/* Terminal Header */}
-      <div style={{ display: 'flex', gap: '8px', padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)', position: 'relative', zIndex: 1 }}>
-        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f56' }} />
-        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e' }} />
-        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#27c93f' }} />
-        <div style={{ marginLeft: 'auto', fontSize: '12px', fontFamily: 'monospace', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-          sys.audit_protocol // {step}
-        </div>
-      </div>
-
       <div style={{ padding: 'var(--space-8) var(--space-8)', position: 'relative', zIndex: 1, minHeight: '350px' }}>
         <AnimatePresence mode="wait">
-          
+
           {step === 'init' && (
             <motion.div key="init" variants={terminalVariants} initial="hidden" animate="visible" exit="exit" style={{ fontFamily: 'monospace', color: 'var(--color-gold-muted)', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
               <span style={{ color: 'var(--color-text-secondary)', marginRight: '12px' }}>[SYSTEM]</span>
@@ -197,7 +185,7 @@ export default function TerminalQualifier() {
           {step === 'goal' && (
             <motion.div key="goal" variants={terminalVariants} initial="hidden" animate="visible" exit="exit">
               <div style={{ fontSize: 'var(--text-lg)', fontWeight: 400, marginBottom: 'var(--space-8)', fontFamily: 'monospace', color: 'var(--color-text-primary)' }}>
-                <span style={{ color: 'var(--color-gold-muted)', marginRight: '12px' }}>root@bigweb:~#</span> 
+                <span style={{ color: 'var(--color-gold-muted)', marginRight: '12px' }}>root@bigweb:~#</span>
                 <DecodeText text="Identify primary revenue bottleneck:" onComplete={() => setOptionsActive(true)} />
                 <span className="cursor-blink" style={{ display: 'inline-block', width: '8px', height: '1.2em', background: 'var(--color-gold-bright)', marginLeft: '8px', verticalAlign: 'middle' }} />
               </div>
@@ -237,7 +225,7 @@ export default function TerminalQualifier() {
           {step === 'revenue' && (
             <motion.div key="revenue" variants={terminalVariants} initial="hidden" animate="visible" exit="exit">
               <div style={{ fontSize: 'var(--text-lg)', fontWeight: 400, marginBottom: 'var(--space-8)', fontFamily: 'monospace', color: 'var(--color-text-primary)' }}>
-                <span style={{ color: 'var(--color-gold-muted)', marginRight: '12px' }}>root@bigweb:~#</span> 
+                <span style={{ color: 'var(--color-gold-muted)', marginRight: '12px' }}>root@bigweb:~#</span>
                 <DecodeText text="Select average monthly revenue (USD):" onComplete={() => setOptionsActive(true)} />
                 <span className="cursor-blink" style={{ display: 'inline-block', width: '8px', height: '1.2em', background: 'var(--color-gold-bright)', marginLeft: '8px', verticalAlign: 'middle' }} />
               </div>
@@ -304,7 +292,7 @@ export default function TerminalQualifier() {
                   </p>
                 </motion.div>
               </div>
-              
+
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2 }}>
                 <ContactForm />
               </motion.div>
@@ -314,7 +302,8 @@ export default function TerminalQualifier() {
         </AnimatePresence>
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .cursor-blink { animation: blink 1s step-end infinite; }
         .terminal-btn:hover { background: rgba(212, 175, 106, 0.08) !important; border-radius: 4px; border-left: 2px solid var(--color-gold-bright) !important; padding-left: calc(var(--space-4) - 2px) !important; }
