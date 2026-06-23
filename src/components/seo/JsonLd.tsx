@@ -57,7 +57,7 @@ export function LocalBusinessSchema() {
         image: 'https://bigwebdigital.com/og-image.png',
         url: 'https://bigwebdigital.com',
         telephone: '+1-555-0123',
-        priceRange: '$$$$',
+        priceRange: '$',
         address: {
             '@type': 'PostalAddress',
             streetAddress: '123 Digital Street',

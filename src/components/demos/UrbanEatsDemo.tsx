@@ -35,7 +35,7 @@ const RESTAURANTS = [
         delivery: '$1.99',
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80',
         tags: ['Burger', 'American'],
-        price: '$$'
+        price: '$'
     },
     {
         id: 2,
@@ -45,7 +45,7 @@ const RESTAURANTS = [
         delivery: 'Free',
         image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800&q=80',
         tags: ['Japanese', 'Sushi'],
-        price: '$$$'
+        price: '$'
     },
     {
         id: 3,
@@ -55,7 +55,7 @@ const RESTAURANTS = [
         delivery: '$2.49',
         image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&q=80',
         tags: ['Italian', 'Pizza'],
-        price: '$$'
+        price: '$'
     },
     {
         id: 4,
