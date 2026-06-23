@@ -247,11 +247,11 @@ export default function AboutClient({ teamMembers, values, teamStats }: { teamMe
                         Work with people who care<br />about your <span className="accent-italic">revenue.</span>
                     </h2>
                     <p style={{ color: 'var(--color-text-secondary)', maxWidth: 460, margin: '0 auto var(--space-8)', fontSize: 'var(--text-lg)', lineHeight: 1.7 }}>
-                        Book a free diagnostic call. We&apos;ll look at your digital presence and tell you exactly where the opportunity is.
+                        Request a private audit. We&apos;ll analyze your digital infrastructure and expose exactly where the opportunity is.
                     </p>
                     <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-                            Book a Free Call <ArrowRight size={16} />
+                            Request Private Audit <ArrowRight size={16} />
                         </MagneticButton>
                         <Link href="/services" className="btn btn-outline btn-lg">View Services</Link>
                     </div>

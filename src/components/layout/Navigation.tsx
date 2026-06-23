@@ -133,7 +133,7 @@ export default function Navigation() {
               );
             })}
             <Link href="/contact" className="btn btn-primary nav-cta">
-              Book a Free Call <ArrowRight size={14} />
+              Request Private Audit <ArrowRight size={14} />
             </Link>
           </div>
 
