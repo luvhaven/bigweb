@@ -2,38 +2,38 @@
 // Called from /api/leads when a user completes the AI qualification flow
 
 interface Service {
-    name: string;
-    price: string;
-    tier: number;
-    tags: string[];
+  name: string;
+  price: string;
+  tier: number;
+  tags: string[];
 }
 
 const TIER_LABEL: Record<number, string> = {
-    1: '⚡ Tier 01 — Quick Wins',
-    2: '🚀 Tier 02 — Growth Engine',
-    3: '💎 Tier 03 — Revenue Transformation',
+  1: '⚡ Tier 01 — Quick Wins',
+  2: '🚀 Tier 02 — Growth Engine',
+  3: '💎 Tier 03 — Revenue Transformation',
 };
 
 export function buildProposalEmail({
-    name,
-    recommendations,
-    answers,
+  name,
+  recommendations,
+  answers,
 }: {
-    name: string;
-    recommendations: Service[];
-    answers: Record<string, string>;
+  name: string;
+  recommendations: Service[];
+  answers: Record<string, string>;
 }) {
-    const firstName = name.split(' ')[0];
-    const goalMap: Record<string, string> = {
-        ecommerce: 'increasing revenue and conversion rates',
-        leadgen: 'generating high-quality leads',
-        scale: 'scaling your brand online',
-        brand: 'elevating your brand design and UX',
-        traffic: 'dominating search rankings',
-    };
-    const goalPhrase = goalMap[answers.goal] || 'growing your business';
+  const firstName = name.split(' ')[0];
+  const goalMap: Record<string, string> = {
+    ecommerce: 'increasing revenue and conversion rates',
+    leadgen: 'generating high-quality leads',
+    scale: 'scaling your brand online',
+    brand: 'elevating your brand design and UX',
+    traffic: 'dominating search rankings',
+  };
+  const goalPhrase = goalMap[answers.goal] || 'growing your business';
 
-    const serviceCards = recommendations.map((s) => `
+  const serviceCards = recommendations.map((s) => `
     <tr>
       <td style="padding: 0 0 20px 0;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0"
@@ -72,7 +72,7 @@ export function buildProposalEmail({
     </tr>
   `).join('');
 
-    const html = `
+  const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,10 +202,10 @@ export function buildProposalEmail({
                     </p>
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                       ${[
-            ['01', 'Book a 30-minute strategy call — zero hard pitch, all value.'],
-            ['02', 'We map your exact revenue gap and prioritise the highest-ROI action.'],
-            ['03', 'You receive a scoped engagement proposal within 48 hours.'],
-        ].map(([num, text]) => `
+      ['01', 'Book a 20-minute strategy call — zero hard pitch, all value.'],
+      ['02', 'We map your exact revenue gap and prioritise the highest-ROI action.'],
+      ['03', 'You receive a scoped engagement proposal within 48 hours.'],
+    ].map(([num, text]) => `
                       <tr>
                         <td style="padding: 8px 0; vertical-align: top;">
                           <table cellpadding="0" cellspacing="0" border="0">
@@ -296,7 +296,7 @@ export function buildProposalEmail({
 </html>
   `.trim();
 
-    const text = `
+  const text = `
 Hi ${firstName},
 
 Thank you for connecting with BIGWEB AI.
@@ -306,7 +306,7 @@ Based on your goal of ${goalPhrase}, here's what we recommend:
 ${recommendations.map(s => `• ${s.name} — ${s.price}`).join('\n')}
 
 Next steps:
-1. Book a 30-minute strategy call at https://bigwebdigital.com/contact
+1. Book a 20-minute strategy call at https://bigwebdigital.com/contact
 2. We map your revenue gap and prioritise the highest-ROI action
 3. You receive a scoped engagement proposal within 48 hours
 
@@ -314,5 +314,5 @@ The BIGWEB Team
 hello@bigwebdigital.com
   `.trim();
 
-    return { html, text };
+  return { html, text };
 }

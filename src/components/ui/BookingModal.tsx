@@ -67,7 +67,7 @@ export default function BookingModal({
                                     Schedule Your Diagnostic
                                 </h3>
                                 <p style={{ margin: '4px 0 0', fontSize: 13, color: '#9B9793' }}>
-                                    Select a time for your free 30-minute strategy call.
+                                    Select a time for your free 20-minute strategy call.
                                 </p>
                             </div>
                             <button

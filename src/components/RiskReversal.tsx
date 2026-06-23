@@ -159,7 +159,7 @@ export default function RiskReversal() {
                             Still have questions about the process?
                         </p>
                         <p className="text-zinc-500 text-sm leading-relaxed">
-                            Book a free 30-minute strategy call. No pitch, no pressure — just honest
+                            Book a free 20-minute strategy call. No pitch, no pressure — just honest
                             answers from a senior member of our team about whether BIGWEB is the right
                             fit for your goals.
                         </p>
