@@ -1,11 +1,21 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Bot, ChevronRight, CheckCircle, Loader2 } from 'lucide-react';
+import { X, Send, Bot, ChevronRight, CheckCircle, Loader2, Sparkles, ArrowLeft } from 'lucide-react';
 
-// ── Service Recommendation Logic ───────────────────────────────────────────
-const SERVICES_MAP = [
+// ── Types ──────────────────────────────────────────────────────────────────
+interface ServiceRec {
+    id: string; name: string; price: string; tier: number; tags: string[];
+}
+
+interface Message {
+    role: 'bot' | 'user';
+    text: string;
+}
+
+// ── Service Library ────────────────────────────────────────────────────────
+const SERVICES_MAP: ServiceRec[] = [
     { id: 'conversion-audit', name: 'Conversion Rate Audit', price: 'From $2,500', tier: 1, tags: ['quick', 'data', 'ecommerce', 'leadgen'] },
     { id: 'ux-redesign', name: 'UX & Website Redesign', price: 'From $5,000', tier: 1, tags: ['brand', 'startup', 'credibility'] },
     { id: 'seo-engine', name: 'SEO Revenue Engine', price: 'From $3,500/mo', tier: 2, tags: ['traffic', 'longterm', 'content'] },
@@ -14,101 +24,110 @@ const SERVICES_MAP = [
     { id: 'digital-transformation', name: 'Digital Revenue Transformation', price: 'From $15,000', tier: 3, tags: ['enterprise', 'scale', 'longterm'] },
 ];
 
-const CONVERSATION_STEPS = [
+// ── Conversation Script ────────────────────────────────────────────────────
+const STEPS = [
     {
-        id: 'welcome',
-        type: 'bot',
-        message: "Hi! I'm BIGWEB AI. I help businesses find the right digital growth solution. Ready to find yours?",
-        next: 'goal',
-    },
-    {
-        id: 'goal',
-        type: 'question',
-        message: "What's your primary goal right now?",
+        id: 'goal', key: 'goal',
+        message: "What's your #1 goal right now?",
         options: [
-            { label: '📈 Increase revenue & conversions', value: 'ecommerce' },
-            { label: '🧲 Generate more leads', value: 'leadgen' },
-            { label: '🚀 Scale my brand online', value: 'scale' },
-            { label: '🎨 Improve website design & UX', value: 'brand' },
-            { label: '🔍 Rank higher on Google', value: 'traffic' },
+            { label: 'Increase revenue & conversions', value: 'ecommerce', emoji: '📈' },
+            { label: 'Generate more qualified leads', value: 'leadgen', emoji: '🧲' },
+            { label: 'Scale my brand online', value: 'scale', emoji: '🚀' },
+            { label: 'Improve website design & UX', value: 'brand', emoji: '🎨' },
+            { label: 'Rank higher on Google', value: 'traffic', emoji: '🔍' },
         ],
         next: 'timeline',
-        key: 'goal',
     },
     {
-        id: 'timeline',
-        type: 'question',
+        id: 'timeline', key: 'timeline',
         message: 'How quickly do you need results?',
         options: [
-            { label: '⚡ ASAP — I need wins now', value: 'quick' },
-            { label: '📅 3–6 months strategic build', value: 'longterm' },
-            { label: '🔄 Ongoing monthly retainer', value: 'ongoing' },
+            { label: 'ASAP — I need wins now', value: 'quick', emoji: '⚡' },
+            { label: '3–6 months strategic build', value: 'longterm', emoji: '📅' },
+            { label: 'Ongoing monthly partnership', value: 'ongoing', emoji: '🔄' },
         ],
         next: 'stage',
-        key: 'timeline',
     },
     {
-        id: 'stage',
-        type: 'question',
-        message: "What best describes your business?",
+        id: 'stage', key: 'stage',
+        message: 'Best describes your business:',
         options: [
-            { label: '🌱 Startup / Early stage', value: 'startup' },
-            { label: '📊 Growing — $10K–$500K/mo revenue', value: 'scale' },
-            { label: '🏢 Enterprise / $500K+ revenue', value: 'enterprise' },
+            { label: 'Startup / Early stage', value: 'startup', emoji: '🌱' },
+            { label: 'Growing — $10K–$500K/mo revenue', value: 'scale', emoji: '📊' },
+            { label: 'Enterprise / $500K+ revenue', value: 'enterprise', emoji: '🏢' },
         ],
         next: 'budget',
-        key: 'stage',
     },
     {
-        id: 'budget',
-        type: 'question',
-        message: "What's your monthly investment range?",
+        id: 'budget', key: 'budget',
+        message: 'Monthly investment range:',
         options: [
-            { label: '$1K – $3K/mo', value: 'small' },
-            { label: '$3K – $10K/mo', value: 'medium' },
-            { label: '$10K+ /mo', value: 'large' },
-            { label: "I'm not sure yet", value: 'unsure' },
+            { label: '$1K – $3K / mo', value: 'small', emoji: '💰' },
+            { label: '$3K – $10K / mo', value: 'medium', emoji: '💎' },
+            { label: '$10K+ / mo', value: 'large', emoji: '👑' },
+            { label: "Not sure yet", value: 'unsure', emoji: '🤔' },
         ],
         next: 'capture',
-        key: 'budget',
-    },
-    {
-        id: 'capture',
-        type: 'capture',
-        message: "Based on your answers, I have the perfect plan for you! Just tell me where to send your custom proposal:",
     },
 ];
 
-function recommendServices(answers: Record<string, string>): typeof SERVICES_MAP {
+function recommendServices(answers: Record<string, string>): ServiceRec[] {
     const tags = Object.values(answers).filter(Boolean);
-    const scored = SERVICES_MAP.map(s => ({
-        ...s,
-        score: tags.filter(t => s.tags.includes(t)).length,
-    }));
-    return scored.sort((a, b) => b.score - a.score).slice(0, 2);
+    return [...SERVICES_MAP]
+        .map(s => ({ ...s, score: tags.filter(t => s.tags.includes(t)).length }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 2);
 }
 
-// ── Animated Message ──────────────────────────────────────────────────────
-function BotMessage({ text, delay = 0 }: { text: string; delay?: number }) {
+// ── Sub-components ─────────────────────────────────────────────────────────
+function TypingIndicator() {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.35, delay, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-                display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 16,
-            }}
-        >
-            <div style={{
-                width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #D4AF6A, #7A5E2A)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-                <Bot size={14} color="#0A0A0B" />
-            </div>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginBottom: 12, paddingLeft: 2 }}>
+            <AvatarDot />
             <div style={{
                 background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '4px 16px 16px 16px', padding: '12px 16px',
-                fontSize: 14, lineHeight: 1.5, color: '#F2F0EB', maxWidth: '85%',
+                borderRadius: '6px 16px 16px 16px', padding: '14px 18px',
+                display: 'flex', gap: 5, alignItems: 'center',
+            }}>
+                {[0, 1, 2].map(i => (
+                    <span key={i} style={{
+                        width: 5, height: 5, borderRadius: '50%', background: '#5A5753',
+                        animation: `bw-dot 1.3s ease-in-out ${i * 0.2}s infinite`,
+                        display: 'inline-block',
+                    }} />
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function AvatarDot() {
+    return (
+        <div style={{
+            width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+            background: 'linear-gradient(135deg, #D4AF6A 0%, #7A5E2A 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 0 12px rgba(212,175,106,0.25)',
+        }}>
+            <Bot size={13} color="#0A0A0B" />
+        </div>
+    );
+}
+
+function BotBubble({ text }: { text: string }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginBottom: 12 }}
+        >
+            <AvatarDot />
+            <div style={{
+                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '6px 16px 16px 16px', padding: '13px 17px',
+                fontSize: 13.5, lineHeight: 1.55, color: '#E8E5DF', maxWidth: '82%',
+                whiteSpace: 'pre-line',
             }}>
                 {text}
             </div>
@@ -116,74 +135,104 @@ function BotMessage({ text, delay = 0 }: { text: string; delay?: number }) {
     );
 }
 
-// ── Main Widget ───────────────────────────────────────────────────────────
+function UserBubble({ text }: { text: string }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}
+        >
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(212,175,106,0.15) 0%, rgba(212,175,106,0.08) 100%)',
+                border: '1px solid rgba(212,175,106,0.25)',
+                borderRadius: '16px 6px 16px 16px', padding: '11px 15px',
+                fontSize: 13, color: '#F2F0EB', maxWidth: '80%',
+            }}>
+                {text}
+            </div>
+        </motion.div>
+    );
+}
+
+// ── Main Widget ────────────────────────────────────────────────────────────
 export default function BigwebAI() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [stepIndex, setStepIndex] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [stepIdx, setStepIdx] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
-    const [messages, setMessages] = useState<Array<{ role: 'bot' | 'user'; text: string }>>([]);
-    const [isTyping, setIsTyping] = useState(false);
-    const [phase, setPhase] = useState<'conversation' | 'capture' | 'done'>('conversation');
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [typing, setTyping] = useState(false);
+    const [phase, setPhase] = useState<'chat' | 'capture' | 'done'>('chat');
+    const [recs, setRecs] = useState<ServiceRec[]>([]);
     const [form, setForm] = useState({ name: '', email: '', phone: '' });
     const [submitting, setSubmitting] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-    const [recommendations, setRecommendations] = useState<typeof SERVICES_MAP>([]);
+    const [unread, setUnread] = useState(0);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Scroll to bottom on new messages
+    // Auto-scroll
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
-    }, [messages, isTyping]);
+    }, [messages, typing]);
 
-    // Init conversation
+    // Unread badge
+    useEffect(() => {
+        if (!open && messages.length > 0) setUnread(1);
+    }, [messages, open]);
+
+    const botSay = useCallback((text: string, delay = 600) => {
+        setTyping(true);
+        setTimeout(() => {
+            setTyping(false);
+            setMessages(prev => [...prev, { role: 'bot', text }]);
+        }, delay);
+    }, []);
+
+    // Init on open
     const handleOpen = () => {
-        setIsOpen(true);
+        setOpen(true);
+        setUnread(0);
         if (messages.length === 0) {
-            setIsTyping(true);
+            setTyping(true);
             setTimeout(() => {
-                setIsTyping(false);
-                setMessages([{ role: 'bot', text: CONVERSATION_STEPS[0].message }]);
-                setStepIndex(1); // Move past welcome to first question
-            }, 900);
+                setTyping(false);
+                setMessages([{ role: 'bot', text: "Hi! I'm BIGWEB AI 👋\n\nI help businesses find the exact digital solution they need. This takes about 60 seconds.\n\nLet's start with the big picture:" }]);
+            }, 700);
         }
     };
 
-    const currentStep = CONVERSATION_STEPS[stepIndex];
+    const currentStep = STEPS[stepIdx];
 
-    const handleOption = (option: { label: string; value: string }) => {
-        const step = CONVERSATION_STEPS[stepIndex];
-        const newAnswers = step.key ? { ...answers, [step.key]: option.value } : answers;
+    const handleOption = (opt: { label: string; value: string; emoji: string }) => {
+        const step = STEPS[stepIdx];
+        const newAnswers = { ...answers, [step.key]: opt.value };
         setAnswers(newAnswers);
 
-        setMessages(prev => [...prev, { role: 'user', text: option.label }]);
-        setIsTyping(true);
+        // User reply
+        setMessages(prev => [...prev, { role: 'user', text: `${opt.emoji} ${opt.label}` }]);
+        setTyping(true);
 
-        const nextStep = CONVERSATION_STEPS.find(s => s.id === step.next);
+        const nextIdx = STEPS.findIndex(s => s.id === step.next);
 
         setTimeout(() => {
-            setIsTyping(false);
-            if (nextStep?.type === 'capture') {
-                const recs = recommendServices(newAnswers);
-                setRecommendations(recs);
-                setMessages(prev => [...prev,
-                { role: 'bot', text: `Great! Based on what you've shared, I recommend:` },
-                { role: 'bot', text: recs.map(r => `✅ ${r.name} — ${r.price}`).join('\n') },
-                { role: 'bot', text: nextStep.message },
-                ]);
+            setTyping(false);
+            if (step.next === 'capture') {
+                const recommended = recommendServices(newAnswers);
+                setRecs(recommended);
+                const recText = `Based on your answers, here are the two engagements most likely to drive results for you:\n\n${recommended.map(r => `✦ ${r.name}\n   ${r.price}`).join('\n\n')}\n\nTo send your personalised proposal, I just need a few details:`;
+                setMessages(prev => [...prev, { role: 'bot', text: recText }]);
                 setPhase('capture');
-            } else if (nextStep) {
-                setMessages(prev => [...prev, { role: 'bot', text: nextStep.message }]);
-                setStepIndex(CONVERSATION_STEPS.indexOf(nextStep));
+            } else if (nextIdx >= 0) {
+                setMessages(prev => [...prev, { role: 'bot', text: STEPS[nextIdx].message }]);
+                setStepIdx(nextIdx);
             }
-        }, 600);
+        }, 800);
     };
 
     const handleSubmit = async () => {
-        if (!form.name || !form.email) return;
+        if (!form.name.trim() || !form.email.trim()) return;
         setSubmitting(true);
-
         try {
             await fetch('/api/leads', {
                 method: 'POST',
@@ -193,258 +242,257 @@ export default function BigwebAI() {
                     email: form.email,
                     phone: form.phone,
                     answers,
-                    recommendations: recommendations.map(r => r.name),
+                    recommendations: recs,
                     source: 'BIGWEB AI Widget',
                 }),
             });
         } catch { }
-
         setSubmitting(false);
-        setSubmitted(true);
         setPhase('done');
+        const firstName = form.name.split(' ')[0];
         setMessages(prev => [...prev,
-        { role: 'bot', text: `🎉 Thanks, ${form.name}! Your personalized proposal has been queued. We'll be in touch within 24 hours to walk you through the exact strategy we'd deploy for your business.` },
-        { role: 'bot', text: "In the meantime, feel free to explore our work or book a strategy call directly." },
+        { role: 'bot', text: `🎉 Done, ${firstName}!\n\nYour personalised proposal is heading to ${form.email} right now.\n\nOur strategy team will also reach out within 24 hours to walk through the exact game-plan.` },
         ]);
     };
 
+    const canSubmit = form.name.trim().length > 1 && /\S+@\S+\.\S+/.test(form.email);
+
     return (
         <>
-            {/* Floating Trigger Button */}
+            {/* ── Trigger ────────────────────────────────────────────────── */}
             <AnimatePresence>
-                {!isOpen && (
+                {!open && (
                     <motion.button
-                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.7, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        exit={{ opacity: 0, scale: 0.7, y: 20 }}
+                        transition={{ type: 'spring', stiffness: 340, damping: 22 }}
                         onClick={handleOpen}
+                        aria-label="Open BIGWEB AI"
                         style={{
-                            position: 'fixed',
-                            bottom: 28,
-                            right: 24,
-                            zIndex: 950,
-                            width: 60,
-                            height: 60,
-                            borderRadius: '50%',
-                            background: 'linear-gradient(135deg, #D4AF6A 0%, #7A5E2A 100%)',
-                            border: 'none',
-                            boxShadow: '0 8px 32px rgba(212,175,106,0.35), 0 2px 8px rgba(0,0,0,0.6)',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            position: 'fixed', bottom: 28, right: 24, zIndex: 950,
+                            width: 58, height: 58, borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #D4AF6A 0%, #9A7035 100%)',
+                            border: 'none', boxShadow: '0 8px 32px rgba(212,175,106,0.4), 0 2px 8px rgba(0,0,0,0.6)',
+                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                             color: '#0A0A0B',
                         }}
-                        aria-label="Open BIGWEB AI"
                     >
-                        <Bot size={26} />
-                        {/* Pulse ring */}
+                        <Sparkles size={24} />
+                        {unread > 0 && (
+                            <span style={{
+                                position: 'absolute', top: 0, right: 0, width: 16, height: 16,
+                                background: '#EF4444', borderRadius: '50%', border: '2px solid #0A0A0B',
+                                fontSize: 9, fontWeight: 800, color: '#fff',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            }}>1</span>
+                        )}
+                        {/* Pulse rings */}
                         <span style={{
-                            position: 'absolute', inset: -6, borderRadius: '50%',
-                            border: '2px solid rgba(212,175,106,0.4)',
-                            animation: 'ai-pulse 2s ease-in-out infinite',
+                            position: 'absolute', inset: -8, borderRadius: '50%',
+                            border: '1.5px solid rgba(212,175,106,0.35)',
+                            animation: 'bw-ring 2.2s ease-out infinite',
                         }} />
                     </motion.button>
                 )}
             </AnimatePresence>
 
-            {/* Chat Panel */}
+            {/* ── Panel ──────────────────────────────────────────────────── */}
             <AnimatePresence>
-                {isOpen && (
+                {open && (
                     <motion.div
                         className="bigweb-ai-panel"
-                        initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                        initial={{ opacity: 0, y: 24, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 30, scale: 0.96 }}
-                        transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+                        exit={{ opacity: 0, y: 24, scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 26 }}
                         style={{
-                            position: 'fixed',
-                            bottom: 28,
-                            right: 24,
-                            width: 380,
-                            maxHeight: '75dvh',
-                            background: '#0D0D10',
-                            border: '1px solid rgba(212,175,106,0.2)',
-                            borderRadius: 20,
-                            zIndex: 960,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            overflow: 'hidden',
-                            boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,106,0.05)',
+                            position: 'fixed', bottom: 28, right: 24, width: 374,
+                            maxHeight: '76dvh', background: '#0C0C0F',
+                            border: '1px solid rgba(212,175,106,0.18)', borderRadius: 22, zIndex: 960,
+                            display: 'flex', flexDirection: 'column', overflow: 'hidden',
+                            boxShadow: '0 40px 100px rgba(0,0,0,0.85), 0 0 0 1px rgba(212,175,106,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
                         }}
                     >
                         {/* Header */}
                         <div style={{
-                            padding: '16px 20px', background: 'rgba(212,175,106,0.05)',
-                            borderBottom: '1px solid rgba(212,175,106,0.15)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0,
+                            padding: '15px 18px', background: 'rgba(10,10,11,0.6)',
+                            borderBottom: '1px solid rgba(255,255,255,0.06)',
+                            display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0,
+                            backdropFilter: 'blur(20px)',
                         }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                <div style={{
-                                    width: 36, height: 36, borderRadius: '50%',
-                                    background: 'linear-gradient(135deg, #D4AF6A, #7A5E2A)',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                }}>
-                                    <Bot size={18} color="#0A0A0B" />
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: 14, fontWeight: 700, color: '#F2F0EB' }}>BIGWEB AI</div>
-                                    <div style={{ fontSize: 11, color: '#D4AF6A', display: 'flex', alignItems: 'center', gap: 4 }}>
-                                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4CAF50', display: 'inline-block' }} />
-                                        Online · Usually replies instantly
-                                    </div>
+                            <div style={{
+                                width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+                                background: 'linear-gradient(135deg, #D4AF6A 0%, #7A5E2A 100%)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                boxShadow: '0 0 20px rgba(212,175,106,0.3)',
+                            }}>
+                                <Bot size={18} color="#0A0A0B" />
+                            </div>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: 14, fontWeight: 700, color: '#F2F0EB', letterSpacing: '-0.01em' }}>BIGWEB AI</div>
+                                <div style={{ fontSize: 11, color: '#4CAF50', display: 'flex', alignItems: 'center', gap: 5 }}>
+                                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4CAF50', display: 'inline-block' }} />
+                                    Online · Replies instantly
                                 </div>
                             </div>
-                            <button onClick={() => setIsOpen(false)} style={{
-                                background: 'rgba(255,255,255,0.05)', border: 'none',
-                                width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', color: '#9B9793',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            <button onClick={() => setOpen(false)} style={{
+                                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
+                                width: 30, height: 30, borderRadius: '50%', cursor: 'pointer',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9B9793',
                             }}>
-                                <X size={16} />
+                                <X size={14} />
                             </button>
                         </div>
 
+                        {/* Progress dots */}
+                        {phase === 'chat' && (
+                            <div style={{
+                                display: 'flex', gap: 4, padding: '10px 20px 0', flexShrink: 0,
+                            }}>
+                                {STEPS.map((_, i) => (
+                                    <div key={i} style={{
+                                        flex: 1, height: 2, borderRadius: 2,
+                                        background: i <= stepIdx ? '#D4AF6A' : 'rgba(255,255,255,0.07)',
+                                        transition: 'background 0.4s ease',
+                                    }} />
+                                ))}
+                            </div>
+                        )}
+
                         {/* Messages */}
                         <div ref={scrollRef} style={{
-                            flex: 1, overflowY: 'auto', padding: '20px 16px 8px',
+                            flex: 1, overflowY: 'auto', padding: '16px 16px 8px',
                             display: 'flex', flexDirection: 'column',
+                            scrollbarWidth: 'thin', scrollbarColor: '#1F1F24 transparent',
                         }}>
                             {messages.map((msg, i) => (
-                                msg.role === 'bot' ? (
-                                    <BotMessage key={i} text={msg.text} />
-                                ) : (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, x: 10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        style={{
-                                            display: 'flex', justifyContent: 'flex-end', marginBottom: 12,
-                                        }}
-                                    >
-                                        <div style={{
-                                            background: 'rgba(212,175,106,0.12)', border: '1px solid rgba(212,175,106,0.2)',
-                                            borderRadius: '16px 4px 16px 16px', padding: '10px 14px',
-                                            fontSize: 13, color: '#F2F0EB', maxWidth: '80%', textAlign: 'right',
-                                        }}>
-                                            {msg.text}
-                                        </div>
-                                    </motion.div>
-                                )
+                                msg.role === 'bot'
+                                    ? <BotBubble key={i} text={msg.text} />
+                                    : <UserBubble key={i} text={msg.text} />
                             ))}
-
-                            {isTyping && (
-                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                                    style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-                                    <div style={{
-                                        width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#D4AF6A,#7A5E2A)',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                                    }}>
-                                        <Bot size={14} color="#0A0A0B" />
-                                    </div>
-                                    <div style={{
-                                        background: 'rgba(255,255,255,0.05)', borderRadius: '4px 16px 16px 16px',
-                                        padding: '12px 16px', display: 'flex', gap: 4, alignItems: 'center',
-                                    }}>
-                                        {[0, 1, 2].map(i => (
-                                            <span key={i} style={{
-                                                width: 6, height: 6, borderRadius: '50%', background: '#9B9793',
-                                                animation: `typing-dot 1.2s ease-in-out ${i * 0.2}s infinite`,
-                                            }} />
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            )}
+                            {typing && <TypingIndicator />}
+                            <div style={{ height: 4 }} />
                         </div>
 
-                        {/* Options / Capture Form / Done */}
-                        <div style={{ padding: '12px 16px 16px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
-                            {phase === 'conversation' && !isTyping && currentStep?.type === 'question' && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                    {currentStep.options?.map(opt => (
-                                        <motion.button
+                        {/* Input area */}
+                        <div style={{
+                            padding: '10px 14px 14px', borderTop: '1px solid rgba(255,255,255,0.05)',
+                            flexShrink: 0, background: 'rgba(8,8,10,0.5)', backdropFilter: 'blur(10px)',
+                        }}>
+                            {/* Conversation options */}
+                            {phase === 'chat' && !typing && messages.length > 0 && currentStep && (
+                                <motion.div
+                                    key={currentStep.id}
+                                    initial={{ opacity: 0, y: 6 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    style={{ display: 'flex', flexDirection: 'column', gap: 6 }}
+                                >
+                                    {currentStep.options.map(opt => (
+                                        <button
                                             key={opt.value}
-                                            initial={{ opacity: 0, y: 8 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            whileHover={{ x: 4 }}
                                             onClick={() => handleOption(opt)}
                                             style={{
-                                                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                                                background: 'rgba(255,255,255,0.033)', border: '1px solid rgba(255,255,255,0.09)',
                                                 borderRadius: 10, padding: '10px 14px', cursor: 'pointer',
-                                                fontSize: 13, color: '#F2F0EB', textAlign: 'left',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                                transition: 'border-color 0.2s ease, background 0.2s ease',
+                                                fontSize: 13, color: '#E0DDD7', textAlign: 'left',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+                                                transition: 'all 0.18s ease', fontFamily: 'inherit',
                                             }}
                                             onMouseEnter={e => {
                                                 e.currentTarget.style.borderColor = 'rgba(212,175,106,0.4)';
-                                                e.currentTarget.style.background = 'rgba(212,175,106,0.06)';
+                                                e.currentTarget.style.background = 'rgba(212,175,106,0.08)';
+                                                e.currentTarget.style.color = '#F2F0EB';
                                             }}
                                             onMouseLeave={e => {
-                                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                                                e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)';
+                                                e.currentTarget.style.background = 'rgba(255,255,255,0.033)';
+                                                e.currentTarget.style.color = '#E0DDD7';
                                             }}
                                         >
-                                            {opt.label}
-                                            <ChevronRight size={14} style={{ opacity: 0.4, flexShrink: 0 }} />
-                                        </motion.button>
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                <span style={{ fontSize: 15 }}>{opt.emoji}</span>
+                                                <span>{opt.label}</span>
+                                            </span>
+                                            <ChevronRight size={13} style={{ opacity: 0.3, flexShrink: 0 }} />
+                                        </button>
                                     ))}
-                                </div>
+                                </motion.div>
                             )}
 
-                            {phase === 'capture' && !submitted && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                            {/* Capture form */}
+                            {phase === 'capture' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+                                >
                                     <input
-                                        type="text" placeholder="Your full name"
-                                        value={form.name}
+                                        type="text" placeholder="Your full name" value={form.name}
                                         onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                                         style={inputStyle}
                                     />
                                     <input
-                                        type="email" placeholder="Email address"
-                                        value={form.email}
+                                        type="email" placeholder="Email address" value={form.email}
                                         onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
                                         style={inputStyle}
                                     />
                                     <input
-                                        type="tel" placeholder="Phone (optional)"
-                                        value={form.phone}
+                                        type="tel" placeholder="Phone (optional)" value={form.phone}
                                         onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                                        style={inputStyle}
+                                        style={{ ...inputStyle, borderColor: 'rgba(255,255,255,0.07)' }}
                                     />
                                     <button
                                         onClick={handleSubmit}
-                                        disabled={submitting || !form.name || !form.email}
+                                        disabled={submitting || !canSubmit}
                                         style={{
-                                            background: 'linear-gradient(135deg, #D4AF6A, #7A5E2A)',
-                                            border: 'none', borderRadius: 10, padding: '12px 16px',
-                                            fontSize: 14, fontWeight: 700, color: '#0A0A0B', cursor: 'pointer',
+                                            marginTop: 2,
+                                            background: canSubmit
+                                                ? 'linear-gradient(135deg, #D4AF6A 0%, #9A7035 100%)'
+                                                : 'rgba(212,175,106,0.15)',
+                                            border: canSubmit ? 'none' : '1px solid rgba(212,175,106,0.2)',
+                                            borderRadius: 11, padding: '13px 16px',
+                                            fontSize: 13.5, fontWeight: 700, color: canSubmit ? '#0A0A0B' : '#7A5E2A',
+                                            cursor: canSubmit ? 'pointer' : 'not-allowed',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                                            opacity: (!form.name || !form.email) ? 0.5 : 1,
-                                            transition: 'opacity 0.2s ease',
+                                            transition: 'all 0.25s ease', fontFamily: 'inherit',
+                                            boxShadow: canSubmit ? '0 4px 20px rgba(212,175,106,0.3)' : 'none',
                                         }}
                                     >
-                                        {submitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-                                        {submitting ? 'Sending...' : 'Get My Custom Proposal'}
+                                        {submitting
+                                            ? <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> Sending…</>
+                                            : <><Send size={14} /> Send My Proposal</>
+                                        }
                                     </button>
-                                </div>
+                                </motion.div>
                             )}
 
+                            {/* Done state */}
                             {phase === 'done' && (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    style={{
-                                        display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center', textAlign: 'center', paddingTop: 4,
-                                    }}
+                                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, paddingTop: 4, textAlign: 'center' }}
                                 >
-                                    <CheckCircle size={40} color="#D4AF6A" />
-                                    <p style={{ fontSize: 13, color: '#9B9793', margin: 0 }}>We'll be in touch within 24 hours.</p>
-                                    <a href="/contact" style={{
+                                    <div style={{
+                                        width: 48, height: 48, borderRadius: '50%',
                                         background: 'rgba(212,175,106,0.1)', border: '1px solid rgba(212,175,106,0.3)',
-                                        borderRadius: 10, padding: '10px 20px', fontSize: 13, fontWeight: 600,
-                                        color: '#D4AF6A', textDecoration: 'none', width: '100%', textAlign: 'center',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     }}>
-                                        Book a Strategy Call Directly →
+                                        <CheckCircle size={24} color="#D4AF6A" />
+                                    </div>
+                                    <p style={{ margin: 0, fontSize: 12, color: '#9B9793', lineHeight: 1.5 }}>
+                                        Proposal sent to <strong style={{ color: '#D4AF6A' }}>{form.email}</strong>.<br />
+                                        We'll follow up within 24 hours.
+                                    </p>
+                                    <a href="/contact" style={{
+                                        width: '100%', display: 'block', background: 'rgba(212,175,106,0.08)',
+                                        border: '1px solid rgba(212,175,106,0.25)', borderRadius: 10,
+                                        padding: '11px 16px', fontSize: 13, fontWeight: 700,
+                                        color: '#D4AF6A', textDecoration: 'none', textAlign: 'center',
+                                    }}>
+                                        Book a Strategy Call →
                                     </a>
                                 </motion.div>
                             )}
@@ -453,25 +501,30 @@ export default function BigwebAI() {
                 )}
             </AnimatePresence>
 
+            {/* ── Keyframes ──────────────────────────────────────────────── */}
             <style dangerouslySetInnerHTML={{
                 __html: `
-        @keyframes ai-pulse {
-          0% { transform: scale(1); opacity: 0.7; }
-          70% { transform: scale(1.4); opacity: 0; }
-          100% { transform: scale(1.4); opacity: 0; }
-        }
-        @keyframes typing-dot {
-          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+        @keyframes bw-dot {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
           30% { transform: translateY(-4px); opacity: 1; }
         }
-      `}} />
+        @keyframes bw-ring {
+          0%   { transform: scale(1); opacity: 0.6; }
+          80%  { transform: scale(1.5); opacity: 0; }
+          100% { transform: scale(1.5); opacity: 0; }
+        }
+        @keyframes spin { to { transform: rotate(360deg); }}
+        .bigweb-ai-panel::-webkit-scrollbar { width: 4px; }
+        .bigweb-ai-panel::-webkit-scrollbar-track { background: transparent; }
+        .bigweb-ai-panel::-webkit-scrollbar-thumb { background: #1F1F24; border-radius: 4px; }
+      ` }} />
         </>
     );
 }
 
 const inputStyle: React.CSSProperties = {
     background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.12)',
+    border: '1px solid rgba(255,255,255,0.1)',
     borderRadius: 10,
     padding: '11px 14px',
     fontSize: 13,
@@ -479,4 +532,5 @@ const inputStyle: React.CSSProperties = {
     outline: 'none',
     width: '100%',
     fontFamily: 'inherit',
+    transition: 'border-color 0.2s ease',
 };
