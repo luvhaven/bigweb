@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import MagneticButton from '@/components/ui/MagneticButton';
+import KineticText from '@/components/ui/KineticText';
 
 const HeroScene = dynamic(() => import('@/components/ui/HeroScene'), { ssr: false });
 
@@ -27,24 +28,28 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
+      // Label
       tl.fromTo(labelRef.current,
         { opacity: 0, filter: 'blur(4px)', y: 20 },
         { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.2 },
-        0.8
+        0.8 // Wait for page transition svg to lift
       );
 
+      // Sub text
       tl.fromTo(subRef.current,
         { opacity: 0, y: 30, filter: 'blur(4px)' },
         { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 },
         1.8
       );
 
+      // CTAs
       tl.fromTo(ctaRef.current,
         { opacity: 0, y: 20, scale: 0.95 },
         { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'back.out(1.2)' },
         2.2
       );
 
+      // Stats stagger
       if (statsRef.current) {
         const items = statsRef.current.querySelectorAll('.hero-stat-item-kin');
         tl.fromTo(items,
@@ -64,48 +69,46 @@ export default function Hero() {
       id="hero"
       style={{
         position: 'relative',
-        minHeight: '100dvh',
+        minHeight: '100dvh', // Changed from 85dvh to safely hold everything natively
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',   // content anchored to bottom — full height ensures nothing is clipped
+        justifyContent: 'center', // Fixes the upward push on long mobile containers
         overflow: 'hidden',
-        paddingBottom: 'var(--space-10)',
+        paddingBottom: 'var(--space-16)', // Gives it a bit of breathing room near footer
         paddingTop: 'calc(var(--nav-height) + var(--space-8))',
       }}
     >
       <HeroScene />
 
-      {/* Darkened overlay */}
+      {/* Darkened overlay to ensure text is highly legible against the gold anomaly */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(circle at center, rgba(10,10,11,0.6) 0%, rgba(10,10,11,0.95) 100%)', mixBlendMode: 'multiply' }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 3 }}>
         {/* Label */}
-        <div ref={labelRef} style={{ opacity: 0, marginBottom: 'var(--space-6)' }}>
+        <div ref={labelRef} style={{ opacity: 0, marginBottom: 'var(--space-8)' }}>
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '8px 16px',
+            padding: '8px 20px',
             border: '1px solid rgba(212, 175, 106, 0.3)',
             borderRadius: '20px',
             background: 'rgba(212, 175, 106, 0.05)',
             backdropFilter: 'blur(10px)',
             fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.15em', textTransform: 'uppercase',
+            letterSpacing: '0.2em', textTransform: 'uppercase',
             color: 'var(--color-gold-bright)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-            whiteSpace: 'nowrap',
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', boxShadow: '0 0 10px var(--color-gold-bright)', flexShrink: 0 }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', boxShadow: '0 0 10px var(--color-gold-bright)' }} />
             Revenue-First Digital Agency
           </span>
         </div>
 
-        {/* Headline */}
+        {/* Cinematic Kinetic Headline */}
         <h1 style={{
-          fontSize: 'clamp(2.5rem, 7vw, 6.5rem)',
+          fontSize: 'clamp(2.5rem, 6.5vw, 6.5rem)', // Relaxed lower clamp
           maxWidth: 1000,
-          marginBottom: 'var(--space-6)',
+          marginBottom: 'var(--space-8)',
           perspective: '1200px',
-          lineHeight: 1.05,
         }}>
           <span className="scramble-init">R</span>evenue <br />
           <span className="blur-in-init accent-italic">monopolies.</span>
@@ -115,22 +118,22 @@ export default function Hero() {
         <p
           ref={subRef}
           style={{
-            fontSize: 'clamp(0.95rem, 2.2vw, var(--text-xl))',
+            fontSize: 'clamp(1rem, 2vw, var(--text-2xl))',
             color: 'var(--color-text-secondary)',
-            maxWidth: 680,
-            marginBottom: 'var(--space-8)',
-            lineHeight: 1.65,
+            maxWidth: 800,
+            marginBottom: 'var(--space-10)',
+            lineHeight: 1.6,
             fontWeight: 500,
             position: 'relative',
-            zIndex: 3,
+            zIndex: 3
           }}
         >
-          We don&apos;t build websites. We engineer absolute market dominance.{' '}
+          We don&apos;t build websites. We engineer absolute market dominance. <br style={{ display: 'none' }} className="md:block" />
           Elite kinetic design meets aggressive conversion architecture.
         </p>
 
         {/* CTAs */}
-        <div ref={ctaRef} style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)', alignItems: 'center', marginBottom: 'var(--space-10)' }}>
+        <div ref={ctaRef} style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', alignItems: 'center', marginBottom: 'var(--space-16)' }}>
           <MagneticButton href="/contact" className="btn btn-primary btn-lg">
             Book Strategy Call <ArrowRight size={16} style={{ transition: 'transform 0.3s' }} />
           </MagneticButton>
@@ -139,10 +142,10 @@ export default function Hero() {
           </MagneticButton>
         </div>
 
-        {/* Stats Bar */}
+        {/* Extreme Grid Stats Bar */}
         <div ref={statsRef} style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
           gap: '1px',
           background: 'rgba(212, 175, 106, 0.1)',
           border: '1px solid rgba(212, 175, 106, 0.2)',
@@ -155,7 +158,7 @@ export default function Hero() {
               style={{
                 opacity: 0,
                 background: 'rgba(10, 10, 11, 0.7)',
-                padding: 'var(--space-4) var(--space-4)',
+                padding: 'var(--space-6) var(--space-6)',
                 textAlign: 'center',
                 transition: 'background 0.3s',
               }}
@@ -164,18 +167,18 @@ export default function Hero() {
             >
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.25rem, 3vw, var(--text-3xl))',
+                fontSize: 'var(--text-3xl)',
                 fontWeight: 900,
                 color: 'var(--color-gold-bright)',
-                marginBottom: 2,
+                marginBottom: 4,
                 textShadow: '0 0 20px rgba(212, 175, 106, 0.3)',
               }}>
                 {s.value}
               </div>
               <div style={{
-                fontSize: '0.6rem',
+                fontSize: '0.65rem',
                 textTransform: 'uppercase',
-                letterSpacing: '0.2em',
+                letterSpacing: '0.25em',
                 color: 'var(--color-text-secondary)',
                 fontWeight: 700,
               }}>
@@ -184,7 +187,6 @@ export default function Hero() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

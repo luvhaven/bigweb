@@ -112,27 +112,14 @@ export default function ServicesOverview({ services }: { services: Service[] }) 
           <span className="section-label">WHAT WE DO</span>
         </AnimateIn>
         <AnimateIn delay={1}>
-          <h2 className="svo-headline" style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 6vw, var(--text-5xl))',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.04em',
-            marginBottom: 'var(--space-6)'
-          }}>
+          <h2 className="svo-headline">
             Structured execution.<br />
-            <span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>Measurable outcomes.</span>
+            <span className="text-gold">Measurable outcomes.</span>
           </h2>
         </AnimateIn>
         <AnimateIn delay={2}>
-          <p className="svo-intro" style={{
-            fontSize: 'var(--text-lg)',
-            color: 'var(--color-text-secondary)',
-            maxWidth: '600px',
-            lineHeight: 1.6,
-            marginBottom: 'var(--space-12)'
-          }}>
-            Every engagement is scoped, priced, and <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>tied to a measurable result.</span>
+          <p className="svo-intro">
+            Every engagement is scoped, priced, and tied to a measurable result.
             No open-ended retainers. No vague deliverables. Just outcomes.
           </p>
         </AnimateIn>

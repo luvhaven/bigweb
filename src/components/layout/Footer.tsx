@@ -95,7 +95,7 @@ export default async function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2018-{new Date().getFullYear()} BIGWEB Digital. All rights reserved.</p>
+          <p>&copy; 2018 - {new Date().getFullYear()} BIGWEB Digital. All rights reserved.</p>
           <div className="footer-legal">
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>

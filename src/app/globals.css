@@ -6022,180 +6022,427 @@ a.info-detail-value:hover {
   }
 }
 
-/* =============================================
-   GLOBAL MOBILE RESPONSIVENESS OVERHAUL
-   Covers every pixel from 320px to 767px
-   ============================================= */
+/* ============================================================
+   BIGWEB DIGITAL — WORLD-CLASS MOBILE RESPONSIVE SYSTEM
+   Breakpoints: 480 (xs), 640 (sm), 768 (md), 1024 (lg), 1280 (xl)
+   ============================================================ */
 
-/* Prevent horizontal scroll globally */
-html,
-body {
-  overflow-x: hidden;
-  max-width: 100vw;
+/* ── Shared safe zone ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* Fix any element that might cause horizontal bleed */
-* {
-  min-width: 0;
-}
-
-/* ---- NAV: tighten mobile ---- */
-@media (max-width: 1023px) {
-  .nav-inner {
-    padding: 0 var(--space-4);
-  }
-}
-
-/* ---- SECTION PADDING: reduce on mobile ---- */
-@media (max-width: 767px) {
-  .section {
-    padding: var(--space-16) 0;
+/* ── 1. TYPOGRAPHY FLUID SCALE ───────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 64px;
   }
 
-  .container {
-    padding: 0 var(--space-4);
+  h1 {
+    font-size: clamp(2rem, 9vw, 3.5rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 7vw, 2.75rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  h3 {
+    font-size: clamp(1.35rem, 5.5vw, 2rem) !important;
+  }
+
+  h4 {
+    font-size: clamp(1.1rem, 4vw, 1.5rem) !important;
+  }
+
+  p {
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem) !important;
   }
 
   .section-headline {
-    font-size: clamp(1.75rem, 7vw, 2.5rem);
+    font-size: clamp(1.75rem, 7vw, 2.75rem) !important;
   }
 
-  /* Body bottom padding for mobile sticky bar */
-  body {
-    padding-bottom: 72px;
-  }
-}
-
-/* ---- BUTTONS: full-width on very small screens ---- */
-@media (max-width: 479px) {
-  .btn-lg {
-    padding: var(--space-3) var(--space-6);
-    font-size: var(--text-sm);
+  .section-label {
+    font-size: 0.7rem !important;
+    letter-spacing: 0.18em !important;
   }
 
-  /* Prevent buttons from overflowing their flex container */
-  .btn {
-    white-space: nowrap;
-    max-width: 100%;
-    box-sizing: border-box;
+  .accent-italic {
+    font-size: inherit !important;
   }
 }
 
-/* ---- FOOTER: stack on mobile ---- */
-@media (max-width: 767px) {
+/* ── 2. CONTAINER ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .container {
+    padding-left: var(--space-5) !important;
+    padding-right: var(--space-5) !important;
+  }
+}
+
+/* ── 3. NAVIGATION ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none !important;
+  }
+
+  .hamburger-btn {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hamburger-btn {
+    display: none !important;
+  }
+}
+
+/* ── 4. HERO SECTION ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #hero {
+    min-height: 100dvh !important;
+    padding-top: calc(var(--nav-height) + var(--space-6)) !important;
+    padding-bottom: var(--space-10) !important;
+    justify-content: center !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+    margin-bottom: var(--space-6) !important;
+  }
+
+  #hero p {
+    font-size: 1rem !important;
+    margin-bottom: var(--space-8) !important;
+  }
+
+  /* CTA buttons stack vertically on small screens */
+  #hero div[ref]+div,
+  #hero .btn-group,
+  #hero>div>div:has(.btn) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: var(--space-4) !important;
+  }
+
+  /* Stats bar: 2 columns on mobile */
+  #hero .hero-stat-item-kin,
+  div[class*="hero-stat"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #hero h1 {
+    font-size: clamp(2rem, 11vw, 3rem) !important;
+  }
+}
+
+/* ── 5. SECTION GLOBAL SPACING ───────────────────────────────── */
+@media (max-width: 768px) {
+  .section {
+    padding-top: var(--space-16) !important;
+    padding-bottom: var(--space-16) !important;
+  }
+
+  .section-header {
+    margin-bottom: var(--space-10) !important;
+  }
+}
+
+/* ── 6. REALITY CHECK / PROOF BARS ──────────────────────────── */
+@media (max-width: 768px) {
+
+  .proof-bar-grid,
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--space-4) !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .proof-bar-grid,
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── 7. CARDS (What We Do / Services / Work) ─────────────────── */
+@media (max-width: 768px) {
+
+  .card-grid,
+  .services-listing-grid,
+  .work-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-4) !important;
+  }
+
+  .card {
+    padding: var(--space-6) !important;
+  }
+}
+
+/* ── 8. CINEMATIC VIDEO TESTIMONIALS ─────────────────────────── */
+@media (max-width: 768px) {
+  .cinematic-frame {
+    max-width: 100% !important;
+    border-radius: 16px !important;
+  }
+
+  .video-client-name {
+    font-size: 1.1rem !important;
+  }
+
+  .video-overlay {
+    padding: var(--space-4) !important;
+  }
+
+  .control-btn {
+    width: 34px !important;
+    height: 34px !important;
+  }
+}
+
+/* ── 9. TEXT TESTIMONIALS MARQUEE ────────────────────────────── */
+@media (max-width: 768px) {
+  .marquee-card {
+    width: 280px !important;
+    padding: var(--space-4) !important;
+  }
+
+  .marquee-quote {
+    font-size: 0.85rem !important;
+  }
+
+  .marquee-name {
+    font-size: 0.95rem !important;
+  }
+
+  .marquee-wrapper {
+    gap: var(--space-4) !important;
+  }
+}
+
+/* ── 10. RESULTS / CASE STUDIES ──────────────────────────────── */
+@media (max-width: 768px) {
+
+  .results-grid,
+  .case-study-grid,
+  .outcomes-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-6) !important;
+  }
+}
+
+/* ── 11. PROCESS STEPS ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .process-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-8) !important;
+  }
+
+  .process-step-number {
+    font-size: var(--text-5xl) !important;
+  }
+}
+
+/* ── 12. PHILOSOPHY / SPLIT LAYOUTS ─────────────────────────── */
+@media (max-width: 1024px) {
+
+  .split-layout,
+  .philosophy-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-10) !important;
+  }
+}
+
+/* ── 13. GROWTH PATH ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .growth-path-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .growth-tier-card {
+    padding: var(--space-6) !important;
+  }
+}
+
+/* ── 14. PRICING TIER CARDS ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-6) !important;
+  }
+}
+
+/* ── 15. ABOUT PAGE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .team-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--space-4) !important;
+  }
+
+  .about-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── 16. CONTACT PAGE ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-8) !important;
+  }
+
+  .contact-form {
+    padding: var(--space-6) !important;
+  }
+}
+
+/* ── 17. FOOTER ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .footer {
+    padding: var(--space-12) 0 var(--space-8) !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--space-8) !important;
+  }
+
   .footer-top {
-    flex-direction: column;
-    gap: var(--space-6);
+    flex-direction: column !important;
+    gap: var(--space-4) !important;
+    margin-bottom: var(--space-8) !important;
   }
 
   .footer-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    flex-direction: column !important;
+    gap: var(--space-3) !important;
+    text-align: center !important;
   }
 
   .footer-legal {
-    flex-wrap: wrap;
-    gap: var(--space-4);
+    justify-content: center !important;
   }
 }
 
-/* ---- CARD GRID: single col on mobile ---- */
-@media (max-width: 639px) {
-  .card {
-    padding: var(--space-6);
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 
-/* ---- MOBILE MENU OVERLAY ---- */
-.mobile-menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--color-bg-primary);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  padding: calc(var(--nav-height) + var(--space-8)) var(--space-6) var(--space-8);
-  overflow-y: auto;
+/* ── 18. INSIGHTS / BLOG GRID ────────────────────────────────── */
+@media (max-width: 768px) {
+
+  .insights-grid,
+  .articles-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-6) !important;
+  }
+}
+
+/* ── 19. BUTTON SYSTEM ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .btn-lg {
+    padding: 14px 24px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .btn {
+    padding: 12px 20px !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* ── 20. STICKY MOBILE CTA BAR ───────────────────────────────── */
+.mobile-cta-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-cta-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(10, 10, 11, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(212, 175, 106, 0.2);
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .mobile-cta-bar a:first-child {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ── 21. PROJECTSLIDESHOW MOBILE ─────────────────────────────── */
+@media (max-width: 768px) {
+  .ps-section-pure {
+    height: 55vh !important;
+    min-height: 320px !important;
+  }
+
+  .ps-pure-letterbox {
+    height: 3vh !important;
+  }
+}
+
+/* ── 22. BIGWEB AI CHAT WIDGET RESPONSIVE ────────────────────── */
+@media (max-width: 640px) {
+  .bigweb-ai-panel {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-height: 80dvh !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+}
+
+/* ── 23. HIDE CUSTOM CURSOR ON TOUCH ─────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+/* ── 24. OVERFLOW SAFETY ─────────────────────────────────────── */
+body {
   overflow-x: hidden;
 }
 
-/* ---- IMAGES: never overflow ---- */
-img {
+/* ── 25. IMAGE RESPONSIVENESS ────────────────────────────────── */
+img,
+video {
   max-width: 100%;
   height: auto;
 }
 
-/* ---- TABLE OVERFLOW ---- */
-table {
-  width: 100%;
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* ---- PREVENT TEXT OVERFLOW IN HEADINGS ---- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-}
-
-/* ---- PROSE: large containers can shrink ---- */
-@media (max-width: 767px) {
-  p {
-    font-size: clamp(0.9rem, 4vw, 1rem);
-  }
-}
-
-/* ---- HERO SECTION: explicit mobile overrides ---- */
-@media (max-width: 767px) {
-  #hero {
-    min-height: 100dvh !important;
-    padding-bottom: var(--space-8) !important;
-    justify-content: flex-end !important;
-  }
-
-  #hero h1 {
-    font-size: clamp(2.25rem, 9vw, 3.5rem) !important;
-    margin-bottom: var(--space-5) !important;
-  }
-
-  #hero .container {
-    padding-bottom: var(--space-4);
-  }
-}
-
-/* ---- STATS BAR: 2-col on mobile ---- */
-@media (max-width: 767px) {
-  .hero-stat-item-kin {
-    padding: var(--space-3) var(--space-2) !important;
-  }
-}
-
-/* ---- Large elements that bleed on mobile ---- */
-@media (max-width: 767px) {
-
-  /* Slideshow cards */
-  [style*="500px"] {
-    width: 85vw !important;
-  }
-
-  /* Kill perspective-heavy transforms that may overflow */
-  [style*="perspective: 1500px"],
-  [style*="perspective: 1200px"] {
-    perspective: none;
-  }
-}
-
-/* ---- MOBILE: prevent fixed 3D elements from breaching layout ---- */
-@media (max-width: 767px) {
-  canvas {
-    max-width: 100vw !important;
+/* ── 26. MOBILE MENU PADDING FIX ────────────────────────────── */
+@media (max-width: 768px) {
+  .mobile-menu-overlay {
+    padding-top: var(--space-20) !important;
   }
 }

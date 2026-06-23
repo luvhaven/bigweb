@@ -172,17 +172,9 @@ export default function AIAdvantage() {
           <span className="section-label">AI-NATIVE BY DESIGN</span>
         </AnimateIn>
         <AnimateIn delay={1}>
-          <h2 className="section-headline" style={{
-            maxWidth: 800,
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 6vw, var(--text-5xl))',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.04em',
-            marginBottom: 'var(--space-6)'
-          }}>
-            Your competitors just got a<br />
-            <span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>24/7 sales team.</span>
+          <h2 className="section-headline" style={{ maxWidth: 680 }}>
+            Your competitors just got a{' '}
+            <span className="text-gold">24/7 sales team.</span>
           </h2>
         </AnimateIn>
         <AnimateIn delay={2}>

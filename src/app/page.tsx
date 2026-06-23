@@ -11,11 +11,8 @@ import ROISimulator from '@/components/sections/ROISimulator';
 import InsightsPreview from '@/components/sections/InsightsPreview';
 import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
-import KineticDivider from '@/components/ui/KineticDivider';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
-import ObsidianMorph from '@/components/layout/ObsidianMorph';
-
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 
 export const revalidate = 0;
@@ -42,30 +39,28 @@ export default async function HomePage() {
       <ScrollSpy />
       <Hero />
       <ClientLogos />
-      <ObsidianMorph>
-        <ProjectSlideshow />
-      </ObsidianMorph>
-      <KineticDivider />
-      <PhilosophyShift />
-      <KineticDivider />
-      <ServicesOverview services={services} />
-      <KineticDivider />
-      <GrowthPath />
-      <KineticDivider />
+      <ProjectSlideshow />
+      <div className="section-divider" />
       <RealityCheck />
-      <KineticDivider />
+      <div className="section-divider" />
+      <PhilosophyShift />
+      <div className="section-divider" />
+      <ServicesOverview services={services} />
+      <div className="section-divider" />
+      <GrowthPath />
+      <div className="section-divider" />
       <Results caseStudies={caseStudies} testimonials={testimonials} />
-      <KineticDivider />
+      <div className="section-divider" />
       <AIAdvantage />
-      <KineticDivider />
+      <div className="section-divider" />
       <Process />
-      <KineticDivider />
+      <div className="section-divider" />
       <AboutPreview image={aboutSettings.about_image} />
-      <KineticDivider />
+      <div className="section-divider" />
       <ROISimulator />
-      <KineticDivider />
+      <div className="section-divider" />
       <InsightsPreview articles={articles} />
-      <KineticDivider />
+      <div className="section-divider" />
       <FinalCTA image={aboutSettings.contact_image} />
     </>
   );

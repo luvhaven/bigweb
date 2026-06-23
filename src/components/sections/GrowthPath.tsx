@@ -106,14 +106,8 @@ export default function GrowthPath() {
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', boxShadow: '0 0 10px var(--color-gold-bright)' }} />
             The Circuit
           </span>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 6vw, var(--text-6xl))',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.04em'
-          }}>
-            From audit to <span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>$140k+ asset.</span>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, var(--text-6xl))', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em' }}>
+            From audit to <span style={{ color: 'var(--color-gold-bright)' }}>$140k+ asset.</span>
           </h2>
         </div>
 

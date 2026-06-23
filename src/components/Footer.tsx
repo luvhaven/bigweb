@@ -330,7 +330,7 @@ export default function Footer({ footerData }: { footerData?: FooterData | null 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-xs text-zinc-600">
-            © 2018-{year || '2026'} BIGWEB Digital. All rights reserved.
+            © {year || '2026'} BIGWEB Digital. All rights reserved.
           </span>
           <div className="flex items-center gap-6">
             {[

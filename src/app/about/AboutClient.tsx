@@ -222,7 +222,7 @@ export default function AboutClient({ teamMembers, values, teamStats }: { teamMe
                                     }}>
                                         {member.image ? (
                                             <Image src={member.image} alt={member.name} fill sizes="80px"
-                                                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                                                style={{ objectFit: 'cover', objectPosition: member.name === 'Daniel Oriazowan' ? 'center 5%' : 'center top' }}
                                                 unoptimized={member.image.includes('daniel-orz.vercel.app')} />
                                         ) : (
                                             <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--color-gold-bright)', letterSpacing: '0.05em' }}>{member.initials}</span>
