@@ -153,7 +153,7 @@ function ChatMockup() {
         </button>
       </div>
 
-      
+
     </div>
   );
 }
@@ -162,7 +162,7 @@ export default function AIAdvantage() {
   return (
     <section className="section ai-section" id="ai" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="ai-grid-bg" aria-hidden="true" />
-      
+
       {/* Background Art */}
       <AsciiArt rows={20} cols={80} speed={0.4} color="212, 175, 106" />
       <AmbientGlow color="rgba(212, 175, 106, 0.4)" size="600px" opacity={0.3} blur="150px" top="-10%" right="-10%" />
@@ -172,9 +172,17 @@ export default function AIAdvantage() {
           <span className="section-label">AI-NATIVE BY DESIGN</span>
         </AnimateIn>
         <AnimateIn delay={1}>
-          <h2 className="section-headline" style={{ maxWidth: 680 }}>
-            Your competitors just got a{' '}
-            <span className="text-gold">24/7 sales team.</span>
+          <h2 className="section-headline" style={{
+            maxWidth: 800,
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2.5rem, 6vw, var(--text-5xl))',
+            fontWeight: 800,
+            lineHeight: 1.05,
+            letterSpacing: '-0.04em',
+            marginBottom: 'var(--space-6)'
+          }}>
+            Your competitors just got a<br />
+            <span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>24/7 sales team.</span>
           </h2>
         </AnimateIn>
         <AnimateIn delay={2}>
@@ -208,7 +216,7 @@ export default function AIAdvantage() {
         </div>
       </div>
 
-      
+
     </section>
   );
 }

@@ -128,46 +128,57 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
               Client Outcomes
             </span>
             <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, var(--text-5xl))',
-              fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.02em',
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, var(--text-5xl))',
+              fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em',
             }}>
-              Numbers don&apos;t<br />have opinions.
+              Numbers don&apos;t<br /><span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>have opinions.</span>
             </h2>
           </div>
           <p style={{
             fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)',
             maxWidth: 380, borderLeft: '2px solid var(--color-bg-border)',
-            paddingLeft: 'var(--space-4)', lineHeight: 1.7,
+            paddingLeft: 'var(--space-6)', lineHeight: 1.8, opacity: 0.8
           }}>
-            Real clients, real data, real timelines. Every metric below is verified and documented.
+            Real clients, real data, real timelines. Every metric below is <span style={{ color: 'var(--color-text-primary)' }}>verified and documented</span> in our client-immutable ledger.
           </p>
         </div>
 
         <div ref={gridRef} style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 'var(--space-5)',
+          gap: '1px', background: 'var(--color-bg-border)', border: '1px solid var(--color-bg-border)',
           marginBottom: 'var(--space-16)',
         }}>
           {caseStudies.slice(0, 6).map((result, i) => (
             <TiltCard key={i} className="result-card-new">
               <div
+                className="group relative h-full bg-[#0a0a0b] p-10 transition-colors duration-500 hover:bg-[#111114]"
                 style={{
-                  height: '100%', background: 'var(--color-bg-secondary)',
+                  height: '100%',
                   padding: 'var(--space-10)', display: 'flex', flexDirection: 'column',
-                  position: 'relative', minHeight: 280,
-                  boxShadow: 'var(--shadow-card)',
-                  borderRadius: '4px',
-                  transition: 'box-shadow 0.3s ease, background 0.3s ease',
+                  position: 'relative', minHeight: 300,
+                  overflow: 'hidden'
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = '#111114'; e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-bg-secondary)'; e.currentTarget.style.boxShadow = 'var(--shadow-card)'; }}
               >
+                {/* Futuristic Scan Line Effect */}
+                <div className="scan-line" style={{
+                  position: 'absolute',
+                  top: '-100%',
+                  left: 0,
+                  width: '100%',
+                  height: '2px',
+                  background: 'linear-gradient(90deg, transparent, var(--color-gold-bright), transparent)',
+                  opacity: 0,
+                  zIndex: 5,
+                  pointerEvents: 'none',
+                  transition: 'opacity 0.3s ease'
+                }} />
+
                 <span
                   aria-hidden="true"
                   style={{
-                    position: 'absolute', top: 'var(--space-6)', right: 'var(--space-6)',
+                    position: 'absolute', top: 'var(--space-6)', right: 'var(--space-10)',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-6xl)',
-                    fontWeight: 900, color: 'var(--color-bg-border)', opacity: 0.25,
+                    fontWeight: 900, color: 'var(--color-bg-border)', opacity: 0.15,
                     lineHeight: 1, pointerEvents: 'none',
                   }}
                 >
@@ -177,13 +188,14 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
                 <span style={{
                   fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
                   color: 'var(--color-gold-bright)', fontWeight: 700, marginBottom: 'var(--space-6)',
+                  fontStyle: 'italic'
                 }}>
                   {result.metric_label || 'PERFORMANCE'}
                 </span>
 
                 <h3 style={{
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)',
-                  fontWeight: 700, marginBottom: 'var(--space-3)', color: 'var(--color-text-primary)',
+                  fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--color-text-primary)',
                   paddingRight: 'var(--space-8)', lineHeight: 1.25,
                 }}>
                   {result.client}
@@ -191,25 +203,37 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
 
                 <p style={{
                   fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)',
-                  marginBottom: 'var(--space-10)', flex: 1, lineHeight: 1.7,
+                  marginBottom: 'var(--space-10)', flex: 1, lineHeight: 1.7, opacity: 0.7
                 }}>
                   {result.problem}
                 </p>
 
                 <div>
                   <div style={{
-                    fontSize: 'clamp(2rem, 3vw, var(--text-4xl))', color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-4xl)',
+                    color: 'var(--color-text-primary)', fontWeight: 800,
                     marginBottom: 4, letterSpacing: '-0.02em',
                   }}>
                     <SmartMetric metric={result.metric} />
                   </div>
                   <p style={{
                     fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)',
-                    textTransform: 'uppercase', letterSpacing: '0.12em',
+                    textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600
                   }}>
                     {result.result}
                   </p>
                 </div>
+
+                <style jsx>{`
+                  .result-card-new:hover .scan-line {
+                    opacity: 1;
+                    animation: scan 2s linear infinite;
+                  }
+                  @keyframes scan {
+                    0% { top: -5%; }
+                    100% { top: 105%; }
+                  }
+                `}</style>
               </div>
             </TiltCard>
           ))}

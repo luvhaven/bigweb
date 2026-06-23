@@ -11,6 +11,7 @@ import ROISimulator from '@/components/sections/ROISimulator';
 import InsightsPreview from '@/components/sections/InsightsPreview';
 import FinalCTA from '@/components/sections/FinalCTA';
 import ScrollSpy from '@/components/layout/ScrollSpy';
+import KineticDivider from '@/components/ui/KineticDivider';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
 import StickyMaskMorph from '@/components/layout/StickyMaskMorph';
@@ -44,27 +45,27 @@ export default async function HomePage() {
       <StickyMaskMorph>
         <ProjectSlideshow />
       </StickyMaskMorph>
-      <div className="section-divider" />
+      <KineticDivider />
       <PhilosophyShift />
-      <div className="section-divider" />
+      <KineticDivider />
       <ServicesOverview services={services} />
-      <div className="section-divider" />
+      <KineticDivider />
       <GrowthPath />
-      <div className="section-divider" />
+      <KineticDivider />
       <RealityCheck />
-      <div className="section-divider" />
+      <KineticDivider />
       <Results caseStudies={caseStudies} testimonials={testimonials} />
-      <div className="section-divider" />
+      <KineticDivider />
       <AIAdvantage />
-      <div className="section-divider" />
+      <KineticDivider />
       <Process />
-      <div className="section-divider" />
+      <KineticDivider />
       <AboutPreview image={aboutSettings.about_image} />
-      <div className="section-divider" />
+      <KineticDivider />
       <ROISimulator />
-      <div className="section-divider" />
+      <KineticDivider />
       <InsightsPreview articles={articles} />
-      <div className="section-divider" />
+      <KineticDivider />
       <FinalCTA image={aboutSettings.contact_image} />
     </>
   );

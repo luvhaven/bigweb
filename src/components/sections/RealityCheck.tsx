@@ -53,7 +53,7 @@ export default function RealityCheck() {
           {
             opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)',
             duration: 1.2, ease: 'expo.out',
-            scrollTrigger: { trigger: q, start: 'top 80%', end: 'top 40%', toggleActions: 'play none none none' },
+            scrollTrigger: { trigger: q, start: 'top 80%', toggleActions: 'play none none none' },
           }
         );
       }
@@ -82,22 +82,21 @@ export default function RealityCheck() {
       style={{ padding: 'var(--space-24) 0', position: 'relative', overflow: 'hidden' }}
     >
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div ref={quoteRef} style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto var(--space-20)' }}>
+        <div ref={quoteRef} style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto var(--space-20)' }}>
           <div style={{ width: 60, height: 1, background: 'var(--color-gold-bright)', margin: '0 auto var(--space-8)' }} />
           <blockquote style={{
-            fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, var(--text-4xl))',
-            fontWeight: 700, fontStyle: 'italic', lineHeight: 1.3, color: 'var(--color-text-primary)',
-            marginBottom: 'var(--space-4)',
+            fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontWeight: 800, lineHeight: 1.1, color: 'var(--color-text-primary)',
+            marginBottom: 'var(--space-6)', letterSpacing: '-0.03em'
           }}>
-            &ldquo;We have traffic. Why aren&apos;t we getting sales?&rdquo;
+            &ldquo;We have traffic. Why aren&apos;t we getting <span style={{ fontStyle: 'italic', color: 'var(--color-gold-bright)' }}>sales?&rdquo;</span>
           </blockquote>
           <p style={{
             fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)',
-            letterSpacing: '0.08em', textTransform: 'uppercase',
+            letterSpacing: '0.08em', textTransform: 'uppercase', fontStyle: 'italic'
           }}>
             — Every business owner we&apos;ve ever spoken to
           </p>
-          <div style={{ width: 60, height: 1, background: 'var(--color-gold-bright)', margin: 'var(--space-8) auto 0' }} />
         </div>
 
         <div
@@ -110,21 +109,34 @@ export default function RealityCheck() {
           {cards.map((card) => (
             <TiltCard key={card.num} className="rc-card-new">
               <div
+                className="group relative h-full bg-[#0a0a0b] p-10 transition-colors duration-500 hover:bg-[#111114]"
                 style={{
                   height: '100%',
-                  background: 'var(--color-bg-primary)', padding: 'var(--space-10)',
+                  padding: 'var(--space-10)',
                   display: 'flex', flexDirection: 'column', position: 'relative',
-                  transition: 'background 0.3s ease',
+                  overflow: 'hidden'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#111114')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--color-bg-primary)')}
               >
+                {/* Futuristic Scan Line Effect (CSS ONLY for performance) */}
+                <div className="scan-line" style={{
+                  position: 'absolute',
+                  top: '-100%',
+                  left: 0,
+                  width: '100%',
+                  height: '2px',
+                  background: 'linear-gradient(90deg, transparent, var(--color-gold-bright), transparent)',
+                  opacity: 0,
+                  zIndex: 5,
+                  pointerEvents: 'none',
+                  transition: 'opacity 0.3s ease'
+                }} />
+
                 <span
                   aria-hidden="true"
                   style={{
-                    position: 'absolute', top: 'var(--space-6)', right: 'var(--space-6)',
+                    position: 'absolute', top: 'var(--space-6)', right: 'var(--space-10)',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-6xl)',
-                    fontWeight: 900, color: 'var(--color-bg-border)', opacity: 0.3,
+                    fontWeight: 900, color: 'var(--color-bg-border)', opacity: 0.15,
                     lineHeight: 1, pointerEvents: 'none',
                   }}
                 >
@@ -133,14 +145,14 @@ export default function RealityCheck() {
 
                 <div style={{ marginBottom: 'var(--space-8)' }}>
                   <div style={{
-                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-4xl)',
                     fontWeight: 800, color: 'var(--color-gold-bright)', lineHeight: 1, marginBottom: 4,
                   }}>
                     {card.stat}
                   </div>
                   <span style={{
                     fontSize: 'var(--text-xs)', textTransform: 'uppercase',
-                    letterSpacing: '0.15em', color: 'var(--color-text-tertiary)',
+                    letterSpacing: '0.2em', color: 'var(--color-text-tertiary)', fontWeight: 600
                   }}>
                     {card.statLabel}
                   </span>
@@ -149,15 +161,27 @@ export default function RealityCheck() {
                 <h3 style={{
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)',
                   fontWeight: 700, lineHeight: 1.25, marginBottom: 'var(--space-4)',
-                  color: 'var(--color-text-primary)', paddingRight: 'var(--space-8)',
+                  color: 'var(--color-text-primary)', paddingRight: 'var(--space-12)',
                 }}>
                   {card.headline}
                 </h3>
                 <p style={{
-                  fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--color-text-secondary)',
+                  fontSize: 'var(--text-sm)', lineHeight: 1.8, color: 'var(--color-text-secondary)',
+                  opacity: 0.8
                 }}>
                   {card.body}
                 </p>
+
+                <style jsx>{`
+                  .rc-card-new:hover .scan-line {
+                    opacity: 1;
+                    animation: scan 2s linear infinite;
+                  }
+                  @keyframes scan {
+                    0% { top: -5%; }
+                    100% { top: 105%; }
+                  }
+                `}</style>
               </div>
             </TiltCard>
           ))}
