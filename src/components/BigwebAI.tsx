@@ -252,17 +252,22 @@ export default function BigwebAI() {
         }, delay);
     }, []);
 
-    // Init on open
-    const handleOpen = () => {
-        setOpen(true);
-        setUnread(0);
-        if (messages.length === 0) {
+    // Init on open (handles both manual click and auto-trigger)
+    useEffect(() => {
+        if (open && messages.length === 0 && !typing) {
+            setUnread(0);
             setTyping(true);
-            setTimeout(() => {
+            const timer = setTimeout(() => {
                 setTyping(false);
                 setMessages([{ role: 'bot', text: "Hi! I'm BIGWEB AI 👋\n\nI help businesses find the exact digital solution they need. This takes about 60 seconds.\n\nLet's start with the big picture:" }]);
             }, 700);
+            return () => clearTimeout(timer);
         }
+    }, [open, messages.length, typing]);
+
+    const handleOpen = () => {
+        setOpen(true);
+        setUnread(0);
     };
 
     const currentStep = STEPS[stepIdx];
