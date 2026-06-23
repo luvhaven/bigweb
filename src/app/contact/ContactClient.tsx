@@ -58,7 +58,7 @@ export default function ContactClient() {
                         <span className="accent-italic">Let&apos;s build the fix.</span>
                     </h1>
                     <p className="contact-anim" style={{ opacity: 0, maxWidth: 600, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--color-text-secondary)' }}>
-                        The diagnostic call is free. In 20 minutes, we&apos;ll tell you exactly where your revenue is leaking and give you a clear path to fixing it — whether you hire us or not.
+                        The audit is private. In 20 minutes, we&apos;ll tell you exactly where your revenue is leaking and give you a clear path to fixing it — whether you hire us or not.
                     </p>
                 </div>
             </section>
