@@ -78,7 +78,7 @@ export function useMousePosition() {
   return position;
 }
 
-export function useCountUp(end: number, duration: number = 2000, start: boolean = false) {
+export function useCountUp(end: number, duration: number = 3000, start: boolean = false) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -87,13 +87,13 @@ export function useCountUp(end: number, duration: number = 2000, start: boolean 
     let startTime: number;
     let rafId: number;
 
-    const easeOutQuad = (t: number) => t * (2 - t);
+    const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeOutQuad(progress);
+      const easedProgress = easeInOutCubic(progress);
 
       setCount(Math.round(easedProgress * end));
 

@@ -49,7 +49,7 @@ export default function PhilosophyShift() {
 
   return (
     <section ref={sectionRef} id="philosophy" style={{ padding: 'var(--space-32) 0', background: 'var(--color-bg-primary)', overflow: 'hidden' }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-16)', alignItems: 'center' }}>
+      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'var(--space-16)', alignItems: 'center' }}>
 
         {/* Left narrative */}
         <div>

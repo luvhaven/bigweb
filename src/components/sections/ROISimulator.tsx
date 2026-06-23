@@ -42,19 +42,19 @@ export default function ROISimulator() {
   return (
     <section className="section" id="roi-simulator" style={{ background: 'var(--color-bg-primary)', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        
+
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-12)' }}>
           <AnimateIn>
             <span className="section-label">THE MATH</span>
           </AnimateIn>
           <AnimateIn delay={1}>
-            <h2 className="section-headline">Calculate your<br />revenue leak.</h2>
+            <h2 className="section-headline">The math is<br />unforgiving.</h2>
           </AnimateIn>
         </div>
 
         <div className="roi-grid" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
           gap: 'var(--space-8)',
           background: 'var(--color-bg-secondary)',
           border: '1px solid var(--color-border)',
@@ -73,10 +73,10 @@ export default function ROISimulator() {
                   {traffic.toLocaleString()}
                 </span>
               </div>
-              <input 
-                type="range" 
+              <input
+                type="range"
                 min="5000" max="500000" step="5000"
-                value={traffic} 
+                value={traffic}
                 onChange={(e) => {
                   setTraffic(Number(e.target.value));
                   playSound('tick');
@@ -94,10 +94,10 @@ export default function ROISimulator() {
                   {cvr.toFixed(2)}%
                 </span>
               </div>
-              <input 
-                type="range" 
+              <input
+                type="range"
                 min="0.1" max="10" step="0.1"
-                value={cvr} 
+                value={cvr}
                 onChange={(e) => {
                   setCvr(Number(e.target.value));
                   playSound('tick');
@@ -115,10 +115,10 @@ export default function ROISimulator() {
                   ${aov.toLocaleString()}
                 </span>
               </div>
-              <input 
-                type="range" 
+              <input
+                type="range"
                 min="50" max="5000" step="50"
-                value={aov} 
+                value={aov}
                 onChange={(e) => {
                   setAov(Number(e.target.value));
                   playSound('tick');
@@ -157,9 +157,9 @@ export default function ROISimulator() {
           </div>
 
           {/* Results Display */}
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             padding: 'var(--space-8)',
             background: 'var(--color-bg-primary)',
@@ -169,7 +169,7 @@ export default function ROISimulator() {
             overflow: 'hidden'
           }}>
             {/* SVG Background Curve */}
-            <svg 
+            <svg
               style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '100px', opacity: 0.1, zIndex: 0 }}
               viewBox="0 0 500 100" preserveAspectRatio="none"
             >
@@ -179,17 +179,17 @@ export default function ROISimulator() {
                   <stop offset="100%" stopColor="var(--color-gold-muted)" stopOpacity="0" />
                 </linearGradient>
               </defs>
-              <motion.path 
-                d={pathData} 
-                fill="none" 
-                stroke="url(#glow)" 
+              <motion.path
+                d={pathData}
+                fill="none"
+                stroke="url(#glow)"
                 strokeWidth="4"
                 animate={{ d: pathData }}
                 transition={{ type: 'spring', stiffness: 50, damping: 20 }}
               />
-              <motion.path 
-                d={`${pathData} L 500 100 L 0 100 Z`} 
-                fill="url(#glow)" 
+              <motion.path
+                d={`${pathData} L 500 100 L 0 100 Z`}
+                fill="url(#glow)"
                 animate={{ d: `${pathData} L 500 100 L 0 100 Z` }}
                 transition={{ type: 'spring', stiffness: 50, damping: 20 }}
               />
@@ -226,7 +226,8 @@ export default function ROISimulator() {
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .custom-slider {
           -webkit-appearance: none;
           width: 100%;

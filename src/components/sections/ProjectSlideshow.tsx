@@ -109,21 +109,21 @@ export default function ProjectSlideshow() {
           const isActive = offset === 0;
           const isVisible = Math.abs(offset) <= 2;
 
-          // Define positions for spread-out hand of cards
+          // Define positions for true 3D spatial curve
           let animateProps;
           if (offset === 0) {
-            animateProps = { x: '0%', y: '0%', rotateZ: 0, scale: 1, zIndex: 10, opacity: 1, filter: 'blur(0px) brightness(1)' };
+            animateProps = { x: '0%', y: '0%', z: 0, rotateY: 0, rotateZ: 0, zIndex: 10, opacity: 1, filter: 'blur(0px) brightness(1)' };
           } else if (offset === 1) {
-            animateProps = { x: isMobile ? '25%' : '45%', y: '5%', rotateZ: 6, scale: 0.85, zIndex: 8, opacity: 1, filter: 'blur(1px) brightness(0.6)' };
+            animateProps = { x: isMobile ? '35%' : '55%', y: '5%', z: -100, rotateY: -15, rotateZ: 8, zIndex: 8, opacity: 1, filter: 'blur(2px) brightness(0.6)' };
           } else if (offset === 2) {
-            animateProps = { x: isMobile ? '45%' : '85%', y: '12%', rotateZ: 12, scale: 0.7, zIndex: 6, opacity: 1, filter: 'blur(3px) brightness(0.3)' };
+            animateProps = { x: isMobile ? '65%' : '90%', y: '12%', z: -250, rotateY: -25, rotateZ: 15, zIndex: 6, opacity: 1, filter: 'blur(4px) brightness(0.3)' };
           } else if (offset === -1) {
-            animateProps = { x: isMobile ? '-25%' : '-45%', y: '5%', rotateZ: -6, scale: 0.85, zIndex: 8, opacity: 1, filter: 'blur(1px) brightness(0.6)' };
+            animateProps = { x: isMobile ? '-35%' : '-55%', y: '5%', z: -100, rotateY: 15, rotateZ: -8, zIndex: 8, opacity: 1, filter: 'blur(2px) brightness(0.6)' };
           } else if (offset === -2) {
-            animateProps = { x: isMobile ? '-45%' : '-85%', y: '12%', rotateZ: -12, scale: 0.7, zIndex: 6, opacity: 1, filter: 'blur(3px) brightness(0.3)' };
+            animateProps = { x: isMobile ? '-65%' : '-90%', y: '12%', z: -250, rotateY: 25, rotateZ: -15, zIndex: 6, opacity: 1, filter: 'blur(4px) brightness(0.3)' };
           } else {
             // Hidden cards waiting in reserve
-            animateProps = { x: offset > 0 ? '120%' : '-120%', y: '20%', rotateZ: offset > 0 ? 20 : -20, scale: 0.5, zIndex: 0, opacity: 0, filter: 'blur(10px) brightness(0)' };
+            animateProps = { x: offset > 0 ? '120%' : '-120%', y: '20%', z: -400, rotateY: offset > 0 ? -30 : 30, rotateZ: offset > 0 ? 20 : -20, zIndex: 0, opacity: 0, filter: 'blur(10px) brightness(0)' };
           }
 
           return (
@@ -140,6 +140,8 @@ export default function ProjectSlideshow() {
               onClick={() => {
                 if (!isActive && isVisible) setActiveIndex(index);
               }}
+              className="cursor-hover"
+              data-cursor-label={isActive ? "DRAG" : "VIEW"}
               style={{
                 position: 'absolute',
                 width: isMobile ? '80%' : '500px', // Card width relative to container
