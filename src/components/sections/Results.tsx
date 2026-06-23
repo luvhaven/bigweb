@@ -216,7 +216,7 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
         </div>
 
         <div style={{ marginTop: 'var(--space-24)', textAlign: 'center', marginBottom: 'var(--space-12)' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-4xl)', fontWeight: 800 }}>Don&apos;t just take our word for it.</h3>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-4xl)', fontWeight: 800 }}>Clients don&apos;t lie. Revenue doesn&apos;t either.</h3>
         </div>
 
         <CinematicVideoTestimonials testimonials={testimonials} />

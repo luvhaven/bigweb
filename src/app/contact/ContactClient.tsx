@@ -69,10 +69,10 @@ export default function ContactClient() {
                     {/* Form */}
                     <div className="form-anim" style={{ opacity: 0 }}>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', fontWeight: 700, marginBottom: 'var(--space-3)' }}>
-                            Book your free diagnostic
+                            Request your private audit
                         </h2>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-base)', marginBottom: 'var(--space-8)', lineHeight: 1.6, maxWidth: 440 }}>
-                            Fill out the form and we&apos;ll reach out within 4 hours to schedule your 20-minute call.
+                            Fill out the form below. We&apos;ll review your digital presence and respond within 4 hours.
                         </p>
                         <ContactWizard />
                     </div>
@@ -137,10 +137,10 @@ export default function ContactClient() {
                             background: 'rgba(212,175,106,0.04)',
                         }}>
                             <p style={{ fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold-bright)', marginBottom: 'var(--space-3)' }}>
-                                ⚡ Limited availability
+                                ✦ Limited availability
                             </p>
                             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>
-                                We take on a limited number of new clients per quarter to ensure quality. Current availability: accepting new clients for Q3 2026.
+                                We accept a limited number of new clients per quarter to protect quality. Current intake is open &mdash; enquire now to secure a slot.
                             </p>
                         </div>
                     </div>

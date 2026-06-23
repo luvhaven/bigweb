@@ -14,7 +14,20 @@ interface Article {
 export default function InsightsPreview({ articles }: { articles: Article[] }) {
   const [featured, ...rest] = articles.slice(0, 3);
 
-  if (!featured) return null;
+  if (!featured) return (
+    <section className="section" id="insights" style={{ background: 'var(--color-bg-primary)', textAlign: 'center' }}>
+      <div className="container">
+        <span className="section-label">INSIGHTS</span>
+        <h2 className="section-headline" style={{ marginBottom: 'var(--space-4)' }}>
+          Our thinking on revenue,<br />
+          <span className="text-gold">digital, and the AI shift.</span>
+        </h2>
+        <p style={{ color: 'var(--color-text-secondary)', maxWidth: 480, margin: '0 auto var(--space-8)', lineHeight: 1.7 }}>
+          In-depth guides on CRO, AI sales systems, and digital revenue engineering — written by the team that builds them.
+        </p>
+      </div>
+    </section>
+  );
 
   return (
     <section className="section" id="insights" style={{ background: 'var(--color-bg-primary)' }}>
@@ -44,16 +57,16 @@ export default function InsightsPreview({ articles }: { articles: Article[] }) {
           {/* Featured */}
           <AnimateIn delay={1}>
             <Link href={`/insights/${featured.slug}`} className="ip-featured card" data-cursor-hover>
-                <div className="ip-card-bg" style={{ backgroundImage: `url(${featured.image})` }} />
-                <div className="ip-featured-inner">
-                  <span className="ip-cat">{featured.category}</span>
-                  <h3 className="ip-featured-title">{featured.title}</h3>
-                  <p className="ip-featured-excerpt">{featured.excerpt}</p>
-                  <div className="ip-meta">
-                    <span className="ip-readtime">{featured.read_time}</span>
-                    <span className="ip-read-link">Read <ArrowUpRight size={13} /></span>
-                  </div>
+              <div className="ip-card-bg" style={{ backgroundImage: `url(${featured.image})` }} />
+              <div className="ip-featured-inner">
+                <span className="ip-cat">{featured.category}</span>
+                <h3 className="ip-featured-title">{featured.title}</h3>
+                <p className="ip-featured-excerpt">{featured.excerpt}</p>
+                <div className="ip-meta">
+                  <span className="ip-readtime">{featured.read_time}</span>
+                  <span className="ip-read-link">Read <ArrowUpRight size={13} /></span>
                 </div>
+              </div>
             </Link>
           </AnimateIn>
 

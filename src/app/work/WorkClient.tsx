@@ -91,7 +91,7 @@ export default function WorkClient({ caseStudies }: { caseStudies: CaseStudy[] }
                         opacity: 0, fontSize: 'clamp(3rem, 7vw, var(--text-8xl))',
                         marginBottom: 'var(--space-6)',
                     }}>
-                        Results, not <br /><span className="accent-italic">reports.</span>
+                        Results, not <span className="accent-italic">reports.</span>
                     </h1>
                     <p className="work-anim" style={{ opacity: 0, fontSize: 'var(--text-xl)', color: 'var(--color-text-secondary)', maxWidth: 560, lineHeight: 1.75, marginBottom: 'var(--space-10)' }}>
                         Every case study below represents a business that was underperforming digitally — and now isn&apos;t. Real clients, real numbers, real timelines.
@@ -99,7 +99,7 @@ export default function WorkClient({ caseStudies }: { caseStudies: CaseStudy[] }
 
                     {/* Stats */}
                     <div className="work-anim" style={{
-                        opacity: 0, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+                        opacity: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                         gap: '1px', background: 'var(--color-bg-border)', border: '1px solid var(--color-bg-border)',
                         maxWidth: 500,
                     }}>
@@ -228,10 +228,10 @@ export default function WorkClient({ caseStudies }: { caseStudies: CaseStudy[] }
                         Ready to become a case study?
                     </h2>
                     <p style={{ color: 'var(--color-text-secondary)', maxWidth: 500, margin: '0 auto var(--space-8)', fontSize: 'var(--text-lg)', lineHeight: 1.7 }}>
-                        Book a free diagnostic call and we&apos;ll show you exactly where the revenue opportunity is hiding.
+                        Request a private audit and we&apos;ll map out the exact revenue opportunity hiding in your current digital presence.
                     </p>
                     <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-                        Get Your Free Diagnostic <ArrowRight size={16} />
+                        Request Private Audit <ArrowRight size={16} />
                     </MagneticButton>
                 </div>
             </section>

@@ -24,10 +24,10 @@ const cards = [
   },
   {
     num: '03',
-    stat: 'P3',
-    statLabel: 'google ranking penalty',
+    stat: 'P3+',
+    statLabel: 'where slow sites rank',
     headline: "You can't be found.",
-    body: "Slow load times, zero Core Web Vitals score, poor mobile experience — Google is actively ranking you below competitors who deserve it less.",
+    body: "Slow load times, sub-50 Core Web Vitals scores, poor mobile experience — Google's algorithm buries sites like yours on page 3 or beyond. Competitors with half your quality rank above you.",
   },
   {
     num: '04',

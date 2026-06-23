@@ -48,7 +48,7 @@ export default function ROISimulator() {
             <span className="section-label">THE MATH</span>
           </AnimateIn>
           <AnimateIn delay={1}>
-            <h2 className="section-headline">The math is<br />unforgiving.</h2>
+            <h2 className="section-headline">The math is unforgiving.</h2>
           </AnimateIn>
         </div>
 
