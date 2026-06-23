@@ -1,47 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 import { buildProposalEmail } from '@/lib/email-templates';
 import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// ── Nodemailer transport ─────────────────────────────────────────────────────
-// Configure via environment variables. Supports Gmail (SMTP), Mailgun, SendGrid
-// SMTP, Resend, or any SMTP provider.
-//
-// Required env vars:
-//   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM
-// OR for Gmail:
-//   GMAIL_USER, GMAIL_APP_PASSWORD
-function getTransport() {
-  if (process.env.SMTP_HOST) {
-    return nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-  }
-  // Gmail shorthand
-  if (process.env.GMAIL_USER) {
-    return nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-  }
-  return null;
-}
-
-const FROM_ADDRESS = process.env.SMTP_FROM || process.env.GMAIL_USER || 'hello@bigwebdigital.com';
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_ADDRESS = 'BIGWEB Digital <hello@bigwebdigital.com>';
 
 export async function POST(req: NextRequest) {
   try {
@@ -65,7 +33,6 @@ export async function POST(req: NextRequest) {
         created_at: new Date().toISOString(),
       });
     } catch (dbErr) {
-      // Table may not exist yet — log but don't fail the request
       console.warn('[leads] DB insert skipped:', dbErr);
     }
 
@@ -77,12 +44,12 @@ export async function POST(req: NextRequest) {
     });
 
     // ── 3. Send email to the prospect ────────────────────────────────────────
-    const transport = getTransport();
-    if (transport) {
+    if (process.env.RESEND_API_KEY) {
       try {
-        await transport.sendMail({
-          from: `"BIGWEB Digital" <${FROM_ADDRESS}>`,
+        await resend.emails.send({
+          from: FROM_ADDRESS,
           to: email,
+          replyTo: 'hello@bigwebdigital.com',
           subject: `${name.split(' ')[0]}, here's your personalised growth proposal`,
           html,
           text,
@@ -90,10 +57,11 @@ export async function POST(req: NextRequest) {
 
         // Also CC the internal team
         if (process.env.TEAM_EMAIL) {
-          await transport.sendMail({
-            from: `"BIGWEB AI" <${FROM_ADDRESS}>`,
+          await resend.emails.send({
+            from: 'BIGWEB AI Alerts <hello@bigwebdigital.com>',
             to: process.env.TEAM_EMAIL,
-            subject: `[New Lead] ${name} via BIGWEB AI — ${source || 'AI Widget'}`,
+            replyTo: email,
+            subject: `[New Lead] ${name} via BIGWEB AI`,
             html: `<p style="font-family:sans-serif">
               <strong>New lead from BIGWEB AI</strong><br/><br/>
               <b>Name:</b> ${name}<br/>
@@ -103,15 +71,13 @@ export async function POST(req: NextRequest) {
               <br/><b>Answers:</b><br/>
               ${Object.entries(answers || {}).map(([k, v]) => `${k}: ${v}`).join('<br/>')}
             </p>`,
-            text: JSON.stringify({ name, email, phone, answers, recommendations }, null, 2),
           });
         }
       } catch (emailErr) {
-        console.error('[leads] Email send failed:', emailErr);
-        // Still return success — lead is captured even if email fails
+        console.error('[leads] Resend failed:', emailErr);
       }
     } else {
-      console.warn('[leads] No SMTP transport configured — email not sent. Set SMTP_HOST or GMAIL_USER in .env.local');
+      console.warn('[leads] No RESEND_API_KEY configured — email not sent.');
     }
 
     return NextResponse.json({ success: true });

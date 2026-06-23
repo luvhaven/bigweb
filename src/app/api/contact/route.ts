@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_EMAIL = 'BIGWEB Digital <hello@bigwebdigital.com>';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,22 +36,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to submit. Please try again.' }, { status: 500 });
     }
 
-    // 2. Fire sequence email 0 (immediate confirmation) — non-blocking
-    fetch(`${SUPABASE_URL}/functions/v1/send-nurture-email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      },
-      body: JSON.stringify({
-        email,
-        name: firstName,
-        sequence_index: 0,
-      }),
-    }).catch(err => console.error('Nurture email 0 failed:', err));
+    // 2. Fire immediate confirmation via Resend
+    if (process.env.RESEND_API_KEY) {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: email,
+        replyTo: 'hello@bigwebdigital.com',
+        subject: `Your Strategy Session with BIGWEB Digital`,
+        html: `
+          <div style="font-family: sans-serif; color: #111; line-height: 1.6;">
+            <p>Hi ${firstName},</p>
+            <p>We’ve received your diagnostic request.</p>
+            <p>One of our senior strategists is reviewing your submission right now. We will follow up within 4 hours to confirm your 20-minute strategy call time.</p>
+            <br/>
+            <p>Speak soon,</p>
+            <p><strong>The BIGWEB Team</strong></p>
+          </div>
+        `,
+      });
+
+      // Internal notification
+      if (process.env.TEAM_EMAIL) {
+        await resend.emails.send({
+          from: 'BIGWEB Alerts <hello@bigwebdigital.com>',
+          to: process.env.TEAM_EMAIL,
+          subject: `[New Lead] ${firstName} ${lastName} - Contact Wizard`,
+          html: `<p>New lead received from <strong>${firstName} ${lastName}</strong> (${email}).</p>`,
+        });
+      }
+    }
 
     return NextResponse.json({ success: true, message: 'Lead submitted successfully.' });
-  } catch {
+  } catch (err) {
+    console.error('Contact API Error:', err);
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
   }
 }
