@@ -252,7 +252,7 @@ export default function ContactWizard() {
                             }}
                         >
                             <Calendar size={16} />
-                            Wait in Line: Book Free Diagnostic
+                            Wait in Line: Request Private Audit
                         </button>
                     </div>
                 ) : (
@@ -516,7 +516,7 @@ export default function ContactWizard() {
                                 fontFamily: 'inherit',
                             }}
                         >
-                            {loading ? <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} />Submitting…</> : <>Request Free Diagnostic <ArrowRight size={14} /></>}
+                            {loading ? <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} />Submitting…</> : <>Request Private Audit <ArrowRight size={14} /></>}
                         </button>
                     )}
                 </div>
