@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, CheckCircle, Loader2, Calendar } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle, Loader2, Calendar, CreditCard } from 'lucide-react';
+import BookingModal from '@/components/ui/BookingModal';
 
 // ── BIGWEB Logo Mark (matches Navigation) ────────────────────────────────
 function BigwebMark({ size = 18, color = 'currentColor' }: { size?: number; color?: string }) {
@@ -145,12 +146,25 @@ export default function ContactWizard() {
     const [loading, setLoading] = useState(false);
     const [done, setDone] = useState(false);
     const [error, setError] = useState('');
+    const [paymentLink, setPaymentLink] = useState('');
+    const [isBookingOpen, setBookingOpen] = useState(false);
 
     const [form, setForm] = useState({
         firstName: '', lastName: '', email: '', phone: '',
         company: '', website: '', revenue: '', service: '',
         message: '',
     });
+
+    useEffect(() => {
+        fetch('/api/settings/public')
+            .then(res => res.json())
+            .then(data => {
+                if (data?.payment_link_consultation) {
+                    setPaymentLink(data.payment_link_consultation);
+                }
+            })
+            .catch(() => { });
+    }, []);
 
     const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
         setForm(p => ({ ...p, [k]: e.target.value }));
@@ -197,6 +211,7 @@ export default function ContactWizard() {
                     boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
                 }}
             >
+                <BookingModal isOpen={isBookingOpen} onClose={() => setBookingOpen(false)} />
                 <div style={{
                     width: 64, height: 64, borderRadius: '50%', margin: '0 auto 24px',
                     background: 'rgba(212,175,106,0.1)', border: '1px solid rgba(212,175,106,0.3)',
@@ -210,22 +225,51 @@ export default function ContactWizard() {
                 <p style={{ color: '#9B9793', fontSize: 14, lineHeight: 1.7, maxWidth: 380, margin: '0 auto 28px' }}>
                     Your submission is with the team. We review every inquiry personally and will reach out within 4 hours.
                 </p>
-                <a
-                    href="https://cal.com/bigwebdigital/revenue-diagnostic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 8,
-                        background: 'linear-gradient(135deg, #D4AF6A, #9A7035)',
-                        color: '#0A0A0B', padding: '14px 28px', borderRadius: 9999,
-                        fontSize: 14, fontWeight: 700, textDecoration: 'none',
-                        boxShadow: '0 8px 24px rgba(212,175,106,0.3)',
-                    }}
-                >
-                    <Calendar size={16} />
-                    Book a Strategy Call Directly
-                </a>
-                <p style={{ marginTop: 12, fontSize: 12, color: '#5A5753' }}>Free · 30 minutes · No hard sell</p>
+                {paymentLink ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+                        <a
+                            href={paymentLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'inline-flex', alignItems: 'center', gap: 8, width: '100%', justifyContent: 'center',
+                                background: 'linear-gradient(135deg, #D4AF6A, #9A7035)',
+                                color: '#0A0A0B', padding: '16px 28px', borderRadius: 12,
+                                fontSize: 14, fontWeight: 700, textDecoration: 'none',
+                                boxShadow: '0 8px 24px rgba(212,175,106,0.3)',
+                            }}
+                        >
+                            <CreditCard size={18} />
+                            Book Immediate Consultation ($350)
+                        </a>
+                        <button
+                            onClick={() => setBookingOpen(true)}
+                            style={{
+                                display: 'inline-flex', alignItems: 'center', gap: 8, width: '100%', justifyContent: 'center',
+                                background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+                                color: '#E8E5DF', padding: '14px 28px', borderRadius: 12,
+                                fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit'
+                            }}
+                        >
+                            <Calendar size={16} />
+                            Wait in Line: Book Free Diagnostic
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => setBookingOpen(true)}
+                        style={{
+                            display: 'inline-flex', alignItems: 'center', gap: 8,
+                            background: 'linear-gradient(135deg, #D4AF6A, #9A7035)',
+                            color: '#0A0A0B', padding: '14px 28px', borderRadius: 9999, border: 'none',
+                            fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                            boxShadow: '0 8px 24px rgba(212,175,106,0.3)',
+                        }}
+                    >
+                        <Calendar size={16} />
+                        Book a Strategy Call Directly
+                    </button>
+                )}
             </motion.div>
         );
     }

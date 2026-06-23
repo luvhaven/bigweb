@@ -23,7 +23,21 @@ export default function AdminSettingsPage() {
     async function load() {
       const supabase = createBrowserClient();
       const { data } = await supabase.from('site_settings').select('*').order('key');
-      setSettings(data || []);
+
+      let loadedSettings = data || [];
+      // Auto-seed explicitly required keys for the frontend
+      if (!loadedSettings.find(s => s.key === 'payment_link_consultation')) {
+        const { data: newSetting } = await supabase.from('site_settings').insert({
+          key: 'payment_link_consultation',
+          value: '',
+          category: 'contact'
+        }).select().single();
+        if (newSetting) {
+          loadedSettings = [...loadedSettings, newSetting].sort((a, b) => a.key.localeCompare(b.key));
+        }
+      }
+
+      setSettings(loadedSettings);
     }
     load();
   }, []);
@@ -69,10 +83,10 @@ export default function AdminSettingsPage() {
     const file = e.target.files[0];
     const supabase = createBrowserClient();
     setUploading(id);
-    
+
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
-    
+
     const { error: uploadError } = await supabase.storage.from('media').upload(fileName, file);
 
     if (uploadError) {

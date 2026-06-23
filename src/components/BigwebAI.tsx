@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, CheckCircle, Loader2, Bot, Send } from 'lucide-react';
+import { X, ChevronRight, CheckCircle, Loader2, Bot, Send, Calendar, CreditCard } from 'lucide-react';
+import BookingModal from '@/components/ui/BookingModal';
 
 // BIGWEB Digital logo mark (matches Navigation)
 function BigwebMark({ size = 22 }: { size?: number }) {
@@ -179,7 +180,20 @@ export default function BigwebAI() {
     const [form, setForm] = useState({ name: '', email: '', phone: '' });
     const [submitting, setSubmitting] = useState(false);
     const [unread, setUnread] = useState(0);
+    const [paymentLink, setPaymentLink] = useState('');
+    const [isBookingOpen, setBookingOpen] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        fetch('/api/settings/public')
+            .then(res => res.json())
+            .then(data => {
+                if (data?.payment_link_consultation) {
+                    setPaymentLink(data.payment_link_consultation);
+                }
+            })
+            .catch(() => { });
+    }, []);
 
     // Auto-scroll
     useEffect(() => {
@@ -494,18 +508,52 @@ export default function BigwebAI() {
                                     }}>
                                         <CheckCircle size={24} color="#D4AF6A" />
                                     </div>
-                                    <p style={{ margin: 0, fontSize: 12, color: '#9B9793', lineHeight: 1.5 }}>
+                                    <p style={{ margin: 0, fontSize: 12, color: '#9B9793', lineHeight: 1.5, marginBottom: 16 }}>
                                         Proposal sent to <strong style={{ color: '#D4AF6A' }}>{form.email}</strong>.<br />
                                         We'll follow up within 24 hours.
                                     </p>
-                                    <a href="https://cal.com/bigwebdigital/revenue-diagnostic" target="_blank" rel="noopener noreferrer" style={{
-                                        width: '100%', display: 'block', background: 'rgba(212,175,106,0.08)',
-                                        border: '1px solid rgba(212,175,106,0.25)', borderRadius: 10,
-                                        padding: '11px 16px', fontSize: 13, fontWeight: 700,
-                                        color: '#D4AF6A', textDecoration: 'none', textAlign: 'center',
-                                    }}>
-                                        Book a Strategy Call →
-                                    </a>
+
+                                    {paymentLink ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                            <a
+                                                href={paymentLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                                                    width: '100%', background: 'linear-gradient(135deg, #D4AF6A, #9A7035)',
+                                                    borderRadius: 10, padding: '12px 16px', fontSize: 13, fontWeight: 700,
+                                                    color: '#0A0A0B', textDecoration: 'none', boxShadow: '0 4px 16px rgba(212,175,106,0.25)',
+                                                }}
+                                            >
+                                                <CreditCard size={15} /> Book Immediate Call ($350)
+                                            </a>
+                                            <button
+                                                onClick={() => setBookingOpen(true)}
+                                                style={{
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                                                    width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+                                                    borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600,
+                                                    color: '#E8E5DF', cursor: 'pointer', fontFamily: 'inherit'
+                                                }}
+                                            >
+                                                <Calendar size={14} /> Wait in Line: Free Diagnostic
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => setBookingOpen(true)}
+                                            style={{
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                                                width: '100%', background: 'linear-gradient(135deg, #D4AF6A, #9A7035)', border: 'none',
+                                                borderRadius: 10, padding: '12px 16px', fontSize: 13, fontWeight: 700,
+                                                color: '#0A0A0B', cursor: 'pointer', fontFamily: 'inherit',
+                                                boxShadow: '0 4px 16px rgba(212,175,106,0.25)',
+                                            }}
+                                        >
+                                            <Calendar size={15} /> Book a Strategy Call
+                                        </button>
+                                    )}
                                 </motion.div>
                             )}
                         </div>
