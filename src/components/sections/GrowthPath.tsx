@@ -10,7 +10,7 @@ const steps = [
   {
     num: '01',
     label: 'Conversion Audit',
-    price: '$3k–5k',
+    price: 'From $3k',
     type: 'Diagnostic',
     desc: "We diagnose exactly where revenue is leaking. You get a prioritized fix list with ROI estimates. If we can't find $10,000 in opportunity, we refund you.",
     color: 'rgba(212,175,106,0.3)',
@@ -19,7 +19,7 @@ const steps = [
   {
     num: '02',
     label: 'CRO Retainer',
-    price: '$4k/mo',
+    price: 'Growth Track',
     type: 'Execution',
     desc: 'We execute the audit recommendations — A/B testing, landing pages, funnel fixes — and report on revenue impact monthly. Results compound.',
     color: 'rgba(212,175,106,0.5)',
@@ -28,7 +28,7 @@ const steps = [
   {
     num: '03',
     label: 'Revenue Engine',
-    price: '$15k+',
+    price: 'Scale Track',
     type: 'Infrastructure',
     desc: 'Full-funnel infrastructure: paid traffic → optimized landing → email nurture → AI sales agent → booked call. The complete revenue machine.',
     color: 'rgba(212,175,106,0.8)',
@@ -37,7 +37,7 @@ const steps = [
   {
     num: '04',
     label: 'Digital Partner',
-    price: '$8k/mo',
+    price: 'Partnership',
     type: 'Symbiosis',
     desc: 'We become your embedded digital team. Strategy, execution, analytics, and iteration — every month. Not a vendor. A growth partner.',
     color: 'var(--color-gold-bright)',

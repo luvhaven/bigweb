@@ -49,8 +49,8 @@ export default function PhilosophyShift() {
 
   return (
     <section ref={sectionRef} id="philosophy" style={{ padding: 'var(--space-32) 0', background: 'var(--color-bg-primary)', overflow: 'hidden' }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'var(--space-16)', alignItems: 'center' }}>
-        
+      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-16)', alignItems: 'center' }}>
+
         {/* Left narrative */}
         <div>
           <span style={{
@@ -63,7 +63,7 @@ export default function PhilosophyShift() {
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)' }} />
             The Paradigm
           </span>
-          
+
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2.5rem, 5vw, var(--text-6xl))',

@@ -195,6 +195,43 @@ export default function BigwebAI() {
             .catch(() => { });
     }, []);
 
+    // ── Auto-trigger: open once after 60% scroll depth or 45s inactivity ─────
+    const autoTriggered = useRef(false);
+    useEffect(() => {
+        if (autoTriggered.current) return;
+
+        const trigger = () => {
+            if (autoTriggered.current) return;
+            autoTriggered.current = true;
+            setOpen(true);
+            setUnread(1);
+        };
+
+        // Scroll depth trigger
+        const onScroll = () => {
+            const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            if (scrolled >= 0.60) trigger();
+        };
+
+        // Inactivity trigger
+        let inactivityTimer = setTimeout(trigger, 45000);
+        const resetTimer = () => {
+            clearTimeout(inactivityTimer);
+            if (!autoTriggered.current) inactivityTimer = setTimeout(trigger, 45000);
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('mousemove', resetTimer);
+        window.addEventListener('keydown', resetTimer);
+
+        return () => {
+            clearTimeout(inactivityTimer);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('mousemove', resetTimer);
+            window.removeEventListener('keydown', resetTimer);
+        };
+    }, []);
+
     // Auto-scroll
     useEffect(() => {
         if (scrollRef.current) {

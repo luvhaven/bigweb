@@ -14,26 +14,27 @@ export default function AboutPreview({ image }: { image?: string }) {
         <div className="about-visual">
           <div className="about-image-wrapper">
             {isVideo ? (
-              <video 
-                src={mediaUrl} 
+              <video
+                src={mediaUrl}
                 className="about-image"
                 muted autoPlay loop playsInline
                 style={{ objectFit: 'cover' }}
               />
             ) : (
-              <ParallaxImage 
-                src={mediaUrl} 
-                alt="BIGWEB Team Office" 
+              <ParallaxImage
+                src={mediaUrl}
+                alt="BIGWEB Team Office"
                 className="about-image"
                 speed={0.15}
               />
             )}
             <div className="about-image-overlay" />
-            
+
             {/* Minimal accent lines over the image */}
             <div className="about-accent-line about-accent-top" />
             <div className="about-accent-line about-accent-bottom" />
-            <style dangerouslySetInnerHTML={{__html: `
+            <style dangerouslySetInnerHTML={{
+              __html: `
               .about-image-wrapper { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
               .about-image-wrapper:hover { transform: scale(1.02); }
               .about-image-wrapper:hover .about-image { filter: grayscale(0%); }
@@ -55,10 +56,10 @@ export default function AboutPreview({ image }: { image?: string }) {
             <p style={{ color: 'var(--color-text-primary)', fontSize: '1.1rem', lineHeight: 1.6 }}>BIGWEB Digital was built by people who spent years watching businesses pour money into beautiful websites that did nothing. Who watched agencies celebrate award-winning design while clients&apos; revenue stayed flat.</p>
           </AnimateIn>
           <AnimateIn delay={3}>
-            <p style={{ marginTop: 'var(--space-6)', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>We made a deliberate choice: stop optimizing for aesthetics and start optimizing for outcomes. Our team combines deep frontend engineering, behavioral UX research, conversion rate optimization, and AI engineering â€” all pointed at one goal. Your revenue.</p>
+            <p style={{ marginTop: 'var(--space-6)', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>We made a deliberate choice: stop optimizing for aesthetics and start optimizing for outcomes. Our team combines deep frontend engineering, behavioral UX research, conversion rate optimization, and AI engineering — all pointed at one goal: your revenue.</p>
           </AnimateIn>
           <AnimateIn delay={4}>
-            <p style={{ marginTop: 'var(--space-6)', color: 'var(--color-text-muted)', lineHeight: 1.7 }}>We are selective. We take on clients we can genuinely help. We will tell you if you&apos;re not ready for what we offer. And when we do engage â€” we treat your growth like it&apos;s our own.</p>
+            <p style={{ marginTop: 'var(--space-6)', color: 'var(--color-text-muted)', lineHeight: 1.7 }}>We are selective. We take on clients we can genuinely help. We will tell you if you&apos;re not ready for what we offer. And when we do engage — we treat your growth like it&apos;s our own.</p>
           </AnimateIn>
 
           <AnimateIn delay={5}>
@@ -76,7 +77,7 @@ export default function AboutPreview({ image }: { image?: string }) {
         </div>
       </div>
 
-      
+
     </section>
   );
 }

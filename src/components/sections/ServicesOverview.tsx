@@ -86,7 +86,7 @@ export default function ServicesOverview({ services }: { services: Service[] }) 
     if (!tiersMap.has(s.tier)) {
       let rawLabel = s.tier_label || `TIER 0${s.tier}`;
       // Strip out the "TIER 0X - " prefix to leave only the semantic name (e.g. REVENUE TRANSFORMATION)
-      const cleanLabel = rawLabel.replace(/^TIER\s*\d+\s*-\s*/i, '');
+      const cleanLabel = rawLabel.replace(/^TIER\s*\d+\s*[–—-]\s*/i, '');
 
       tiersMap.set(s.tier, {
         id: s.tier,

@@ -11,10 +11,10 @@ import KineticText from '@/components/ui/KineticText';
 const HeroScene = dynamic(() => import('@/components/ui/HeroScene'), { ssr: false });
 
 const STATS = [
-  { value: '2018', label: 'Founded' },
-  { value: '$140M+', label: 'Revenue tracked' },
-  { value: '42', label: 'Clients served' },
-  { value: '4', label: 'Countries' },
+  { value: '2018', label: 'Established' },
+  { value: '$140M+', label: 'Client revenue tracked' },
+  { value: '97%', label: 'Client retention rate' },
+  { value: '4', label: 'Countries served' },
 ];
 
 export default function Hero() {

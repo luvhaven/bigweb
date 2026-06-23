@@ -92,7 +92,7 @@ export default function FinalCTA({ image }: { image?: string }) {
           marginBottom: 'var(--space-10)',
         }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-gold-bright)', animation: 'pulse 2s ease-in-out infinite' }} />
-          Currently accepting Q3 2026 applications
+          Limited availability — accepting new clients now
         </div>
 
         {/* Headline */}
@@ -133,11 +133,11 @@ export default function FinalCTA({ image }: { image?: string }) {
               Book My Free Diagnostic <ArrowRight size={16} />
             </MagneticButton>
             <Link
-              href="/playbook?access=granted"
+              href="/work"
               className="btn btn-outline btn-lg"
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              Download the Playbook <ArrowRight size={16} />
+              See Our Work <ArrowRight size={16} />
             </Link>
           </div>
 
