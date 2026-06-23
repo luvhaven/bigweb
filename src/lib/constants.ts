@@ -249,7 +249,7 @@ export const SERVICES = [
   // Tier 3 — Revenue Transformation
   {
     tier: 3,
-    tierLabel: 'TIER 03 — REVENUE TRANSFORMATION',
+    tierLabel: 'REVENUE TRANSFORMATION',
     tierHeadline: 'We become part of your leadership team.',
     tierDescription: 'High-ticket, deeply strategic engagements where BIGWEB operates as a true digital revenue partner. Not a vendor. Not a contractor. A partner with skin in the game.',
     slug: 'digital-revenue-transformation',

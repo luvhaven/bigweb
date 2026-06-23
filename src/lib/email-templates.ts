@@ -11,7 +11,7 @@ interface Service {
 const TIER_LABEL: Record<number, string> = {
   1: '⚡ Tier 01 — Quick Wins',
   2: '🚀 Tier 02 — Growth Engine',
-  3: '💎 Tier 03 — Revenue Transformation',
+  3: '💎 Revenue Transformation',
 };
 
 export function buildProposalEmail({
