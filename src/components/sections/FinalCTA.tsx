@@ -121,7 +121,7 @@ export default function FinalCTA({ image }: { image?: string }) {
             margin: '0 auto var(--space-10)',
             lineHeight: 1.7,
           }}>
-            The diagnostic call is free. The conversation is honest. The results are measurable.
+            The audit is private. The conversation is direct. The findings are yours to keep.
           </p>
 
           <div style={{
