@@ -14,7 +14,7 @@ import ScrollSpy from '@/components/layout/ScrollSpy';
 import KineticDivider from '@/components/ui/KineticDivider';
 import ClientLogos from '@/components/sections/ClientLogos';
 import ProjectSlideshow from '@/components/sections/ProjectSlideshow';
-import StickyMaskMorph from '@/components/layout/StickyMaskMorph';
+import ObsidianMorph from '@/components/layout/ObsidianMorph';
 
 import { getCaseStudies, getTestimonials, getArticles, getServices, getSiteSettingsByCategory } from '@/lib/data';
 
@@ -42,9 +42,9 @@ export default async function HomePage() {
       <ScrollSpy />
       <Hero />
       <ClientLogos />
-      <StickyMaskMorph>
+      <ObsidianMorph>
         <ProjectSlideshow />
-      </StickyMaskMorph>
+      </ObsidianMorph>
       <KineticDivider />
       <PhilosophyShift />
       <KineticDivider />
