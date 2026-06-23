@@ -135,10 +135,10 @@ export default function Hero() {
         {/* CTAs */}
         <div ref={ctaRef} style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', alignItems: 'center', marginBottom: 'var(--space-16)' }}>
           <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-            Book Strategy Call <ArrowRight size={16} style={{ transition: 'transform 0.3s' }} />
+            Initiate Growth Protocol <ArrowRight size={16} style={{ transition: 'transform 0.3s' }} />
           </MagneticButton>
           <MagneticButton href="/work" className="btn btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            See Our Work <ArrowRight size={14} />
+            View Client Outcomes <ArrowRight size={14} />
           </MagneticButton>
         </div>
 

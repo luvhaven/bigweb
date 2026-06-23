@@ -130,14 +130,14 @@ export default function FinalCTA({ image }: { image?: string }) {
             marginBottom: 'var(--space-6)',
           }}>
             <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-              Book My Free Diagnostic <ArrowRight size={16} />
+              Request Private Audit <ArrowRight size={16} />
             </MagneticButton>
             <Link
               href="/work"
               className="btn btn-outline btn-lg"
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              See Our Work <ArrowRight size={16} />
+              View Case Studies <ArrowRight size={16} />
             </Link>
           </div>
 

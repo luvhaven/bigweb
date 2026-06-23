@@ -29,7 +29,7 @@ const tiers = [
     tagline: 'Compounding returns month over month.',
     priceFrom: 'Min. $3,000',
     priceNote: '/ mo engagement',
-    description: 'Ongoing engagements that compound. We execute, measure, and iterate â€” every month.',
+    description: 'Ongoing engagements that compound. We execute, measure, and iterate &mdash; every month.',
     includes: [
       'CRO Retainer',
       'AI Sales Agent Build & Management',
@@ -45,7 +45,7 @@ const tiers = [
     tagline: 'Full-scale digital revenue overhaul.',
     priceFrom: 'Min. $8,000',
     priceNote: 'engagement',
-    description: 'Deep, strategic engagements. Not a vendor relationship â€” a true digital revenue partnership.',
+    description: 'Deep, strategic engagements. Not a vendor relationship &mdash; a true digital revenue partnership.',
     includes: [
       'Digital Revenue Overhaul',
       'SaaS & Web App Development',
@@ -74,59 +74,59 @@ export default function Pricing() {
         <AnimateIn delay={2}>
           <p style={{ maxWidth: 600, marginBottom: 'var(--space-12)', fontSize: 'var(--text-lg)', lineHeight: 1.75, color: 'var(--color-text-secondary)' }}>
             Most agencies make you jump on a call before you hear a number. We think
-            that&apos;s disrespectful of your time. Here&apos;s what things cost â€” real ranges, real scopes.
+            that&apos;s disrespectful of your time. Here&apos;s what things cost &mdash; real ranges, real scopes.
           </p>
         </AnimateIn>
 
         {/* Tier cards */}
         <div className="pricing-grid">
           {tiers.map((tier, i) => (
-              <AnimateIn key={i} delay={i + 1}>
-                <TiltCard>
-                  <ProximityCard 
-                    className="card" 
-                    innerClassName={`pricing-card ${tier.featured ? 'pricing-featured' : ''}`}
-                  >
-                    {tier.featured && (
-                      <div className="pricing-popular-badge">Most Popular</div>
-                    )}
+            <AnimateIn key={i} delay={i + 1}>
+              <TiltCard>
+                <ProximityCard
+                  className="card"
+                  innerClassName={`pricing-card ${tier.featured ? 'pricing-featured' : ''}`}
+                >
+                  {tier.featured && (
+                    <div className="pricing-popular-badge">Most Popular</div>
+                  )}
 
-                    {/* Header */}
-                    <div className="pricing-card-header">
-                      <span className="pricing-tier-num">{tier.num}</span>
-                      <h3 className="pricing-name">{tier.name}</h3>
-                      <p className="pricing-tagline">{tier.tagline}</p>
-                    </div>
+                  {/* Header */}
+                  <div className="pricing-card-header">
+                    <span className="pricing-tier-num">{tier.num}</span>
+                    <h3 className="pricing-name">{tier.name}</h3>
+                    <p className="pricing-tagline">{tier.tagline}</p>
+                  </div>
 
-                    {/* Price */}
-                    <div className="pricing-price-block">
-                      <span className="pricing-amount">{tier.priceFrom}</span>
-                      <span className="pricing-note">{tier.priceNote}</span>
-                    </div>
+                  {/* Price */}
+                  <div className="pricing-price-block">
+                    <span className="pricing-amount">{tier.priceFrom}</span>
+                    <span className="pricing-note">{tier.priceNote}</span>
+                  </div>
 
-                    {/* Description */}
-                    <p className="pricing-desc">{tier.description}</p>
+                  {/* Description */}
+                  <p className="pricing-desc" dangerouslySetInnerHTML={{ __html: tier.description.replace(/â€”/g, '&mdash;') }} />
 
-                    {/* Includes */}
-                    <ul className="pricing-includes">
-                      {tier.includes.map(item => (
-                        <li key={item} className="pricing-include-item">
-                          <Check size={13} className="pricing-check" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Includes */}
+                  <ul className="pricing-includes">
+                    {tier.includes.map(item => (
+                      <li key={item} className="pricing-include-item">
+                        <Check size={13} className="pricing-check" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                    {/* CTA */}
-                    <MagneticButton href="/contact" className={`btn ${tier.featured ? 'btn-primary' : 'btn-outline'} pricing-btn`} style={{ marginTop: 'auto', width: '100%', justifyContent: 'center' }}>
-                      {tier.cta} <ArrowRight size={16} />
-                    </MagneticButton>
-                    <p style={{ fontSize: '0.58rem', color: 'var(--color-text-tertiary)', textAlign: 'center', marginTop: 'var(--space-2)', letterSpacing: '0.04em', lineHeight: 1.5 }}>
-                      {tier.featured ? '94% client retention Â· Most requested tier' : tier.num === '01' ? 'No retainer Â· No lock-in commitment' : 'Strategic partnership Â· By application'}
-                    </p>
-                  </ProximityCard>
-                </TiltCard>
-              </AnimateIn>
+                  {/* CTA */}
+                  <MagneticButton href="/contact" className={`btn ${tier.featured ? 'btn-primary' : 'btn-outline'} pricing-btn`} style={{ marginTop: 'auto', width: '100%', justifyContent: 'center' }}>
+                    {tier.cta} <ArrowRight size={16} />
+                  </MagneticButton>
+                  <p style={{ fontSize: '0.58rem', color: 'var(--color-text-tertiary)', textAlign: 'center', marginTop: 'var(--space-2)', letterSpacing: '0.04em', lineHeight: 1.5 }}>
+                    {tier.featured ? '94% client retention &middot; Most requested tier' : tier.num === '01' ? 'No retainer &middot; No lock-in commitment' : 'Strategic partnership &middot; By application'}
+                  </p>
+                </ProximityCard>
+              </TiltCard>
+            </AnimateIn>
           ))}
         </div>
 
@@ -139,7 +139,7 @@ export default function Pricing() {
         </AnimateIn>
       </div>
 
-      
+
     </section>
   );
 }
