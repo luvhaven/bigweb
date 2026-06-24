@@ -232,6 +232,15 @@ export default function BigwebAI() {
         };
     }, []);
 
+    // ── Accessibility: Close on Escape ─────────────────────────────────────────
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && open) setOpen(false);
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, [open]);
+
     // Auto-scroll
     useEffect(() => {
         if (scrollRef.current) {

@@ -67,6 +67,14 @@ export default function Results({ caseStudies, testimonials }: { caseStudies: Ca
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        if (headerRef.current) gsap.set(headerRef.current.children, { opacity: 1, y: 0 });
+        if (gridRef.current) gsap.set(gridRef.current.querySelectorAll('.result-card-new'), { opacity: 1, y: 0, scale: 1 });
+        if (testimonialsRef.current) gsap.set(testimonialsRef.current.children, { opacity: 1, y: 0 });
+        return;
+      }
+
       if (headerRef.current) {
         gsap.fromTo(headerRef.current.children,
           { opacity: 0, y: 50 },

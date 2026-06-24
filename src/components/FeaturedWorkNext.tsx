@@ -38,10 +38,12 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
               className="w-full h-full"
               style={{ y: parallaxY, scale: imageScale }}
             >
-              <img
+              <Image
                 src={project.cover_image_url || 'https://images.unsplash.com/photo-1558002038-1091a1661116'}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt={project.title || 'Project preview'}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </motion.div>
             <motion.div

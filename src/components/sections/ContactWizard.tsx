@@ -156,6 +156,22 @@ export default function ContactWizard() {
     });
 
     useEffect(() => {
+        try {
+            const savedStep = sessionStorage.getItem('bigweb_contact_step');
+            const savedForm = sessionStorage.getItem('bigweb_contact_form');
+            if (savedStep) setStep(parseInt(savedStep, 10));
+            if (savedForm) setForm(JSON.parse(savedForm));
+        } catch { }
+    }, []);
+
+    useEffect(() => {
+        try {
+            sessionStorage.setItem('bigweb_contact_step', step.toString());
+            sessionStorage.setItem('bigweb_contact_form', JSON.stringify(form));
+        } catch { }
+    }, [step, form]);
+
+    useEffect(() => {
         fetch('/api/settings/public')
             .then(res => res.json())
             .then(data => {
@@ -192,6 +208,10 @@ export default function ContactWizard() {
             });
             if (!res.ok) throw new Error('Submission failed');
             setDone(true);
+            try {
+                sessionStorage.removeItem('bigweb_contact_step');
+                sessionStorage.removeItem('bigweb_contact_form');
+            } catch { }
         } catch {
             setError('Something went wrong. Please try again or email us directly.');
         } finally {

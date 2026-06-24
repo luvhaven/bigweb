@@ -16,6 +16,13 @@ export default function FinalCTA({ image }: { image?: string }) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        if (headlineRef.current) gsap.set(headlineRef.current.querySelectorAll('.final-line-new'), { opacity: 1, y: 0, scale: 1 });
+        if (contentRef.current) gsap.set(contentRef.current.children, { opacity: 1, y: 0 });
+        return;
+      }
+
       // Pinned headline scale reveal
       if (headlineRef.current) {
         const lines = headlineRef.current.querySelectorAll('.final-line-new');

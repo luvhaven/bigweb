@@ -4,7 +4,6 @@ import "./globals.css";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import FooterWrapper from "@/components/layout/FooterWrapper";
-import ScrollProgress from "@/components/layout/ScrollProgress";
 import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import CommandMenu from "@/components/layout/CommandMenu";
@@ -38,6 +37,7 @@ export const metadata: Metadata = {
     description: "Most businesses have traffic. Most are bleeding revenue at the conversion layer. We fix that.",
     type: "website",
     locale: "en_US",
+    images: ['/og-image.png'],
   },
 };
 
@@ -54,7 +54,6 @@ export default function RootLayout({
           <SmoothScroll>
             <ToastProvider>
               <CommandMenu />
-              <ScrollProgress />
               <CustomCursor />
               <Navigation />
               <PageTransition>

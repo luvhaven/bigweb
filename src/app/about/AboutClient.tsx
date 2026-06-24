@@ -108,7 +108,7 @@ export default function AboutClient({ teamMembers, values, teamStats }: { teamMe
                         lineHeight: 1.05, letterSpacing: '-0.02em', maxWidth: 820, marginBottom: 'var(--space-8)',
                     }}>
                         <KineticText>We stopped building</KineticText><br />
-                        <KineticText>pretty websites.</KineticText> <span className="accent-italic">We started<br />building revenue.</span>
+                        <KineticText>pretty websites.</KineticText> <span className="accent-italic">We started building revenue.</span>
                     </h1>
                     <p className="about-anim" style={{ opacity: 0, fontSize: 'var(--text-xl)', color: 'var(--color-text-secondary)', maxWidth: 640, lineHeight: 1.75 }}>
                         BIGWEB Digital was built by people who spent years watching businesses pour money into beautiful websites that did nothing.

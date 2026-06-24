@@ -25,7 +25,17 @@ export default function Hero() {
   const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([labelRef.current, subRef.current, ctaRef.current], { opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 });
+        if (statsRef.current) {
+          gsap.set(statsRef.current.querySelectorAll('.hero-stat-item-kin'), { opacity: 1, y: 0, rotateX: 0 });
+        }
+        return;
+      }
+
       const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
       // Label
@@ -132,10 +142,9 @@ export default function Hero() {
           Elite kinetic design meets aggressive conversion architecture.
         </p>
 
-        {/* CTAs */}
         <div ref={ctaRef} style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', alignItems: 'center', marginBottom: 'var(--space-16)' }}>
           <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-            Initiate Growth Protocol <ArrowRight size={16} style={{ transition: 'transform 0.3s' }} />
+            Diagnose My Revenue Leak <ArrowRight size={16} />
           </MagneticButton>
           <MagneticButton href="/work" className="btn btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             View Client Outcomes <ArrowRight size={14} />

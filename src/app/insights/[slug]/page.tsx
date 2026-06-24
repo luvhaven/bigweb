@@ -40,5 +40,31 @@ export default async function InsightDetailPage({ params }: { params: Promise<{ 
   const allArticles = await getArticles();
   const relatedArticles = allArticles.filter((a: { slug: string }) => a.slug !== slug).slice(0, 3);
 
-  return <InsightDetailClient article={article} relatedArticles={relatedArticles} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: article.title,
+            image: article.image || 'https://bigwebdigital.com/og-image.png',
+            description: article.excerpt,
+            author: { '@type': 'Organization', name: 'BIGWEB Digital' },
+            publisher: {
+              '@type': 'Organization',
+              name: 'BIGWEB Digital',
+              logo: { '@type': 'ImageObject', url: 'https://bigwebdigital.com/icon.svg' }
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': `https://bigwebdigital.com/insights/${slug}`
+            }
+          })
+        }}
+      />
+      <InsightDetailClient article={article} relatedArticles={relatedArticles} />
+    </>
+  );
 }
