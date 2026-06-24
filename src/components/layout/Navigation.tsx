@@ -416,7 +416,7 @@ export default function Navigation() {
                 style={{ marginTop: 'var(--space-4)' }}
               >
                 <Link
-                  href="/contact"
+                  href="/partners"
                   className="btn btn-primary"
                   onClick={() => setMenuOpen(false)}
                   style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem' }}

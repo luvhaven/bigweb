@@ -9,8 +9,8 @@ import { ArrowRight, CheckCircle, Users, DollarSign, Zap, Shield, TrendingUp, Gl
 const BENEFITS = [
     {
         icon: DollarSign,
-        title: '10% Lifetime Commission',
-        desc: 'Earn 10% of the full contract value for every client you refer. No caps, no cliffs — paid within 30 days of client contract execution.',
+        title: '10% Upfront Commission',
+        desc: 'Earn a massive 10% of the initial contract payment for every client you refer. Get rewarded fast and upfront — paid within 30 days of execution.',
     },
     {
         icon: Zap,
@@ -119,8 +119,7 @@ export default function PartnersPage() {
                         </h1>
 
                         <p style={{ fontSize: 18, color: 'var(--color-text-secondary)', lineHeight: 1.7, maxWidth: 640, margin: '0 auto 40px' }}>
-                            Refer a qualified brand to BIGWEB Digital and earn 10% of everything they pay us — automatically, contractually, permanently.
-                            No hustle required after the introduction.
+                            Refer a qualified brand to BIGWEB Digital and earn a massive 10% commission upfront on their very first payment — automatically and contractually. A high-leverage reward for a single introduction.
                         </p>
 
                         <a href="#apply" style={{
@@ -157,7 +156,7 @@ export default function PartnersPage() {
                                     }}>{t.badge}</span>
                                     <p style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--color-text-tertiary)', marginBottom: 8 }}>{t.label}</p>
                                     <p style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1, marginBottom: 4 }}>{t.value}</p>
-                                    <p style={{ fontSize: 13, color: 'var(--color-text-tertiary)', marginBottom: 16 }}>avg. contract value</p>
+                                    <p style={{ fontSize: 13, color: 'var(--color-text-tertiary)', marginBottom: 16 }}>initial contract payment</p>
                                     <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 16 }} />
                                     <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-text-tertiary)', marginBottom: 4 }}>Your Commission</p>
                                     <p style={{ fontSize: 24, fontWeight: 800, color: t.color }}>{t.commission}</p>
