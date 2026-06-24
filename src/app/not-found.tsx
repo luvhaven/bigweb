@@ -113,7 +113,7 @@ export default function NotFound() {
           }}
         >
           <MagneticButton href="/contact" className="btn btn-primary btn-lg">
-            Get My Free Diagnostic
+            Request Private Audit
           </MagneticButton>
           <MagneticButton href="/" className="btn btn-outline">
             Take Me Home

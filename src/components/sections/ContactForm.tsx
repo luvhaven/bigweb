@@ -48,14 +48,14 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <motion.div 
+      <motion.div
         className="form-success"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         style={{ padding: 'var(--space-10)', background: 'var(--color-bg-secondary)', borderRadius: 4, border: '1px solid var(--color-bg-border)', textAlign: 'center' }}
       >
-        <motion.div 
+        <motion.div
           className="form-success-icon"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -65,7 +65,7 @@ export function ContactForm() {
           ✓
         </motion.div>
         <h3 style={{ fontSize: 'var(--text-2xl)', fontFamily: 'var(--font-display)', marginBottom: 'var(--space-3)' }}>Request Received</h3>
-        <p style={{ color: 'var(--color-text-secondary)' }}>We'll review your details and reach out within 4 hours to schedule your free diagnostic call.</p>
+        <p style={{ color: 'var(--color-text-secondary)' }}>We'll review your details and reach out within 4 hours to schedule your private audit call.</p>
       </motion.div>
     );
   }

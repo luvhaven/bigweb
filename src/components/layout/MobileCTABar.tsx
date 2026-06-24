@@ -45,7 +45,7 @@ export default function MobileCTABar() {
     <>
       <div ref={barRef} className="mobile-cta-bar">
         <Link href="/contact" className="mobile-cta-link">
-          Book Your Free Diagnostic
+          Request Private Audit
           <ArrowRight size={16} />
         </Link>
       </div>

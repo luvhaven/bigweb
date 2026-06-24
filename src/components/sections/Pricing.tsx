@@ -133,8 +133,8 @@ export default function Pricing() {
         {/* Footer note */}
         <AnimateIn delay={4}>
           <p className="pricing-footer-note">
-            All engagements begin with a free 20-minute diagnostic call. We&apos;ll tell you exactly
-            which service fits â€” and if none of them do, we&apos;ll tell you that too.
+            All engagements begin with a private 20-minute audit call. We&apos;ll tell you exactly
+            which service fits — and if none of them do, we&apos;ll say so plainly.
           </p>
         </AnimateIn>
       </div>

@@ -580,7 +580,7 @@ export default function BigwebAI() {
                                                     color: '#E8E5DF', cursor: 'pointer', fontFamily: 'inherit'
                                                 }}
                                             >
-                                                <Calendar size={14} /> Wait in Line: Free Diagnostic
+                                                <Calendar size={14} /> Wait in Line: Private Audit
                                             </button>
                                         </div>
                                     ) : (
